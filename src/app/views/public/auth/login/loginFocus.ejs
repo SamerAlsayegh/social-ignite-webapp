@@ -7,7 +7,7 @@
         </div>
     </md-toolbar>
     <div class="text-center">
-    Don't have an account? <strong><a href="/"  class="label md-primary">Click here.</a></strong>
+        Don't have an account? <strong><a href="/"  class="label md-primary">Click here.</a></strong>
     </div>
     <md-input-container class="md-block">
         <label>Email Address</label>
@@ -21,6 +21,11 @@
         <md-checkbox class="md-primary" name="special" ng-model="login.user.remember">
             Remember Password for 30 days?
         </md-checkbox>
+
+        <div class="text-center">
+            <p class="md-caption">* Required Field</p>
+        </div>
+
     </md-input-container>
     <div layout="column" layout-align="stretch">
         <md-button type="submit" class="md-primary md-raised" ng-click="loginViaForm(login.user)">Login</md-button>
