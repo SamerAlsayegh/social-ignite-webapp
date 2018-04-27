@@ -18,9 +18,9 @@
         <input id="password" type="password" ng-model="login.user.password" required>
     </md-input-container>
     <md-input-container class="md-block">
-        <md-switch class="md-primary" name="special" ng-model="login.user.remember">
+        <md-checkbox class="md-primary" name="special" ng-model="login.user.remember">
             Remember Password for 30 days?
-        </md-switch>
+        </md-checkbox>
     </md-input-container>
     <div layout="column" layout-align="stretch">
         <md-button type="submit" class="md-primary md-raised" ng-click="loginViaForm(login.user)">Login</md-button>
