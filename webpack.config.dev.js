@@ -1,12 +1,13 @@
 const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     context: __dirname + "/src/app",
     entry: {
-        app: ['babel-polyfill',"./bootstrap.js"],
+        app: [
+            // 'babel-polyfill',
+            "./bootstrap.js"],
     },
     output: {
         path: __dirname + "/dist/pub/",
@@ -16,8 +17,8 @@ module.exports = {
         contentBase: path.join(__dirname, "dist"),
         compress: false,
         public: "portal.socialignite.media",
-        before: function (app){
-            app.get("*", function(req, res, next) {
+        before: function (app) {
+            app.get("*", function (req, res, next) {
                 var url = req.url;
                 if (
                     url.endsWith(".js") ||
@@ -46,11 +47,11 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: "babel-loader",
-                }
+                // use: {
+                //     loader: "babel-loader",
+                // }
             },
-            { test: require.resolve("moment"), loader: "expose-loader?moment" },
+            {test: require.resolve("moment"), loader: "expose-loader?moment"},
             {
                 use: [{
                     loader: "expose-loader",

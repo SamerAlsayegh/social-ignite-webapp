@@ -2,6 +2,8 @@
 A social media management panel for [SocialIgnite](https://socialignite.media) built with AngularJS. Allows users to schedule, moderate and monitor their social media pages on Facebook, Twitter, LinkedIn and Instagram.
 
 
+## Requirements:
+- 1024MB RAM system for install, lesser ram may cause issues while installing (as far as my testing went)
 
 ## How to contribute:
 <a href="https://discord.gg/jnravke">
@@ -11,7 +13,8 @@ Join our discord<br>
 
 ~~~
 git clone https://github.com/Undeadkillz/social-ignite-webapp.git # Clone project files locally
-node install # To install the dependencies
+npm install # To install the dependencies
+npm install -g gulp # Install gulp on the system
 gulp debug # Run the web-server on port 8080, it will use the endpoints of portal.socialignite.media:8000
 ~~~
 

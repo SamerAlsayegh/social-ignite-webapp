@@ -10,7 +10,6 @@ const concat = require('gulp-concat');
 const cleanCSS = require('gulp-clean-css');
 const WebpackDevServer = require('webpack-dev-server');
 const pack = webpackStream(webpackConfig);
-const fs = require('fs');
 const cluster = require('cluster');
 const os = require('os');
 

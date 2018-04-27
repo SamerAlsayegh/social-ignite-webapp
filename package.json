@@ -1,7 +1,7 @@
 {
-  "name": "socialignitev2",
+  "name": "socialignite",
   "version": "1.0.0",
-  "description": "",
+  "description": "A social media management panel for SocialIgnite built with AngularJS. Allows users to schedule, moderate and monitor their social media pages on Facebook, Twitter, LinkedIn and Instagram.",
   "main": "gulpfile.js",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.15",
@@ -25,25 +25,21 @@
     "expose-loader": "^0.7.4",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
-    "gulp-ejs": "^3.1.1",
-    "gulp-less": "^3.4.0",
+    "gulp-ejs": "^3.1.3",
+    "gulp-less": "^3.5.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-webserver": "^0.9.1",
     "merge-stream": "^1.0.1",
+    "moment": "^2.22.1",
     "ng-file-upload": "^12.2.13",
     "please-wait": "^0.0.5",
     "ui-router": "^1.0.0-alpha0",
     "webpack": "^2.7.0",
-    "webpack-dev-server": "2.11.1",
-    "webpack-stream": "^4.0.0",
-    "winston": "^3.0.0-rc1"
-  },
-  "devDependencies": {
+    "webpack-dev-server": "^2.11.1",
+    "webpack-stream": "^4.0.3",
+    "winston": "^3.0.0-rc1",
     "gulp-clean-css": "^3.9.3",
     "uglifyjs-webpack-plugin": "^1.2.3"
-  },
-  "scripts": {
-    "start:dev": "webpack-dev-server"
   },
   "author": "",
   "license": "ISC"
