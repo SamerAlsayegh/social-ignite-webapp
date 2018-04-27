@@ -1,0 +1,28 @@
+<form method="post" id="login">
+    <md-toolbar ng-show="login.error" class="md-warn">
+        <div class="md-toolbar-tools">
+            <p class="md-flex">
+                <strong>Oh snap!</strong> <span ng-bind="login.error"></span>
+            </p>
+        </div>
+    </md-toolbar>
+    <div class="text-center">
+    Don't have an account? <strong><a href="/"  class="label md-primary">Click here.</a></strong>
+    </div>
+    <md-input-container class="md-block">
+        <label>Email Address</label>
+        <input id="email" type="email" ng-model="login.user.email" required>
+    </md-input-container>
+    <md-input-container class="md-block">
+        <label>Password</label>
+        <input id="password" type="password" ng-model="login.user.password" required>
+    </md-input-container>
+    <md-input-container class="md-block">
+        <md-switch class="md-primary" name="special" ng-model="login.user.remember">
+            Remember Password for 30 days?
+        </md-switch>
+    </md-input-container>
+    <div layout="column" layout-align="stretch">
+        <md-button type="submit" class="md-primary md-raised" ng-click="loginViaForm(login.user)">Login</md-button>
+    </div>
+</form>

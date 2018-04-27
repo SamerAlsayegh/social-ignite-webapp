@@ -1,0 +1,26 @@
+<form method="post" id="login" ng-show="!hasSessionKey">
+    <md-toolbar ng-show="verify.error" class="md-warn">
+        <div class="md-toolbar-tools">
+            <p class="md-flex">
+                <strong>Oh snap!</strong> <span ng-bind="verify.error"></span>
+            </p>
+        </div>
+    </md-toolbar>
+
+    <div class="text-center">
+        Did not get an email? <strong><a href="/register" class="label">Resend email.</a></strong>
+    </div>
+    <md-input-container class="md-block">
+        <label>Email Address</label>
+        <input type="text" ng-model="verify.user.email">
+        <div class="hint">Enter the email you used registered.</div>
+    </md-input-container>
+    <md-input-container class="md-block">
+        <label>Verification Code</label>
+        <input type="text" class="md-disabled" ng-model="verify.user.code">
+        <div class="hint">Check your email for the code, or click the link to verify.</div>
+    </md-input-container>
+    <div layout="column" layout-align="stretch">
+        <md-button type="submit" class="md-accent md-raised" ng-click="verifyViaForm(verify.user)">Continue</md-button>
+    </div>
+</form>

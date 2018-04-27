@@ -1,0 +1,77 @@
+
+<section md-theme="{{ dynamicTheme }}" md-theme-watch layout="column" layout-fill flex>
+    <!--<md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar _md _md-toolbar-transitions">-->
+
+    <!--<div class="md-toolbar-tools docs-toolbar-tools" tabindex="-1">-->
+    <!--<button class="md-icon-button md-button md-ink-ripple hide-gt-sm" type="button" ng-transclude="" ng-click="openMenu()" hide-gt-sm="" aria-label="Toggle Menu">-->
+    <!--<md-icon layout-align="start start" layout="stretch" class="black">list</md-icon>-->
+    <!--<div layout="row" flex="" class="fill-height layout-row flex">-->
+    <!--<h2 class="md-toolbar-item md-breadcrumb md-headline ng-isolate-scope">-->
+    <!--&lt;!&ndash; ngIf: menu.currentPage.name !== menu.currentSection.name &ndash;&gt;-->
+    <!--<span class="md-breadcrumb-page ng-binding">Introduction</span>-->
+    <!--</h2>-->
+
+    <!--<span flex="" class="flex"></span> &lt;!&ndash; use up the empty space &ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--</md-toolbar>-->
+    <md-content hide-gt-sm>
+        <md-toolbar class="md-primary">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                </md-button>
+
+                <h2 flex md-truncate>Menu</h2>
+            </div>
+        </md-toolbar>
+    </md-content>
+
+
+
+
+    <md-content layout="row" layout-fill flex>
+        <md-sidenav
+                layout-fill
+                class="md-sidenav-left"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')"
+                md-whiteframe="4">
+
+            <div>
+                <h1 class="md-toolbar-tools" layout-align="center center">
+                    <img src="/pub/img/logo_full_gray.png" style="height: 50px; width: auto;">
+                </h1>
+            </div>
+            <md-content>
+                <md-list flex>
+                    <md-list-item class="md-2-line" href="/" ng-click="toggleMenu()">
+                        <md-icon class="black">home</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Home</h3>
+                            <!--<p>View dashboard...</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="switchTheme()">
+                        <md-icon class="black">brightness_1</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Switch to {{dynamicTheme == "dark" ? 'Light' : 'Dark'}} Theme</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-sidenav>
+        <md-content flex="100" layout-fill class="md-padding" ui-view>
+
+
+        </md-content>
+    </md-content>
+
+
+</section>
+
+
+
+

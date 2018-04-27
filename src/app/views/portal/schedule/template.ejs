@@ -1,0 +1,124 @@
+<md-content layout='column' layout-fill>
+
+    <md-toolbar md-swipe-left='next()' md-swipe-right='prev()'>
+        <div class='md-toolbar-tools' layout='row'>
+            <md-button class='md-icon-button' ng-click='prev()' aria-label='Previous month'>
+                <md-tooltip ng-if='::tooltips()'>Previous month</md-tooltip>&laquo;
+            </md-button>
+            <div flex></div>
+            <h2 class='calendar-md-title'><span>{{ calendar.start | date:titleFormat:timezone }}</span></h2>
+            <div flex></div>
+            <md-button class='md-icon-button' ng-click='next()' aria-label='Next month'>
+                <md-tooltip ng-if='::tooltips()'>Next month</md-tooltip>&raquo;
+            </md-button>
+        </div>
+    </md-toolbar><!-- agenda view -->
+
+    <md-content layout="column" hide show-md show-sm show-xs class='agenda'>
+        <div ng-repeat='week in calendar.weeks track by $index'>
+            <div flex layout="row" ng-if='sameMonth(day)'
+                 ng-class='{&quot;disabled&quot; : isDisabled(day), active: active === day }'
+                 ng-click='handleDayClick(day)' ng-repeat='day in week'>
+                <md-tooltip ng-if='::tooltips()'>{{ day | date:dayTooltipFormat:timezone }}</md-tooltip>
+                <div class="md-light">{{ day | date:dayFormat:timezone }}</div>
+                <div flex layout="column">
+                    <div ng-repeat="socialPost in dataService.data[dayKey(day)]|limitTo:(loadedMore.indexOf(dayKey(day)) == -1 ? 3 : 100)">
+                        <md-card
+                                 ng-click="(getTime(socialPost.post_time) > curTime) ? alterSocialPost(socialPost._id) : statisticsSocialPost(socialPost._id)"
+                                 ng-class="!socialPost.active ? 'disabled-social-post' : ''" layout="row" layout-align="center center">
+
+
+                            <span layout="fill" class="md-agenda-time">{{socialPost.post_time  | amDateFormat:'h:mm A'}}</span>
+                            <div layout="row" layout-align="center center"
+                                 class="md-calendar-social-post-content" >
+                                <span class="md-calendar-social-post-content-quote md-primary">&#10077;</span>
+                                <span class="md-primary" layout-align="center center">{{socialPost.content}}</span>
+                            </div>
+                            <div flex></div>
+                            <div layout="row" layout-sm="column" layout-xs="column" layout-align="center center" style="max-height: 100px; overflow-y: auto;">
+                                <md-button ng-repeat="social_post in socialPost.social_post"
+                                           class="md-fab md-mini ui-social ui-{{platformLookup(social_post.page_id.platform)}}"
+                                           aria-label=platform>
+                                    <i class="zmdi zmdi-{{platformLookup(social_post.page_id.platform)}}"></i>
+                                    <md-tooltip md-direction="down">{{social_post.page_id.name}}</md-tooltip>
+                                </md-button>
+                            </div>
+
+                        </md-card>
+                    </div>
+                    <div layout="column" layout-align="stretch">
+
+                        <md-button
+                                ng-if="dataService.data[dayKey(day)].length > 3 && loadedMore.indexOf(dayKey(day)) == -1"
+                                ng-click="loadMore(dayKey(day))" md-no-ink class="md-primary">Load more...
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-content><!-- calendar view -->
+
+
+    <md-content hide show-gt-sm flex layout='column' class='calendar'>
+        <div layout='row' class='subheader'>
+            <div layout-padding class='subheader-day' flex ng-repeat='day in calendar.weeks[0]'>
+                <md-tooltip ng-if='::tooltips()'>{{ day | date:dayLabelTooltipFormat }}</md-tooltip>
+                {{ day | date:dayLabelFormat }}
+            </div>
+        </div>
+        <div ng-if='week.length' ng-repeat='week in calendar.weeks track by $index' flex layout='row'>
+            <div tabindex='{{ sameMonth(day) ? (day | date:dayFormat:timezone) : 0 }}'
+                 ng-repeat='day in week track by $index' ng-click='handleDayClick(day)' flex layout="column"
+                 layout-padding
+                 ng-class='{&quot;disabled&quot; : isDisabled(day), &quot;active&quot;: isActive(day), &quot;md-whiteframe-12dp&quot;: hover || focus }'
+                 ng-focus='focus = true;' ng-blur='focus = false;' ng-mouseleave='hover = false'
+                 ng-mouseenter='hover = true'>
+                <!--<md-tooltip ng-if='::tooltips()'>{{ day | date:dayTooltipFormat }}</md-tooltip>-->
+                <div class="md-primary">{{ day | date:dayFormat }}</div>
+                <div flex>
+
+                    <md-card class="md-calendar-social-post"
+                             ng-repeat="socialPost in dataService.data[dayKey(day)]|limitTo:(loadedMore.indexOf(dayKey(day)) == -1 ? 3 : 100)"
+                             ng-click="(getTime(socialPost.post_time) > curTime) ? alterSocialPost(socialPost._id) : statisticsSocialPost(socialPost._id)"
+                             ng-class="!socialPost.active ? 'disabled-social-post' : ''" layout="column">
+                        <span layout="row">
+                            <span class="md-calendar-time">{{socialPost.post_time  | amDateFormat:'h:mm A'}}</span>
+                            <div flex></div>
+                            <div class="md-calendar-platforms" layout="row">
+                                <span ng-repeat="social_post in socialPost.social_post"
+                                      class="mini-dot ui-{{platformLookup(social_post.page_id.platform)}}">
+                                    <md-tooltip ng-if='::tooltips()'>
+                                {{social_post.page_id.name + " (" +platformLookup(social_post.page_id.platform) + ")"}}
+                            </md-tooltip>
+                                </span>
+                            </div>
+                        </span>
+                        <span layout="column" class="hr"></span>
+                        <span layout="row">
+                            <i ng-repeat="tag in socialPost.tags" class="material-icons">{{tag.tag}}</i>
+                        </span>
+                        <div layout="row" layout-align="stretch" class="md-calendar-social-post-content">
+                            <span class="md-calendar-social-post-content-quote">&#10077;</span>
+                            <span class="md-primary">{{socialPost.content}}</span>
+                        </div>
+                        <!--<span layout="column" layout-align="stretch">-->
+                        <!--<md-button-->
+                        <!--class="md-primary"-->
+                        <!--aria-label="Statistics">-->
+                        <!--<md-icon>insert_chart</md-icon> Statistics-->
+                        <!--</md-button>-->
+
+                        <!--</span>-->
+                    </md-card>
+                    <div layout="column" layout-align="stretch">
+
+                        <md-button
+                                ng-if="dataService.data[dayKey(day)].length > 3 && loadedMore.indexOf(dayKey(day)) == -1"
+                                ng-click="loadMore(dayKey(day))" md-no-ink class="md-primary">Load more...
+                        </md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</md-content>

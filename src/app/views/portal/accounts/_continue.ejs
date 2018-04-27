@@ -1,0 +1,25 @@
+<h4 class="md-headline">It seems we need some more information...</h4>
+<h4 class="md-subhead"><b>Choose the accounts/pages</b> you want to add from the list below...</h4>
+<form method="post" id="choose_account">
+
+
+
+
+    <md-input-container class="md-block"  ng-repeat="page in newPage.pages">
+        <md-checkbox name="{{page.name}}" ng-model="newPage.chosen[page.id]">
+            {{ page.name }}
+        </md-checkbox>
+    </md-input-container>
+
+
+    <!--<md-input-container class="md-block">-->
+        <!--<md-select ng-model="newPage.mainPage" placeholder="Select a page">-->
+            <!--<md-option ng-value="page.id" ng-repeat="page in newPage.pages">{{ page.name }}</md-option>-->
+        <!--</md-select>-->
+    <!--</md-input-container>-->
+
+    <div layout="column" layout-align="stretch">
+        <md-button type="submit" class="md-accent md-raised" ng-click="submitExtras()">Apply
+        </md-button>
+    </div>
+</form>

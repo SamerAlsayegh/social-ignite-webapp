@@ -1,0 +1,10 @@
+<div layout="row">
+    <div flex flex-offset-sm="0" flex-offset-gt-sm="30">
+        <h1>Email Verification
+            <small>the final step...</small>
+        </h1>
+        <p>We have sent an email to <span ng-bind="verify.user.email"/>, open the link in the email or enter the code below. </p>
+        <div ng-include="'/pub/public/auth/emailVerify/emailVerifyFocus.html'"></div>
+    </div>
+    <div flex-gt-sm="30"></div>
+</div>

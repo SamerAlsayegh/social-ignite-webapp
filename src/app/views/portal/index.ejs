@@ -1,0 +1,188 @@
+<!--<md-nav-bar-->
+        <!--md-selected-nav-item="currentNavItem"-->
+        <!--nav-bar-aria-label="navigation links">-->
+
+    <!--<md-nav-item md-nav-href="/portal/">Home</md-nav-item>-->
+    <!--<md-nav-item md-nav-href="/portal/schedule">Schedule</md-nav-item>-->
+    <!--&lt;!&ndash;<md-nav-item md-nav-href="/portal/heatmap">HeatMap</md-nav-item>&ndash;&gt;-->
+    <!--<md-nav-item md-nav-href="/portal/accounts">Pages</md-nav-item>-->
+    <!--<md-menu>-->
+        <!--<md-button aria-label="Open misc menu" class="md-no-focus" ng-mouseenter="$mdMenu.open()">-->
+            <!--Misc.-->
+        <!--</md-button>-->
+        <!--<md-menu-content ng-mouseleave="$mdMenu.close()" ng-click="$mdMenu.close()">-->
+            <!--<md-menu-item>-->
+                <!--<md-button href="/portal/resources">-->
+                    <!--Resources-->
+                <!--</md-button>-->
+            <!--</md-menu-item>-->
+            <!--<md-menu-item>-->
+                <!--<md-button href="/portal/heatmap">-->
+                    <!--Heatmap-->
+                <!--</md-button>-->
+            <!--</md-menu-item>-->
+        <!--</md-menu-content>-->
+    <!--</md-menu>-->
+
+    <!--<span flex></span>-->
+    <!--<md-menu>-->
+        <!--<md-button aria-label="Open profile menu" class="md-no-focus" ng-mouseenter="$mdMenu.open()">-->
+            <!--<div layout="row">-->
+                <!--<div>-->
+                     <!--<md-icon class="white">face</md-icon>-->
+                <!--</div>-->
+                <!--<div hide show-gt-xs flex style="padding-left: 10px;">{{user.email}}</div>-->
+            <!--</div>-->
+        <!--</md-button>-->
+        <!--<md-menu-content style="margin-top: 35px;" ng-mouseleave="$mdMenu.close()" ng-click="$mdMenu.close()">-->
+            <!--<md-menu-item>-->
+                <!--<md-button href="/portal/profile">-->
+                    <!--Profile-->
+                <!--</md-button>-->
+            <!--</md-menu-item>-->
+            <!--<md-menu-item>-->
+                <!--<md-button href="/portal/billing">-->
+                    <!--Billing-->
+                <!--</md-button>-->
+            <!--</md-menu-item>-->
+            <!--<md-menu-item ng-click="logout()">-->
+                <!--<md-button>-->
+                    <!--Logout-->
+                <!--</md-button>-->
+            <!--</md-menu-item>-->
+        <!--</md-menu-content>-->
+    <!--</md-menu>-->
+
+
+<!--</md-nav-bar>-->
+
+
+<section md-theme="{{ dynamicTheme }}" md-theme-watch layout="column" layout-fill flex>
+    <!--<md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar _md _md-toolbar-transitions">-->
+
+        <!--<div class="md-toolbar-tools docs-toolbar-tools" tabindex="-1">-->
+            <!--<button class="md-icon-button md-button md-ink-ripple hide-gt-sm" type="button" ng-transclude="" ng-click="openMenu()" hide-gt-sm="" aria-label="Toggle Menu">-->
+                <!--<md-icon layout-align="start start" layout="stretch" class="black">list</md-icon>-->
+            <!--<div layout="row" flex="" class="fill-height layout-row flex">-->
+                <!--<h2 class="md-toolbar-item md-breadcrumb md-headline ng-isolate-scope">-->
+                    <!--&lt;!&ndash; ngIf: menu.currentPage.name !== menu.currentSection.name &ndash;&gt;-->
+                    <!--<span class="md-breadcrumb-page ng-binding">Introduction</span>-->
+                <!--</h2>-->
+
+                <!--<span flex="" class="flex"></span> &lt;!&ndash; use up the empty space &ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</md-toolbar>-->
+    <md-content hide-gt-sm>
+        <md-toolbar class="md-primary">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                </md-button>
+
+                <h2 flex md-truncate>Menu</h2>
+            </div>
+        </md-toolbar>
+    </md-content>
+
+
+
+
+    <md-content layout="row" layout-fill flex>
+        <md-sidenav
+                layout-fill
+                class="md-sidenav-left"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')"
+                md-whiteframe="4">
+
+            <div>
+                <h1 class="md-toolbar-tools" layout-align="center center">
+                    <img src="/pub/img/logo_full_gray.png" style="height: 50px; width: auto;">
+                </h1>
+            </div>
+            <md-content>
+                <md-list flex>
+                    <md-list-item class="md-2-line" href="/portal/" ng-click="toggleMenu()">
+                        <md-icon class="black">home</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Home</h3>
+                            <!--<p>View dashboard...</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" href="/portal/schedule" ng-click="toggleMenu()">
+                        <md-icon class="black">event</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Schedule</h3>
+                            <!--<p>Manage posting...</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" href="/portal/accounts" ng-click="toggleMenu()">
+                        <md-icon class="black">library_books</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Pages</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-divider ></md-divider>
+                    <md-subheader class="md-no-sticky">Misc.</md-subheader>
+                    <md-list-item class="md-2-line" href="/portal/heatmap" ng-click="toggleMenu()">
+                        <md-icon class="black">show_chart</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Statistics</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" href="/portal/resources" ng-click="toggleMenu()">
+                        <md-icon class="black">image</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Images</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-divider ></md-divider>
+                    <md-subheader class="md-no-sticky">Email: {{user.email}}</md-subheader>
+                    <md-list-item class="md-2-line" href="/portal/profile" ng-click="toggleMenu()">
+                        <md-icon class="black">face</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Profile</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" href="/portal/billing" ng-click="toggleMenu()">
+                        <md-icon class="black">shopping_cart</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Billing</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="logout()">
+                        <md-icon class="black">exit_to_app</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Logout</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="switchTheme()">
+                        <md-icon class="black">brightness_1</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Switch to {{dynamicTheme == "dark" ? 'Light' : 'Dark'}} Theme</h3>
+                            <!--<p>View/Manage pages</p>-->
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-sidenav>
+        <md-content flex="100" layout-fill class="md-padding" ui-view>
+
+
+        </md-content>
+    </md-content>
+
+
+</section>
+
+
+
+

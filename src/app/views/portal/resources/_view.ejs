@@ -1,0 +1,15 @@
+<md-content layout="row">
+    <h2 layout-align="center center">Images Library</h2>
+    <!--<md-button layout="row" class="md-icon-button" aria-label="Add new">-->
+    <!--<md-icon class="black">image</md-icon>-->
+    <!--</md-button>-->
+</md-content>
+<image-uploader
+        flex
+        layout="column"
+        post-information="postInformation"
+        pending_image="attachedImage" post-id="postId" control="manage" uploading="uploading" images="images"></image-uploader>
+<span ng-if="loadingImages" layout="column" class="md-block">
+    <h2 layout-align="center center">Loading  more images</h2>
+    <md-progress-linear layout="row" layout-align="stretch" md-mode="indeterminate"></md-progress-linear>
+</span>
