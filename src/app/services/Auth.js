@@ -40,12 +40,21 @@ define(['./module'], function (services) {
                         return;
 
                     return Request.post('public/auth/verify_email', parameters,
-                        function (message, data) {
+                        function (message) {
                             $state.go('public.home', {}, {reload: 'public.home'});//If the session is invalid, take to login page.
                             return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
+                        }, function (status, message, messageCode) {
+                            return cbFail(status, message, messageCode);
                         });
+                },
+                requestEmailResend: function(email, cbSuccess, cbFail) {
+                    return Request.post('public/auth/request_email', {
+                      email: email
+                    }, function (message) {
+                        return cbSuccess(message);
+                    }, function (status, message) {
+                        return cbFail(status, message);
+                    });
                 },
                 sessionValidate: function (callback) {
                     return Request.get('public/auth/validate',

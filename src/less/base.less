@@ -564,6 +564,32 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 
 }
 
+
+
+
+/* light speed out */
+@keyframes transparentOut {
+  0% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0.7;
+  }
+}
+
+/* light speed in */
+@keyframes transparentIn {
+  0% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0.9;
+  }
+}
+
+
 .resource-select {
   cursor: pointer;
   margin: 3px;
@@ -572,41 +598,24 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
   white-space: nowrap;
   //overflow: hidden;
   text-overflow: ellipsis;
-}
 
-
-/* light speed out */
-@keyframes transparentOut {
-  0% {
-    background: rgba(0, 0, 0, 0.7);
+  .transparent-black {
+    //background: rgba(0, 0, 0, 0.5);
+    opacity: 0.7;
+    animation: 0.5s transparentOut ease;
+    border-radius: 40px;
+    color: white !important;
   }
 
-  100% {
-    background: rgba(0, 0, 0, 0.5);
-  }
 }
 
-/* light speed in */
-@keyframes transparentIn {
-  0% {
-    background: rgba(0, 0, 0, 0.5);
+.resource-select:hover {
+  .transparent-black {
+    //background: rgba(0, 0, 0, 0.7);
+    //opacity: 0.5;
+    opacity: 0.9;
+    animation: 0.5s transparentIn ease;
   }
-
-  100% {
-    background: rgba(0, 0, 0, 0.7);
-  }
-}
-
-
-.resource-select > .transparent-black {
-  background: rgba(0, 0, 0, 0.5);
-  animation: 0.5s transparentOut ease;
-  border-radius: 40px;
-  color: white;
-}
-.resource-select:hover > .transparent-black {
-  background: rgba(0, 0, 0, 0.7);
-  animation: 0.5s transparentIn ease;
 }
 
 .image-dragdropzone {
@@ -616,7 +625,7 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
   padding: 20px;
 }
 
-.image-used{
+.image-used {
   filter: brightness(0.6);
   -webkit-filter: brightness(0.6);
   -moz-filter: brightness(0.6);

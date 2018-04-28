@@ -22,7 +22,7 @@ module.exports = { '0':
      detail: 'Email address supplied is invalid.' },
   '10': 
    { id: 'EmailExists',
-     detail: 'This email address already exists.' },
+     detail: 'This email address is already used.' },
   '11': { id: 'Timeout', detail: undefined },
   '12': 
    { id: 'Banned',
@@ -106,7 +106,7 @@ module.exports = { '0':
   InvalidName: { id: 7, detail: undefined },
   InvalidSession: { id: 8, detail: 'Invalid Session - Please re-login' },
   InvalidEmail: { id: 9, detail: 'Email address supplied is invalid.' },
-  EmailExists: { id: 10, detail: 'This email address already exists.' },
+  EmailExists: { id: 10, detail: 'This email address is already used.' },
   Timeout: { id: 11, detail: undefined },
   Banned: { id: 12, detail: 'This account is banned. Contact support.' },
   AccountNotFound: { id: 13, detail: undefined },

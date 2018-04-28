@@ -1,5 +1,6 @@
 /**
  * @enum errorCodes
+ * This is the blueprint of all errorCodes. There is a converter file that converts this into a 2 way lookup based on ID or Name and places it into src folder.
  */
 module.exports = {
     Invalid: {
@@ -41,7 +42,7 @@ module.exports = {
     },
     EmailExists: {
         id: 10,
-        detail: 'This email address already exists.'
+        detail: 'This email address is already used.'
     },
     Timeout: 11,
     Banned: {

@@ -1,7 +1,5 @@
 define([
     'angular',
-    // 'moment',
-    // 'angular-nvd3',
     '@uirouter/angularjs/release/angular-ui-router.js',
     'angular-material-data-table',
     'angular-moment',
@@ -13,7 +11,6 @@ define([
     'ng-file-upload',
     'chart.js',
     'chartjs-plugin-annotation',
-    // // 'angularPopover',
     '../custom/angular-material-calendar',
     './directives/index',
     './controllers/index',
@@ -21,48 +18,41 @@ define([
     // 'filters/index'
 ], function (angular) {
     'use strict';
-    // console.log(nvd3);
     return angular.module('SocialIgnite', [
         'SocialIgnite.controllers',
         'SocialIgnite.services',
         'SocialIgnite.directives',
         'md.data.table',
-        // 'ngPopover',
-        // 'moment',
         'moment-picker',
         'ngSanitize',
         'ngAnimate',
         'ngMaterial',
         'ngFileUpload',
-        // 'nvd3',
         'ngCookies',
         'materialCalendar',
         'ui.router',
         'angularMoment'
     ])
-    // .constant('API', )
-    // .constant('API', 'https://portal.socialignite.media:8000')
         .config(['$mdThemingProvider', '$httpProvider', function ($mdThemingProvider, $httpProvider) {
-            // Use that theme for the primary intentions
             var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
-
-                'contrastDefaultColor': 'light',    // whether, by default, text (contrast)
-                                                    // on this palette should be dark or light
-
-                'contrastDarkColors': ['50', '100', //hues which contrast should be 'dark' by default
+                'contrastDefaultColor': 'light',
+                'contrastDarkColors': ['50', '100',
                     '200', '300', '400', 'A100'],
-                'contrastLightColors': undefined    // could also specify this if default was 'dark'
+                'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+                // 'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+                // 'hue-3': '00', // use shade A100 for the <code>md-hue-3</code> class
             });
             $mdThemingProvider.definePalette('lightBlueCustom', lightBlueCustom);
 
 
+
             $mdThemingProvider.theme('default')
                 .primaryPalette('lightBlueCustom')
-                .accentPalette('light-blue')
+                .accentPalette('grey')
                 .backgroundPalette('grey');
             $mdThemingProvider.theme('dark')
                 .primaryPalette('lightBlueCustom')
-                .accentPalette('light-blue')
+                .accentPalette('grey')
                 .backgroundPalette('grey').dark();
 
             $httpProvider.defaults.withCredentials = true;

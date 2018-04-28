@@ -4,11 +4,13 @@
 define(['./module', '../enums/platforms'], function (controllers, platforms) {
     'use strict';
     return controllers.controller('portalHomeController',
-        ['$rootScope', '$scope', '$location', 'Auth', 'Statistics', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav',
-        function ($rootScope, $scope, $location, Auth, Statistics, Alert, Action, Dashboard, PostComment, $mdSidenav) {
+        ['$rootScope', '$scope', '$location', 'Auth', 'Statistics', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
+        function ($rootScope, $scope, $location, Auth, Statistics, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies) {
             $scope.dynamicTheme = "default";
             $scope.location = $location;
             $scope.comments = {};
+            $scope.dynamicTheme = $cookies.get("theme");
+
             /**
              * Variable declarations
              */
@@ -49,12 +51,9 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
             $scope.loadReplies = function (reply, parent_post, parent_reply, cursor) {
                 if (reply.remaining == 0) return;
                 reply.hide = false;
-                console.log(reply, parent_post, parent_reply, cursor);
                 var data = {parent_post: parent_post};
                 if (parent_reply) data.parent_reply = parent_reply;
                 if (cursor) data.cursor = cursor;
-
-                console.log(data);
                 PostComment.getReplies(data, function (data) {
                     if (!reply.replies) reply.replies = [];
 
@@ -94,7 +93,7 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
             $scope.switchTheme = function () {
                 if ($scope.dynamicTheme == "dark") $scope.dynamicTheme = "default";
                 else $scope.dynamicTheme = "dark";
-
+                $cookies.put("theme", $scope.dynamicTheme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
             };
         }]);
 });

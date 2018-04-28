@@ -8,7 +8,7 @@
     </md-toolbar>
 
     <div class="text-center">
-        Did not get an email? <strong><a href="/register" class="label">Resend email.</a></strong>
+        Did not get an email? <strong><a href="" ng-click="requestResend(verify.user.email)" class="label">Resend email.</a></strong>
     </div>
     <md-input-container class="md-block">
         <label>Email Address</label>
@@ -21,6 +21,6 @@
         <div class="hint">Check your email for the code, or click the link to verify.</div>
     </md-input-container>
     <div layout="column" layout-align="stretch">
-        <md-button type="submit" class="md-accent md-raised" ng-click="verifyViaForm(verify.user)">Continue</md-button>
+        <md-button type="submit" class="md-primary md-raised" ng-click="verifyViaForm(verify.user)">Continue</md-button>
     </div>
 </form>

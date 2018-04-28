@@ -12,19 +12,16 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         var message = data.data;
                         cbSuccess(message.data, message);
                     }, function (data) {
-                        var message = data.error;
+                        var message = data.data.message;
                         var status = data.status;
                         if (status != null){
                             switch (status){
                                 case 401:
-                                    // User is not logged in...
                                     Alert.error("You are not logged in.");
-                                    break;
-                                default:
-                                    cbFail(status, message);
                             }
+                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : message);
+                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
                     });
                 },
                 put: function (endpoint, parameters, cbSuccess, cbFail) {
@@ -36,19 +33,16 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         var message = data.data;
                         cbSuccess(message.data, message);
                     }, function (data) {
-                        var message = data.data;
+                        var message = data.data.message;
                         var status = data.status;
-                        if (message != null && message.hasOwnProperty("code")){
-                            switch (message){
-                                // case errorCodes.InvalidSession:
-                                //     // User is not logged in...
-                                //     Alert.error("You are not logged in.");
-                                //     break;
-                                default:
-                                    cbFail(status, message);
+                        if (message != null){
+                            switch (status){
+                                case 401:
+                                    Alert.error("You are not logged in.");
                             }
+                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : message);
+                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
                     });
                 },
                 get: function (endpoint, cbSuccess, cbFail) {
@@ -58,19 +52,16 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                     }).then(function (data, status, headers, config) {
                         cbSuccess(data.data, data);
                     }, function (data) {
-                        var message = data.data;
+                        var message = data.data.message;
                         var status = data.status;
-                        if (message != null && message.hasOwnProperty("code")){
-                            switch (message){
-                                case errorCodes.InvalidSession:
-                                    // User is not logged in...
+                        if (message != null){
+                            switch (status){
+                                case 401:
                                     Alert.error("You are not logged in.");
-                                    break;
-                                default:
-                                    cbFail(status, message);
                             }
+                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : message);
+                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
                     });
                 },
                 delete: function (endpoint, parameters, cbSuccess, cbFail) {
@@ -82,19 +73,16 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         var message = data.data;
                         cbSuccess(message.data, message);
                     }, function (data) {
-                        var message = data.data;
+                        var message = data.data.message;
                         var status = data.status;
-                        if (message != null && message.hasOwnProperty("code")){
-                            switch (message){
-                                case errorCodes.InvalidSession:
-                                    // User is not logged in...
+                        if (message != null){
+                            switch (status){
+                                case 401:
                                     Alert.error("You are not logged in.");
-                                    break;
-                                default:
-                                    cbFail(status, message);
                             }
+                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, message);
+                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
                     });
                 },
                 formPost: function(endpoint, parameters, cbSuccess, cbFail, cbProgress){
@@ -123,9 +111,9 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                             var message = data.data;
                             cbSuccess(message.data, message);
                         }, function (data) {
-                            var message = data.data;
+                            var message = data.data.message;
                             var status = data.status;
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : message);
+                            cbFail(status, status == -1 ? 'Failed to connect to API.' : errorCodes[message].detail);
                         });
                 },
                 ArrayToURL: function (data) {

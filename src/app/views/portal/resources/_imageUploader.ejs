@@ -51,17 +51,17 @@
             <h1 class="white" layout-align="center center">{{imageContent.used ? 'Image has been used' : ''}}</h1>
             <div flex>
             </div>
-            <div class="transparent-black" layout="row" layout-align="center center">
+            <md-content class="transparent-black" layout="row" layout-align="center center">
                 <md-button class="md-icon-button" aria-label="Favorite">
                     <md-icon ng-click="favouriteImage(imageContent)"
-                             ng-class="imageContent.favourite ? 'md-primary' : 'md-light'">favorite
+                             ng-class="imageContent.favourite ? 'md-primary' : ''">favorite
                     </md-icon>
                 </md-button>
                 <md-button class="md-icon-button" aria-label="Delete">
-                    <md-icon ng-click="deleteImage(imageContent)" class="md-light">delete</md-icon>
+                    <md-icon class="white" ng-click="deleteImage(imageContent)">delete</md-icon>
                 </md-button>
                 <md-button ng-if="control == 'manage'" class="md-icon-button" aria-label="Use for post">
-                    <md-icon ng-click="useImage(imageContent)" class="md-light">add_circle</md-icon>
+                    <md-icon ng-click="useImage(imageContent)">add_circle</md-icon>
                 </md-button>
                 <!--<md-fab-speed-dial ng-if="control == 'manage'" md-open="demo.isOpen" md-direction="down">-->
                 <!--<md-fab-trigger>-->
@@ -83,7 +83,7 @@
                 <!--</md-fab-actions>-->
                 <!--</md-fab-speed-dial>-->
 
-            </div>
+            </md-content>
         </md-card>
 
         <md-card ng-if="imageContent.loading" class="resource-card resource-select" layout="column"

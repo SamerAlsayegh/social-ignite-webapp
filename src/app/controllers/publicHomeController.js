@@ -1,7 +1,7 @@
 /**
  * Created by Samer on 2015-09-14.
  */
-define(['./module', '../enums/errorCodesR'], function (controllers, errorCodes) {
+define(['./module', '../enums/errorCodes'], function (controllers, errorCodes) {
     'use strict';
     return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
         '$state', '$stateParams', 'Auth', '$mdToast', '$timeout', 'Alert', '$mdSidenav',
@@ -11,7 +11,7 @@ define(['./module', '../enums/errorCodesR'], function (controllers, errorCodes) 
              * Any module declarations here
              */
             $scope.location = $location;
-
+            $scope.dynamicTheme = $cookies.get("theme");
             /**
              * Here is the codes for jQuery - Must be avoided at all costs, as it won't work well with Angular
              */
@@ -75,10 +75,8 @@ define(['./module', '../enums/errorCodesR'], function (controllers, errorCodes) 
                     Alert.info('Logged in successfully!');
                     $state.go('portal.home', {}, {reload: 'portal.home'});
                 }, function (status, message) {
-                    if (status == 404 && $scope.login)
+                    if (status == 404)
                         Alert.error("You entered an invalid email/password. Forgot password?");
-                    else if (message.hasOwnProperty("message"))
-                        Alert.error("Error: " + errorCodes[message.message].detail);
                     else
                         Alert.error("Error: " + message);
 
@@ -110,10 +108,7 @@ define(['./module', '../enums/errorCodesR'], function (controllers, errorCodes) 
                     $scope.verify.user.email = user.email;
                     $state.go('public.email_verify_fill_email', {email: user.email}, {reload: 'public.email_verify_fill_email'});//If the session is invalid, take to login page.
                 }, function (status, message) {
-                    if (status == 400)
-                        Alert.error("An account already exists with this email.");
-                    else
-                        Alert.error("Error: " + errorCodes[message.message].detail);
+                    Alert.error(message);
                 });
             };
 
@@ -123,14 +118,30 @@ define(['./module', '../enums/errorCodesR'], function (controllers, errorCodes) 
                     email: user.email,
                     code: user.code
                 }, function (data) {
-
-                }, function (status, message) {
-                    if (status == 404 && $scope.verify)
+                    Alert.success("Verified email. You may now login.");
+                    $state.go('public.login', {}, {reload: 'public.login'});
+                }, function (status, message, messageCode) {
+                    if (messageCode == errorCodes.InvalidParam.id)
                         Alert.error("This code is invalid.");
                     else
-                        Alert.error("Error: " + errorCodes[message.message].detail);
+                        Alert.error("Error: " + message);
                 });
             };
+
+            $scope.requestResend = function (email) {
+                if (email.length == 0) {
+                    Alert.error("Your email field is missing.");
+                    return;
+                }
+                Auth.requestEmailResend(email, function (data) {
+                    Alert.success("An email should be on the way.");
+                }, function (status, message) {
+                    Alert.error("Failed to request verification email.");
+                    console.log(message);
+                });
+
+            };
+
 
             /**
              * Register using the form on the login page.
@@ -149,14 +160,14 @@ define(['./module', '../enums/errorCodesR'], function (controllers, errorCodes) 
                 $scope.attemptVerify($scope.verify.user);
 
 
-            $scope.toggleMenu = function(){
+            $scope.toggleMenu = function () {
                 $mdSidenav('left').toggle()
             };
 
             $scope.switchTheme = function () {
                 if ($scope.dynamicTheme == "dark") $scope.dynamicTheme = "default";
                 else $scope.dynamicTheme = "dark";
-
+                $cookies.put("theme", $scope.dynamicTheme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
             };
 
 

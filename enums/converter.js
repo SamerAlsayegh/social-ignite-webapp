@@ -1,12 +1,15 @@
 const fs = require('fs');
 const util = require('util');
-var convertFile = function (originalFile) {
-    var errorCodes = require('./' + originalFile + "Main");
-    var finalCodes = {};
-    var num = 0;
+
+// Soon this whole process will be handled automatically in the backend for easier syncing of the errorCodes/platforms.
+
+let convertFile = function (originalFile) {
+    let errorCodes = require("./" + originalFile + "Main.js");
+    let finalCodes = {};
+    let num = 0;
 
 
-    for (var codeName in errorCodes) {
+    for (let codeName in errorCodes) {
         if (errorCodes[codeName].id && errorCodes[codeName].id < 0){
             // skip
             num++;
@@ -24,10 +27,10 @@ var convertFile = function (originalFile) {
             num++;
         }
     }
-    var copyCodes = Object.assign({}, finalCodes);
+    let copyCodes = Object.assign({}, finalCodes);
 
-    for (var codeName in copyCodes) {
-        var codeId = copyCodes[codeName].id;
+    for (let codeName in copyCodes) {
+        let codeId = copyCodes[codeName].id;
         if (codeId != null) {
             finalCodes[codeId] = {
                 id: null,
@@ -41,14 +44,7 @@ var convertFile = function (originalFile) {
         }
     }
 
-    fs.writeFile(originalFile + ".js", "module.exports = " + util.inspect(finalCodes, false, null) + ";", function (err) {
-        if (err) {
-            return console.log(err);
-        }
-
-        console.log("Updated " + originalFile);
-    });
-    fs.writeFile(originalFile + "R.js", "define(function (require, exports, module) { module.exports = " + util.inspect(finalCodes, false, null) + ";});", function (err) {
+    fs.writeFile("./src/app/enums/" + originalFile + ".js", "module.exports = " + util.inspect(finalCodes, false, null) + ";", function (err) {
         if (err) {
             return console.log(err);
         }
