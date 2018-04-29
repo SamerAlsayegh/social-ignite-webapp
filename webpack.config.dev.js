@@ -6,7 +6,7 @@ module.exports = {
     context: __dirname + "/src/app",
     entry: {
         app: [
-            // 'babel-polyfill',
+            'babel-polyfill',
             "./bootstrap.js"],
     },
     output: {
@@ -30,8 +30,8 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            // "API": JSON.stringify("http://localhost:8000") // Keep this commented unless you have access to a local backend copy.
-            "API": JSON.stringify("https://portal.socialignite.media:8000")
+            "API": JSON.stringify("http://localhost:8000") // Keep this commented unless you have access to a local backend copy.
+            // "API": JSON.stringify("https://portal.socialignite.media:8000")
         }),
     ],
 
@@ -47,9 +47,9 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                // use: {
-                //     loader: "babel-loader",
-                // }
+                use: {
+                    loader: "babel-loader",
+                }
             },
             {test: require.resolve("moment"), loader: "expose-loader?moment"},
             {

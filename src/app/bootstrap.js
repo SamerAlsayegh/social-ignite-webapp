@@ -3,7 +3,7 @@ require(["babel-polyfill"], function () {
     var num = Math.round(dankMessages.length * Math.random());
     var message = dankMessages[num >= dankMessages.length ? dankMessages.length - 1 : num];
     var loading_screen = pleaseWait({
-        logo: "/pub/img/logo_full_gray_small.png",
+        logo: "https://assets.socialignite.media/width/400/dark_logo.png",
         backgroundColor: '#FAFAFA',
         loadingHtml: '<h1 class="dark"><div class="sk-cube-grid"> <div class="sk-cube sk-cube1"></div> <div class="sk-cube sk-cube2"></div> <div class="sk-cube sk-cube3"></div> <div class="sk-cube sk-cube4"></div> <div class="sk-cube sk-cube5"></div> <div class="sk-cube sk-cube6"></div> <div class="sk-cube sk-cube7"></div> <div class="sk-cube sk-cube8"></div> <div class="sk-cube sk-cube9"></div> </div><br>' + message + '</h1>'
     });

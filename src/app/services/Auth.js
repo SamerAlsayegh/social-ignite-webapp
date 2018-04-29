@@ -64,7 +64,26 @@ define(['./module'], function (services) {
                         }, function (status, message) {
                             return callback(false);
                         });
-                }
+                },
+                getUser: function (cbSuccess, cbFail) {
+                    return Request.get('public/user',
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                updateUser: function (parameters, cbSuccess, cbFail) {
+                    if (!parameters)
+                        return;
+
+                    return Request.put('public/user', parameters,
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message, messageCode) {
+                            return cbFail(status, message, messageCode);
+                        });
+                },
             };
         }]);
 });

@@ -17,7 +17,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 pages: [],
                 content: '',
                 images: [],
-                date: new Date(currentTime.getTime() + (1000 * 60 * 10)),
+                date: currentTime,
                 maxLength: 280//Limit for Twitter. We wil adjust dynamically
             };
             $scope.platforms = platforms;
@@ -78,7 +78,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     Alert.success("Scheduled post on " + $filter('date')(postDetails.post_time, 'short'));
                     $state.go('portal.schedule.table', {'updateId': $scope.postId, 'updateContent': postDetails});
                 }, function (status, message) {
-                    Alert.error("Failed to submit: " + message.detail)
+                    Alert.error("Failed to submit: " + message)
                 });
             };
 

@@ -39,9 +39,9 @@
                 md-is-locked-open="$mdMedia('gt-sm')"
                 md-whiteframe="4">
 
-            <div>
+            <div> 
                 <h1 class="md-toolbar-tools" layout-align="center center">
-                    <img src="/pub/img/logo_full_gray.png" style="height: 50px; width: auto;">
+                    <img ng-src="{{dynamicTheme == 'default' ? 'https://assets.socialignite.media/height/50/dark_logo.png' : 'https://assets.socialignite.media/height/50/light_logo.png'}}" style="height: 50px; width: auto;">
                 </h1>
             </div>
             <md-content>

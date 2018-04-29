@@ -138,5 +138,9 @@ module.exports = {
         id: 47,
         detail: 'Registration is disabled due to unexpected traffic.'
     },
+    OneOrMorePagesInvalid: {
+        id: 48,
+        detail: 'One or more pages selected are invalid.'
+    }
 
 };

@@ -1,3 +1,34 @@
 <h1 class="page-header">My Profile</h1>
-This is just a simple profile page to configure your email settings, notifications, and such. Nothing exists yet, but possibly soon ;)
+Here you can configure basic settings. All changes are applied automatically.
 <br>
+
+<div layout="column" class="md-block">
+    <md-input-container class="md-block">
+        <label>Email</label>
+        <input ng-disabled="!user.verified" ng-model="user.email" type="email" ng-change="detailsChanged.email = true">
+    </md-input-container>
+
+    <md-input-container class="md-block">
+        <label>Role</label>
+        <input disabled ng-model="user.scope">
+    </md-input-container>
+
+    <!--<md-input-container class="md-block">-->
+        <!--<label>Subscription</label>-->
+        <!--<input disabled ng-model="user.subscription">-->
+    <!--</md-input-container>-->
+
+    <md-input-container class="md-block">
+        <md-checkbox class="md-primary" name="special" ng-model="user.mailing_list" ng-change="detailsChanged.mailing_list = true">
+            I am interested in updates by SocialIgnite - We won't spam :)
+        </md-checkbox>
+    </md-input-container>
+
+    <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+    <md-button ng-disabled="!detailsChanged.email && !detailsChanged.mailing_list" flex type="submit" class="md-primary md-raised" ng-click="updateUser()">
+        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+        Save Changes
+    </md-button>
+</span>
+
+</div>

@@ -94,6 +94,9 @@ module.exports = { '0':
   '47': 
    { id: 'MaxUsersOnPlatform',
      detail: 'Registration is disabled due to unexpected traffic.' },
+  '48': 
+   { id: 'OneOrMorePagesInvalid',
+     detail: 'One or more pages selected are invalid.' },
   Invalid: 
    { id: 0,
      detail: 'Invalid action - This action could have expired.' },
@@ -153,4 +156,5 @@ module.exports = { '0':
   AccessDenied: { id: 46, detail: undefined },
   MaxUsersOnPlatform: 
    { id: 47,
-     detail: 'Registration is disabled due to unexpected traffic.' } };
+     detail: 'Registration is disabled due to unexpected traffic.' },
+  OneOrMorePagesInvalid: { id: 48, detail: 'One or more pages selected are invalid.' } };

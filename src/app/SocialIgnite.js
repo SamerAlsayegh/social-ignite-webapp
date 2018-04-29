@@ -38,21 +38,17 @@ define([
                 'contrastDefaultColor': 'light',
                 'contrastDarkColors': ['50', '100',
                     '200', '300', '400', 'A100'],
-                'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-                // 'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-                // 'hue-3': '00', // use shade A100 for the <code>md-hue-3</code> class
+                'contrastLightColors': undefined
             });
             $mdThemingProvider.definePalette('lightBlueCustom', lightBlueCustom);
 
-
-
             $mdThemingProvider.theme('default')
                 .primaryPalette('lightBlueCustom')
-                .accentPalette('grey')
+                .accentPalette('light-blue')
                 .backgroundPalette('grey');
             $mdThemingProvider.theme('dark')
                 .primaryPalette('lightBlueCustom')
-                .accentPalette('grey')
+                .accentPalette('light-blue')
                 .backgroundPalette('grey').dark();
 
             $httpProvider.defaults.withCredentials = true;
@@ -73,7 +69,7 @@ define([
                 $transitions.onBefore({to: 'public.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
                     return Auth.sessionValidate(function (loggedIn) {
-                        if (loggedIn) {
+                        if (loggedIn && transition.to().name != "public.email_verify_fill_email_code") {
                             console.log("Redirecting from public to portal");
                             return transition.router.stateService.go('portal.home');
                         } else return true;

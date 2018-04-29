@@ -1,7 +1,7 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('statisticsSubController', ['$scope', '$stateParams', 'Alert', 'SocialPosts', 'Statistics',
-        function ($scope, $stateParams, Alert, SocialPosts, Statistics) {
+    return controllers.controller('statisticsSubController', ['$scope', '$stateParams', 'Alert', 'SocialPosts', 'Statistics', '$state',
+        function ($scope, $stateParams, Alert, SocialPosts, Statistics, $state) {
             var postId = $stateParams.postId;
             $scope.platforms = platforms;
             $scope.socialPosts = [];
@@ -145,7 +145,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         $scope.chartObjectVisitors.data.datasets = [
                                 {
                                     label: 'Visitors (Total)',
-                                    fill: false,
+                                    fill: true,
                                     data: fixedDataTotal,
                                 },
                                 // {
@@ -182,7 +182,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         $scope.chartObjectLikes.data.datasets = [
                             {
                                 label: 'Likes (Total)',
-                                fill: false,
+                                fill: true,
                                 data: fixedDataTotal,
                             },
                             // {
@@ -230,6 +230,10 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 }, function (status, message) {
                     Alert.error("Failed to load statistics");
                 });
+            };
+
+            $scope.return = function () {
+                $state.go('portal.schedule.table')
             };
 
 

@@ -42,15 +42,6 @@ define(['./module', '../enums/errorCodes'], function (controllers, errorCodes) {
             /**
              * Initialize code...
              */
-
-
-            // $rootScope.hasSessionKey = !!$cookies.get('sessionKey');
-            // // If the user does not have a cookie, we will just send them to login page.
-            // if ($rootScope.hasSessionKey) {
-            //     // We will verify the cookie they have against the RESTful API, if it fails, we will forward to login page.
-            //     Auth.sessionValidate();
-            // }
-
             $scope.goto = function (page) {
                 $location.path(page);
             };

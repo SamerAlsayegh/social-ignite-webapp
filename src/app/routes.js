@@ -12,21 +12,9 @@ define(['./SocialIgnite'], function (SocialIgnite) {
 
             $locationProvider.html5Mode(true);
             $stateProvider
-
-
                 .state('public', {
                     templateUrl: '/pub/public/index.html',
                     controller: 'publicHomeController',
-                    // resolve: {
-                    //     sessionLoggedIn: ['Auth', '$state', function(Auth, $state){
-                    //         Auth.sessionValidate(function(loggedIn){
-                    //             if (loggedIn){
-                    //                 console.log("Redirecting to portal");
-                    //                 $state.go('portal.home', {}, {reload: 'portal.home'})//If the session is invalid, take to login page.
-                    //             }
-                    //         })
-                    //     }]
-                    // }
                 })
                 .state('public.home', {
                     url: "/",
@@ -51,10 +39,6 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     url: "/login",
                     templateUrl: '/pub/public/auth/login/login.html'
                 })
-                // .state('public.register', {
-                //     url: "/register",
-                //     templateUrl: '/pub/public/auth/register/register.html'
-                // })
 
 
 
@@ -183,25 +167,5 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     url: "*path",
                     templateUrl: '/pub/error/not_found.html'
                 });
-            // $urlRouterProvider.otherwise("/home");
-            // $routeProvider
-            //     .when('/', {
-            //         templateUrl: '/pub/app/pub/public/index.html',
-            //         controller: 'publicHomeController',
-            //         controllerAs: 'vm'
-            //     })
-            //
-            //     .when('/portal', {
-            //         controller: 'clientHomeController',
-            //         templateUrl: '/pub/app/pub/portal/index.html',
-            //         controllerAs: 'vm'
-            //     })
-            //     .when('/portal/login', {
-            //         controller: 'publicHomeController',
-            //         templateUrl: '/pub/app/pub/public/loginFocus.html',
-            //         controllerAs: 'vm'
-            //     })
-            //
-            //     .otherwise({ redirectTo: '/portal/login' });
         }]);
 });

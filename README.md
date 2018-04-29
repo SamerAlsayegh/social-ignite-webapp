@@ -5,6 +5,13 @@ A social media management panel for [SocialIgnite](https://socialignite.media) b
 ## Requirements:
 - 1024MB RAM system for install, lesser ram may cause issues while installing (as far as my testing went)
 
+## Available Endpoints
+SocialIgnite maintains a public copy of api documentation so that 3rd party users can also use the backend however way they wish.
+<a href="https://portal.socialignite.media:8000/documentation">Documentation</a>
+
+
+
+
 ## How to contribute:
 <a href="https://discord.gg/jnravke">
 Join our discord<br>

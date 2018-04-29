@@ -11,12 +11,6 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
             $scope.comments = {};
             $scope.dynamicTheme = $cookies.get("theme");
 
-            /**
-             * Variable declarations
-             */
-            // $scope.goto = function (page) {
-            //     $location.path(page);
-            // };
 
             $scope.feeds = {};
             /**
