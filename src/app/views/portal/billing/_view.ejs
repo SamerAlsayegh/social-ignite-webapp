@@ -2,9 +2,64 @@
 This is a billing page, here you can configure your subscription settings!<br>
 Currently the tool is free for usage. Disregard this page.<br>
 <br>
-
-
-
 <md-button flex type="submit" class="md-primary md-raised" ng-click="betaTesterProgram()">
     Learn more about our beta-tester program
 </md-button>
+<br>
+
+<div layout="column" class="md-block">
+
+    <h3 ng-if="subscription">Active Subscription</h3>
+    <md-input-container ng-if="subscription" class="md-block">
+        <label>Package</label>
+        <input disabled ng-model="subscription.package">
+    </md-input-container>
+    <md-input-container ng-if="subscription" class="md-block">
+        <label>Expiry</label>
+        <input disabled ng-value="subscription.expiry | date : 'longDate'">
+    </md-input-container>
+
+    <h3 ng-if="subscription">Subscribe to a package</h3>
+
+
+    <md-grid-list
+            md-cols="1" md-cols-sm="1" md-cols-md="2" md-cols-gt-md="3" md-cols-gt-lg="4"
+            md-row-height-gt-md="1:1" md-row-height="1:1"
+            md-gutter="16px" md-gutter-gt-sm="16px">
+
+        <md-grid-tile ng-repeat="package in packages track by $index"
+                      md-rowspan="1"
+                      md-colspan="1"
+                      md-colspan-sm="1"
+                      md-colspan-xs="1">
+            <div flex-xs flex>
+                <md-card class="package-card" ng-click="subscribePackage(package.name)">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{package.name}}</span>
+                            <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
+
+                            <md-list class="md-dense" flex layout="row" layout-align="start">
+                                <md-list-item class="md-2-line">
+                                    <img class="md-avatar" />
+                                    <div class="md-list-item-text" ng-repeat="feature in package.features">
+                                        <h3>{{feature}}</h3>
+                                        <p></p>
+                                    </div>
+                                </md-list-item>
+                            </md-list>
+                        </md-card-title-text>
+                        <md-card-title-media>
+                            <md-button ng-disabled="true"
+                                       class="md-fab ui-social ui-other">
+                            </md-button>
+                        </md-card-title-media>
+                    </md-card-title>
+                    <md-card-actions layout="column" layout-align="stretch">
+                        <md-button class="md-primary">Subscribe</md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </md-grid-tile>
+    </md-grid-list>
+</div>

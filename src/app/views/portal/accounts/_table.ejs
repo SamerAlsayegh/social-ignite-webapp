@@ -32,7 +32,7 @@
                         <span class="md-headline">{{socialPage.name}}</span>
                         <span class="md-subhead">{{socialPage.status}}</span>
 
-                        <md-card-actions ng-if="socialPage.statistic" layout="row" layout-align="start">
+                        <md-card-actions layout="row" layout-align="start">
 
                             <span class="text-center">
                             <md-button class="md-icon-button" aria-label="Posts">
@@ -40,7 +40,7 @@
                                 <i class="material-icons">speaker_notes</i>
                             </md-button>
                                 <br>
-                                {{socialPage.statistic.posts.total}}
+                                {{socialPage.posts}}
                             </span>
 
                             <span ng-if="socialPage.statistic.views.total != -1" class="text-center">

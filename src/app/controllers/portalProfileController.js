@@ -9,15 +9,12 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                   $state, $stateParams, SocialAccounts, $mdDialog, $q, moment, $timeout, $window, Alert, Auth) {
             $scope.detailsChanged = {};
 
-            $scope.getDetails = function () {
-                Auth.getUser(function (message) {
-                    $scope.detailsChanged = {};
-                    $scope.user = message.data;
-                    console.log($scope.user)
-                }, function (status, message) {
-                    Alert.error("Failed to load user info.");
-                });
-            };
+            Auth.getUser(function (message) {
+                $scope.user = message.data;
+                console.log($scope.user)
+            }, function (status, message) {
+                Alert.error("Failed to load user info.");
+            });
 
             $scope.updateUser = function () {
                 var changed = {};
@@ -29,14 +26,18 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                 }
 
                 Auth.updateUser(changed, function (message) {
-                    $scope.getDetails();
+                    console.log(message);
+                    if (message.email){
+                       Alert.success("Please open the link sent to " + changed.email)
+                    } else {
+                        Alert.success("Your settings have been updated.")
+                    }
+                    $scope.detailsChanged = {};
                 }, function (status, message) {
                     Alert.error("Failed to update user info. " + message);
                 });
 
             };
-
-            $scope.getDetails();
         }]);
 
 

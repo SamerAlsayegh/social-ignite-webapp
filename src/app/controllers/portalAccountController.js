@@ -20,30 +20,6 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                     });
                 }
             }
-            function InstagramController($scope, $mdDialog, SocialAccounts) {
-                $scope.closeDialog = function () {
-                    $mdDialog.hide();
-                };
-                $scope.addAccount = function () {
-                    $scope.loading = true;
-                    SocialAccounts.addSpecialSocialAccount({
-                        username: $scope.username,
-                        password: $scope.password,
-                        platform: platforms.instagram.id
-                    }, function(message){
-                        Alert.success("Successfully added Instagram account.");
-                        $scope.loading = false;
-                        $mdDialog.hide();
-                    }, function(status, message){
-                        $scope.loading = false;
-                        $mdDialog.hide();
-                        Alert.error("Failed to add Instagram account - " + errorCodes[message.message].detail);
-
-                    });
-
-                };
-            }
-
             if ($stateParams.error != null)
                 Alert.error("Failed to register. " + errorCodes[$stateParams.error].detail);
             /**
@@ -63,21 +39,7 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                 if (!platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
                 platformId = parseInt(platformId);
-
-                switch (platformId) {
-                    case platforms.instagram.id:
-                        $mdDialog.show({
-                            parent: angular.element(document.body),
-                            targetEvent: $event,
-                            clickOutsideToClose:true,
-                            templateUrl:'/pub/portal/accounts/_instagram.html',
-                            controller: InstagramController
-                        });
-                        break;
-                    default:
-                        $window.open(API+'/api/v1/oauth/' + platforms[platformId].id + '/', '_self');
-                        break;
-                }
+                $window.open(API+'/api/v1/oauth/' + platforms[platformId].id + '/', '_self');
             };
 
             $scope.removeSocialAccount = function (_id) {
