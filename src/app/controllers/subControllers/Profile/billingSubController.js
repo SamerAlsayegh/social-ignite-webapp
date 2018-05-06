@@ -21,7 +21,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 $scope.packages = plans.data;
                 console.log(plans)
             }, function (status, message) {
-               Alert.error(message)
+                Alert.error(message)
             });
 
 
@@ -36,16 +36,28 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             $scope.subscribePackage = function (packageName) {
                 if ($scope.loading == false) {
-                    Alert.info("Redirecting to payment gateway in a few moments.")
                     $scope.loading = true;
                     Billing.subscribePlan(packageName, "paypal", function (message) {
-                        $window.location.href = message.data;
                         $scope.loading = false;
+                        $window.location.href = message;
                     }, function (status, message) {
-                        Alert.error(message)
                         $scope.loading = false;
+                        Alert.error(message)
                     })
                 }
+            };
+
+            $scope.cancelSubscription = function () {
+                Billing.cancelSubscription(function (message) {
+                    Alert.success("Subscription has been cancelled on the next billing cycle.");
+                    Billing.getSubscription(function (subscriptionData) {
+                        $scope.subscription = subscriptionData.data;
+                    }, function (status, message) {
+                        Alert.error(message)
+                    });
+                }, function (status, message) {
+                    Alert.error(message)
+                })
             }
 
         }]);

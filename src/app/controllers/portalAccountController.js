@@ -41,7 +41,6 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                 platformId = parseInt(platformId);
                 $window.open(API+'/api/v1/oauth/' + platforms[platformId].id + '/', '_self');
             };
-
             $scope.removeSocialAccount = function (_id) {
                 SocialAccounts.removeSocialAccount({
                     _id: _id

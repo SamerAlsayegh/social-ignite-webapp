@@ -13,56 +13,54 @@
         </span>
 </div>
 
-<md-grid-list
-        md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4"
-        md-row-height-gt-md="1:1" md-row-height="1:1"
-        md-gutter="16px" md-gutter-gt-sm="16px">
-
-    <md-grid-tile ng-repeat="socialPage in connectedAccounts"
-                  md-rowspan="1"
-                  md-colspan="1"
-                  md-colspan-sm="1"
-                  md-colspan-xs="1">
-        <!--class="ui-{{platformDetails.shortname}}" -->
-
-        <div flex-xs flex>
+<div layout="row" layout-wrap>
+    <div layout="column" ng-repeat="socialPage in connectedAccounts" flex="100" flex-gt-md="33">
             <md-card>
+                <div layout="row">
+                    <div class="md-toolbar-tools">
+                        <md-button
+                                class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
+                                aria-label=platform>
+                            <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
+                        </md-button>
+                        <span ng-bind="socialPage.name"></span>
+                    </div>
+                </div>
+
+
                 <md-card-title>
                     <md-card-title-text>
-                        <span class="md-headline">{{socialPage.name}}</span>
-                        <span class="md-subhead">{{socialPage.status}}</span>
-
                         <md-card-actions layout="row" layout-align="start">
 
-                            <span class="text-center">
+                            <span flex class="text-center">
                             <md-button class="md-icon-button" aria-label="Posts">
                                 <md-tooltip md-direction="top">Posts</md-tooltip>
                                 <i class="material-icons">speaker_notes</i>
                             </md-button>
                                 <br>
-                                {{socialPage.posts}}
+                                {{socialPage.statistic.posts.total}}
                             </span>
 
-                            <span ng-if="socialPage.statistic.views.total != -1" class="text-center">
-                            <md-button class="md-icon-button" aria-label="Impressions">
-                                <md-tooltip md-direction="top">Impressions</md-tooltip>
-                                <i class="material-icons">remove_red_eye</i>
-                            </md-button>
+                            <span flex ng-if="socialPage.statistic.views.total != -1" class="text-center">
+                                <md-button class="md-icon-button" aria-label="Impressions">
+                                    <md-tooltip md-direction="top">Impressions</md-tooltip>
+                                    <i class="material-icons">remove_red_eye</i>
+                                </md-button>
                                 <br>
                                 {{socialPage.statistic.views.total}}
                             </span>
 
-                            <span ng-if="socialPage.statistic.views.unique != -1" class="text-center">
-                            <md-button  class="md-icon-button" aria-label="Unique Views">
+                            <span flex ng-if="socialPage.statistic.views.unique != -1" class="text-center">
+                            <md-button class="md-icon-button" aria-label="Unique Views">
                                 <md-tooltip md-direction="top">Unique Views</md-tooltip>
                                 <i class="material-icons">people</i>
                             </md-button>
                                 <br>
-                                {{socialPage.statistic.unique_views}}
+                                {{socialPage.statistic.views.unique}}
                             </span>
 
-                            <span ng-if="socialPage.statistic.likes != -1" class="text-center">
-                            <md-button  class="md-icon-button" aria-label="Fans">
+                            <span flex ng-if="socialPage.statistic.likes != -1" class="text-center">
+                            <md-button class="md-icon-button" aria-label="Fans">
                                 <md-tooltip md-direction="top">Fans</md-tooltip>
                                 <i class="material-icons">thumb_up</i>
                             </md-button>
@@ -71,68 +69,35 @@
                             </span>
                         </md-card-actions>
                         <!--<span ng-if="socialPage.statistic" class="text-center">-->
-                            <!--<strong><i class="material-icons">speaker_notes</i>{{socialPage.statistic.posts}}</strong>-->
+                        <!--<strong><i class="material-icons">speaker_notes</i>{{socialPage.statistic.posts}}</strong>-->
 
-                            <!--<span ng-if="socialPage.statistic.impressions != -1">-->
-                                <!--<strong>-->
-                                    <!--<i class="material-icons">remove_red_eye</i>-->
-                                    <!--{{socialPage.statistic.impressions}}-->
-                                <!--</strong>-->
-                            <!--</span>-->
-                            <!--<span ng-if="socialPage.statistic.unique_views != -1">-->
-                                <!--<strong>-->
-                                    <!--<i class="material-icons">people</i>-->
-                                    <!--{{socialPage.statistic.unique_views}}-->
-                                <!--</strong>-->
-                            <!--</span>-->
+                        <!--<span ng-if="socialPage.statistic.impressions != -1">-->
+                        <!--<strong>-->
+                        <!--<i class="material-icons">remove_red_eye</i>-->
+                        <!--{{socialPage.statistic.impressions}}-->
+                        <!--</strong>-->
+                        <!--</span>-->
+                        <!--<span ng-if="socialPage.statistic.unique_views != -1">-->
+                        <!--<strong>-->
+                        <!--<i class="material-icons">people</i>-->
+                        <!--{{socialPage.statistic.unique_views}}-->
+                        <!--</strong>-->
+                        <!--</span>-->
 
-                            <!--<span ng-if="socialPage.statistic.fans != -1">-->
-                                <!--<strong>-->
-                                    <!--<i class="material-icons">people</i>-->
-                                    <!--{{socialPage.statistic.fans}}-->
-                                <!--</strong> {{socialPage.statistic.new_likes > 0 ? '(+' + socialPage.statistic.new_likes + '))' : ''}}-->
-                            <!--</span>-->
+                        <!--<span ng-if="socialPage.statistic.fans != -1">-->
+                        <!--<strong>-->
+                        <!--<i class="material-icons">people</i>-->
+                        <!--{{socialPage.statistic.fans}}-->
+                        <!--</strong> {{socialPage.statistic.new_likes > 0 ? '(+' + socialPage.statistic.new_likes + '))' : ''}}-->
+                        <!--</span>-->
                         <!--</span>-->
                     </md-card-title-text>
-                    <md-card-title-media>
-                        <md-button ng-disabled="true"
-                                   class="md-fab ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
-                                   aria-label=platform>
-                            <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
-                        </md-button>
-                    </md-card-title-media>
                 </md-card-title>
-                <md-card-actions layout="row" layout-align="end center">
-                    <md-button ng-click="removeSocialAccount(socialPage._id)" class="md-warn">Deactivate</md-button>
+                <md-card-actions layout="row">
+                    <md-button class="md-primary">Refresh Stats</md-button>
+                    <span flex></span>
+                    <md-button class="md-warn" ng-click="removeSocialAccount(socialPage._id)">Deactivate</md-button>
                 </md-card-actions>
             </md-card>
-        </div>
-    </md-grid-tile>
-</md-grid-list>
-
-
-<!--<div class="table-responsive">-->
-<!--<table class="table table-striped">-->
-<!--<thead>-->
-<!--<tr>-->
-<!--<th>Platforms</th>-->
-<!--<th>Title / Content</th>-->
-<!--<th>Scheduled</th>-->
-<!--<th>Tags</th>-->
-<!--<th>Modify</th>-->
-<!--</tr>-->
-<!--</thead>-->
-<!--<tbody>-->
-<!--<tr>-->
-<!--<td> Facebook icon, Twitter Icon, Pintrest Icon, G+, Instagram,</td>-->
-<!--<td>Are your tech gadgets getting old? / Revamp your tech collection, with the best-->
-<!--selections found at techie.guru...-->
-<!--</td>-->
-<!--<td><span class="label label-success">Monday, July 27, 2017 @ 11:00 EST </span></td>-->
-<!--<td><span class="label label-info">image</span> <span class="label">long</span> <span-->
-<!--class="label label-info">seo</span></td>-->
-<!--<td>Modify / Delete</td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</table>-->
-<!--</div>-->
+    </div>
+</div>

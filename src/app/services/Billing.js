@@ -5,7 +5,7 @@ define(['./module'], function (services) {
 
             return {
                 subscribePlan: function (plan, service, cbSuccess, cbFail) {
-                    return Request.get('payment/subscription/' + plan + "/" + service,
+                    return Request.post('payment/subscription/' + plan + '/' + service, {},
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
@@ -14,15 +14,22 @@ define(['./module'], function (services) {
                 },
                 getSubscription: function (cbSuccess, cbFail) {
                     return Request.get('payment/subscription',
-                         function (message) {
+                        function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });
                 },
                 getPlans: function (cbSuccess, cbFail) {
-
                     return Request.get('payment/plans',
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                cancelSubscription: function (cbSuccess, cbFail) {
+                    return Request.post('payment/subscription/cancel', {},
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {

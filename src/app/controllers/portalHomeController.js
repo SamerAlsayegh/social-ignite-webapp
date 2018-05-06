@@ -10,7 +10,14 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
             $scope.location = $location;
             $scope.comments = {};
             $scope.dynamicTheme = $cookies.get("theme");
+            $scope.permissions = {};
 
+
+            Auth.getPermissions(function (data) {
+                $scope.permissions = data.data;
+            }, function (status, message) {
+                Alert.error(message, 600);
+            });
 
             $scope.feeds = {};
             /**
@@ -39,7 +46,7 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
                         reply.commenting = false;
                         reply.replies.push(data.reply)
                     }, function (status, message) {
-                        Alert.error("Failed to comment.", 600);
+                        Alert.error(message, 600);
                 });
             };
             $scope.loadReplies = function (reply, parent_post, parent_reply, cursor) {
@@ -66,9 +73,9 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
                 Action.toggleLikeComment({reply_id: reply._id}, function (data) {
                     Alert.success("You " + (data.liked ? 'liked' : 'unliked') +" this comment", 600);
                     reply.liked = data.liked;
-                }, function(err, data){
+                }, function(err, message){
                     reply.liked = !reply.liked;
-                    Alert.error("Failed to liked comment.");
+                    Alert.error(message, 600);
                 });
             };
 

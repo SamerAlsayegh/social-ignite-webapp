@@ -1,4 +1,5 @@
-<h2>This page is currently under developement. Please check links above for more actions!</h2>
+<h2>Welcome to the dashboard!</h2>
+<h3>Viewing latest activity...</h3>
 
 <script type="text/ng-template" id="commentChildrenTree">
     <span layout="column" layout-align flex>
@@ -11,9 +12,12 @@
             </span>
             <span layout="column" layout-gt-sm="row">
                 <md-button flex flex-gt-sm="50" class="md-icon-button"
-                           ng-click="toggleLike(socialComment)" ng-class="socialComment.liked ? 'md-primary' : ''" aria-label="Like"><i
+                           ng-disabled="!permissions.post_manage_like"
+                           ng-click="toggleLike(socialComment)" ng-class="socialComment.liked ? 'md-primary' : ''"
+                           aria-label="Like"><i
                             class="material-icons">thumb_up</i></md-button>
                 <md-button flex flex-gt-sm="50" class="md-icon-button"
+                           ng-disabled="!permissions.post_manage_reply"
                            ng-click="socialComment.commenting = !socialComment.commenting"
                            aria-label="Reply to comment"><i class="material-icons">comment</i></md-button>
                 <span ng-if="socialComment.replies_count > 0" layout="column" class="text-center">
@@ -54,7 +58,6 @@
     <div layout="column" flex="100" flex-gt-md="33" ng-repeat="socialPostMain in socialPostMainList">
         <div ng-repeat="socialPost in socialPostMain.social_post">
             <md-card>
-
                 <div layout="row">
                     <div class="md-toolbar-tools">
                         <md-button
@@ -80,11 +83,13 @@
                             </span>
                             <div style="display: block;" class="text-right">
                                 <md-button
+                                        disabled
                                         aria-label="{{(socialPost.statistic.likes.total != null ?  socialPost.statistic.likes.total : 0)}}">
                                     <span ng-bind="socialPost.statistic.likes.total"></span>
                                     Likes
                                 </md-button>
                                 <md-button
+                                        disabled
                                         ng-bind="(socialPost.replies != null ? socialPost.replies.length  : 0) + ' Comments'"
                                         aria-label="{{(socialPost.replies != null ? socialPost.replies.length  : 0)}}">
                                 </md-button>
@@ -103,7 +108,13 @@
                         </md-list-item>
                     </md-list>
                 </md-content>
+            </md-card>
         </div>
-        </md-card>
     </div>
 </div>
+<md-content ng-if="socialPostMainList.length > 0">
+    <h4 ng-if="!permissions.post_manage_reply">* Replying is disabled <a class="md-primary" ng-href="/portal/billing">(upgrade
+            now)</a></h4>
+    <h4 ng-if="!permissions.post_manage_like">* Liking is disabled <a class="md-primary" ng-href="/portal/billing">(upgrade
+            now)</a></h4>
+</md-content>

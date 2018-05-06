@@ -29,7 +29,9 @@ module.exports = { '0':
      detail: 'This account is banned. Contact support.' },
   '13': { id: 'AccountNotFound', detail: undefined },
   '14': { id: 'NotLoggedOn', detail: undefined },
-  '15': { id: 'InsufficientPrivilege', detail: undefined },
+  '15': 
+   { id: 'InsufficientPrivilege',
+     detail: 'You do not have the required permissions.' },
   '16': { id: 'Revoked', detail: undefined },
   '17': { id: 'Expired', detail: undefined },
   '18': 
@@ -97,6 +99,16 @@ module.exports = { '0':
   '48': 
    { id: 'OneOrMorePagesInvalid',
      detail: 'One or more pages selected are invalid.' },
+  '49': 
+   { id: 'InvalidPackage',
+     detail: 'Invalid package has been chosen.' },
+  '50': { id: 'paymentFailed', detail: 'Payment failed to go through.' },
+  '51': 
+   { id: 'invalidPayment',
+     detail: 'Payment referenced is not valid.' },
+  '52': 
+   { id: 'packageAlreadyActive',
+     detail: 'There is a package already active on the account.' },
   Invalid: 
    { id: 0,
      detail: 'Invalid action - This action could have expired.' },
@@ -114,7 +126,7 @@ module.exports = { '0':
   Banned: { id: 12, detail: 'This account is banned. Contact support.' },
   AccountNotFound: { id: 13, detail: undefined },
   NotLoggedOn: { id: 14, detail: undefined },
-  InsufficientPrivilege: { id: 15, detail: undefined },
+  InsufficientPrivilege: { id: 15, detail: 'You do not have the required permissions.' },
   Revoked: { id: 16, detail: undefined },
   Expired: { id: 17, detail: undefined },
   DuplicateRequest: { id: 18, detail: 'This action was repeated earlier.' },
@@ -157,4 +169,10 @@ module.exports = { '0':
   MaxUsersOnPlatform: 
    { id: 47,
      detail: 'Registration is disabled due to unexpected traffic.' },
-  OneOrMorePagesInvalid: { id: 48, detail: 'One or more pages selected are invalid.' } };
+  OneOrMorePagesInvalid: { id: 48, detail: 'One or more pages selected are invalid.' },
+  InvalidPackage: { id: 49, detail: 'Invalid package has been chosen.' },
+  paymentFailed: { id: 50, detail: 'Payment failed to go through.' },
+  invalidPayment: { id: 51, detail: 'Payment referenced is not valid.' },
+  packageAlreadyActive: 
+   { id: 52,
+     detail: 'There is a package already active on the account.' } };

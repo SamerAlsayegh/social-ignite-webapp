@@ -51,7 +51,10 @@ module.exports = {
     },
     AccountNotFound: 13,
     NotLoggedOn: 14,
-    InsufficientPrivilege: 15,
+    InsufficientPrivilege: {
+        id: 15,
+        detail: 'You do not have the required permissions.'
+    },
     Revoked: 16,
     Expired: 17,
     DuplicateRequest: {
@@ -141,6 +144,22 @@ module.exports = {
     OneOrMorePagesInvalid: {
         id: 48,
         detail: 'One or more pages selected are invalid.'
-    }
+    },
+    InvalidPackage: {
+        id: 49,
+        detail: 'Invalid package has been chosen.'
+    },
+    paymentFailed: {
+        id: 50,
+        detail: 'Payment failed to go through.'
+    },
+    invalidPayment: {
+        id: 51,
+        detail: 'Payment referenced is not valid.'
+    },
+    packageAlreadyActive: {
+        id: 52,
+        detail: 'There is a package already active on the account.'
+    },
 
 };
