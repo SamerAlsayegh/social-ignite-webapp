@@ -1,6 +1,7 @@
 define([
     './fileRead',
     './imageUploader',
-    './onScrollToBottom'
+    './onScrollToBottom',
+    './tutorialStep'
 ], function () {
 });

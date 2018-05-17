@@ -10,6 +10,12 @@ define(['./module'], function (directives) {
                         scope.$apply(attrs.onScrollToBottom);
                     }
                 });
+                setTimeout(function () {
+                    if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
+                        scope.$apply(attrs.onScrollToBottom);
+                    }
+                }, 100);
+
             }
         };
     }]);

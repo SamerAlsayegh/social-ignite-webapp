@@ -11,7 +11,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.postInformation = $stateParams.postInformation;
 
             console.log($scope.attachedImage);
-
             var currentTime = new Date();
             $scope.currentSocialPost =  {
                 pages: [],
@@ -50,7 +49,14 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     return Alert.error("Failed to archive post.");
                 })
             };
+            $scope.changedTimeout = null;
+            $scope.changedText = function() {
+                if ($scope.changedTimeout) clearTimeout($scope.changedTimeout);
 
+                $scope.changedTimeout = setTimeout(function () {
+                    $scope.nextStep();
+                }, 1000);
+            };
 
             $scope.submitPost = function () {
                 if ($scope.currentSocialPost.pages.length == 0)
@@ -84,7 +90,9 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             SocialAccounts.getSocialAccounts(function (data) {
                 $scope.allPages = data;
-
+                setTimeout(function () {
+                    $scope.step();
+                }, 0);
                 if ($scope.postId && !$scope.postInformation) {
                     // Editing social post
                     SocialPosts.getDetails($scope.postId,

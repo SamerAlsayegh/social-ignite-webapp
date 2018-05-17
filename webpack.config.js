@@ -6,7 +6,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 module.exports = {
     context: __dirname + "/src/app",
     entry: {
-        app: ['babel-polyfill',"./bootstrap.js"],
+        app: [
+            "babel-polyfill",
+            "./bootstrap.js",
+        ],
     },
     output: {
         path: __dirname + "/dist/pub/",
@@ -15,7 +18,7 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            "API": JSON.stringify("https://portal.socialignite.media:8000")
+            "API": JSON.stringify("https://api.socialignite.media")
         }),
         new UglifyJsPlugin({
             parallel: 4,
@@ -39,7 +42,8 @@ module.exports = {
                     loader: "babel-loader",
                 }
             },
-            { test: require.resolve("moment"), loader: "expose-loader?moment" },
+            {test: require.resolve("moment"), loader: "expose-loader?moment"},
+
             {
                 use: [{
                     loader: "expose-loader",

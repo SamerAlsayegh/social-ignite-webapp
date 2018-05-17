@@ -1,70 +1,76 @@
-<h1 class="page-header">Adding a new page
+<h1 class="page-header">Adding a new page<br>
     <small>Follow the steps to add a new scheduled post!</small>
 </h1>
 
 <div layout="row">
     <div flex-gt-lg="70" flex-offset-gt-lg="15" flex="70" flex-offset="15" flex-gt-xs="90" flex-offset-gt-xs="5">
 
-        <label>
-            <span class="posting_step">Step 1</span>
-            <h2>
-                <small>Select your pages</small>
-            </h2>
-        </label>
-        <div layout="row" layout-padding layout-wrap>
-            <md-whiteframe
-                    ng-repeat="pageInfo in allPages" ng-click="choosePage(pageInfo._id);"
-                    class="md-whiteframe-1dp ui-social ui-{{platforms[pageInfo.platform].id}} page-select"
-                    ng-class="currentSocialPost.pages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''"
-                    flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
-                <!--<md-tooltip md-direction="down"></md-tooltip>-->
-                <div class="text-center" layout="column">
-                    <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
+        <div class="tutorial-step-schedule-add-post-step-1">
+            <label>
+                <span class="posting_step">Step 1</span>
+                <h2>
+                    <small>Select your pages</small>
+                </h2>
+            </label>
+            <div layout="row" layout-padding layout-wrap>
+                <md-whiteframe
+                        ng-repeat="pageInfo in allPages" ng-click="choosePage(pageInfo._id); nextStep();"
+                        class="md-whiteframe-1dp ui-social ui-{{platforms[pageInfo.platform].id}} page-select"
+                        ng-class="currentSocialPost.pages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''"
+                        flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
+                    <!--<md-tooltip md-direction="down"></md-tooltip>-->
+                    <div class="text-center" layout="column">
+                        <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
 
-                    <small ng-bind="pageInfo.name"></small>
-                </div>
-            </md-whiteframe>
+                        <small ng-bind="pageInfo.name"></small>
+                    </div>
+                </md-whiteframe>
+            </div>
         </div>
-        <label>
-            <span class="posting_step">Step 2</span>
-            <h2>
-                <small>Choose your content</small>
-            </h2>
-        </label>
-        <md-input-container class="md-block">
-            <label>Post Content</label>
-            <textarea ng-model="currentSocialPost.content" md-maxlength="currentSocialPost.maxLength" rows="3"
-                      md-select-on-focus></textarea>
-        </md-input-container>
-        <label>
-            <span class="posting_step">Step 3</span>
-            <h2>
-                <small>Attach images</small>
-            </h2>
-        </label>
+        <div class="tutorial-step-schedule-add-post-step-2">
+            <label>
+                <span class="posting_step">Step 2</span>
+                <h2>
+                    <small>Choose your content</small>
+                </h2>
+            </label>
+            <md-input-container class="md-block">
+                <label>Post Content</label>
+                <textarea ng-model="currentSocialPost.content" ng-change="changedText()" md-maxlength="currentSocialPost.maxLength" rows="3"
+                          md-select-on-focus></textarea>
+            </md-input-container>
+        </div>
+        <div class="tutorial-step-schedule-add-post-step-3">
+            <label>
+                <span class="posting_step">Step 3</span>
+                <h2>
+                    <small>Attach images</small>
+                </h2>
+            </label>
 
-        <image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="view" post_id="postId" uploading="uploading" images="currentSocialPost.images"></image-uploader>
-
-
-        <label>
-            <span class="posting_step">Step 4</span>
-            <h2>
-                <small>Choose your time</small>
-            </h2>
-        </label>
-        <div
-                moment-picker="currentSocialPost.dateString"
-                selectable="validateTime(date, type)"
-                ng-model="currentSocialPost.date"
-                format="LLL"
-                min-view="month"
-                start-view="hour"
-                today="true"
-                keyboard="true"
-                inline="true"
-                set-on-select="true">
+            <image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="view" post_id="postId" uploading="uploading" images="currentSocialPost.images"></image-uploader>
         </div>
 
+        <div class="tutorial-step-schedule-add-post-step-4">
+            <label>
+                <span class="posting_step">Step 4</span>
+                <h2>
+                    <small>Choose your time</small>
+                </h2>
+            </label>
+            <div
+                    moment-picker="currentSocialPost.dateString"
+                    selectable="validateTime(date, type)"
+                    ng-model="currentSocialPost.date"
+                    format="LLL"
+                    min-view="month"
+                    start-view="hour"
+                    today="true"
+                    keyboard="true"
+                    inline="true"
+                    set-on-select="true">
+            </div>
+        </div>
         <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
     <md-button flex-xs="100" flex-sm="100" flex-md="100"  md-no-ink type="submit" class="md-warn" ng-click="hideDialog()">
         Cancel

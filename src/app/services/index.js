@@ -10,7 +10,8 @@ define([
     './Action',
     './PostComment',
     './Image',
-    './Billing'
+    './Billing',
+    './Tutorial'
 ], function () {
 });
 

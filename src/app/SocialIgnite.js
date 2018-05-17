@@ -12,12 +12,14 @@ define([
     'chart.js',
     'chartjs-plugin-annotation',
     '../custom/angular-material-calendar',
+    // 'angular-wizard/dist/angular-wizard',
     './directives/index',
     './controllers/index',
     './services/index',
     // 'filters/index'
 ], function (angular) {
     'use strict';
+
     return angular.module('SocialIgnite', [
         'SocialIgnite.controllers',
         'SocialIgnite.services',
@@ -31,7 +33,8 @@ define([
         'ngCookies',
         'materialCalendar',
         'ui.router',
-        'angularMoment'
+        'angularMoment',
+        // 'mgo-angular-wizard',
     ])
         .config(['$mdThemingProvider', '$httpProvider', function ($mdThemingProvider, $httpProvider) {
             var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {

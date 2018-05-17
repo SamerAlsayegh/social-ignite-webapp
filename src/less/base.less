@@ -5,6 +5,7 @@
 @import 'datepicker/material-ui';
 @import 'material-angular/angular-material';
 @import 'material-table/md-table';
+@import "../../node_modules/angular-wizard/dist/angular-wizard.css";
 
 @mdb-input-placeholder-color: #000;
 
@@ -653,3 +654,43 @@ HotFix for Icon Sizing
 .material-icons.md-24 { font-size: 24px; height: 24px; width: 24px; }
 .material-icons.md-36 { font-size: 36px; height: 36px; width: 36px; }
 .material-icons.md-48 { font-size: 48px; height: 48px; width: 48px; }
+
+.obscure {
+  position: absolute;
+  background-color: rgba(0,0,0,.7);
+  margin: 0; padding: 0;
+}
+
+.darken_left{
+  z-index: 999;
+  position: fixed;
+  left:0;
+  top: 0;
+  bottom: 0;
+}
+.darken_right{
+  z-index: 999;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+}
+.darken_top{
+  z-index: 999;
+  position: fixed;
+  top: 0;
+}
+.darken_text {
+  background-color: rgba(0,0,0,0);
+  z-index: 1000 !important;
+  position: fixed;
+  margin: 0; padding: 0;
+  color: white !important;
+}
+
+.darken_bottom{
+  z-index: 999;
+  position: fixed;
+  bottom: 0;
+}

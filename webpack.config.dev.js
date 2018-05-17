@@ -15,7 +15,7 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
-        compress: false,
+        compress: true,
         public: "portal.socialignite.media",
         before: function (app) {
             app.get("*", function (req, res, next) {
@@ -43,22 +43,31 @@ module.exports = {
         ]
     },
     module: {
-        loaders: [
+        // loaders: [
+        //     {
+        //         test: /\.js$/,
+        //         exclude: /(node_modules|bower_components)/,
+        //         use: {
+        //             loader: "babel-loader",
+        //         }
+        //     },
+        //     {test: require.resolve("moment"), loader: "expose-loader?moment"},
+        //     {test: require.resolve("socket.io-client"), loader: "expose-loader?io"},
+        //     {
+        //         use: [{
+        //             loader: "expose-loader",
+        //             options: "wait"
+        //         }]
+        //     },
+        //
+        // ],
+        rules: [
             {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: "babel-loader",
-                }
-            },
-            {test: require.resolve("moment"), loader: "expose-loader?moment"},
-            {
+                test: require.resolve('moment'),
                 use: [{
-                    loader: "expose-loader",
-                    options: "wait"
+                    loader: 'expose-loader',
+                    options: 'moment'
                 }]
-            },
-
-        ]
+            },]
     },
 };

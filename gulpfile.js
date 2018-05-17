@@ -78,7 +78,7 @@ gulp.task('webserver', function() {
         .pipe(webserver({
             livereload: false,
             host: 'portal.socialignite.media',
-            port: 443,
+            port: 8080,
             https: {
                 cert: "/etc/letsencrypt/live/portal.socialignite.media/fullchain.pem",
                 key: "/etc/letsencrypt/live/portal.socialignite.media/privkey.pem"

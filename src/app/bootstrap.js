@@ -1,4 +1,4 @@
-require(["babel-polyfill"], function () {
+// require(["babel-polyfill"], function () {
     var dankMessages = ["Prettifying UI...", "Bootstrapping servers...", "Preparing extinguishers...", "Adding more sticks...", "Pouring lighter fluid...", "Using coal...", "Adding fuel to the flames..."];
     var num = Math.round(dankMessages.length * Math.random());
     var message = dankMessages[num >= dankMessages.length ? dankMessages.length - 1 : num];
@@ -16,5 +16,5 @@ require(["babel-polyfill"], function () {
         angular.bootstrap(document, ['SocialIgnite']);
         loading_screen.finish();
     });
-});
+// });
 

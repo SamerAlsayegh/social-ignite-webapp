@@ -14,9 +14,9 @@ Currently the tool is free for usage. Disregard this page.<br>
         <label>Package</label>
         <input disabled ng-model="subscription.package">
     </md-input-container>
-    <md-input-container ng-if="subscription" class="md-block">
-        <label>Expiry</label>
-        <input disabled ng-value="subscription.expiry | date : 'longDate'">
+    <md-input-container ng-if="subscription && subscription.renewal" class="md-block">
+        <label>Renewal</label>
+        <input disabled ng-value="subscription.renewal | date : 'longDate'">
     </md-input-container>
     <md-input-container ng-if="subscription" class="md-block">
         <label>Last Payment</label>
@@ -32,11 +32,10 @@ Currently the tool is free for usage. Disregard this page.<br>
 
 
         <md-content
-                layout-padding layout="row" layout-align="center center" layout-wrap>
-            <md-card ng-repeat="package in packages" ng-click="subscribePackage(package.name)"
+                layout-padding layout="row"  layout-wrap>
+            <md-card ng-repeat="package in packages" ng-click="subscribePackage(package.internal_name)"
                      class="package-card" layout="column"
-                     ng-style="{'background': (loading ? ('linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), ') : '') + ' url(' + imageContent.url + ')', 'background-position':'center center', 'background-repeat': 'no-repeat', 'background-size': 'cover'}"
-                     layout-align="center center">
+                     ng-style="{'background': (loading ? ('linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), ') : '') + ' url(' + imageContent.url + ')', 'background-position':'center center', 'background-repeat': 'no-repeat', 'background-size': 'cover'}">
 
 
                 <md-card-title>
@@ -44,25 +43,19 @@ Currently the tool is free for usage. Disregard this page.<br>
                         <span class="md-headline">{{package.name}}</span>
                         <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
 
-                        <md-list class="md-dense" flex layout="row" layout-align="start">
-                            <md-list-item class="md-2-line">
-                                <img class="md-avatar"/>
-                                <div class="md-list-item-text" ng-repeat="feature in package.features">
-                                    <h3>{{feature}}</h3>
-                                    <p></p>
-                                </div>
-                            </md-list-item>
-                        </md-list>
-                        <div flex>
-                        </div>
+                        <md-content flex layout="column" layout-align="start">
+                            <ul flex>
+                                <li ng-repeat="feature in package.features">{{feature}}</li>
+
+                            </ul>
+                        </md-content>
                         <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
                             <md-progress-linear md-mode="indeterminate"></md-progress-linear>
                         </div>
                     </md-card-title-text>
                     <md-card-title-media>
-                        <md-button
-                                class="md-fab ui-social ui-other ">
-                        </md-button>
+                        <md-icon>shopping_cart</md-icon>
+
                     </md-card-title-media>
                 </md-card-title>
                 <md-card-actions layout="column" layout-align="stretch">

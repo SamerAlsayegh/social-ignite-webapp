@@ -23,6 +23,15 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                deleteComment: function (parameters, cbSuccess, cbFail) {
+                    return Request.post('portal/actions/delete_comment',
+                        parameters,
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
             };
         }]);
 });

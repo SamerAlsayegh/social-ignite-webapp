@@ -86,11 +86,13 @@ define(['./module'], function (directives) {
                     }
                 };
                 $scope.uploadFiles = function (imagesList) {
-                    $scope.uploading = true;
-                    $scope.uploadImages(imagesList, function () {
-                        $scope.uploading = false;
-                        Alert.success('Uploaded all images.', 1000);
-                    })
+                    if (imagesList.length > 0) {
+                        $scope.uploading = true;
+                        $scope.uploadImages(imagesList, function () {
+                            $scope.uploading = false;
+                            Alert.success('Uploaded all images.', 1000);
+                        })
+                    }
                 };
 
 

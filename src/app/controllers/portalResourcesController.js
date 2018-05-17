@@ -14,7 +14,6 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
             $scope.attachedImage = $stateParams.attachedImage;
             $scope.loadingImages = true;
 
-
             // $scope.image_ids = [];
             Image.getImages(null, function (images) {
                 $scope.images = images.data.images;
