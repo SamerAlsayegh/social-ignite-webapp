@@ -1,17 +1,22 @@
-<div class="tutorial-step-add-pages" ng-mouseleave="toggle_add = false">
-    <md-button ng-mouseenter="toggle_add = true" class="md-fab md-primary ui-social"
-               aria-label="Add new platform">
-        <i class="zmdi zmdi-account-add"></i>
-    </md-button>
-    <span ng-show="toggle_add">
-    <md-button ng-click="addSocialAccount($event, platformDetails.id); nextStep();"
-               ng-repeat="platformDetails in socialPlatformDetails"
-               class="md-fab ui-social ui-{{platformDetails.shortname}}"
-               aria-label=platform>
-        <i class="zmdi zmdi-{{platformDetails.shortname}}"></i>
-    </md-button>
-        </span>
-</div>
+<md-content layout="row" class="tutorial-step-add-pages">
+    <md-fab-speed-dial md-direction="right"
+                       class="md-scale">
+        <md-fab-trigger>
+            <md-button aria-label="menu" class="md-fab md-primary">
+                <md-icon>add</md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button ng-click="addSocialAccount($event, platformDetails.id); nextStep();"
+                       ng-repeat="platformDetails in socialPlatformDetails"
+                       class="md-fab md-raised md-mini ui-social ui-{{platformDetails.shortname}}"
+                       aria-label=platform>
+                <i class="zmdi zmdi-{{platformDetails.shortname}}"></i>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+</md-content>
 
 <div layout="row" layout-wrap>
     <div layout="column" ng-repeat="socialPage in connectedAccounts" flex="100" flex-gt-md="33">
@@ -60,7 +65,7 @@
                                 {{socialPage.statistic.views.unique}}
                             </span>
 
-                            <span flex ng-if="socialPage.statistic.likes >= 0" class="text-center">
+                            <span flex ng-if="socialPage.statistic.likes.total >= 0" class="text-center">
                             <md-button class="md-icon-button" aria-label="Fans">
                                 <md-tooltip md-direction="top">Fans</md-tooltip>
                                 <i class="material-icons">thumb_up</i>
@@ -72,7 +77,7 @@
                     </md-card-title-text>
                 </md-card-title>
                 <md-card-actions layout="row">
-                    <md-button class="md-primary">Refresh Stats</md-button>
+                    <md-button class="md-primary" ng-click="refreshSocialAccount(socialPage._id)">Refresh Stats</md-button>
                     <span flex></span>
                     <md-button class="md-warn" ng-click="removeSocialAccount(socialPage._id)">Deactivate</md-button>
                 </md-card-actions>

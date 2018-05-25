@@ -13,11 +13,25 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
                 $scope.comments = {};
                 $scope.dynamicTheme = $cookies.get("theme");
                 $scope.permissions = {};
-                $scope.socket = io('http://localhost:8001');
+                $scope.onlineUsers = 0;
 
+
+                $scope.socket = io(SOCKET);
                 $scope.socket.on('connect', function () {
                     console.log("Connected");
+                    // $scope.socket.emit('getOnline');
                 });
+                $scope.socket.on('online', function (onlineCount) {
+                    $scope.onlineUsers = onlineCount;
+                    $scope.$apply();
+                });
+                $scope.socket.on('ticket_new', function (ticket_reply) {
+                    Alert.info("A new ticket was created.")
+                });
+                $scope.socket.on('ticket_reply', function (ticket_reply) {
+                    Alert.info("A ticket has been replied to")
+                });
+
 
                 $scope.socket.on('changedScope', function () {
                     Auth.logout(function () {
@@ -48,6 +62,11 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
 
                 Auth.getPermissions(function (data) {
                     $scope.permissions = data.data;
+                    Dashboard.getDashboardPosts(null, function (data) {
+                        $scope.socialPostMainList = data;
+                    }, function (status, message) {
+                        Alert.error(message, 600);
+                    });
                 }, function (status, message) {
                     Alert.error(message, 600);
                 });
@@ -62,11 +81,7 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
 
 
 
-                Dashboard.getDashboardPosts(null, function (data) {
-                    $scope.socialPostMainList = data;
-                }, function (status, message) {
-                    Alert.error(message, 600);
-                });
+
 
 
                 $scope.platformLookup = function (platformId) {

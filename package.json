@@ -16,6 +16,7 @@
     "angular-cookies": "^1.6.9",
     "angular-material": "^1.1.9",
     "angular-material-data-table": "^0.10.10",
+    "angular-messages": "^1.7.0",
     "angular-moment": "^1.2.0",
     "angular-moment-picker": "^0.10.2",
     "angular-sanitize": "^1.6.9",

@@ -1,41 +1,46 @@
-<form method="post" id="register" ng-show="!hasSessionKey">
-    <md-toolbar ng-show="register.error" class="md-warn">
-        <div class="md-toolbar-tools">
-            <p class="md-flex">
-                <strong>Oh snap!</strong> <span ng-bind="register.error"></span>
-            </p>
-        </div>
-    </md-toolbar>
-
-
+<form name="register" method="post">
     <div class="text-center">
         Already have an account? <a class="md-primary" href="/login"><strong>Click here.</strong></a>
     </div>
     <md-input-container class="md-block">
         <label>Email Address</label>
-        <input type="text" ng-model="register.user.email">
-        <div class="hint">Please enter a valid email.</div>
+        <input name="email" ng-model="email" required type="email">
+        <div ng-messages="register.email.$error">
+            <div ng-message="email">The email must be in valid format.</div>
+        </div>
     </md-input-container>
+
+
     <md-input-container class="md-block">
         <label>Password</label>
-        <input type="password" ng-model="register.user.password">
+        <input type="password" ng-model="password" required name="password">
         <div class="hint">Choose a unique password.</div>
     </md-input-container>
     <md-input-container class="md-block">
         <label>Verify Password</label>
-        <input type="password" ng-model="register.user.verify_password">
+        <input type="password" ng-pattern="password" required ng-model="verify_password" name="verify_password">
         <div class="hint">Retype your password</div>
+        <div ng-messages="register.verify_password.$error">
+            <div ng-message="pattern">The passwords must be the same.</div>
+        </div>
     </md-input-container>
     <md-input-container class="md-block">
-        <md-checkbox class="md-primary" name="special" ng-model="register.user.toc">
-            I Agree to Terms and Conditions
-        </md-checkbox>
-        <md-checkbox class="md-primary" name="special" ng-model="register.user.mailing_list">
-            I am interested in updates by SocialIgnite - We won't spam :)
-        </md-checkbox>
+        <md-input-container class="md-block">
+            <md-checkbox class="md-primary" ng-model="toc" required name="toc">
+                I Agree to Terms and Conditions
+            </md-checkbox>
+            <div ng-messages="register.toc.$error">
+                <div ng-message="required">You must accept the terms and conditions to sign up.</div>
+            </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+            <md-checkbox class="md-primary" ng-model="mailing_list" name="mailing_list">
+                I am interested in updates by SocialIgnite - We won't spam :)
+            </md-checkbox>
+        </md-input-container>
     </md-input-container>
 
     <div layout="column" layout-align="stretch">
-        <md-button type="submit" class="md-primary md-raised" ng-click="registerViaForm(register.user)">Register</md-button>
+        <md-button type="submit" class="md-primary md-raised" ng-click="registerForm(register)">Register</md-button>
     </div>
 </form>

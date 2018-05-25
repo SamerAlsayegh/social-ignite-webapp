@@ -7,82 +7,106 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                     return $http({
                         method: 'POST',
                         url: API + '/api/v1/' + endpoint,
-                        data: parameters
+                        data: parameters,
+                        timeout: 3000
                     }).then(function (data, status, headers, config) {
                         var message = data.data;
                         cbSuccess(message.data, message);
                     }, function (data) {
-                        var message = data.data.message;
                         var status = data.status;
-                        if (status != null){
+                        if (status != -1){
                             switch (status){
                                 case 401:
-                                    Alert.error("You are not logged in.");
+                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                    break;
+                                case 429:
+                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                    break;
+                                default:
+                                    var message = data.data.message;
+                                    cbFail(status, errorCodes[message].detail, message);
                             }
-                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
+                            cbFail(status, 'Failed to connect to API.');
                     });
                 },
                 put: function (endpoint, parameters, cbSuccess, cbFail) {
                     return $http({
                         method: 'PUT',
                         url: API + '/api/v1/' + endpoint,
-                        data: parameters
+                        data: parameters,
+                        timeout: 3000
                     }).then(function (data, status, headers, config) {
                         var message = data.data;
                         cbSuccess(message.data, message);
                     }, function (data) {
-                        var message = data.data.message;
                         var status = data.status;
-                        if (message != null){
+                        if (status != -1){
                             switch (status){
                                 case 401:
-                                    Alert.error("You are not logged in.");
+                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                    break;
+                                case 429:
+                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                    break;
+                                default:
+                                    var message = data.data.message;
+                                    cbFail(status, errorCodes[message].detail, message);
                             }
-                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
+                            cbFail(status, 'Failed to connect to API.');
                     });
                 },
                 get: function (endpoint, cbSuccess, cbFail) {
                     return $http({
                         method: 'GET',
                         url: API + '/api/v1/' + endpoint,
+                        timeout: 3000
                     }).then(function (data, status, headers, config) {
                         cbSuccess(data.data, data);
                     }, function (data) {
-                        var message = data.data.message;
                         var status = data.status;
-                        if (message != null){
+                        if (status != -1){
                             switch (status){
                                 case 401:
-                                    Alert.error("You are not logged in.");
+                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                    break;
+                                case 429:
+                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                    break;
+                                default:
+                                    var message = data.data.message;
+                                    cbFail(status, errorCodes[message].detail, message);
                             }
-                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
+                            cbFail(status, 'Failed to connect to API.');
                     });
                 },
                 delete: function (endpoint, parameters, cbSuccess, cbFail) {
                     return $http({
                         method: 'DELETE',
                         url: API + '/api/v1/' + endpoint,
-                        data: parameters
+                        data: parameters,
+                        timeout: 3000
                     }).then(function (data, status, headers, config) {
                         var message = data.data;
                         cbSuccess(message.data, message);
                     }, function (data) {
-                        var message = data.data.message;
                         var status = data.status;
-                        if (message != null){
+                        if (status != -1){
                             switch (status){
                                 case 401:
-                                    Alert.error("You are not logged in.");
+                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                    break;
+                                case 429:
+                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                    break;
+                                default:
+                                    var message = data.data.message;
+                                    cbFail(status, errorCodes[message].detail, message);
                             }
-                            cbFail(status, errorCodes[message].detail, message);
                         } else
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : 'Unknown Error');
+                            cbFail(status, 'Failed to connect to API.');
                     });
                 },
                 formPost: function(endpoint, parameters, cbSuccess, cbFail, cbProgress){
@@ -111,9 +135,21 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                             var message = data.data;
                             cbSuccess(message.data, message);
                         }, function (data) {
-                            var message = data.data.message;
                             var status = data.status;
-                            cbFail(status, status == -1 ? 'Failed to connect to API.' : errorCodes[message].detail);
+                            if (status != -1){
+                                switch (status){
+                                    case 401:
+                                        cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                        break;
+                                    case 429:
+                                        cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                        break;
+                                    default:
+                                        var message = data.data.message;
+                                        cbFail(status, errorCodes[message].detail, message);
+                                }
+                            } else
+                                cbFail(status, 'Failed to connect to API.');
                         });
                 },
                 ArrayToURL: function (data) {

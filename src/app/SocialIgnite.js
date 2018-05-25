@@ -6,7 +6,8 @@ define([
     'angular-animate',
     'angular-material',
     'angular-cookies',
-    'angular-sanitize',
+    'angular-messages',
+    // 'angular-sanitize',
     'angular-moment-picker/dist/angular-moment-picker.js',
     'ng-file-upload',
     'chart.js',
@@ -26,8 +27,9 @@ define([
         'SocialIgnite.directives',
         'md.data.table',
         'moment-picker',
-        'ngSanitize',
+        // 'ngSanitize',
         'ngAnimate',
+        'ngMessages',
         'ngMaterial',
         'ngFileUpload',
         'ngCookies',
@@ -56,15 +58,17 @@ define([
 
             $httpProvider.defaults.withCredentials = true;
         }])
-        .run(['$transitions', '$state', '$templateCache', '$http', 'Auth',
-            function ($transitions, $state, $templateCache, $http, Auth) {
-
+        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth',
+            function ($rootScope, $transitions, $state, $templateCache, $http, Auth) {
                 $transitions.onBefore({to: 'portal.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
                     return Auth.sessionValidate(function (loggedIn) {
                         if (!loggedIn) {
                             console.log("Redirecting from portal to public");
-                            return transition.router.stateService.go('public.home');
+                            setTimeout(function () {
+                                transition.router.stateService.target('public.home')
+                                $state.go('public.home')
+                            }, 50);
                         } else return true;
                     })
                 });
@@ -74,11 +78,27 @@ define([
                     return Auth.sessionValidate(function (loggedIn) {
                         if (loggedIn && transition.to().name != "public.email_verify_fill_email_code") {
                             console.log("Redirecting from public to portal");
-                            return transition.router.stateService.go('portal.home');
+                            setTimeout(function () {
+                                transition.router.stateService.target('portal.home')
+                                $state.go('portal.home')
+                            }, 50);
                         } else return true;
                     });
                 });
 
+                // Remove people not allowed to access frontend. This is simply a deterrent, they still wouldn't have access to backend.
+                $transitions.onBefore({to: 'admin.**'}, function (transition) {
+                    var Auth = transition.injector().get('Auth');
+                    Auth.sessionValidate(function (loggedIn) {
+                        if (!($rootScope.user.scope == "admin" || $rootScope.user.scope == "support")) {
+                            console.log("Redirecting from admin to portal");
+                            setTimeout(function () {
+                                transition.router.stateService.target('portal.home')
+                                $state.go('portal.home')
+                            }, 50);
+                        } else return true;
+                    });
+                });
 
                 // // TODO: Temporarily disabled until made more efficient?
                 // angular.forEach($state.get(), function (state, key) {

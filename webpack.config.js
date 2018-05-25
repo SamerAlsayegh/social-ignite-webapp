@@ -18,7 +18,8 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            "API": JSON.stringify("https://api.socialignite.media")
+            "API": JSON.stringify("https://api.socialignite.media"),
+            "SOCKET": JSON.stringify("https://api.socialignite.media"),
         }),
         new UglifyJsPlugin({
             parallel: 4,

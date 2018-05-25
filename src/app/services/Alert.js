@@ -6,12 +6,16 @@ define(['./module'], function (services) {
             $rootScope.active = false;
 
             var processQueue = function(){
+
+                $mdToast.hide();
+
                 if ($rootScope.messages.length > 0 && $rootScope.active == false) {
                     $rootScope.active = true;
+
                     $mdToast.show(
                         $mdToast.simple()
                             .textContent(($rootScope.messages[0].type == "info" ? 'Note: ' : ($rootScope.messages[0].type == 'warn' ? 'Oh snap! ' : '')) + $rootScope.messages[0].message)
-                            .hideDelay($rootScope.messages[0].duration || 3000).toastClass($rootScope.messages[0].type)
+                            .hideDelay($rootScope.messages[0].duration || 2000).toastClass($rootScope.messages[0].type)
                     ).then(function () {
                         $rootScope.messages.splice(0, 1);
                         $rootScope.active = false;

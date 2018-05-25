@@ -1,0 +1,39 @@
+<md-content layout-fill layout="column">
+    <md-content layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                layout-xs="column">
+
+        <h2 flex class="page-header">Ticket: {{ticket.title}}</h2>
+
+
+        <h4 class="page-header" layout-align="center end">
+            <md-button ng-bind="ticket.status" class="md-secondary" disabled  aria-label="status"></md-button>
+            <!--<small>author: {{ticket.user}}</small>-->
+        </h4>
+    </md-content>
+    <md-list id="ticketResponses" flex style="overflow-y: auto;" class="md-padding">
+        <md-list-item class="md-2-line" ng-repeat="reply in ticket.responses.responses">
+            <md-icon ng-if="!reply.admin">account_circle</md-icon>
+            <md-icon ng-if="reply.admin">supervised_user_circle</md-icon>
+            <div class="md-list-item-text">
+                <span layout="row">
+                <h3 ng-bind="reply.user" flex></h3>
+                <h4 am-time-ago="reply.created_at"></h4>
+                </span>
+                <p>{{reply.content}}</p>
+            </div>
+        </md-list-item>
+    </md-list>
+
+    <form name="ticketReply" layout="row">
+        <md-input-container flex class="md-block">
+            <label>Reply message</label>
+            <textarea ng-model="reply.content" md-maxlength="255" rows="2"
+                      md-select-on-focus></textarea>
+        </md-input-container>
+        <md-button ng-click="sendReply(reply.content);" type="submit">Submit</md-button>
+    </form>
+</md-content>
+
+
+
+

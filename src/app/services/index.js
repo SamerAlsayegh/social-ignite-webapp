@@ -11,7 +11,10 @@ define([
     './PostComment',
     './Image',
     './Billing',
-    './Tutorial'
+    './Tutorial',
+    './Support',
+    './Admin/AdminSupport',
+    './Admin/AdminAccount'
 ], function () {
 });
 

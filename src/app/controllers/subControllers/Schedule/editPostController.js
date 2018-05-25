@@ -90,6 +90,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             SocialAccounts.getSocialAccounts(function (data) {
                 $scope.allPages = data;
+
                 setTimeout(function () {
                     $scope.step();
                 }, 0);

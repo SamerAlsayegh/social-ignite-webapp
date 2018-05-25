@@ -50,7 +50,10 @@ module.exports = {
         detail: 'This account is banned. Contact support.'
     },
     AccountNotFound: 13,
-    NotLoggedOn: 14,
+    NotLoggedOn: {
+        id: 14,
+        detail: 'You are no-longer logged on.'
+    },
     InsufficientPrivilege: {
         id: 15,
         detail: 'You do not have the required permissions.'
@@ -84,7 +87,10 @@ module.exports = {
     BadResponse: 27,
     UnexpectedError: 28,
     Disabled: 29,
-    RateLimitExceeded: 30,
+    RateLimitExceeded: {
+        id: 30,
+        detail: 'You have been rate-limited, please wait.'
+    },
     AccountLoginDeniedThrottle: 31,
     EmailSendFailure: 32,
     EmailAlreadyVerified: {

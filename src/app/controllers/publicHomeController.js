@@ -12,95 +12,69 @@ define(['./module', '../enums/errorCodes'], function (controllers, errorCodes) {
              */
             $scope.location = $location;
             $scope.dynamicTheme = $cookies.get("theme");
-            /**
-             * Here is the codes for jQuery - Must be avoided at all costs, as it won't work well with Angular
-             */
 
             /**
              * Variable delcarations for rootScope
              */
             $rootScope.user = null;
 
-
-            /**
-             * Variable declarations
-             */
-            $scope.login = {};
-            $scope.register = {
-                user: {
-                    mailing_list: true
-                }
-            };
-            $scope.verify = {
-                user: {
-                    email: $stateParams.email || '',
-                    code: $stateParams.code || ''
-                }
-            };
-
-
-            /**
-             * Initialize code...
-             */
-            $scope.goto = function (page) {
-                $location.path(page);
-            };
+            $scope.email_verify_email = $stateParams.email;
+            $scope.email_verify_code = $stateParams.code;
 
 
             /**
              * Login using the form on the login page.
              * @param user
              */
-            $scope.loginViaForm = function (user) {
-                if (!user) {
-                    Alert.error("Your email or password field is missing.");
-                    return;
+            $scope.loginForm = function (login) {
+                console.log(login.password);
+                if (login.$valid) {
+                    Auth.login({
+                        email: login.email.$modelValue,
+                        password: login.password.$modelValue,
+                        remember: login.remember ? login.remember.$modelValue : false
+                    }, function (data) {
+                        // $rootScope.user = data;
+                        Alert.info('Logged in successfully!');
+                        $state.go('portal.home', {}, {reload: 'portal.home'});
+                    }, function (status, message) {
+                        if (status == 404)
+                            Alert.error("You entered an invalid email/password. Forgot password?");
+                        else
+                            Alert.error("Error: " + message);
+                    });
                 }
-
-                Auth.login({
-                    email: user.email,
-                    password: user.password,
-                    remember: user.remember
-                }, function (data) {
-                    // $rootScope.user = data;
-                    Alert.info('Logged in successfully!');
-                    $state.go('portal.home', {}, {reload: 'portal.home'});
-                }, function (status, message) {
-                    if (status == 404)
-                        Alert.error("You entered an invalid email/password. Forgot password?");
-                    else
-                        Alert.error("Error: " + message);
-
-                });
             };
 
             /**
              * Register using the form on the login page.
              * @param user
              */
-            $scope.registerViaForm = function (user) {
-                if (!user || user.email.length == 0 || user.password.length == 0) {
-                    Alert.error("Your email or password field is missing.");
-                    return;
-                } else if (user.password != user.verify_password) {
-                    Alert.error("Your passwords do not match. Make sure they do.");
-                    return;
-                } else if (!user.toc) {
-                    Alert.error("To continue, we gotta make you won't set our servers on fire...");
-                    return;
-                }
+            $scope.registerForm = function (register) {
+                if (register.$valid) {
+                    // Backup code that was previouslky coded but technically not needed.
+                    if (!register || register.email.$modelValue.length == 0 || register.password.$modelValue.length == 0) {
+                        Alert.error("Your email or password field is missing.");
+                        return;
+                    } else if (register.password.$modelValue != register.verify_password.$modelValue) {
+                        Alert.error("Your passwords do not match. Make sure they do.");
+                        return;
+                    } else if (!register.toc.$modelValue) {
+                        Alert.error("To continue, we gotta make you won't set our servers on fire...");
+                        return;
+                    }
 
-                Auth.register({
-                    email: user.email,
-                    password: user.password,
-                    mailing_list: user.mailing_list,
-                    toc: user.toc
-                }, function (data) {
-                    $scope.verify.user.email = user.email;
-                    $state.go('public.email_verify_fill_email', {email: user.email}, {reload: 'public.email_verify_fill_email'});//If the session is invalid, take to login page.
-                }, function (status, message) {
-                    Alert.error(message);
-                });
+                    Auth.register({
+                        email: register.email.$modelValue,
+                        password: register.password.$modelValue,
+                        mailing_list: register.mailing_list.$modelValue,
+                        toc: register.toc.$modelValue
+                    }, function (data) {
+                        $state.go('public.email_verify_fill_email', {email: register.email.$modelValue}, {reload: 'public.email_verify_fill_email'});//If the session is invalid, take to login page.
+                    }, function (status, message) {
+                        Alert.error(message);
+                    });
+                }
             };
 
 
@@ -119,17 +93,19 @@ define(['./module', '../enums/errorCodes'], function (controllers, errorCodes) {
                 });
             };
 
-            $scope.requestResend = function (email) {
-                if (email.length == 0) {
+            $scope.requestResend = function (email_verify) {
+                if (email_verify.email.$modelValue.length == 0) {
                     Alert.error("Your email field is missing.");
                     return;
                 }
-                Auth.requestEmailResend(email, function (data) {
-                    Alert.success("An email should be on the way.");
-                }, function (status, message) {
-                    Alert.error("Failed to request verification email.");
-                    console.log(message);
-                });
+                if (email_verify.$valid) {
+                    Auth.requestEmailResend(email_verify.email.$modelValue, function (data) {
+                        Alert.success("An email should be on the way.");
+                    }, function (status, message) {
+                        Alert.error("Failed to request verification email.");
+                        console.log(message);
+                    });
+                }
 
             };
 
@@ -138,17 +114,23 @@ define(['./module', '../enums/errorCodes'], function (controllers, errorCodes) {
              * Register using the form on the login page.
              * @param user
              */
-            $scope.verifyViaForm = function (user) {
-                if (user.code.length == 0) {
+            $scope.emailVerifyForm = function (email_verify) {
+                if (email_verify.code.$modelValue.length == 0) {
                     Alert.error("Your code field is missing.");
                     return;
                 }
 
-                $scope.attemptVerify(user);
+                $scope.attemptVerify({
+                    email: email_verify.email.$modelValue,
+                    code: email_verify.code.$modelValue
+                });
             };
 
-            if ($stateParams.email && $stateParams.code)
-                $scope.attemptVerify($scope.verify.user);
+            if ($scope.email_verify_email && $scope.email_verify_code)
+                $scope.attemptVerify({
+                    code: $scope.email_verify_code,
+                    email: $scope.email_verify_email
+                });
 
 
             $scope.toggleMenu = function () {

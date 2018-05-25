@@ -29,11 +29,19 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
-                removeSocialAccount: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters || !parameters.hasOwnProperty('_id'))
+                refreshSocialAccount: function (page_id, type, cbSuccess, cbFail) {
+                    if (!page_id || !type)
                         return cbFail(400, "Invalid parameters.");
-                    return Request.put('portal/social_pages/' + parameters._id,
-                        parameters, function (message) {
+                    return Request.post('portal/social_pages/' + page_id + '/' + type + '/refresh', {}, function (message) {
+                        return cbSuccess(message);
+                    }, function (status, message) {
+                        return cbFail(status, message);
+                    });
+                },
+                removeSocialAccount: function (page_id, cbSuccess, cbFail) {
+                    if (!page_id)
+                        return cbFail(400, "Invalid parameters.");
+                    return Request.post('portal/social_pages/' + page_id + '/delete', {}, function (message) {
                             delete dataCache['getSocialAccounts'];
                             return cbSuccess(message);
                         }, function (status, message) {

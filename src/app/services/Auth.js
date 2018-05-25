@@ -9,7 +9,15 @@ define(['./module'], function (services) {
 
                     return Request.post('auth/login', parameters,
                         function (message) {
-                            return cbSuccess(message);
+                            return Request.get('auth/validate',
+                                function (message) {
+                                    $rootScope.user = message.data;
+                                    $rootScope.loggedIn = true;
+                                    return cbSuccess(message);
+                                }, function (status, message) {
+                                    $rootScope.loggedIn = false;
+                                    return cbSuccess(message);
+                                });
                         }, function (status, message) {
                             return cbFail(status, message);
                         });
@@ -18,6 +26,7 @@ define(['./module'], function (services) {
                     return Request.post('auth/logout', {},
                         function (message) {
                             $rootScope.user = null;
+                            $rootScope.loggedIn = false;
                             $state.go('public.home', {}, {reload: 'public.home'});
                             return cbSuccess(message);
                         }, function (status, message) {
@@ -38,7 +47,6 @@ define(['./module'], function (services) {
                 verify: function (parameters, cbSuccess, cbFail) {
                     if (!parameters)
                         return;
-
                     return Request.post('auth/verify_email', parameters,
                         function (message) {
                             $state.go('public.home', {}, {reload: 'public.home'});//If the session is invalid, take to login page.
@@ -57,13 +65,18 @@ define(['./module'], function (services) {
                     });
                 },
                 sessionValidate: function (callback) {
-                    return Request.get('auth/validate',
-                        function (message) {
-                            $rootScope.user = message.data;
-                            return callback(true);
-                        }, function (status, message) {
-                            return callback(false);
-                        });
+                    if ($rootScope.loggedIn != null) return callback($rootScope.loggedIn);
+                    else {
+                        return Request.get('auth/validate',
+                            function (message) {
+                                $rootScope.user = message.data;
+                                $rootScope.loggedIn = true;
+                                return callback(true);
+                            }, function (status, message) {
+                                $rootScope.loggedIn = false;
+                                return callback(false);
+                            });
+                    }
                 },
                 getUser: function (cbSuccess, cbFail) {
                     return Request.get('user',
@@ -85,7 +98,7 @@ define(['./module'], function (services) {
                     if (!parameters)
                         return;
 
-                    return Request.put('user', parameters,
+                    return Request.post('user', parameters,
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message, messageCode) {

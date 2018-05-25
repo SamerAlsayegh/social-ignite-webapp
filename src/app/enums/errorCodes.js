@@ -28,7 +28,7 @@ module.exports = { '0':
    { id: 'Banned',
      detail: 'This account is banned. Contact support.' },
   '13': { id: 'AccountNotFound', detail: undefined },
-  '14': { id: 'NotLoggedOn', detail: undefined },
+  '14': { id: 'NotLoggedOn', detail: 'You are no-longer logged on.' },
   '15': 
    { id: 'InsufficientPrivilege',
      detail: 'You do not have the required permissions.' },
@@ -52,7 +52,9 @@ module.exports = { '0':
   '27': { id: 'BadResponse', detail: undefined },
   '28': { id: 'UnexpectedError', detail: undefined },
   '29': { id: 'Disabled', detail: undefined },
-  '30': { id: 'RateLimitExceeded', detail: undefined },
+  '30': 
+   { id: 'RateLimitExceeded',
+     detail: 'You have been rate-limited, please wait.' },
   '31': { id: 'AccountLoginDeniedThrottle', detail: undefined },
   '32': { id: 'EmailSendFailure', detail: undefined },
   '33': 
@@ -125,7 +127,7 @@ module.exports = { '0':
   Timeout: { id: 11, detail: undefined },
   Banned: { id: 12, detail: 'This account is banned. Contact support.' },
   AccountNotFound: { id: 13, detail: undefined },
-  NotLoggedOn: { id: 14, detail: undefined },
+  NotLoggedOn: { id: 14, detail: 'You are no-longer logged on.' },
   InsufficientPrivilege: { id: 15, detail: 'You do not have the required permissions.' },
   Revoked: { id: 16, detail: undefined },
   Expired: { id: 17, detail: undefined },
@@ -143,7 +145,7 @@ module.exports = { '0':
   BadResponse: { id: 27, detail: undefined },
   UnexpectedError: { id: 28, detail: undefined },
   Disabled: { id: 29, detail: undefined },
-  RateLimitExceeded: { id: 30, detail: undefined },
+  RateLimitExceeded: { id: 30, detail: 'You have been rate-limited, please wait.' },
   AccountLoginDeniedThrottle: { id: 31, detail: undefined },
   EmailSendFailure: { id: 32, detail: undefined },
   EmailAlreadyVerified: { id: 33, detail: 'Email address has already been verified.' },

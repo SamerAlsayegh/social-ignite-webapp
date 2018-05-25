@@ -30,7 +30,8 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin({
-            "API": JSON.stringify("http://localhost:8000") // Keep this commented unless you have access to a local backend copy.
+            "API": JSON.stringify("http://localhost:8000"), // Keep this commented unless you have access to a local backend copy.
+            "SOCKET": JSON.stringify("http://localhost:8001"), // Keep this commented unless you have access to a local backend copy.
             // "API": JSON.stringify("https://portal.socialignite.media:8000")
         }),
     ],

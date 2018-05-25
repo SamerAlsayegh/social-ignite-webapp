@@ -117,25 +117,12 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
                 $scope.viewStatistics($event, postId);
             });
             $scope.addPost = function ($event, previousId) {
-                $state.go('portal.schedule.edit', {postId: previousId});
-                // $mdDialog.show({
-                //     parent: angular.element(document.body),
-                //     targetEvent: $event,
-                //     clickOutsideToClose: true,
-                //     templateUrl: '/pub/portal/schedule/_edit.html',
-                //     locals: {
-                //         postId: previousId
-                //     },
-                //     controller: 'editPostController'
-                // }).then(function (postDetails) {
-                //     if (previousId && postDetails)
-                //         $scope.updateSocialPost(previousId, postDetails);
-                //     else if (postDetails) {
-                //         $scope.allSocialPosts.push(postDetails);
-                //     }
-                // }, function () {
-                //
-                // });
+                if ($scope.allPages.length == 0){
+                    Alert.error("You must add a social account first.");
+                    $state.go('portal.accounts.home');
+                } else {
+                    $state.go('portal.schedule.edit', {postId: previousId});
+                }
             };
 
             $scope.viewStatistics = function ($event, postId) {
@@ -145,17 +132,6 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
 
             $scope.platformLookup = function (platformId) {
                 return $scope.platforms[platformId].id;
-            };
-
-            $scope.showPrerenderedDialog = function ($event) {
-
-                $mdDialog.show({
-                    parent: angular.element(document.body),
-                    targetEvent: $event,
-                    clickOutsideToClose: true,
-                    templateUrl: '/pub/portal/schedule/_edit.html',
-                    controller: 'editPostController'
-                });
             };
 
 
@@ -173,7 +149,7 @@ define(['./module', '../enums/platforms'], function (controllers, platforms) {
 
             $scope.getSocialAccounts = function () {
                 SocialAccounts.getSocialAccounts(function (data) {
-                    $scope.allPages = data.data;
+                    $scope.allPages = data;
                 }, function (status, error) {
                     $scope.platforms = [];
                     Alert.error(error.message + ": Failed to get social accounts. ")

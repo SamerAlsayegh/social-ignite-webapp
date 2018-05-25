@@ -1,0 +1,20 @@
+<h1 class="page-header">New Ticket</h1>
+Please be as detailed as possible so that our agents can have your issue resolved quickly.<br>
+<br>
+
+
+
+<form name="ticketReply" class="md-inline-form" ng-init="ticket = {}" layout="column">
+    <md-input-container>
+        <label>Title</label>
+        <input ng-model="ticket.title">
+    </md-input-container>
+
+
+    <md-input-container flex class="md-block">
+        <label>Message to support staff...</label>
+        <textarea ng-model="ticket.content" md-maxlength="255" rows="2"
+                  md-select-on-focus></textarea>
+    </md-input-container>
+    <md-button ng-click="newTicket(ticket.title, ticket.content);" type="submit">Submit</md-button>
+</form>

@@ -114,6 +114,34 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     templateUrl: '/pub/portal/accounts/_table.html'
                 })
 
+                .state('portal.support', {
+                    controller: 'portalSupportController',
+                    templateUrl: '/pub/portal/support/index.html'
+                })
+
+                .state('portal.support.home', {
+                    url: "/portal/support",
+                    templateUrl: '/pub/portal/support/_view.html'
+                })
+                .state('portal.support.ticket', {
+                    controller: 'supportSubController',
+                })
+                .state('portal.support.ticket.new', {
+                    url: "/portal/support/new",
+                    templateUrl: '/pub/portal/support/_newTicket.html',
+                })
+                .state('portal.support.ticket.view', {
+                    url: "/portal/support/{ticketId}",
+                    templateUrl: '/pub/portal/support/_ticket.html',
+                })
+
+
+
+
+
+
+
+
 
 
                 .state('portal.schedule', {
@@ -157,6 +185,50 @@ define(['./SocialIgnite'], function (SocialIgnite) {
 
 
 
+
+
+                // Admin related routes
+                .state('admin', {
+                    templateUrl: '/pub/admin/index.html',
+                    controller: 'portalHomeController',
+                })
+                .state('admin.support', {
+                    controller: 'adminSupportController',
+                    templateUrl: '/pub/admin/support/index.html'
+                })
+                .state('admin.support.home', {
+                    url: "/admin/support",
+                    templateUrl: '/pub/admin/support/_view.html'
+                })
+                .state('admin.support.ticket', {
+                    controller: 'adminSupportSubController',
+                })
+                .state('admin.support.ticket.control', {
+                    // url: "/admin/support/{ticketId}",
+                    templateUrl: '/pub/admin/support/_ticket.html',
+                })
+                .state('admin.support.ticket.control.view', {
+                    url: "/admin/support/{ticketId}",
+                    templateUrl: '/pub/portal/support/_ticket.html',
+                })
+
+
+
+
+                .state('admin.user_management', {
+                    controller: 'adminUsersController',
+                    templateUrl: '/pub/admin/accounts/index.html'
+                })
+
+                .state('admin.user_management.home', {
+                    url: "/admin/accounts",
+                    templateUrl: '/pub/admin/accounts/_view.html'
+                })
+                .state('admin.user_management.user', {
+                    controller: 'adminUsersSubController',
+                    url: "/admin/accounts/{accountId}",
+                    templateUrl: '/pub/admin/accounts/_account.html',
+                })
 
 
                 .state('error', {

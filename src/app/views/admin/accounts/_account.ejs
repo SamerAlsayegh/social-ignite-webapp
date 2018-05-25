@@ -1,0 +1,63 @@
+<h1 class="page-header">{{account.name || account.email}}'s Profile</h1>
+Here you can configure basic settings for this user.
+<br>
+
+<div layout="column" class="md-block">
+    <md-input-container class="md-block">
+        <label>
+            <md-icon ng-if="!account.verified">close</md-icon>
+            Email</label>
+        <input disabled ng-model="account.email" type="email">
+    </md-input-container>
+
+    <md-input-container class="md-block">
+        <label>Role</label>
+        <input disabled ng-model="account.scope">
+    </md-input-container>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>Password</label>
+            <input type="password" ng-model="account.password" ng-change="comparePasswords()">
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+            <label>Confirm Password</label>
+            <input type="password" ng-model="account.password_confirm" ng-change="comparePasswords()">
+        </md-input-container>
+    </div>
+
+    <md-content layout="row">
+        <md-input-container flex>
+            <label>Change Role</label>
+            <md-select ng-model="subscription.scope" ng-change="detailsChanged.subscription_scope = true">
+                <md-option value="suspended">Suspended</md-option>
+                <md-option value="user">User</md-option>
+                <md-option value="basic">Basic</md-option>
+                <md-option value="influencer">Influencer</md-option>
+                <md-option value="small_business">Small Business</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container flex>
+            <md-datepicker md-min-date="today" ng-model="subscription.expiry" ng-change="detailsChanged.subscription_expiry = true"  md-placeholder="Expiry"></md-datepicker>
+        </md-input-container>
+        <md-button ng-disabled="!(detailsChanged.subscription_scope && detailsChanged.subscription_expiry)" class="md-raised md-primary">Apply</md-button>
+    </md-content>
+
+    <!--<md-input-container class="md-block">-->
+    <!--<label>Subscription</label>-->
+    <!--<input disabled ng-model="user.subscription">-->
+    <!--</md-input-container>-->
+
+    <md-input-container class="md-block">
+        <md-checkbox class="md-primary" name="special" ng-model="account.mailing_list" ng-change="detailsChanged.mailing_list = true">
+            I am interested in updates by SocialIgnite - We won't spam :)
+        </md-checkbox>
+    </md-input-container>
+
+    <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+    <md-button ng-disabled="!detailsChanged.email && !detailsChanged.mailing_list" flex type="submit" class="md-primary md-raised" ng-click="updateUser()">
+        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+        Save Changes
+    </md-button>
+</span>
+
+</div>

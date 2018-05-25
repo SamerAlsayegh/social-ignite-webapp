@@ -41,17 +41,24 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                 platformId = parseInt(platformId);
                 $window.open(API+'/api/v1/oauth/' + platforms[platformId].id + '/', '_self');
             };
+
+            $scope.refreshSocialAccount = function(_id) {
+                SocialAccounts.refreshSocialAccount(_id, 'page_statistics', function (message) {
+                    Alert.success("Successfully triggered update.");
+                }, function (status, message) {
+                    Alert.error(message);
+                })
+            };
+
             $scope.removeSocialAccount = function (_id) {
-                SocialAccounts.removeSocialAccount({
-                    _id: _id
-                }, function (message) {
+                SocialAccounts.removeSocialAccount(_id, function (message) {
                     Alert.success("Successfully deleted social page.");
                     var lookup = {};
                     for (var index in $scope.connectedAccounts)
                         lookup[$scope.connectedAccounts[index]._id] = $scope.connectedAccounts[index];
                     delete $scope.connectedAccounts.splice($scope.connectedAccounts.indexOf(lookup[_id]),1);
                 }, function (status, message) {
-                    Alert.error("Failed to delete social page - " + errorCodes[message.message].detail);
+                    Alert.error(message);
                 })
             };
 
@@ -97,7 +104,7 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                         Alert.success("Successfully added account");
                         $state.go('portal.accounts.home', {}, {reload: 'portal.accounts.home'})//If the session is invalid, take to login page.
                     }, function (status, message) {
-                        Alert.error("Failed to change main account... " + errorCodes[message.message].detail);
+                        Alert.error(message);
                     });
                 };
 
@@ -108,8 +115,8 @@ define(['./module', '../enums/platforms', '../enums/errorCodes'], function (cont
                     if (response.hasOwnProperty("requestAccount"))
                         $scope.newPage.accountLogin = {};
 
-                }, function (status, error) {
-                    Alert.error("It seems that this request is invalid.");
+                }, function (status, message) {
+                    Alert.error(message);
                 });
             }
 
