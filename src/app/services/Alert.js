@@ -14,7 +14,7 @@ define(['./module'], function (services) {
 
                     $mdToast.show(
                         $mdToast.simple()
-                            .textContent(($rootScope.messages[0].type == "info" ? 'Note: ' : ($rootScope.messages[0].type == 'warn' ? 'Oh snap! ' : '')) + $rootScope.messages[0].message)
+                            .textContent($rootScope.messages[0].message)
                             .hideDelay($rootScope.messages[0].duration || 2000).toastClass($rootScope.messages[0].type)
                     ).then(function () {
                         $rootScope.messages.splice(0, 1);

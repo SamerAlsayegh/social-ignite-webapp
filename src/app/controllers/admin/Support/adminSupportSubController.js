@@ -3,10 +3,12 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
     return controllers.controller('adminSupportSubController', ['$scope', '$stateParams', 'Alert', 'SocialPosts', 'Statistics', '$state', 'AdminSupport',
         function ($scope, $stateParams, Alert, SocialPosts, Statistics, $state, AdminSupport) {
             $scope.ticketId = $stateParams.ticketId;
-            $scope.scroller = document.getElementById("ticketResponses");
+            setTimeout(function () {
+                $scope.scroller = document.getElementById("ticketResponses");
+                console.log($scope.scroller);
+            }, 0);
 
             if ($scope.ticketId != null) {
-                $scope.reply = {};
 
                 AdminSupport.getSupportTicket($stateParams.ticketId, function (data) {
                     $scope.ticket = data.data;
@@ -28,25 +30,27 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     }
                 });
 
-                $scope.sendReply = function (content) {
-                    console.log($scope.ticket);
-                    AdminSupport.postSupportTicketReply($scope.ticketId, content, function (data) {
-                        console.log(data);
-                        $scope.ticket.responses.responses.push(data);
-                        $scope.ticket.status = 'Replied';
-                        $scope.reply = {};
+                $scope.sendReply = function (ticketReply) {
+                    if (ticketReply.$valid) {
+                        AdminSupport.postSupportTicketReply($scope.ticketId, $scope.reply, function (data) {
+                            $scope.ticket.responses.responses.push(data);
+                            $scope.ticket.status = 'Active';
+                            setTimeout(function () {
+                                $scope.scroller.scrollTop = $scope.scroller.scrollHeight;
+                            }, 0);
 
-                        setTimeout(function () {
-                            $scope.scroller.scrollTop = $scope.scroller.scrollHeight;
-                        }, 0)
-                    }, function (status, message) {
-                        Alert.error(message);
-                    })
+                            $scope.reply = "";
+                        }, function (status, message) {
+                            Alert.error(message);
+                        })
+                    }
                 };
 
                 $scope.closeTicket = function () {
                     AdminSupport.closeSupportTicket($scope.ticketId, function (data) {
                         $scope.ticket.status = "Closed";
+                        Alert.success("Marked ticket as closed.");
+                        $state.go('admin.support.home', {}, {reload: true})
                     }, function (status, message) {
                         Alert.error(message);
                     })

@@ -1,0 +1,70 @@
+<h1 class="page-header">My Profile</h1>
+Here you can configure basic settings for your account.
+<br>
+
+<form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block">
+    <h3>General Information</h3>
+    <md-input-container class="md-block">
+        <label>Email</label>
+        <input name="email" ng-disabled="!user.verified" ng-model="user.email" type="email">
+        <div ng-messages="profile.email.$error">
+            <div ng-message="email">The email must be in valid format.</div>
+        </div>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+        <label>Role</label>
+        <input disabled ng-model="user.scope">
+    </md-input-container>
+    <h3>Change Password</h3>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>Current Password</label>
+            <input name="current_password" type="password" ng-model="current_password">
+        </md-input-container>
+    </div>
+    <div layout="row">
+        <md-input-container class="md-block" flex>
+            <label>New Password</label>
+            <input name="new_password" type="password" ng-pattern="confirm_password" ng-model="new_password">
+            <div ng-messages="profile.new_password.$error">
+                <div ng-message="pattern">The passwords do not match.</div>
+            </div>
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+            <label>Confirm Password</label>
+            <input name="confirm_password" type="password" ng-pattern="new_password" ng-model="confirm_password">
+            <div ng-messages="profile.confirm_password.$error">
+                <div ng-message="pattern">The passwords do not match.</div>
+            </div>
+        </md-input-container>
+    </div>
+    <h3>Communication</h3>
+    <md-input-container class="md-block">
+        <md-checkbox ng-model="user.mailing_list" class="md-primary" name="mailing_list">
+            I am interested in updates by SocialIgnite - We won't spam :)
+        </md-checkbox>
+    </md-input-container>
+
+    <md-input-container class="md-block">
+        <md-checkbox ng-model="themeBool"  class="md-primary" name="theme">
+            Enable dark theme
+        </md-checkbox>
+    </md-input-container>
+
+
+    <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+        <md-button ng-disabled="checkForm(profile)" flex type="submit" value="Submit" class="md-primary md-raised">
+            <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+            Save Changes
+        </md-button>
+    </span>
+    <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+        <md-button ng-click="advanced = !advanced;" flex class="md-secondary">
+            Advanced Settings
+        </md-button>
+    </span>
+    <md-content flex ng-show="advanced">
+        <%- include('_advanced'); %>
+    </md-content>
+</form>

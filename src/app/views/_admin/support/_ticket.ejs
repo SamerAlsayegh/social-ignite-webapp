@@ -1,0 +1,17 @@
+<md-content layout-fill layout="column">
+    <md-content layout="row">
+        <!--<md-button flex class="md-raised md-primary">More Details</md-button>-->
+        <md-button ng-click="closeTicket()" flex class="md-raised md-warn">Close Ticket</md-button>
+        <md-button href="/admin/accounts/{{ticket.user._id}}" flex class="md-primary">View profile</md-button>
+    </md-content>
+    <md-content flex>
+        <%- include('../../_portal/support/_ticket'); %>
+    </md-content>
+
+</md-content>
+
+
+
+
+
+

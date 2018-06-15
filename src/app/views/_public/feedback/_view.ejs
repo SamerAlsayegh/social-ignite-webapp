@@ -1,0 +1,18 @@
+<h1 class="page-header">Feedback</h1>
+We had pleasure serving you, we hope your experience was great. Please use the space below to give us feedback on our services.
+<br>
+
+<div>
+    <md-input-container class="md-block">
+        <label>Feedback to us...</label>
+        <textarea ng-model="feedback" md-maxlength="500" rows="3"
+                  md-select-on-focus></textarea>
+    </md-input-container>
+</div>
+
+
+<span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+        <md-button ng-click="submitFeedback()" flex class="md-primary md-raised">
+            Submit
+        </md-button>
+    </span>

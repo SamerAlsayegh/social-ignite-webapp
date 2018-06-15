@@ -60,6 +60,18 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                closeSupportTicket: function (ticketId, cbSuccess, cbFail) {
+                    if (ticketId == null) {
+                        return cbFail(400, "Missing required parameters");
+                    }
+
+                    return Request.post('support/tickets/' + ticketId + '/close', {},
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
             };
         }]);
 });

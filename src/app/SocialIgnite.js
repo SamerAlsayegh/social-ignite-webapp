@@ -7,17 +7,13 @@ define([
     'angular-material',
     'angular-cookies',
     'angular-messages',
-    // 'angular-sanitize',
     'angular-moment-picker/dist/angular-moment-picker.js',
     'ng-file-upload',
     'chart.js',
-    'chartjs-plugin-annotation',
     '../custom/angular-material-calendar',
-    // 'angular-wizard/dist/angular-wizard',
     './directives/index',
     './controllers/index',
     './services/index',
-    // 'filters/index'
 ], function (angular) {
     'use strict';
 
@@ -27,7 +23,6 @@ define([
         'SocialIgnite.directives',
         'md.data.table',
         'moment-picker',
-        // 'ngSanitize',
         'ngAnimate',
         'ngMessages',
         'ngMaterial',
@@ -36,7 +31,6 @@ define([
         'materialCalendar',
         'ui.router',
         'angularMoment',
-        // 'mgo-angular-wizard',
     ])
         .config(['$mdThemingProvider', '$httpProvider', function ($mdThemingProvider, $httpProvider) {
             var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
@@ -58,8 +52,27 @@ define([
 
             $httpProvider.defaults.withCredentials = true;
         }])
-        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth',
-            function ($rootScope, $transitions, $state, $templateCache, $http, Auth) {
+        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment',
+            function ($rootScope, $transitions, $state, $templateCache, $http, Auth, moment) {
+
+                moment.locale('en', {
+                    relativeTime : {
+                        future: "in %s",
+                        past:   "%s ago",
+                        s:  "seconds",
+                        m:  "1m",
+                        mm: "%dm",
+                        h:  "1h",
+                        hh: "%dh",
+                        d:  "1d",
+                        dd: "%dd",
+                        M:  "1m",
+                        MM: "%dm",
+                        y:  "1y",
+                        yy: "%dy"
+                    }
+                });
+
                 $transitions.onBefore({to: 'portal.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
                     return Auth.sessionValidate(function (loggedIn) {
@@ -68,7 +81,8 @@ define([
                             setTimeout(function () {
                                 transition.router.stateService.target('public.home')
                                 $state.go('public.home')
-                            }, 50);
+                            }, 0);
+                            return false;
                         } else return true;
                     })
                 });
@@ -79,9 +93,10 @@ define([
                         if (loggedIn && transition.to().name != "public.email_verify_fill_email_code") {
                             console.log("Redirecting from public to portal");
                             setTimeout(function () {
-                                transition.router.stateService.target('portal.home')
+                                transition.router.stateService.target('portal.home');
                                 $state.go('portal.home')
-                            }, 50);
+                            }, 0);
+                            return false;
                         } else return true;
                     });
                 });
@@ -90,15 +105,30 @@ define([
                 $transitions.onBefore({to: 'admin.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
                     Auth.sessionValidate(function (loggedIn) {
-                        if (!($rootScope.user.scope == "admin" || $rootScope.user.scope == "support")) {
+                        if (!$rootScope.user || !($rootScope.user.scope == "admin" || $rootScope.user.scope == "support")) {
                             console.log("Redirecting from admin to portal");
                             setTimeout(function () {
-                                transition.router.stateService.target('portal.home')
+                                transition.router.stateService.target('portal.home');
                                 $state.go('portal.home')
-                            }, 50);
+                            }, 0);
+                            return false;
                         } else return true;
                     });
                 });
+
+
+                if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', function() {
+                        navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
+                            // Registration was successful
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        }, function(err) {
+                            // registration failed :(
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                    });
+                }
+
 
                 // // TODO: Temporarily disabled until made more efficient?
                 // angular.forEach($state.get(), function (state, key) {

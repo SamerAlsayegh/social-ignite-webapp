@@ -5,7 +5,6 @@
 @import 'datepicker/material-ui';
 @import 'material-angular/angular-material';
 @import 'material-table/md-table';
-@import "../../node_modules/angular-wizard/dist/angular-wizard.css";
 
 @mdb-input-placeholder-color: #000;
 
@@ -544,6 +543,13 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.page-select:focus {
+  outline:none
+}
+
+md-icon:focus {
+  outline:none
+}
 
 .page-select > div > small {
   font-size: @font-size-large;
@@ -555,11 +561,8 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 }
 
 .resource-card {
-  width: 400px;
-  height: 400px;
-  background-size:     cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
 }
 .md-card-image {
 
@@ -594,6 +597,8 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 .resource-select {
   cursor: pointer;
   margin: 3px;
+  height: 100%;
+  width: 100%;
   padding: 10px 10px 10px 10px;
   border-radius: 10px;
   white-space: nowrap;
@@ -604,7 +609,8 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
     //background: rgba(0, 0, 0, 0.5);
     opacity: 0.7;
     animation: 0.5s transparentOut ease;
-    border-radius: 40px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     color: white !important;
   }
 
@@ -694,4 +700,17 @@ HotFix for Icon Sizing
   position: fixed;
   bottom: 0;
 }
+.menu_logo {
+  padding-top: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 100%; /* or any custom size */
+  height: 100%;
+  object-fit: contain;
+}
 
+.page-button{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}

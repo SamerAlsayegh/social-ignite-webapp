@@ -1,0 +1,52 @@
+<h1 class="page-header">Statistics
+    <small>Viewing statistics for post</small>
+</h1>
+
+<div layout="row">
+    <div flex-gt-lg="70" flex-offset-gt-lg="15" flex="70" flex-offset="15" flex-gt-xs="90" flex-offset-gt-xs="5">
+        <div>
+            <md-button type="submit" class="md-warn md-raised" ng-click="return()">
+                Return
+            </md-button>
+        </div>
+        <label>
+            <h2>
+                <span>Platform</span>
+            </h2>
+            <div layout="row" layout-padding layout-wrap>
+                <md-whiteframe
+                        ng-repeat="socialPost in socialPosts" ng-click="loadPageStatistics(socialPost)"
+                        class="md-whiteframe-1dp ui-social ui-{{platforms[socialPost.page_id.platform].id}} page-select"
+                        flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
+                    <!--<md-tooltip md-direction="down"></md-tooltip>-->
+                    <div class="text-center" layout="column">
+                        <i class="zmdi zmdi-{{platforms[socialPost.page_id.platform].id}}"></i>
+
+                        <small ng-bind="socialPost.page_id.name"></small>
+                    </div>
+                </md-whiteframe>
+            </div>
+        </label>
+
+        <label>
+            <h2>Visitors Statistics</h2>
+            <div class="md-block" layout="column">
+                <canvas id="visitorsChart"></canvas>
+            </div>
+        </label>
+        <label>
+            <h2>Likes Statistics</h2>
+            <div class="md-block" layout="column">
+                <canvas id="likesChart"></canvas>
+            </div>
+        </label>
+
+
+
+
+
+
+    </div>
+    <div flex>
+    </div>
+</div>

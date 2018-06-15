@@ -8,7 +8,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         method: 'POST',
                         url: API + '/api/v1/' + endpoint,
                         data: parameters,
-                        timeout: 3000
+                        timeout: 10000
                     }).then(function (data, status, headers, config) {
                         var message = data.data;
                         cbSuccess(message.data, message);
@@ -24,7 +24,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     break;
                                 default:
                                     var message = data.data.message;
-                                    cbFail(status, errorCodes[message].detail, message);
+                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
                             }
                         } else
                             cbFail(status, 'Failed to connect to API.');
@@ -35,7 +35,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         method: 'PUT',
                         url: API + '/api/v1/' + endpoint,
                         data: parameters,
-                        timeout: 3000
+                        timeout: 10000
                     }).then(function (data, status, headers, config) {
                         var message = data.data;
                         cbSuccess(message.data, message);
@@ -51,7 +51,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     break;
                                 default:
                                     var message = data.data.message;
-                                    cbFail(status, errorCodes[message].detail, message);
+                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
                             }
                         } else
                             cbFail(status, 'Failed to connect to API.');
@@ -61,7 +61,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                     return $http({
                         method: 'GET',
                         url: API + '/api/v1/' + endpoint,
-                        timeout: 3000
+                        timeout: 10000
                     }).then(function (data, status, headers, config) {
                         cbSuccess(data.data, data);
                     }, function (data) {
@@ -76,7 +76,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     break;
                                 default:
                                     var message = data.data.message;
-                                    cbFail(status, errorCodes[message].detail, message);
+                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
                             }
                         } else
                             cbFail(status, 'Failed to connect to API.');
@@ -87,7 +87,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         method: 'DELETE',
                         url: API + '/api/v1/' + endpoint,
                         data: parameters,
-                        timeout: 3000
+                        timeout: 10000
                     }).then(function (data, status, headers, config) {
                         var message = data.data;
                         cbSuccess(message.data, message);
@@ -103,7 +103,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     break;
                                 default:
                                     var message = data.data.message;
-                                    cbFail(status, errorCodes[message].detail, message);
+                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
                             }
                         } else
                             cbFail(status, 'Failed to connect to API.');
@@ -146,7 +146,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                         break;
                                     default:
                                         var message = data.data.message;
-                                        cbFail(status, errorCodes[message].detail, message);
+                                        cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
                                 }
                             } else
                                 cbFail(status, 'Failed to connect to API.');

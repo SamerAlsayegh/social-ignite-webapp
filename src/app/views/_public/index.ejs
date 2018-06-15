@@ -1,0 +1,54 @@
+
+<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
+    <md-content hide-gt-sm>
+        <md-toolbar class="md-primary">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                </md-button>
+
+                <h2 flex md-truncate>Menu</h2>
+            </div>
+        </md-toolbar>
+    </md-content>
+
+    <md-content layout="row" layout-fill flex>
+        <md-sidenav
+                layout-fill
+                class="md-sidenav-left"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')">
+            <header class="nav-header">
+                <img flex class="menu_logo" ng-src="{{theme == 'dark' ? ASSETS + '/img/thumbnail/w400/light_logo.png' : ASSETS + '/img/thumbnail/w400/dark_logo.png'}}">
+            </header>
+            <md-content>
+                <md-list flex>
+                    <md-list-item class="md-2-line" href="/" ng-click="toggleMenu()">
+                        <md-icon class="black">home</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Home</h3>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="switchTheme()">
+                        <md-icon class="black">brightness_1</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>Load {{theme == "dark" ? 'Light' : 'Dark'}} Theme</h3>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-sidenav>
+        <md-content  layout="column" layout-fill>
+            <md-content flex class="md-padding" ui-view>
+            </md-content>
+                <%- include('../_footer'); %>
+        </md-content>
+
+    </md-content>
+
+
+</section>
+
+
+
+

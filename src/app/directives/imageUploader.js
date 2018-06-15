@@ -12,7 +12,7 @@ define(['./module'], function (directives) {
                 postInformation: "=",
                 control: "@",
             },
-            templateUrl: '/pub/portal/resources/_imageUploader.html',
+            templateUrl: '/_portal/resources/_imageUploader.html',
             link: function($scope, element, attrs) {
                 $scope.uploading = false;
                 $scope.isOpen = false;
@@ -31,20 +31,24 @@ define(['./module'], function (directives) {
 
                 $scope.openSelectorForPost = function () {
                     if ($scope.control == 'view' && ($scope.postId || $scope.postInformation)) {
-                        Alert.success("You opened selector" + $scope.postId)
                         $state.go('portal.resources.view', {'postId': $scope.postId, 'attachedImage': $scope.attachedImage, 'postInformation': $scope.postInformation});
                     }
                 };
 
                 $scope.deleteImage = function (image) {
                     if ($scope.control == 'manage') {
+                        $scope.images.hide = true;
                         Image.deleteImage(image._id, function (data) {
-                            Alert.success('Successfully deleted image.');
+                            $scope.images.splice($scope.images.indexOf(image), 1);
+                            // Alert.success('Successfully deleted image.');
                         }, function (status, message) {
+                            $scope.images.hide = false;
                             Alert.error('Failed to delete image.');
                         });
                     }
-                    $scope.images.splice($scope.images.indexOf(image), 1);
+                    else {
+                        $scope.images.splice($scope.images.indexOf(image), 1);
+                    }
                     // $scope.imageIds.splice($scope.imageIds.indexOf(image._id), 1);
                 };
 
@@ -52,7 +56,7 @@ define(['./module'], function (directives) {
                 $scope.favouriteImage = function (image) {
                     image.favourite = !image.favourite;
                     Image.modifyImage(image._id, {favourite: image.favourite}, function (data) {
-                        Alert.success('Successfully favourite image.');
+                        
                     }, function (status, message) {
                         Alert.error('Failed to favourite image.');
                     });

@@ -72,13 +72,13 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
-                getActivePosts: function (cbSuccess, cbFail) {
-                    var funcName = "getActivePosts";
+                getSelectivePosts: function (type, parameters, cbSuccess, cbFail) {
+                    var funcName = "get" + type + "Posts";
 
                     if (dataCache.hasOwnProperty(funcName) && dataCache[funcName].time > (new Date().getTime() - (cacheTime)))
                         return cbSuccess(dataCache[funcName].data);
 
-                    return Request.get('portal/schedule/active',
+                    return Request.get('portal/schedule/' + type,
                         function (message) {
                             dataCache[funcName] = {
                                 data: message,
@@ -90,27 +90,22 @@ define(['./module'], function (services) {
                         });
 
                 },
-                getArchivedPosts: function (cbSuccess, cbFail) {
-                    var funcName = "getArchivedPosts";
-
-                    if (dataCache.hasOwnProperty(funcName) && dataCache[funcName].time > (new Date().getTime() - (cacheTime)))
-                        return cbSuccess(dataCache[funcName].data);
-                    return Request.get('portal/schedule/archived',
-                        function (message) {
-                            dataCache[funcName] = {
-                                data: message,
-                                time: new Date().getTime()
-                            };
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                archivePostToggle: function(parameters, cbSuccess, cbFail) {
-                    if (!parameters || !parameters.hasOwnProperty("id"))
+                archivePost: function(postId, cbSuccess, cbFail) {
+                    if (!postId)
                         return;
 
-                    return Request.post('portal/schedule/' + parameters.id + '/archive', parameters,
+                    return Request.post('portal/schedule/' + postId + '/archive', {},
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                deletePost: function(postId, cbSuccess, cbFail) {
+                    if (!postId)
+                        return;
+
+                    return Request.post('portal/schedule/' + postId + '/delete', {},
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
@@ -122,6 +117,17 @@ define(['./module'], function (services) {
                         return;
 
                     return Request.formPost('portal/schedule/', parameters,
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                draftScheduledPost: function (parameters, cbSuccess, cbFail) {
+                    if (!parameters)
+                        return;
+
+                    return Request.formPost('portal/schedule/draft', parameters,
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {

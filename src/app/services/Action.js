@@ -32,6 +32,18 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                fetchHashtags: function (content, forceRefresh, scheduleId, cbSuccess, cbFail) {
+                    return Request.post('portal/actions/recommended_hashtags', {
+                        content: content,
+                        force_refresh: forceRefresh,
+                        schedule_id: scheduleId
+                        },
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
             };
         }]);
 });

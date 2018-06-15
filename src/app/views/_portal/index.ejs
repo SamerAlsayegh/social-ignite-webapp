@@ -1,0 +1,90 @@
+<!--<tutorial-step active-div="activeDiv" active-description="activeDescription"></tutorial-step>-->
+
+<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
+
+    <md-content hide-gt-sm>
+        <md-toolbar class="md-primary">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                </md-button>
+
+                <h2 flex md-truncate>Menu</h2>
+            </div>
+        </md-toolbar>
+    </md-content>
+
+    <md-content layout="row" flex>
+        <md-sidenav
+                layout-fill
+                layout="column"
+                class="md-sidenav-left"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')">
+            <header class="nav-header">
+                <img flex class="menu_logo"
+                     ng-src="{{theme == 'dark' ? ASSETS + '/img/thumbnail/w400/light_logo.png' : ASSETS + '/img/thumbnail/w400/dark_logo.png'}}">
+            </header>
+            <md-list flex>
+                <md-list-item class="home" flex href="/portal/" ng-click="toggleMenu()">
+                    <md-icon>home</md-icon>
+                    <span flex>Home</span>
+                </md-list-item>
+
+                <md-list-item class="tutorial-step-schedule-menu" flex href="/portal/schedule"
+                              ng-click="toggleMenu()">
+                    <md-icon>event</md-icon>
+                    <span flex>Schedule</span>
+                </md-list-item>
+                <md-list-item class="tutorial-step-pages-menu" flex href="/portal/accounts" ng-click="toggleMenu()">
+                    <md-icon>library_books</md-icon>
+                    <span flex>Pages</span>
+                </md-list-item>
+
+                <md-divider></md-divider>
+                <md-subheader class="md-no-sticky">Misc.</md-subheader>
+
+                <md-list-item flex href="/portal/heatmap" ng-click="toggleMenu()">
+                    <md-icon>show_chart</md-icon>
+                    <span flex>Statistics</span>
+                </md-list-item>
+                <md-list-item flex href="/portal/resources" ng-click="toggleMenu()">
+                    <md-icon>image</md-icon>
+                    <span flex>Images</span>
+                </md-list-item>
+                <md-content flex layout="column">
+                    <md-content flex></md-content>
+                </md-content>
+                <md-subheader class="md-no-sticky">{{user.email}} (<span style="cursor: pointer;"
+                                                                         ng-click="logout()">Logout?</span>)
+                </md-subheader>
+                <md-list-item href="/admin" ng-if="user.scope == 'admin' || user.scope == 'support'"
+                              ng-click="toggleMenu()">
+                    <md-icon>supervised_user_circle</md-icon>
+                    <span flex>Admin</span>
+                </md-list-item>
+                <md-list-item flex href="/portal/billing" ng-click="toggleMenu()">
+                    <md-icon>shopping_cart</md-icon>
+                    <span flex>Billing</span>
+                </md-list-item>
+
+                <md-list-item flex href="/portal/support" ng-click="toggleMenu()">
+                    <md-icon>contact_support</md-icon>
+                    <span flex>Support</span>
+                </md-list-item>
+                <md-list-item href="/portal/profile" ng-click="toggleMenu()">
+                    <md-icon>face</md-icon>
+                    <span flex>Profile</span>
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
+        <md-content flex="100" layout-fill layout-padding ui-view>
+        </md-content>
+    </md-content>
+
+
+</section>
+
+
+
+

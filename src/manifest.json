@@ -1,0 +1,21 @@
+{
+  "short_name": "SocialIgnite",
+  "name": "Social Ignite",
+  "icons": [
+    {
+      "src": "/img/boxed/192/light_logo_simple.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/boxed/512/light_logo_simple.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/portal",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6"
+}

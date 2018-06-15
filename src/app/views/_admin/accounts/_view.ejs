@@ -1,0 +1,47 @@
+<md-content layout-padding layout="row">
+    <md-content flex>
+        <h1 class="page-header">Users Management</h1>
+        Below is a list of users you can manage.
+    </md-content>
+</md-content>
+
+
+<md-autocomplete
+        nd-init="searchAutocomplete = {text: ''}"
+        md-items="user in searchUsers(searchAutocomplete.text)"
+        md-selected-item="searchAutocomplete.selectedItem"
+        md-selected-item-change="selectedUser(user)"
+        md-item-text="user.email"
+        md-search-text="searchAutocomplete.text"
+        md-min-length="0"
+        placeholder="Enter Email address of users?">
+    <md-item-template>
+        <span md-highlight-text="searchAutocomplete.text" md-highlight-flags="^i">{{user.email}}</span>
+    </md-item-template>
+    <md-not-found>
+        No users matching "{{searchAutocomplete.text}}" were found.
+    </md-not-found>
+</md-autocomplete>
+
+
+<md-list layout-padding flex>
+    <md-list-item href="/admin/accounts/{{user._id}}" ng-repeat="user in usersOnPage" class="md-2-line">
+            <md-icon>face</md-icon>
+            <div ng class="md-list-item-text">
+                <h3 ng-bind="user.email"></h3>
+                <p ng-bind="user.scope"></p>
+            </div>
+        <!--<md-button ng-click="suspendUser(user)" class="md-secondary md-icon-button"  aria-label="suspend account">-->
+            <!--<md-icon>close</md-icon>-->
+        <!--</md-button>-->
+    </md-list-item>
+</md-list>
+
+
+<md-content layout="row" flex layout-align="center center">
+    <md-content layout="row" layout-align="center center">
+        <md-button layout-align="center center" ng-repeat="page in pagesList" ng-disabled="page.page == null" ng-click="page.page != null ? loadUsers(page.page) : null">
+            {{page.name}}
+        </md-button>
+    </md-content>
+</md-content>

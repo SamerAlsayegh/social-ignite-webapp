@@ -1,0 +1,57 @@
+<tutorial-step active-div="activeDiv" active-description="activeDescription"></tutorial-step>
+
+<section md-theme="{{ dynamicTheme }}" md-theme-watch layout="column" layout-fill flex>
+
+    <md-content hide-gt-sm>
+        <md-toolbar class="md-primary">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
+                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                </md-button>
+
+                <h2 flex md-truncate>Menu</h2>
+            </div>
+        </md-toolbar>
+    </md-content>
+
+    <md-content layout="row" flex>
+        <md-sidenav
+                layout-fill
+                class="md-sidenav-left"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')">
+            <header class="nav-header">
+                <img flex class="menu_logo" ng-src="{{theme == 'dark' ? ASSETS + '/img/thumbnail/w400/light_logo.png' : ASSETS + '/img/thumbnail/w400/dark_logo.png'}}">
+            </header>
+            <md-list flex>
+                <md-list-item class="home" flex href="/portal/" ng-click="toggleMenu()">
+                    <md-icon>home</md-icon>
+                    <span flex>User Mode</span>
+                </md-list-item>
+            </md-list>
+
+            <md-list layout-align="end end">
+                <md-subheader class="md-no-sticky">Email: {{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)</md-subheader>
+                <md-list-item flex href="/admin/support" ng-click="toggleMenu()">
+                    <md-icon>contact_support</md-icon>
+                    <span flex>Support</span>
+                </md-list-item>
+                <md-list-item href="/admin/accounts" ng-click="toggleMenu()">
+                    <md-icon>face</md-icon>
+                    <span flex>Accounts</span>
+                </md-list-item>
+
+            </md-list>
+
+            <!--</md-content>-->
+        </md-sidenav>
+        <md-content flex="100" layout-fill class="md-padding" ui-view>
+        </md-content>
+    </md-content>
+
+
+</section>
+
+
+
+

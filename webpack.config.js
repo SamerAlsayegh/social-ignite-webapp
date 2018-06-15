@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
     context: __dirname + "/src/app",
@@ -12,13 +13,15 @@ module.exports = {
         ],
     },
     output: {
-        path: __dirname + "/dist/pub/",
+        path: __dirname + "/dist/",
         filename: "[name].js"
     },
 
     plugins: [
+        new HardSourceWebpackPlugin(),
         new webpack.DefinePlugin({
             "API": JSON.stringify("https://api.socialignite.media"),
+            "ASSETS": JSON.stringify("https://assets.socialignite.media"),
             "SOCKET": JSON.stringify("https://api.socialignite.media"),
         }),
         new UglifyJsPlugin({

@@ -31,6 +31,32 @@ define(['../module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                updateAccount: function (accountId, details, cbSuccess, cbFail) {
+                    if (accountId == null) {
+                        return cbFail(400, "Missing accountId");
+                    }
+
+                    return Request.post('admin/accounts/' + accountId, details,
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                updateRole: function (accountId, role, expiry, cbSuccess, cbFail) {
+                    if (accountId == null) {
+                        return cbFail(400, "Missing accountId");
+                    }
+
+                    return Request.post('admin/accounts/' + accountId + '/role', {
+                      expiry: expiry,
+                      role: role
+                    }, function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
             };
         }]);
 });

@@ -9,14 +9,13 @@ define(['./module'], function (services) {
 
                     return Request.post('auth/login', parameters,
                         function (message) {
-                            return Request.get('auth/validate',
+                            return Request.get('user',
                                 function (message) {
                                     $rootScope.user = message.data;
                                     $rootScope.loggedIn = true;
                                     return cbSuccess(message);
                                 }, function (status, message) {
-                                    $rootScope.loggedIn = false;
-                                    return cbSuccess(message);
+                                    return cbFail(status, message);
                                 });
                         }, function (status, message) {
                             return cbFail(status, message);
@@ -67,8 +66,9 @@ define(['./module'], function (services) {
                 sessionValidate: function (callback) {
                     if ($rootScope.loggedIn != null) return callback($rootScope.loggedIn);
                     else {
-                        return Request.get('auth/validate',
+                        return Request.get('user',
                             function (message) {
+                                // $rootScope.user = message.data;
                                 $rootScope.user = message.data;
                                 $rootScope.loggedIn = true;
                                 return callback(true);
@@ -99,6 +99,22 @@ define(['./module'], function (services) {
                         return;
 
                     return Request.post('user', parameters,
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message, messageCode) {
+                            return cbFail(status, message, messageCode);
+                        });
+                },
+                deleteUser: function (cbSuccess, cbFail) {
+                    return Request.post('user/delete', {},
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message, messageCode) {
+                            return cbFail(status, message, messageCode);
+                        });
+                },
+                deleteUserComplete: function (code, cbSuccess, cbFail) {
+                    return Request.post('user/delete/complete', {code: code},
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message, messageCode) {

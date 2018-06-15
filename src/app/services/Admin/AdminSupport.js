@@ -4,8 +4,10 @@ define(['../module'], function (services) {
         function (Request, $cookies, $state, $rootScope) {
 
             return {
-                getSupportTickets: function (_cursor, cbSuccess, cbFail) {
-                    return Request.get('admin/support/tickets',
+                getSupportTickets: function (last_response, cbSuccess, cbFail) {
+                    var params = "";
+                    if (last_response) params = Request.ArrayToURL({last_response: last_response});
+                    return Request.get('admin/support/tickets' + params,
                          function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
