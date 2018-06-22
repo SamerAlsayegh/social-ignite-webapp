@@ -8,7 +8,6 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 $scope.location = $location;
                 $scope.comments = {};
                 $scope.permissions = {};
-                $scope.onlineUsers = 0;
 
                 $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
@@ -16,19 +15,15 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 $scope.socket = io(SOCKET);
                 $scope.socket.on('connect', function () {
                     console.log("Connected");
-                    // $scope.socket.emit('getOnline');
+                    $scope.socket.emit('getOnline');
                 });
-                $scope.socket.on('online', function (onlineCount) {
-                    $scope.onlineUsers = onlineCount;
-                    $scope.$apply();
-                });
+
                 $scope.socket.on('ticket_new', function (ticket_reply) {
                     Alert.info("A new ticket was created.")
                 });
                 $scope.socket.on('ticket_reply', function (ticket_reply) {
                     Alert.info("A ticket has been replied to")
                 });
-
 
                 $scope.socket.on('changedScope', function () {
                     Auth.logout(function () {
@@ -58,7 +53,9 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 });
 
                 Auth.getPermissions(function (data) {
-                    $scope.permissions = data.data;
+                    $scope.permissions = data.data.permissions;
+                    $scope.permissions_limits = data.data.limits;
+                    $scope.permissions_used = data.data.used;
                     Dashboard.getDashboardPosts(null, function (data) {
                         $scope.socialPostMainList = data;
                     }, function (status, message) {

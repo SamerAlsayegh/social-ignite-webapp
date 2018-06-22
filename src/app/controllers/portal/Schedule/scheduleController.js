@@ -7,17 +7,14 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                   $state, $stateParams, SocialPosts, $mdDialog, $q,
                   moment, SocialAccounts, $timeout, Alert, $filter, Auth) {
 
-            this.uiOnParamsChanged = function(changedParams, $transition$) {
-                // do something with the changed params
+            this.uiOnParamsChanged = function (changedParams, $transition$) {
                 if (changedParams.updateId && changedParams.updateContent)
                     $scope.updateSocialPost(changedParams.updateId, changedParams.updateContent);
                 else if ($state.params.updateContent) {
                     $scope.allSocialPosts.push(changedParams.updateContent);
                 }
-
-                // you can inspect $transition$ to see the what triggered the dynamic params change.
+                // TODO: Handle draft changes to scheduled and scheduled changes to draft.
             };
-            $scope.allPages = [];
             $scope.platforms = platforms;
             $scope.scheduledPosts = [];
             $scope.allSocialPosts = [];
@@ -40,45 +37,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 limit: 10
             };
 
-            /**
-             * Variable declarations
-             */
-
-
-            /**
-             * Functions for the page
-             */
-
-            /**
-             * Initialize code...
-             */
-            // $scope.getScheduledPosts = function () {
-            //     var deferred = $q.defer();
-            //     $scope.scheduledPostsLoaded = deferred.scheduledPostsLoaded;
-            //     SocialPosts.getSchedulePosts(function (data) {
-            //         $scope.scheduledPosts = data.data;
-            //         deferred.resolve();
-            //     }, function (status, error) {
-            //         $scope.scheduledPosts = [];
-            //         Alert.error(error.code + ": Failed to get scheduled posts.");
-            //         deferred.resolve();
-            //     });
-            // };
-
-
-            // $scope.getPostedPosts = function () {
-            //     var deferred = $q.defer();
-            //     $scope.postedPostsLoaded = deferred.postedPostsLoaded;
-            //     SocialPosts.getPostedPosts(function (data) {
-            //         $scope.postedPosts = data.data;
-            //
-            //         deferred.resolve();
-            //     }, function (status, error) {
-            //         $scope.postedPosts = [];
-            //         Alert.error(error.code + ": Failed to get posted posts.");
-            //         deferred.resolve();
-            //     });
-            // };
 
             $scope.getActivePosts = function (params) {
                 var deferred = $q.defer();
@@ -123,12 +81,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 $scope.viewStatistics($event, postId);
             });
             $scope.addPost = function ($event, previousId) {
-                if ($scope.allPages.length == 0){
-                    Alert.error("You must add a social account first.");
-                    $state.go('portal.accounts.home');
-                } else {
-                    $state.go('portal.schedule.edit', {postId: previousId});
-                }
+                $state.go('portal.schedule.edit', {postId: previousId});
             };
 
             $scope.viewStatistics = function ($event, postId) {
@@ -140,31 +93,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 return $scope.platforms[platformId].id;
             };
 
-
-            $scope.archivePostToggle = function (postId) {
-                SocialPosts.archivePostToggle({
-                    id: postId
-                }, function (data) {
-                    Alert.success("Successfully archived post.");
-                    $scope.updateSocialPost(postId, data);
-                }, function (status, error) {
-                    Alert.error(error.message + ": Failed to archive post.")
-                });
-            };
-
-
-            $scope.getSocialAccounts = function () {
-                SocialAccounts.getSocialAccounts(function (data) {
-                    $scope.allPages = data;
-                }, function (status, error) {
-                    $scope.platforms = [];
-                    Alert.error(error.message + ": Failed to get social accounts. ")
-                });
-            };
-
-            $scope.getSocialAccounts();
-            // $scope.getScheduledPosts();
-            // $scope.getPostedPosts();
             $scope.getActivePosts();
             $scope.getDraftedPosts();
 

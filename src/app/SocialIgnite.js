@@ -14,6 +14,7 @@ define([
     './directives/index',
     './controllers/index',
     './services/index',
+    './filters/index',
 ], function (angular) {
     'use strict';
 
@@ -21,6 +22,7 @@ define([
         'SocialIgnite.controllers',
         'SocialIgnite.services',
         'SocialIgnite.directives',
+        'SocialIgnite.filters',
         'md.data.table',
         'moment-picker',
         'ngAnimate',

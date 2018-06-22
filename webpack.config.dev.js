@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 
 module.exports = {
@@ -22,8 +21,7 @@ module.exports = {
             app.get("*", function (req, res, next) {
                 var url = req.url;
                 if (url.indexOf("?") >= 0) url = url.split("?")[0];
-                console.log(fs.existsSync(path.join(__dirname, "dist/" + url)), url);
-                if (fs.existsSync(path.join(__dirname, "dist/" + url)) || url.endsWith(".js")) return next();
+                if (fs.existsSync(path.join(__dirname, "dist/" + url)) || url.endsWith(".js") || url.endsWith(".js.gz")) return next();
                 else res.sendFile(path.join(__dirname, "dist/index.html"))
             });
         }

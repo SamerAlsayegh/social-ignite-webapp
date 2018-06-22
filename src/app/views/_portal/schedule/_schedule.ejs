@@ -13,12 +13,12 @@
             <div layout="row" layout-padding layout-wrap>
                 <md-whiteframe
                         ng-repeat="pageInfo in allPages" ng-click="choosePage(pageInfo._id); nextStep();"
-                        class="md-whiteframe-1dp ui-social ui-{{platforms[pageInfo.platform].id}} page-select"
+                        class="md-whiteframe-1dp ui-social ui-{{pageInfo.platform != null ? platforms[pageInfo.platform].id : 'other'}} page-select"
                         ng-class="currentSocialPost.pages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''"
                         flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
                     <!--<md-tooltip md-direction="down"></md-tooltip>-->
                     <div class="text-center" layout="column">
-                        <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
+                        <i class="zmdi zmdi-{{pageInfo.platform != null ? platforms[pageInfo.platform].id : 'group'}}"></i>
                         <small ng-bind="pageInfo.name"></small>
                     </div>
                 </md-whiteframe>
@@ -38,20 +38,30 @@
             </md-input-container>
             <span layout="column" class="md-block" layout-align="stretch">
                 <span layout="row" class="md-block" layout-align="stretch">
-                    <p>Recommended:</p>
+                    <p ng-if="hashtags != null">Recommended:</p>
                     <md-chips>
                       <md-chip ng-repeat="hashtag in hashtags" ng-show="hashtag.priority">#{{hashtag.hashtag}}</md-chip>
                     </md-chips>
                 </span>
                 <span layout="row" flex class="md-block" layout-align="stretch">
-                    <p>Optional:</p>
+                    <p ng-if="hashtags != null">Optional:</p>
                     <md-chips>
                       <md-chip ng-repeat="hashtag in hashtags" ng-hide="hashtag.priority">#{{hashtag.hashtag}}</md-chip>
                     </md-chips>
                 </span>
-            <md-button ng-click="getHashtags(currentSocialPost.content);" flex class="md-primary md-raised">
-                + Suggest Hashtags
-            </md-button>
+                <span layout="column" layout-gt-md="row">
+                    <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups" ng-click="getHashtags(currentSocialPost.content, false);" flex class="md-primary md-raised">
+                        + Suggest Hashtags
+                    </md-button>
+                    <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups" ng-click="getHashtags(currentSocialPost.content, true);" flex="20" ng-if="hashtags != null" class="md-primary">
+                        Force Refresh ({{hashtag_lookups}}/{{permissions_limits.hashtag_lookups}})
+                    </md-button>
+                </span>
+                <span layout="column" >
+                    <md-button flex href="/portal/billing" ng-if="hashtag_lookups >= permissions_limits.hashtag_lookups && permissions_limits.hashtag_lookups != -1" class="md-secondary md-raised">
+                        Upgrade for more lookups
+                    </md-button>
+                </span>
             </span>
         </div>
         <div class="tutorial-step-schedule-add-post-step-3">
@@ -62,7 +72,8 @@
                 </h2>
             </label>
 
-            <image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="view" post_id="postId" uploading="uploading" images="currentSocialPost.images"></image-uploader>
+            <image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="view"
+                            post_id="postId" uploading="uploading" images="currentSocialPost.images"></image-uploader>
         </div>
 
         <div class="tutorial-step-schedule-add-post-step-4">
@@ -85,14 +96,18 @@
                     set-on-select="true">
             </div>
         </div>
-        <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
-    <md-button flex-xs="100" flex-sm="100" flex-md="100"  md-no-ink type="submit" class="md-warn" ng-click="cancel()">
+        <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+              layout-xs="column">
+    <md-button flex-xs="100" flex-sm="100" flex-md="100" md-no-ink type="submit" class="md-warn" ng-click="cancel()">
         Cancel
     </md-button>
-    <md-button flex="{{postId != null ? 20 : 0}}" flex-xs="100" flex-sm="100" flex-md="100" md-no-ink type="submit" ng-if="currentSocialPost.state == 'DRAFT' || currentSocialPost.state == 'ACTIVE'" class="md-warn" ng-click="secondaryAction()">
+    <md-button flex="{{postId != null ? 20 : 0}}" flex-xs="100" flex-sm="100" flex-md="100" md-no-ink type="submit"
+               ng-if="currentSocialPost.state == 'DRAFT' || currentSocialPost.state == 'ACTIVE'" class="md-warn"
+               ng-click="secondaryAction()">
         {{currentSocialPost.state == 'DRAFT' ? 'Delete' : 'Draft'}}
     </md-button>
-    <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised" ng-click="submitPost(false)">
+    <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
+               ng-click="submitPost(false)">
         Post {{ currentSocialPost.dateString != null ? '@ ' + currentSocialPost.dateString : 'Now' }}
     </md-button>
 </span>

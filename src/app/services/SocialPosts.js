@@ -90,17 +90,6 @@ define(['./module'], function (services) {
                         });
 
                 },
-                archivePost: function(postId, cbSuccess, cbFail) {
-                    if (!postId)
-                        return;
-
-                    return Request.post('portal/schedule/' + postId + '/archive', {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
                 deletePost: function(postId, cbSuccess, cbFail) {
                     if (!postId)
                         return;

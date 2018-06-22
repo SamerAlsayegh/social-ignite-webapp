@@ -60,14 +60,16 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
-                getSocialAccounts: function (cbSuccess, cbFail) {
-                    var funcName = "getSocialAccounts";
+                getSocialAccounts: function (_cursor, _platform, cbSuccess, cbFail) {
+                    var funcName = "getSocialAccounts" + _cursor + _platform;
 
                     if (dataCache.hasOwnProperty(funcName) && dataCache[funcName].time > (new Date().getTime() - (cacheTime)))
                         return cbSuccess(dataCache[funcName].data);
 
-
-                    return Request.get('portal/social_pages',
+                    return Request.get('portal/social_pages', {
+                        platform: _platform,
+                        cursor: _cursor
+                        },
                         function (message) {
                             dataCache[funcName] = {
                                 data: message.data,

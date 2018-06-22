@@ -13,8 +13,10 @@ define([
     './Billing',
     './Tutorial',
     './Support',
+    './SocialStacks',
     './Admin/AdminSupport',
-    './Admin/AdminAccount'
+    './Admin/AdminAccount',
+    './Admin/AdminGeneral'
 ], function () {
 });
 

@@ -1,0 +1,94 @@
+<md-dialog layout="column" layout-align="stretch"  flex="70">
+    <md-toolbar class="md-padding md-toolbar-tools">
+            <h2>Social Stack Management</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon>close</md-icon>
+            </md-button>
+    </md-toolbar>
+    <!--<md-divider></md-divider>-->
+    <md-dialog-content class="md-padding">
+        <div class="md-dialog-content">
+            <form layout="column" ng-submit="submitPages()">
+
+                <div ng-if="step == 1" layout="column" layout-align="stretch">
+                    <md-button class="md-primary md-raised" ng-click="addStack()" flex>
+                        New Stack
+                    </md-button>
+                    <md-button ng-if="socialStacks.length > 0" ng-click="editStack()" flex class="md-secondary md-raised">
+                        Edit Stack
+                    </md-button>
+                </div>
+
+                <div ng-if="(step == 2 && add == true) || step == 3" layout="column">
+                    <md-input-container layout="column" class="md-block" layout-align="stretch">
+                        <label>Stack name</label>
+                        <input flex ng-model="data.name" required>
+                    </md-input-container>
+
+                    <md-input-container layout="column" class="md-block" layout-align="stretch">
+                        <label>Description</label>
+                        <input flex ng-model="data.description">
+                    </md-input-container>
+
+                    <div ng-if="(step == 2 && add == true)" layout="column" layout-align="stretch">
+                        <md-button class="md-primary md-raised" ng-click="nextStep()">
+                            Next
+                        </md-button>
+                    </div>
+                </div>
+                <div ng-if="(step == 2 && edit == true)" layout="column">
+                    <h3>Choose a Stack To Edit:</h3>
+                    <div layout="row" layout-wrap>
+                        <md-card ng-class="edit == true ? 'pointer' : ''"
+                                 layout="column" ng-repeat="socialStack in socialStacks"
+                                 ng-click="editSocialStack(socialStack.stack._id)">
+                            <div layout="row" class="md-padding" layout-align="center center">
+                                <span flex ng-bind="socialStack.stack.name"></span>
+                                <md-button
+                                        ng-repeat="socialPage in socialStack.results"
+                                        class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
+                                        aria-label=platform>
+                                    <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
+                                    <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
+                                </md-button>
+                            </div>
+                        </md-card>
+                    </div>
+                </div>
+
+                <div layout="column" ng-if="(step == 3)">
+                    <label>
+                        <h2>
+                            <small>Select pages to add to stack...</small>
+                        </h2>
+                    </label>
+                    <div layout="row" layout-wrap>
+                        <md-whiteframe
+                                ng-repeat="pageInfo in allPages"
+                                ng-class="data.socialPages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''"
+                                ng-click="togglePage(pageInfo._id)"
+                                class="md-whiteframe-1dp ui-social ui-{{socialPlatforms[pageInfo.platform].id}} page-select"
+                                flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
+                            <!--<md-tooltip md-direction="down"></md-tooltip>-->
+                            <div class="text-center" layout="column">
+                                <i class="zmdi zmdi-{{socialPlatforms[pageInfo.platform].id}}"></i>
+                                <small ng-bind="pageInfo.name"></small>
+                            </div>
+                        </md-whiteframe>
+                    </div>
+                </div>
+                <div ng-if="step == 3" layout="row" layout-align="stretch">
+                    <md-button flex class="md-primary md-raised" type="submit">
+                        Apply
+                    </md-button>
+                    <md-button ng-if="data._id != null" flex="50" flex-gt-md="20" ng-click="deleteStack(data._id)" class="md-warn">
+                        Delete
+                    </md-button>
+                </div>
+            </form>
+        </div>
+    </md-dialog-content>
+
+
+</md-dialog>

@@ -50,7 +50,7 @@ define(['./module'], function (services) {
                     else if (!parameters)
                         return cbFail(400, 'Missing parameters');
 
-                    return Request.put('portal/image/'  + imageId, parameters,
+                    return Request.post('portal/image/'  + imageId, parameters,
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
@@ -61,7 +61,7 @@ define(['./module'], function (services) {
                     if (!imageId)
                         return cbFail(400, 'Missing image id');
 
-                    return Request.delete('portal/image/'  + imageId, {},
+                    return Request.post('portal/image/'  + imageId + '/delete', {},
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {

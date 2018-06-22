@@ -1,6 +1,6 @@
 <tutorial-step active-div="activeDiv" active-description="activeDescription"></tutorial-step>
 
-<section md-theme="{{ dynamicTheme }}" md-theme-watch layout="column" layout-fill flex>
+<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
 
     <md-content hide-gt-sm>
         <md-toolbar class="md-primary">
@@ -28,13 +28,21 @@
                     <md-icon>home</md-icon>
                     <span flex>User Mode</span>
                 </md-list-item>
+                <md-list-item flex>
+                    <md-icon>person</md-icon>
+                    <span flex>{{usersOnline + 0}} Online</span>
+                </md-list-item>
+                <md-list-item flex>
+                    <md-icon>person</md-icon>
+                    <span flex>{{usersCount + 0}} Registered</span>
+                </md-list-item>
             </md-list>
 
             <md-list layout-align="end end">
                 <md-subheader class="md-no-sticky">Email: {{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)</md-subheader>
                 <md-list-item flex href="/admin/support" ng-click="toggleMenu()">
                     <md-icon>contact_support</md-icon>
-                    <span flex>Support</span>
+                    <span flex>Support {{ support_tickets > 0 ? '(' + support_tickets + ')' : ''}}</span>
                 </md-list-item>
                 <md-list-item href="/admin/accounts" ng-click="toggleMenu()">
                     <md-icon>face</md-icon>

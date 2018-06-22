@@ -1,8 +1,12 @@
-var CACHE_NAME = 'my-site-cache-v1';
+var CACHE_VERSION = 1;
+
+
+var CACHE_NAME = 'SocialIgnite-Web' + "-" + CACHE_VERSION;
+
 var urlsToCache = [
     '/',
-    '/css/main.css',
-    '/app.js'
+    // '/css/main.css',
+    // '/app.js'
 ];
 
 self.addEventListener('install', function(event) {
@@ -15,6 +19,25 @@ self.addEventListener('install', function(event) {
             })
     );
 });
+
+self.addEventListener('activate', function(event) {
+
+    // Active worker won't be treated as activated until promise
+    // resolves successfully.
+    event.waitUntil(
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                    if (cacheName != CACHE_NAME) {
+                        console.log('Deleting out of date cache:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
+});
+
 
 
 self.addEventListener('fetch', function(event) {

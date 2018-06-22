@@ -7,6 +7,7 @@ define([
     './portal/Support/supportController',
     './portal/Support/supportSubController',
     './portal/Pages/accountController',
+    './portal/Pages/socialStackController',
     './portal/Profile/profileController',
     './portal/Profile/profileDeleteController',
     './portal/Resources/resourcesController',

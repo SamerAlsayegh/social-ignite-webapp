@@ -38,8 +38,8 @@ define(['./module'], function (services) {
                         force_refresh: forceRefresh,
                         schedule_id: scheduleId
                         },
-                        function (message) {
-                            return cbSuccess(message);
+                        function (message, raw) {
+                            return cbSuccess(message, raw.used);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });

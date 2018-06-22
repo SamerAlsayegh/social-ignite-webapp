@@ -57,10 +57,21 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                             cbFail(status, 'Failed to connect to API.');
                     });
                 },
-                get: function (endpoint, cbSuccess, cbFail) {
+                get: function (endpoint, data, cbSuccess, cbFail) {
+                    if (cbFail == null) {
+                        // 3 Params
+                        cbFail = cbSuccess;
+                        cbSuccess = data;
+                        data = {};
+                    }
+
+
+
+
                     return $http({
                         method: 'GET',
                         url: API + '/api/v1/' + endpoint,
+                        params: data,
                         timeout: 10000
                     }).then(function (data, status, headers, config) {
                         cbSuccess(data.data, data);

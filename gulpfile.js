@@ -14,6 +14,7 @@ const pack = webpackStream(webpackConfig);
 const cluster = require('cluster');
 const os = require('os');
 const imageResize = require('gulp-image-resize');
+const compression = require('compression');
 
 gulp.task('webpack', function() {
     return gulp.src(__dirname + '/src/app/**/*.js')
@@ -100,22 +101,8 @@ gulp.task('less', function () {
         .pipe(less({}))
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(concat('main.css'))
-        .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(gulp.dest('./dist/css/'));
 });
-// gulp.task('please-wait', function () {
-//     return gulp.src(__dirname + '/node_modules/please-wait/build/please-wait.css')
-//         .pipe(new cleanCSS({
-//             level: {
-//                 2: {
-//                     all: true, // sets all values to `false`
-//                     // removeDuplicateRules: true // turns on removing duplicate rules
-//                 }
-//             }
-//         }))
-//         .pipe(gulp.dest('./dist/css/'));
-// });
-
 
 gulp.task('webpack-dev-server', function () {
     // Start a webpack-dev-server
@@ -128,8 +115,11 @@ gulp.task('webserver', function() {
     gulp.src('dist')
         .pipe(webserver({
             livereload: false,
-            host: 'portal.socialignite.media',
+            host: '0.0.0.0',
             port: 8080,
+            middleware: [
+                compression()
+            ],
             https: {
                 cert: "/etc/letsencrypt/live/portal.socialignite.media/fullchain.pem",
                 key: "/etc/letsencrypt/live/portal.socialignite.media/privkey.pem"
