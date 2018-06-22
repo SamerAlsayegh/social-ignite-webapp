@@ -1,7 +1,7 @@
 define(['../module'], function (services) {
     'use strict';
-    services.factory('AdminSupport', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('AdminSupport', ['Request',
+        function (Request) {
 
             return {
                 getSupportTickets: function (last_response, cbSuccess, cbFail) {

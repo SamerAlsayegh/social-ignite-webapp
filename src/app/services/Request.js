@@ -1,38 +1,11 @@
 define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
     'use strict';
-    services.factory('Request', ['$http', '$cookies', '$state', '$rootScope', 'Alert',
-        function ($http, $cookies, $state, $rootScope, Alert) {
+    services.factory('Request', ['$http',
+        function ($http) {
             return {
                 post: function (endpoint, parameters, cbSuccess, cbFail) {
                     return $http({
                         method: 'POST',
-                        url: API + '/api/v1/' + endpoint,
-                        data: parameters,
-                        timeout: 10000
-                    }).then(function (data, status, headers, config) {
-                        var message = data.data;
-                        cbSuccess(message.data, message);
-                    }, function (data) {
-                        var status = data.status;
-                        if (status != -1){
-                            switch (status){
-                                case 401:
-                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
-                                    break;
-                                case 429:
-                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
-                                    break;
-                                default:
-                                    var message = data.data.message;
-                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
-                            }
-                        } else
-                            cbFail(status, 'Failed to connect to API.');
-                    });
-                },
-                put: function (endpoint, parameters, cbSuccess, cbFail) {
-                    return $http({
-                        method: 'PUT',
                         url: API + '/api/v1/' + endpoint,
                         data: parameters,
                         timeout: 10000
@@ -75,33 +48,6 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         timeout: 10000
                     }).then(function (data, status, headers, config) {
                         cbSuccess(data.data, data);
-                    }, function (data) {
-                        var status = data.status;
-                        if (status != -1){
-                            switch (status){
-                                case 401:
-                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
-                                    break;
-                                case 429:
-                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
-                                    break;
-                                default:
-                                    var message = data.data.message;
-                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
-                            }
-                        } else
-                            cbFail(status, 'Failed to connect to API.');
-                    });
-                },
-                delete: function (endpoint, parameters, cbSuccess, cbFail) {
-                    return $http({
-                        method: 'DELETE',
-                        url: API + '/api/v1/' + endpoint,
-                        data: parameters,
-                        timeout: 10000
-                    }).then(function (data, status, headers, config) {
-                        var message = data.data;
-                        cbSuccess(message.data, message);
                     }, function (data) {
                         var status = data.status;
                         if (status != -1){

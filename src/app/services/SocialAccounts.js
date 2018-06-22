@@ -1,22 +1,12 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('SocialAccounts', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('SocialAccounts', ['Request',
+        function (Request) {
             var cacheTime = 1000 * 60 * 5;
             var dataCache = {};// Only fetch data if older than 5 minutes - prevents
 
 
             return {
-                addSpecialSocialAccount: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters)
-                        return cbFail(400, "Invalid parameters.");
-                    return Request.post('portal/social_pages/special',
-                        parameters, function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
                 updateSocialAccount: function (parameters, cbSuccess, cbFail) {
                     if (!parameters || !parameters.hasOwnProperty('pages') || !parameters.hasOwnProperty("cache_id"))
                         return cbFail(400, "Invalid parameters.");

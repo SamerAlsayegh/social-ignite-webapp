@@ -2,10 +2,8 @@ require("expose-loader?io!socket.io-client");
 define(['../module', '../../enums/platforms'], function (controllers, platforms) {
     'use strict';
     return controllers.controller('portalHomeController',
-        ['$rootScope', '$scope', '$location', 'Auth', 'Statistics', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies', 'Tutorial',
-            function ($rootScope, $scope, $location, Auth, Statistics, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies, Tutorial) {
-                // $scope.dynamicTheme = "default";
-                $scope.location = $location;
+        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
+            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies) {
                 $scope.comments = {};
                 $scope.permissions = {};
 

@@ -1,9 +1,8 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('profileDeleteController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
+    return controllers.controller('profileDeleteController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'Alert', 'Auth',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, Alert, Auth) {
+        function ($rootScope, $scope, $state, $stateParams, Alert, Auth) {
             $scope.code = $stateParams.code;
 
             $scope.confirmDelete = function () {

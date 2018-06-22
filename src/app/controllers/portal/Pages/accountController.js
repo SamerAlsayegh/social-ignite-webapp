@@ -1,19 +1,14 @@
 define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes'], function (controllers, platforms, errorCodes) {
     'use strict';
-    return controllers.controller('accountController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
-        '$state', '$stateParams', 'SocialAccounts', '$mdDialog', '$q', 'moment', '$timeout', '$window', 'Alert', 'SocialStacks',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, SocialAccounts, $mdDialog, $q, moment, $timeout, $window, Alert, SocialStacks) {
+    return controllers.controller('accountController', ['$rootScope', '$scope',
+        '$state', '$stateParams', 'SocialAccounts', '$mdDialog', 'moment', '$window', 'Alert',
+        function ($rootScope, $scope,
+                  $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
             $scope.socialPlatforms = platforms;
             $scope.connectedAccounts = [];
             $scope.toggle_add = false;
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
-            $scope.socialStackEditing = {
-                data: {
-                    socialPages: []
-                },
-            };
 
             for (var platformKey in platforms) {
                 if (parseInt(platformKey) == platformKey) {
@@ -77,18 +72,18 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
             $scope.loadMoreSocialPages();
 
 
-            $scope.socialStackDialog = function (ev){
+            $scope.socialStackDialog = function (ev) {
                 $mdDialog.show({
                     controller: 'socialStackController',
                     templateUrl: './_portal/accounts/_socialStacks.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
-                    clickOutsideToClose:true,
+                    clickOutsideToClose: true,
                     fullscreen: true // Only for -xs, -sm breakpoints.
                 })
-                    .then(function(answer) {
+                    .then(function (answer) {
                         $scope.status = 'You said the information was "' + answer + '".';
-                    }, function() {
+                    }, function () {
                         $scope.status = 'You cancelled the dialog.';
                     });
             };
@@ -99,7 +94,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                 return $scope.platformList[platformId].id;
             };
 
-            $scope.platformFiltered =  function () {
+            $scope.platformFiltered = function () {
                 console.log("Filtered...?")
                 $scope.connectedAccounts = [];
                 $scope.loadMoreSocialPages();

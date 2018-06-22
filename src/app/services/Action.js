@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Action', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('Action', ['Request',
+        function (Request) {
 
             return {
                 toggleLikeComment: function (parameters, cbSuccess, cbFail) {

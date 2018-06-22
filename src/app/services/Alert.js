@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Alert', ['$http', '$cookies', '$state', '$rootScope', '$timeout', '$mdToast',
-        function ($http, $cookies, $state, $rootScope, $timeout, $mdToast) {
+    services.factory('Alert', ['$rootScope', '$timeout', '$mdToast',
+        function ($rootScope, $timeout, $mdToast) {
             $rootScope.messages = [];
             $rootScope.active = false;
 

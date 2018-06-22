@@ -1,7 +1,7 @@
 define(['../module'], function (services) {
     'use strict';
-    services.factory('AdminGeneral', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('AdminGeneral', ['Request',
+        function (Request) {
 
             return {
                 getNotifications: function (cbSuccess, cbFail) {

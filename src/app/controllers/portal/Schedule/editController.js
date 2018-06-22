@@ -1,8 +1,8 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
     return controllers.controller('editController', ['$scope', '$stateParams', '$state',
-        'SocialPosts', 'Alert', 'SocialAccounts', 'FileReader', '$filter', 'Image', 'Action', 'SocialStacks',
-        function ($scope, $stateParams, $state, SocialPosts, Alert, SocialAccounts, FileReader, $filter, Image, Action, SocialStacks) {
+        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks',
+        function ($scope, $stateParams, $state, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks) {
             $scope.postId = $stateParams.postId;
             $scope.attachedImage = $stateParams.attachedImage;
             $scope.postInformation = $stateParams.postInformation;

@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Statistics', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('Statistics', ['Request',
+        function (Request) {
 
             return {
                 getPostStatistics: function (postId, filter, cbSuccess, cbFail) {

@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes'], function (controllers, platforms, errorCodes) {
+define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
     return controllers.controller('socialStackController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog',
         function ($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog) {

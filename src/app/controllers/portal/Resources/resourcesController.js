@@ -1,9 +1,8 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('resourcesController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
+    return controllers.controller('resourcesController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'Image', 'Alert',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, Image, Alert) {
+        function ($rootScope, $scope, $state, $stateParams, Image, Alert) {
             $scope._ids = [];
             $scope.images = [];
             $scope.postId = $stateParams.postId;

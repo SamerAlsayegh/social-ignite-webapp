@@ -3,16 +3,7 @@
  */
 define(['./module'], function (controllers) {
     'use strict';
-    return controllers.controller('errorController', ['$rootScope', '$scope', '$http', '$cookies', '$location', '$state','$stateParams', function ($rootScope, $scope, $http, $cookies, $location, $state, $stateParams) {
-        /**
-         * Any module declarations here
-         */
-        $scope.location = $location;
-
-
-        /**
-         * Here is the codes for jQuery - Must be avoided at all costs, as it won't work well with Angular
-         */
+    return controllers.controller('errorController', ['$rootScope', '$scope', function ($rootScope, $scope) {
 
 
         /**

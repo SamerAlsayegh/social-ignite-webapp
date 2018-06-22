@@ -1,9 +1,8 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('supportController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
-        '$state', '$stateParams', 'moment', '$timeout', 'Alert', 'Support',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, moment, $timeout, Alert, Support) {
+    return controllers.controller('supportController', ['$rootScope', '$scope',
+        '$state', '$stateParams', 'moment', 'Alert', 'Support',
+        function ($rootScope, $scope, $state, $stateParams, moment, Alert, Support) {
 
             $scope.tickets = [];
             $scope.loadTickets = function() {

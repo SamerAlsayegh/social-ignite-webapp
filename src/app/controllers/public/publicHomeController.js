@@ -1,9 +1,9 @@
-define(['../module', '../../enums/platforms'], function (controllers, platforms) {
+define(['../module'], function (controllers) {
     'use strict';
-    return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
-        '$state', '$stateParams', 'Auth', '$mdToast', '$timeout', 'Alert', '$mdSidenav', '$window',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, Auth, $mdToast, $timeout, Alert, $mdSidenav, $window) {
+    return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$cookies', '$location',
+        '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window',
+        function ($rootScope, $scope, $cookies, $location,
+                  $state, $stateParams, Auth, Alert, $mdSidenav, $window) {
             /**
              * Any module declarations here
              */

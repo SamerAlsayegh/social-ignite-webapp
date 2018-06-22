@@ -1,11 +1,7 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('scheduleController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
-        '$state', '$stateParams', 'SocialPosts', '$mdDialog', '$q', 'moment', 'SocialAccounts', '$timeout', 'Alert',
-        '$filter', 'Auth',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, SocialPosts, $mdDialog, $q,
-                  moment, SocialAccounts, $timeout, Alert, $filter, Auth) {
+    return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert',
+        function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert) {
 
             this.uiOnParamsChanged = function (changedParams, $transition$) {
                 if (changedParams.updateId && changedParams.updateContent)

@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Dashboard', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('Dashboard', ['Request',
+        function (Request) {
             return {
                 getDashboardPosts: function (paging, cbSuccess, cbFail) {
                     if (paging && parseInt(paging) == null)

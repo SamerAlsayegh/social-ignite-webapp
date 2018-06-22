@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Billing', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('Billing', ['Request',
+        function (Request) {
 
             return {
                 subscribePlan: function (plan, service, cbSuccess, cbFail) {

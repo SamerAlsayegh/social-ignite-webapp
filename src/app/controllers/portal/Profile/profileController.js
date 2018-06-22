@@ -1,9 +1,7 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('profileController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
-        '$state', '$stateParams', 'SocialAccounts', '$mdDialog', '$q', 'moment', '$timeout', '$window', 'Alert', 'Auth',
-        function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, SocialAccounts, $mdDialog, $q, moment, $timeout, $window, Alert, Auth) {
+    return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Auth',
+        function ($rootScope, $scope, Alert, Auth) {
 
             $scope.themeBool = $scope.theme == "dark" ? true : false;
 

@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('supportSubController', ['$scope', '$stateParams', 'Alert', 'SocialPosts', 'Statistics', '$state', 'Support',
         function ($scope, $stateParams, Alert, SocialPosts, Statistics, $state, Support) {

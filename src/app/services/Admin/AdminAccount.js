@@ -1,7 +1,7 @@
 define(['../module'], function (services) {
     'use strict';
-    services.factory('AdminAccount', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('AdminAccount', ['Request',
+        function (Request) {
 
             return {
                 getAccounts: function (query, page, cbSuccess, cbFail) {

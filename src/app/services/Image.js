@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Image', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('Image', ['Request',
+        function (Request) {
             var cacheTime = 1000 * 60 * 5;
             var dataCache = {};// Only fetch data if older than 5 minutes - prevents
 

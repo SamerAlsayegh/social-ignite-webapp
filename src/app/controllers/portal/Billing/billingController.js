@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('billingController', ['$scope', 'Alert', '$mdDialog', 'Billing', '$window',
         function ($scope, Alert, $mdDialog, Billing, $window) {
