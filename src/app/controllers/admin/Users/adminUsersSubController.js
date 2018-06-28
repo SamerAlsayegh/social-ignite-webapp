@@ -4,6 +4,14 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
         function ($scope, $stateParams, Alert, $state, AdminAccount) {
             $scope.accountId = $stateParams.accountId;
             $scope.today = new Date();
+            $scope.transactions = [];
+            $scope.transactionModel = {
+                selected: [],
+                order: null,
+                limit: 10,
+                page: 1
+            };
+
 
             if ($scope.accountId != null) {
                 AdminAccount.getAccount($scope.accountId, function (data) {
@@ -76,14 +84,19 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         Alert.error("Failed to delete user. " + message);
                     })
                 };
-                $scope.loadTransactions = function () {
-                    AdminAccount.getTransactions($scope.accountId, function (message) {
-                        $scope.transactions = message.data;
 
+                $scope.loadTransactions = function (sortOrder, page, limit) {
+                    AdminAccount.getTransactions($scope.accountId, sortOrder, page, limit, function (message) {
+                        $scope.transactions = message.data;
+                        $scope.transactionModel.page = $scope.transactions.page;
                     }, function (status, message) {
-                        Alert.error("Failed to delete user. " + message);
-                    })
-                }
+                        Alert.error(message);
+                    });
+                };
+                $scope.paginateTransactions = function(page, limit) {
+                    $scope.loadTransactions($scope.transactionModel.sort, page, limit);
+                };
+                $scope.loadTransactions();
             }
 
 

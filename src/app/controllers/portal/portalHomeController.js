@@ -56,8 +56,8 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
 
                 Profile.getPermissions(function (data) {
                     $scope.permissions = data.data.permissions;
-                    $scope.permissions_limits = data.data.limits;
-                    $scope.permissions_used = data.data.used;
+                    $scope.limits = data.data.limits;
+                    $scope.used = data.data.used;
                     Dashboard.getDashboardPosts(null, function (data) {
                         $scope.socialPostMainList = data;
                     }, function (status, message) {

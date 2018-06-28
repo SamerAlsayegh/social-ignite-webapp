@@ -71,11 +71,11 @@
                         + Suggest Hashtags
                     </md-button>
                     <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups" ng-click="getHashtags(currentSocialPost.content, true);" flex="20" ng-if="hashtags != null" class="md-primary">
-                        Force Refresh ({{hashtag_lookups}}/{{permissions_limits.hashtag_lookups}})
+                        Force Refresh ({{hashtag_lookups}}/{{limits.hashtag_lookups}})
                     </md-button>
                 </span>
                 <span layout="column" >
-                    <md-button flex href="/portal/billing" ng-if="hashtag_lookups >= permissions_limits.hashtag_lookups && permissions_limits.hashtag_lookups != -1" class="md-secondary md-raised">
+                    <md-button flex href="/portal/billing" ng-if="hashtag_lookups >= limits.hashtag_lookups && limits.hashtag_lookups != -1" class="md-secondary md-raised">
                         Upgrade for more lookups
                     </md-button>
                 </span>

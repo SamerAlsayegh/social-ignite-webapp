@@ -73,33 +73,57 @@ Here you can configure basic settings for your account.
     <md-tab label="Usages">
         <md-content class="md-padding">
             <h1 class="md-display-1">Usages</h1>
-            <md-content layout="row" layout-align="center center">
-                <md-button disabled class="md-raised md-primary">
-                    {{used.image_upload}}/{{limits.image_upload}} Images
-                </md-button>
-                <md-button disabled class="md-raised md-primary">
-                    {{used.pages_linked_max}}/{{limits.pages_linked_max}} Pages
-                </md-button>
-                <md-button disabled class="md-raised md-primary">
-                    {{used.post_scheduled_max}}/{{limits.post_scheduled_max}} Posts
-                </md-button>
-                <md-button disabled class="md-raised md-primary">
-                    {{used.hashtag_lookups}}/{{limits.hashtag_lookups}} Hashtag Lookups
-                </md-button>
+            <md-content layout="row" layout-align="space-around">
+                <md-content layout="column">
+                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.image_upload/limits.image_upload)*100 | number: 0}}"></md-progress-circular>
+                    <h3 class="process-circular-center text-center">
+                        {{used.image_upload + "/" + limits.image_upload}}<br>
+                        Images
+                    </h3>
+                    <md-tooltip md-direction="bottom">Your image upload limits</md-tooltip>
+                </md-content>
+                <md-content layout="column">
+                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.pages_linked_max/limits.pages_linked_max)*100 | number: 0}}"></md-progress-circular>
+                    <h3 class="process-circular-center text-center">
+                        {{used.pages_linked_max + "/" + limits.pages_linked_max}}<br>
+                        Pages
+                    </h3>
+                    <md-tooltip md-direction="bottom">Your page linking limits</md-tooltip>
+                </md-content>
+                <md-content layout="column">
+                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.post_scheduled_max/limits.post_scheduled_max)*100 | number: 0}}"></md-progress-circular>
+                    <h3 class="process-circular-center text-center">
+                        {{used.post_scheduled_max + "/" + limits.post_scheduled_max}}<br>
+                        Posts
+                    </h3>
+                    <md-tooltip md-direction="bottom">Your post scheduling limits</md-tooltip>
+                </md-content>
+                <md-content layout="column">
+                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.hashtag_lookups/limits.hashtag_lookups)*100 | number: 0}}"></md-progress-circular>
+                    <h3 class="process-circular-center text-center">
+                        {{used.hashtag_lookups + "/" + limits.hashtag_lookups}}<br>
+                        # Lookups
+                    </h3>
+                    <md-tooltip md-direction="bottom">Your hashtag lookup limits</md-tooltip>
+                </md-content>
             </md-content>
         </md-content>
     </md-tab>
     <md-tab label="Advanced">
         <md-content class="md-padding">
             <h1 class="md-display-1">Advanced</h1>
-            <%- include('_advanced'); %>
-
-            <!--<span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"-->
-            <!--layout-xs="column">-->
-            <!--<md-button ng-click="deleteAccount()" flex class="md-warn">-->
-            <!--Delete Account-->
-            <!--</md-button>-->
-            <!--</span>-->
+            <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                  layout-xs="column">
+                <md-button ng-click="requestData()" disabled flex class="md-primary">
+                Download Account Data (Unavailable)
+                </md-button>
+                </span>
+            <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                  layout-xs="column">
+                <md-button ng-click="deleteAccount()" flex class="md-warn">
+                Delete Account
+                </md-button>
+                            </span>
         </md-content>
     </md-tab>
 </md-tabs>

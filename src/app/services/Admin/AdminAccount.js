@@ -69,12 +69,12 @@ define(['../module'], function (services) {
                         return cbFail(status, message);
                     });
                 },
-                getTransactions: function (accountId, cbSuccess, cbFail) {
+                getTransactions: function (accountId, sortOrder, page, limit, cbSuccess, cbFail) {
                     if (accountId == null) {
                         return cbFail(400, "Missing accountId");
                     }
 
-                    return Request.get('admin/accounts/' + accountId + '/transactions', {}
+                    return Request.get('admin/accounts/' + accountId + '/transactions', {sort: sortOrder, page: page, limit: limit}
                         , function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
