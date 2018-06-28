@@ -7,7 +7,7 @@ A social media management panel for [SocialIgnite](https://socialignite.media) b
 
 ## Available Endpoints
 SocialIgnite maintains a public copy of api documentation so that 3rd party users can also use the backend however way they wish.
-<a href="https://portal.socialignite.media:8000/documentation">Documentation</a>
+<a href="https://api.socialignite.media/documentation">Documentation</a>
 
 
 
