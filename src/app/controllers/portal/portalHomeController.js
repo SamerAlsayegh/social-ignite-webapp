@@ -2,18 +2,21 @@ require("expose-loader?io!socket.io-client");
 define(['../module', '../../enums/platforms'], function (controllers, platforms) {
     'use strict';
     return controllers.controller('portalHomeController',
-        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
-            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies) {
+        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies', 'Profile',
+            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies, Profile) {
                 $scope.comments = {};
                 $scope.permissions = {};
 
                 $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
-
-                $scope.socket = io(SOCKET);
+                $scope.socket = io(__SOCKETS__);
                 $scope.socket.on('connect', function () {
                     console.log("Connected");
                     $scope.socket.emit('getOnline');
+                    if ($scope.disconnected){
+                        delete $scope.disconnected;
+                        Alert.success("Reconnected.")
+                    }
                 });
 
                 $scope.socket.on('ticket_new', function (ticket_reply) {
@@ -47,10 +50,11 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
 
 
                 $scope.socket.on('disconnect', function () {
-
+                    $scope.disconnected = true;
+                    Alert.error("Lost connection... Reconnecting.");
                 });
 
-                Auth.getPermissions(function (data) {
+                Profile.getPermissions(function (data) {
                     $scope.permissions = data.data.permissions;
                     $scope.permissions_limits = data.data.limits;
                     $scope.permissions_used = data.data.used;

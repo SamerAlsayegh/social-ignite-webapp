@@ -16,6 +16,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             }, 0);
             $scope.currentSocialPost = {
                 pages: [],
+                stacks: [],
                 content: '',
                 images: [],
                 date: $scope.currentTime,
@@ -37,6 +38,14 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 else
                     $scope.currentSocialPost.pages.push(page_id);
             };
+            $scope.chooseStack = function (stack_id) {
+                $scope.currentSocialPost.stacks = $scope.currentSocialPost.stacks || [];
+                if ($scope.currentSocialPost.stacks.indexOf(stack_id) != -1)
+                    $scope.currentSocialPost.stacks.splice($scope.currentSocialPost.stacks.indexOf(stack_id), 1);
+                else
+                    $scope.currentSocialPost.stacks.push(stack_id);
+            };
+
 
             $scope.cancel = function () {
                 $state.go('portal.schedule.table')
@@ -47,7 +56,16 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     case 'ACTIVE':
                         // Make it a draft now
                         SocialPosts.draftScheduledPost({id: $scope.postId}, function (message) {
-                            $state.go('portal.schedule.table', {});
+                            // $state.go('portal.schedule.table', {});
+                            $scope.currentSocialPost.post_time = $scope.currentSocialPost.date;
+                            $scope.currentSocialPost._id = $scope.postId;
+
+                            $state.transitionTo('portal.schedule.table', {
+                                'updateId': $scope.postId,
+                                'updateState': 'DRAFT',
+                                'updateContent': $scope.currentSocialPost
+                            });
+
                         }, function (status, message) {
                             Alert.error(message);
                         });
@@ -56,7 +74,11 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     case 'DRAFT':
                         // Delete the post.
                         SocialPosts.deletePost($scope.postId, function (message) {
-                            $state.go('portal.schedule.table', {});
+                            $state.transitionTo('portal.schedule.table', {
+                                'updateId': $scope.postId,
+                                'updateState': 'DELETE',
+                                'updateContent': null
+                            });
                         }, function (status, message) {
                             Alert.error(message);
                         });
@@ -93,11 +115,21 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 }
             };
 
-            $scope.lastUpdate = new Date().getTime();
-            $scope.$watch("currentSocialPost", function (newVal) {
-                if ((new Date().getTime() - $scope.lastUpdate) > 1000 && $scope.currentSocialPost.state != "ACTIVE") {
-                    $scope.lastUpdate = new Date().getTime();
-                    $scope.applyDraft();
+            $scope.draftUpdater = null;
+
+            $scope.$watch("currentSocialPost", function (newValue, oldValue) {
+                if (newValue !== oldValue && oldValue != null) {
+                    if ($scope.draftUpdater != null)
+                        clearTimeout($scope.draftUpdater);
+                    try {
+                        $scope.draftUpdater = setTimeout(function () {
+                            if ($scope.currentSocialPost.state != "ACTIVE") {
+                                $scope.applyDraft();
+                            }
+                        }, 500);
+                    } catch (e) {
+                        console.log(e)
+                    }
                 }
             }, true);
 
@@ -109,6 +141,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                 var params = {
                     pages: $scope.currentSocialPost.pages,
+                    stacks: $scope.currentSocialPost.stacks,
                     content: $scope.currentSocialPost.content.length > 0 ? $scope.currentSocialPost.content : '',
                     images: image_ids
                 };
@@ -117,16 +150,19 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                 if ($scope.postId != null)
                     params.id = $scope.postId;
+                if ($scope.postId) {
+                    $scope.socket.emit('updateDraft', params);
+                } else {
+                    SocialPosts.draftScheduledPost(params, function (data) {
+                        $scope.postId = data._id;
+                        if ($stateParams.postId != $scope.postId) {
+                            $state.go('portal.schedule.edit', {postId: $scope.postId}, {reload: false})
 
-                SocialPosts.draftScheduledPost(params, function (data) {
-                    $scope.postId = data;
-                    if ($stateParams.postId != $scope.postId) {
-                        $state.go('portal.schedule.edit', {postId: $scope.postId}, {reload: false})
-
-                    }
-                }, function (status, message) {
-                    Alert.error("Failed to save draft")
-                });
+                        }
+                    }, function (status, message) {
+                        Alert.error("Failed to save draft")
+                    });
+                }
             };
 
 
@@ -143,6 +179,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                 var params = {
                     pages: $scope.currentSocialPost.pages,
+                    stacks: $scope.currentSocialPost.stacks,
                     content: $scope.currentSocialPost.content,
                     images: image_ids
                 };
@@ -159,10 +196,12 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         $scope.pending = false;
                         Alert.success("Scheduled post on " + $filter('date')(postDetails.post_time, 'short'));
                         $state.transitionTo('portal.schedule.table', {
-                            'updateId': $scope.postId,
+                            'updateId': null,
+                            'updateState': 'ADD',
                             'updateContent': postDetails
                         });
                     }, function (status, message) {
+                        $scope.pending = false;
                         Alert.error("Failed to submit: " + message)
                     });
                 }
@@ -171,15 +210,10 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             // Get the simple list which basically is the grouped up version?
             SocialStacks.getSocialStacks(true, false, 1, function (socialStacks) {
+                $scope.allStacks = socialStacks.social_stacks;
+                console.log($scope.allStacks);
                 SocialAccounts.getSocialAccounts(null, null, function (socialAccounts) {
-
                     $scope.allPages = [];
-                    console.log(socialStacks);
-                    if (socialStacks.social_stacks.length > 0) {
-                        for (let index in socialStacks.social_stacks) {
-                            $scope.allPages.push(socialStacks.social_stacks[index]);
-                        }
-                    }
                     for (let index in socialAccounts.pages) {
                         if (socialAccounts.pages[index].platform != 4) {
                             $scope.allPages.push(socialAccounts.pages[index]);
@@ -206,14 +240,11 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     }
 
                                     var chosenPlatforms = [];
-                                    for (var socialPageIndex in socialPostDetails.social_post) {
-                                        var socialPage = socialPostDetails.social_post[socialPageIndex];
-                                        chosenPlatforms.push(socialPage.page_id._id);
-                                    }
-                                    for (var socialPageIndex in socialPostDetails.social_pages) {
-                                        var socialPage = socialPostDetails.social_pages[socialPageIndex];
+                                    for (var socialPageIndex in socialPostDetails.pages) {
+                                        var socialPage = socialPostDetails.pages[socialPageIndex];
                                         chosenPlatforms.push(socialPage);
                                     }
+                                    $scope.currentSocialPost.stacks = socialPostDetails.stacks;
                                     $scope.currentSocialPost.state = socialPostDetails.state;
                                     $scope.currentSocialPost.pages = chosenPlatforms;
                                     $scope.currentSocialPost.images = socialPostDetails.images;

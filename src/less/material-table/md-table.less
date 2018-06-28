@@ -67,7 +67,7 @@ table.md-table {
   }
 
   th.md-column {
-    color: @md-dark-secondary;
+    color: inherit;
     font-size: 12px;
     font-weight: bold;
     white-space: nowrap;
@@ -83,7 +83,7 @@ table.md-table {
       line-height: 16px !important;
 
       &.md-sort-icon {
-        color: @md-dark-disabled;
+        color: inherit;
         opacity: 0;
         transition: transform 0.25s, opacity 0.25s;
 
@@ -107,7 +107,7 @@ table.md-table {
 
     &.md-active,
     &.md-active md-icon {
-      color: @md-dark;
+      color: inherit;
     }
 
     &:hover md-icon.md-sort-icon,
@@ -126,16 +126,19 @@ table.md-table {
   }
 
   &.md-row-select tbody.md-body > tr.md-row {
-    transition: background-color 0.2s;
-
-    &:not([disabled]):hover {
-      background-color: @md-dark-row-hover !important;
-    }
-
-    &.md-selected {
-      background-color: @md-dark-row-select;
+    *{
+      transition: border-bottom-color 0.1s linear;
+      border-bottom: transparent 3px solid;
     }
   }
+
+  &.md-row-select tbody.md-body > tr.md-row:hover {
+    *{
+      transition: border-bottom-color 0.1s linear;
+      border-bottom: rgba(122,122,122,1) 3px solid;
+    }
+  }
+
 
   &.md-row-select td.md-cell,
   &.md-row-select th.md-column {
@@ -196,7 +199,7 @@ table.md-table {
   }
 
   td.md-cell {
-    color: @md-dark;
+    color: inherit;
     font-size: 13px;
     border-top: 1px @md-dark-divider solid;
     
@@ -209,12 +212,12 @@ table.md-table {
     }
 
     &.md-placeholder {
-      color: @md-dark-disabled;
+      color: inherit;
     }
 
     md-select > .md-select-value > span.md-select-icon {
       justify-content: flex-end;
-      color: @md-dark-secondary;
+      color: inherit;
       width: 18px;
       text-align: right;
 

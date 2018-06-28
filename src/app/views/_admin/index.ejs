@@ -21,7 +21,7 @@
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
             <header class="nav-header">
-                <img flex class="menu_logo" ng-src="{{theme == 'dark' ? ASSETS + '/img/thumbnail/w400/light_logo.png' : ASSETS + '/img/thumbnail/w400/dark_logo.png'}}">
+                <img flex class="menu_logo" ng-src="__ASSETS__{{theme == 'dark' ? '/img/thumbnail/w400/light_logo.png' : '/img/thumbnail/w400/dark_logo.png'}}">
             </header>
             <md-list flex>
                 <md-list-item class="home" flex href="/portal/" ng-click="toggleMenu()">

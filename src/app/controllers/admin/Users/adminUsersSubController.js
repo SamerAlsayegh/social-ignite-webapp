@@ -1,13 +1,15 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('adminUsersSubController', ['$scope', '$stateParams', 'Alert', '$state', 'AdminAccount', '$timeout',
-        function ($scope, $stateParams, Alert, $state, AdminAccount, $timeout) {
+    return controllers.controller('adminUsersSubController', ['$scope', '$stateParams', 'Alert', '$state', 'AdminAccount',
+        function ($scope, $stateParams, Alert, $state, AdminAccount) {
             $scope.accountId = $stateParams.accountId;
             $scope.today = new Date();
 
             if ($scope.accountId != null) {
                 AdminAccount.getAccount($scope.accountId, function (data) {
-                    $scope.account = data.data;
+                    $scope.account = data.data.user;
+                    $scope.used = data.data.used;
+                    $scope.limits = data.data.limits;
                 }, function (status, message) {
                     Alert.error(message);
                 });
@@ -68,8 +70,20 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 };
 
                 $scope.deleteAccount = function () {
-
+                    AdminAccount.deleteAccount($scope.accountId, function (message) {
+                        $state.go('admin.user_management.home')
+                    }, function (status, message) {
+                        Alert.error("Failed to delete user. " + message);
+                    })
                 };
+                $scope.loadTransactions = function () {
+                    AdminAccount.getTransactions($scope.accountId, function (message) {
+                        $scope.transactions = message.data;
+
+                    }, function (status, message) {
+                        Alert.error("Failed to delete user. " + message);
+                    })
+                }
             }
 
 

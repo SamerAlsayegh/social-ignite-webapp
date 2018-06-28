@@ -24,18 +24,15 @@
              day-content="setDayContent"
              disable-future-selection="false"></calendar-md>
 
-<h3>Drafts pending edits:</h3>
-<md-list layout-padding flex>
+<h3 ng-if="allDraftedPosts.length > 0">Drafts pending edits:</h3>
+<md-list ng-if="allDraftedPosts.length > 0" layout-padding flex>
     <md-list-item ng-repeat="draft in allDraftedPosts" href="/portal/schedule/edit/{{draft._id}}"  class="md-2-line">
-        <md-icon>archive</md-icon>
+        <md-icon>edit</md-icon>
         <div flex class="md-list-item-text">
             <p ng-bind="draft.content"></p>
-            <small>Scheduled for {{draft.post_time | amCalendar}}</small>
+            <small>Planned for {{draft.post_time | amCalendar}}</small>
         </div>
-        <md-button class="md-secondary md-icon-button"  aria-label="edit">
-            <md-icon>edit</md-icon>
-        </md-button>
-        <md-button md-no-ink md-no-bar class="md-list-item-text md-secondary">
+        <md-button disabled md-no-ink md-no-bar class="md-list-item-text md-secondary">
             <p ng-bind="draft.state">
             <p am-time-ago="draft.updated_at"></p>
         </md-button>

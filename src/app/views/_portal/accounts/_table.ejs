@@ -2,6 +2,7 @@
     <md-fab-speed-dial md-direction="up" class="md-scale page-button">
         <md-fab-trigger>
             <md-button aria-label="menu" class="md-fab md-primary">
+                <md-tooltip md-direction="left">Add new profile</md-tooltip>
                 <md-icon>add</md-icon>
             </md-button>
         </md-fab-trigger>
@@ -19,6 +20,8 @@
 
 <div layout="row" layout-align="stretch">
     <md-button class="md-primary md-raised" flex="25" ng-click="socialStackDialog($event)">
+        <i class="zmdi zmdi-group"></i>
+        <md-tooltip md-direction="right">Group profiles for ease.</md-tooltip>
         Stacks Management
     </md-button>
     <!--<md-button ng-if="socialStacks.length > 0"  class="md-primary">-->
@@ -28,6 +31,7 @@
     </div>
 
     <div layout="row" flex>
+        Filter:
         <md-select flex placeholder="Platform Filter" ng-model="platformFilter" ng-change="platformFiltered()">
             <md-option ng-value="null">None</md-option>
             <md-option ng-repeat="platform in socialPlatformDetails" ng-value="platform.id"">

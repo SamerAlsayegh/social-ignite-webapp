@@ -20,6 +20,7 @@ define(['../../module'], function (controllers) {
                             $scope.pending = false;
                             $state.go('portal.support.ticket.view', {ticketId: data._id}, {reload: true});
                         }, function (status, message) {
+                            $scope.pending = false;
                             Alert.error(message);
                         })
                     }
@@ -59,6 +60,7 @@ define(['../../module'], function (controllers) {
 
                             $scope.reply = "";
                         }, function (status, message) {
+                            $scope.pending = false;
                             Alert.error(message);
                         })
                     }

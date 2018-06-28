@@ -1,6 +1,7 @@
 define([
     './Request',
     './Auth',
+    './Profile',
     './SocialPosts',
     './SocialAccounts',
     './Alert',

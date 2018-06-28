@@ -3,12 +3,37 @@ define(['../../module'], function (controllers) {
     return controllers.controller('billingController', ['$scope', 'Alert', '$mdDialog', 'Billing', '$window',
         function ($scope, Alert, $mdDialog, Billing, $window) {
             $scope.packages = [];
+            $scope.transactions = [];
+            $scope.transactionModel = {
+                selected: [],
+                order: null,
+                limit: 10,
+                page: 1
+            };
+
+
+
             Billing.getPlans(function (plans) {
                 $scope.packages = plans.data;
-                console.log(plans)
             }, function (status, message) {
                 Alert.error(message)
             });
+
+
+            $scope.loadTransactions = function (sortOrder, page, limit) {
+                Billing.getTransactions(sortOrder, page, limit, function (message) {
+                    $scope.transactions = message.data;
+                    $scope.transactionModel.page = $scope.transactions.page;
+                }, function (status, message) {
+                    Alert.error(message);
+                });
+            };
+            $scope.paginateTransactions = function(page, limit) {
+                $scope.loadTransactions($scope.transactionModel.sort, page, limit);
+            };
+            $scope.loadTransactions();
+
+
 
 
             Billing.getSubscription(function (subscriptionData) {

@@ -2,7 +2,7 @@ define([
     './portal/portalHomeController',
     './portal/Schedule/scheduleController',
     './portal/Schedule/editController',
-    './portal/Statistics/statisticsController',
+    './portal/Statistics/postStatisticsController',
     './portal/Billing/billingController',
     './portal/Support/supportController',
     './portal/Support/supportSubController',
@@ -11,7 +11,7 @@ define([
     './portal/Profile/profileController',
     './portal/Profile/profileDeleteController',
     './portal/Resources/resourcesController',
-    './portal/Heatmap/heatmapController',
+    './portal/Statistics/statisticsController',
 
     './admin/adminHomeController',
     './admin/adminSupportController',

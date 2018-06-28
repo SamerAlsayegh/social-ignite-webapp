@@ -2,10 +2,10 @@ const gulp = require('gulp');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
-const webpackConfigDev = require('./webpack.config.dev.js');
 const webserver = require('gulp-webserver');
 const gulpEjs = require("gulp-ejs");
 const rename = require('gulp-rename');
+const replace = require('gulp-replace');
 const less = require("gulp-less");
 const concat = require('gulp-concat');
 const cleanCSS = require('gulp-clean-css');
@@ -15,9 +15,23 @@ const cluster = require('cluster');
 const os = require('os');
 const imageResize = require('gulp-image-resize');
 const compression = require('compression');
+const devBuild = ((process.env.NODE_ENV || 'development').trim().toLowerCase() === 'development');
+let ASSETS = 'https://assets.socialignite.media';
+let API = 'https://api.socialignite.media';
+let SOCKETS = 'https://api.socialignite.media';
+
+if (devBuild){
+    ASSETS = 'http://localhost:8080';
+    API = 'http://localhost:8000';
+    SOCKETS = 'http://localhost:8001';
+}
+
 
 gulp.task('webpack', function() {
     return gulp.src(__dirname + '/src/app/**/*.js')
+        .pipe(replace(/__ASSETS__/igm, ASSETS))
+        .pipe(replace(/__API__/igm, API))
+        .pipe(replace(/__SOCKETS__/igm, SOCKETS))
         .pipe(pack, webpack)
         .pipe(gulp.dest(__dirname + '/dist/'))
 });
@@ -42,6 +56,7 @@ gulp.task('watch', function() {
 gulp.task('views', function() {
     return gulp.src(__dirname + '/src/app/views/**/*.ejs')
         .pipe(gulpEjs({},{}, {ext:'.html'}))
+        .pipe(replace(/__ASSETS__/igm, ASSETS))
         .pipe(gulp.dest(__dirname + '/dist/'))
 });
 
@@ -93,6 +108,7 @@ gulp.task('fonts', function() {
 gulp.task('index', function() {
     return gulp.src(__dirname + '/src/views/index.ejs')
         .pipe(gulpEjs({},{}, {ext:'.html'}))
+        .pipe(replace(/__ASSETS__/igm, ASSETS))
         .pipe(gulp.dest(__dirname + '/dist/'))
 });
 
@@ -104,30 +120,32 @@ gulp.task('less', function () {
         .pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('webpack-dev-server', function () {
-    // Start a webpack-dev-server
-    new WebpackDevServer(webpack(webpackConfigDev), webpackConfigDev.devServer).listen(8080, function(err) {
-        console.log("Booted up the dev front-end. Not to be used on production.");
-    });
-});
-
 gulp.task('webserver', function() {
-    gulp.src('dist')
-        .pipe(webserver({
-            livereload: false,
-            host: '0.0.0.0',
-            port: 8080,
-            middleware: [
-                compression()
-            ],
-            https: {
-                cert: "/etc/letsencrypt/live/portal.socialignite.media/fullchain.pem",
-                key: "/etc/letsencrypt/live/portal.socialignite.media/privkey.pem"
-            },
-            fallback: '/index.html',
-            directoryListing: false,
-            open: false
-        }));
+    if (devBuild) {
+        new WebpackDevServer(webpack(webpackConfig), webpackConfig.devServer).listen(8080, function (err) {
+            console.log("Booted up the dev front-end. Not to be used on production.");
+        });
+    } else {
+
+        gulp.src('dist')
+            .pipe(webserver({
+                livereload: false,
+                host: '0.0.0.0',
+                port: 8080,
+                middleware: [
+                    compression()
+                ],
+                https: {
+                    cert: "/etc/letsencrypt/live/socialignite.media/fullchain.pem",
+                    key: "/etc/letsencrypt/live/socialignite.media/privkey.pem"
+                },
+                fallback: '/index.html',
+                directoryListing: false,
+                open: false
+            }));
+        gulp.start('webpack');
+
+    }
 });
 
 
@@ -145,5 +163,5 @@ gulp.task('cluster', function() {
 });
 
 gulp.task('main', ['cluster']);
-gulp.task('default', ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'watch', 'webserver', 'fonts', 'webpack']);
-gulp.task('debug', ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'watch', 'webpack-dev-server', 'fonts', 'webpack']);
+
+gulp.task('default', ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'watch', 'webserver', 'fonts']);

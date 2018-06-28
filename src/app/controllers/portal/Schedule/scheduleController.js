@@ -4,16 +4,41 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
         function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert) {
 
             this.uiOnParamsChanged = function (changedParams, $transition$) {
-                if (changedParams.updateId && changedParams.updateContent)
+                console.log(changedParams.updateState);
+                if (changedParams.updateId && changedParams.updateContent && changedParams.updateState == "ADD") {
+                    // Modifying a post
                     $scope.updateSocialPost(changedParams.updateId, changedParams.updateContent);
-                else if ($state.params.updateContent) {
-                    $scope.allSocialPosts.push(changedParams.updateContent);
+                } else if ($state.params.updateContent  && changedParams.updateState == "ADD") {
+                    // Adding a post
+
+                    for (let index = 0; index < $scope.allDraftedPosts.length; index++){
+                        if ($scope.allDraftedPosts[index]._id == changedParams.updateContent._id){
+                            $scope.allDraftedPosts.splice(index, 1);
+                            break;
+                        }
+                    }
+
+                    $scope.allActivePosts.push(changedParams.updateContent);
+                } else if (changedParams.updateId && changedParams.updateState == "DELETE"){
+                    // Deleting a draft
+                    for (let index = 0; index < $scope.allDraftedPosts.length; index++){
+                        if ($scope.allDraftedPosts[index]._id == changedParams.updateId){
+                            $scope.allDraftedPosts.splice(index, 1);
+                            break;
+                        }
+                    }
+
+                } else if (changedParams.updateId && changedParams.updateContent && changedParams.updateState == "DRAFT"){
+                    // Drafting a post.
+                    $scope.updateSocialPost(changedParams.updateId, null);
+                    $scope.allDraftedPosts.unshift(changedParams.updateContent);
                 }
+
+
                 // TODO: Handle draft changes to scheduled and scheduled changes to draft.
             };
             $scope.platforms = platforms;
             $scope.scheduledPosts = [];
-            $scope.allSocialPosts = [];
             /**
              * Any module declarations here
              */
@@ -58,21 +83,25 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             $scope.updateSocialPost = function (postId, postDetails) {
                 var postChangeIndex = null;
-                for (var postIndex in $scope.allSocialPosts) {
-                    if ($scope.allSocialPosts[postIndex]._id == postId) {
+                for (var postIndex in $scope.allActivePosts) {
+                    if ($scope.allActivePosts[postIndex]._id == postId) {
                         postChangeIndex = postIndex;
                         break;
                     }
                 }
-                if (postChangeIndex != null) {
-                    $scope.allSocialPosts[postChangeIndex] = postDetails;
+                if (postChangeIndex != null && postDetails != null) {
+                    $scope.allActivePosts[postChangeIndex] = postDetails;
+                } else if (postChangeIndex != null){
+                    $scope.allActivePosts.splice(postChangeIndex, 1);
                 }
+                console.log("Cleared?")
             };
 
 
             $scope.$on('alterSocialPost', function ($event, postId) {
                 $scope.addPost($event, postId);
             });
+
             $scope.$on('statisticsSocialPost', function ($event, postId) {
                 $scope.viewStatistics($event, postId);
             });

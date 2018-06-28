@@ -36,6 +36,14 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                getTransactions: function (sortOrder, page, limit, cbSuccess, cbFail) {
+                    return Request.get('payment/transactions', {sort: sortOrder, page: page, limit: limit},
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
             };
         }]);
 });

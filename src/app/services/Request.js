@@ -6,7 +6,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                 post: function (endpoint, parameters, cbSuccess, cbFail) {
                     return $http({
                         method: 'POST',
-                        url: API + '/api/v1/' + endpoint,
+                        url: __API__ + '/api/v1/' + endpoint,
                         data: parameters,
                         timeout: 10000
                     }).then(function (data, status, headers, config) {
@@ -43,7 +43,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
 
                     return $http({
                         method: 'GET',
-                        url: API + '/api/v1/' + endpoint,
+                        url: __API__ + '/api/v1/' + endpoint,
                         params: data,
                         timeout: 10000
                     }).then(function (data, status, headers, config) {
@@ -76,7 +76,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
 
                     return $http({
                         method: 'POST',
-                        url: API + '/api/v1/' + endpoint,
+                        url: __API__ + '/api/v1/' + endpoint,
                         data: formData,
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined},

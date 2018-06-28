@@ -1,18 +1,18 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Auth',
-        function ($rootScope, $scope, Alert, Auth) {
+    return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Profile',
+        function ($rootScope, $scope, Alert, Profile) {
 
             $scope.themeBool = $scope.theme == "dark" ? true : false;
 
-            $scope.checkForm = function(profile){
+
+            $scope.checkForm = function (profile) {
                 return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (
                     !(profile.current_password.$dirty &&
                         profile.new_password.$dirty &&
                         profile.confirm_password.$dirty)
                 )) || !profile.$valid;
             };
-
 
             $scope.updateUser = function (profile) {
                 if (profile.$valid) {
@@ -38,7 +38,7 @@ define(['../../module'], function (controllers) {
                         }
                     }
 
-                    Auth.updateUser(changed, function (message) {
+                    Profile.updateUser(changed, function (message) {
                         if (message.email) {
                             Alert.success("Please open the link sent to " + changed.email)
                         } else {
@@ -58,7 +58,7 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.deleteAccount = function () {
-                Auth.deleteUser(function (data) {
+                Profile.deleteUser(function (data) {
                     Alert.success("Check your email for instructions.");
                 }, function (status, message) {
                     Alert.error(message);

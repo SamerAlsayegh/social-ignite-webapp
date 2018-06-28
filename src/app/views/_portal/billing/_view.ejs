@@ -1,63 +1,101 @@
-<h1 class="page-header">Billing</h1>
-This is a billing page, here you can configure your subscription settings!<br>
-<br>
-
-<div layout="column" class="md-block">
-
-    <h3 ng-if="subscription">Active Subscription</h3>
-    <md-content class="md-block" flex layout="row">
-        <md-input-container flex ng-if="subscription" class="md-block">
-            <label>Package</label>
-            <input disabled ng-model="subscription.package">
-        </md-input-container>
-        <md-input-container flex ng-if="subscription && subscription.renewal" class="md-block">
-            <label>Renewal</label>
-            <input disabled ng-value="subscription.renewal | date : 'longDate'">
-        </md-input-container>
-    </md-content>
-    <md-content class="md-block" flex layout="row">
-    <md-input-container flex ng-if="subscription" class="md-block">
-        <label>Last Payment</label>
-        <input disabled ng-value="subscription.created_at | date : 'longDate'">
-    </md-input-container>
-    <md-input-container flex ng-if="subscription" class="md-block">
-        <label>Status</label>
-        <input disabled ng-value="subscription.status">
-    </md-input-container>
-    </md-content>
-
-    <md-content ng-if="!subscription || subscription.status == 'cancelled'">
-        <h3>Subscribe to a package</h3>
+<div layout="row" layout-align="start center">
+    <h1 class="page-header" flex>Billing</h1>
+    <md-chips>
+        <md-chip>Beta</md-chip>
+    </md-chips>
+</div>
 
 
-        <md-content layout-padding layout="row"  layout-wrap>
-            <md-card ng-repeat="package in packages" ng-click="subscribePackage(package.internal_name)"
-                     class="package-card" layout="column">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{package.name}}</span>
-                        <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
 
-                        <span flex layout="column" layout-align="start">
+<md-tabs md-dynamic-height md-border-bottom>
+    <md-tab ng-if="!subscription || subscription.status == 'cancelled'" label="Packages">
+        <md-content class="md-padding">
+            <h1 class="md-display-1">Packages</h1>
+                <md-content layout-padding layout="row"  layout-wrap>
+                    <md-card ng-repeat="package in packages" ng-click="subscribePackage(package.internal_name)"
+                             class="package-card" layout="column">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{package.name}}</span>
+                                <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
+
+                                <span flex layout="column" layout-align="start">
                             <ul flex>
                                 <li ng-repeat="feature in package.features">{{feature}}</li>
                             </ul>
                         </span>
-                        <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
-                            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-                        </div>
-                    </md-card-title-text>
-                    <md-card-title-media>
-                        <md-icon>shopping_cart</md-icon>
-                    </md-card-title-media>
-                </md-card-title>
-                <md-card-actions layout="column" layout-align="stretch">
-                    <md-button class="md-primary md-raised">Subscribe</md-button>
-                </md-card-actions>
-            </md-card>
+                                <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
+                                    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+                                </div>
+                            </md-card-title-text>
+                            <md-card-title-media>
+                                <md-icon>shopping_cart</md-icon>
+                            </md-card-title-media>
+                        </md-card-title>
+                        <md-card-actions layout="column" layout-align="stretch">
+                            <md-button class="md-primary md-raised">Subscribe</md-button>
+                        </md-card-actions>
+                    </md-card>
+                </md-content>
         </md-content>
-    </md-content>
-    <md-content ng-if="subscription.status == 'active'" layout="column" layout-align="stretch">
-        <md-button ng-click="cancelSubscription()" class="md-warn">Cancel Subscription</md-button>
-    </md-content>
-</div>
+    </md-tab>
+    <md-tab ng-if="subscription" label="Active Subscription">
+        <md-content class="md-padding">
+            <h1 class="md-display-1">Active Subscription</h1>
+            <md-content class="md-block" ng-if="subscription" flex layout="row">
+                <md-input-container flex class="md-block">
+                    <label>Package</label>
+                    <input disabled ng-model="subscription.package">
+                </md-input-container>
+                <md-input-container flex ng-if="subscription.renewal" class="md-block">
+                    <label>Renewal</label>
+                    <input disabled ng-value="subscription.renewal | date : 'longDate'">
+                </md-input-container>
+            </md-content>
+            <md-content class="md-block" ng-if="subscription" flex layout="row">
+                <md-input-container flex class="md-block">
+                    <label>Last Payment</label>
+                    <input disabled ng-value="subscription.created_at | date : 'longDate'">
+                </md-input-container>
+                <md-input-container flex class="md-block">
+                    <label>Status</label>
+                    <input disabled ng-value="subscription.status">
+                </md-input-container>
+            </md-content>
+            <md-content ng-if="subscription.status == 'active'" layout="column" layout-align="stretch">
+                <md-button ng-click="cancelSubscription()" class="md-warn">Cancel Subscription</md-button>
+            </md-content>
+        </md-content>
+    </md-tab>
+    <md-tab label="Transactions">
+        <md-content layout="column" class="md-padding">
+            <h1 class="md-display-1">Transactions</h1>
+            <md-table-container>
+                <table md-table md-row-select ng-model="transactionModel.selected">
+                    <thead md-head md-order="transactionModel.order" md-on-reorder="loadTransactions">
+                    <tr md-row>
+                        <th md-column md-order-by="_id">id</th>
+                        <th md-column md-order-by="package.name"><span>Package</span></th>
+                        <th md-column md-order-by="created_at">Start</th>
+                        <th md-column md-order-by="expiry">Expiry</th>
+                        <th md-column md-order-by="package.value">Price</th>
+                        <th md-column md-order-by="status">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row ng-repeat="transaction in transactions.transactions">
+                        <td class="md-primary" md-cell>{{transaction._id}}</td>
+                        <td md-cell>{{transaction.package.name}}</td>
+                        <td md-cell>{{transaction.created_at | amCalendar}}</td>
+                        <td md-cell>{{transaction.expiry | amCalendar}}</td>
+                        <td md-cell>{{transaction.package.value | number: 2}}</td>
+                        <td md-cell>{{transaction.status}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="transactionModel.limit" md-limit-options="[5, 10, 15]" md-page="transactionModel.page" md-total="{{transactions.count}}" md-on-paginate="paginateTransactions" md-page-select></md-table-pagination>
+        </md-content>
+    </md-tab>
+</md-tabs>
+

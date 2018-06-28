@@ -1,84 +1,151 @@
-<h1 class="page-header">{{account.name || account.email}}'s Profile</h1>
-Here you can configure basic settings for this user.
-<br>
+<div layout="row" layout-align="start center">
+    <h1 class="page-header" flex>{{account.name || account.email}}'s Profile</h1>
+</div>
 
-<form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block">
-    <h3>General Information</h3>
-    <md-input-container class="md-block">
-        <label><md-icon ng-if="!account.verified">close</md-icon>
-            Email</label>
-        <input name="email" ng-disabled="!account.verified" ng-model="account.email" type="email">
-        <div ng-messages="profile.email.$error">
-            <div ng-message="email">The email must be in valid format.</div>
-        </div>
-    </md-input-container>
-    <div layout="row">
-        <md-input-container flex class="md-block">
-            <label>Role</label>
-            <input disabled ng-value="account.scope">
-        </md-input-container>
-        <md-input-container class="md-block">
-            <label>Expiry</label>
-            <input disabled ng-value="account.scope_details.expiry | date : 'short'">
-        </md-input-container>
-    </div>
-    <h3>Change Password</h3>
-    <div layout="row">
-        <md-input-container class="md-block" flex>
-            <label>New Password</label>
-            <input name="new_password" type="password" ng-pattern="confirm_password"  ng-model="new_password">
-            <div ng-messages="profile.new_password.$error">
-                <div ng-message="pattern">The passwords do not match.</div>
-            </div>
-        </md-input-container>
-        <md-input-container class="md-block" flex>
-            <label>Confirm Password</label>
-            <input name="confirm_password" type="password" ng-pattern="new_password" ng-model="confirm_password">
-            <div ng-messages="profile.confirm_password.$error">
-                <div ng-message="pattern">The passwords do not match.</div>
-            </div>
-        </md-input-container>
-    </div>
+<md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="General Information">
+        <md-content class="md-padding">
+            <h1 class="md-display-1">General Information</h1>
+            <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block">
+                <md-input-container class="md-block">
+                    <label>
+                        <md-icon ng-if="!account.verified">close</md-icon>
+                        Email</label>
+                    <input name="email" ng-disabled="!account.verified" ng-model="account.email" type="email">
+                    <div ng-messages="profile.email.$error">
+                        <div ng-message="email">The email must be in valid format.</div>
+                    </div>
+                </md-input-container>
+                <div layout="row">
+                    <md-input-container flex class="md-block">
+                        <label>Role</label>
+                        <input disabled ng-value="account.scope">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Expiry</label>
+                        <input disabled ng-value="account.scope_details.expiry | date : 'short'">
+                    </md-input-container>
+                </div>
+                <h3>Change Password</h3>
+                <div layout="row">
+                    <md-input-container class="md-block" flex>
+                        <label>New Password</label>
+                        <input name="new_password" type="password" ng-pattern="confirm_password"
+                               ng-model="new_password">
+                        <div ng-messages="profile.new_password.$error">
+                            <div ng-message="pattern">The passwords do not match.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex>
+                        <label>Confirm Password</label>
+                        <input name="confirm_password" type="password" ng-pattern="new_password"
+                               ng-model="confirm_password">
+                        <div ng-messages="profile.confirm_password.$error">
+                            <div ng-message="pattern">The passwords do not match.</div>
+                        </div>
+                    </md-input-container>
+                </div>
 
-    <h3>Communication</h3>
-    <md-input-container class="md-block">
-        <md-checkbox ng-model="account.mailing_list" class="md-primary" name="mailing_list">
-            I am interested in updates by SocialIgnite - We won't spam :)
-        </md-checkbox>
-    </md-input-container>
+                <h3>Communication</h3>
+                <md-input-container class="md-block">
+                    <md-checkbox ng-model="account.mailing_list" class="md-primary" name="mailing_list">
+                        I am interested in updates by SocialIgnite - We won't spam :)
+                    </md-checkbox>
+                </md-input-container>
 
-    <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
-    <md-button ng-disabled="checkForm(profile)" flex type="submit"  value="Submit" class="md-primary md-raised">
-        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
-        Save Changes
-    </md-button>
-</span>
-
-</form>
-
-<form name="role_form" ng-if="user.scope == 'admin'" ng-submit="updateRole(role_form)" layout="column" class="md-block">
-    <h3>Role Management</h3>
-    <md-content layout="row">
-        <md-input-container flex>
-            <label>Change Role</label>
-            <md-select ng-model="account.role" name="role">
-                <md-option value="suspended">Suspended</md-option>
-                <md-option value="user">User</md-option>
-                <md-option value="basic">Basic</md-option>
-                <md-option value="influencer">Influencer</md-option>
-                <md-option value="medium_business">Small Business</md-option>
-                <md-option value="support">Support</md-option>
-            </md-select>
-        </md-input-container>
-        <md-input-container flex>
-            <md-datepicker md-min-date="today" name="expiry" ng-model="account.expiry" md-placeholder="Expiry"></md-datepicker>
-        </md-input-container>
-        <md-button ng-disabled="!role_form.role.$dirty" type="submit" value="submit" class="md-raised md-primary">Apply</md-button>
-    </md-content>
-</form>
-
-<span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
-    <md-button ng-click="deleteAccount()" flex class="md-warn">
-        Delete Account
-    </md-button>
-</span>
+                <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                      layout-xs="column">
+                    <md-button ng-disabled="checkForm(profile)" flex type="submit" value="Submit"
+                               class="md-primary md-raised">
+                        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+                        Save Changes
+                    </md-button>
+                </span>
+            </form>
+        </md-content>
+    </md-tab>
+    <md-tab label="Role Management" ng-if="user.scope == 'admin'">
+        <md-content class="md-padding">
+            <h1 class="md-display-1">Role Management</h1>
+            <form name="role_form" ng-submit="updateRole(role_form)" layout="column" class="md-block">
+                <md-content layout="row">
+                    <md-input-container flex>
+                        <label>Change Role</label>
+                        <md-select ng-model="account.role" name="role">
+                            <md-option value="suspended">Suspended</md-option>
+                            <md-option value="user">User</md-option>
+                            <md-option value="basic">Basic</md-option>
+                            <md-option value="influencer">Influencer</md-option>
+                            <md-option value="medium_business">Small Business</md-option>
+                            <md-option value="support">Support</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <md-datepicker md-min-date="today" name="expiry" ng-model="account.expiry"
+                                       md-placeholder="Expiry"></md-datepicker>
+                    </md-input-container>
+                    <md-button ng-disabled="!role_form.role.$dirty" type="submit" value="submit"
+                               class="md-raised md-primary">
+                        Apply
+                    </md-button>
+                </md-content>
+            </form>
+        </md-content>
+    </md-tab>
+    <md-tab label="Usages">
+        <md-content class="md-padding">
+            <h1 class="md-display-1">Usages</h1>
+            <md-content layout="row" layout-align="center center">
+                <md-button disabled class="md-raised md-primary">
+                    {{used.image_upload}}/{{limits.image_upload}} Images
+                </md-button>
+                <md-button disabled class="md-raised md-primary">
+                    {{used.pages_linked_max}}/{{limits.pages_linked_max}} Pages
+                </md-button>
+                <md-button disabled class="md-raised md-primary">
+                    {{used.post_scheduled_max}}/{{limits.post_scheduled_max}} Posts
+                </md-button>
+                <md-button disabled class="md-raised md-primary">
+                    {{used.hashtag_lookups}}/{{limits.hashtag_lookups}} Hashtag Lookups
+                </md-button>
+            </md-content>
+        </md-content>
+    </md-tab>
+    <md-tab label="Advanced">
+        <md-content class="md-padding">
+            <h1 class="md-display-1">Advanced</h1>
+            <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                  layout-xs="column">
+                <md-button ng-click="deleteAccount()" flex class="md-warn">
+                    Delete Account
+                </md-button>
+            </span>
+        </md-content>
+    </md-tab>
+    <md-tab label="Transactions" md-on-select="loadTransactions()">
+        <md-content layout="column" class="md-padding">
+            <h1 class="md-display-1">Transactions</h1>
+            <mdt-table table-card="{title: 'Transactions'}"
+                       mdt-row="{
+                      'data': transactions,
+                      'column-keys': [
+                          '_id',
+                          'package.name',
+                          'created_at',
+                          'expiry',
+                          'package.value',
+                          'status',
+                      ]
+                      }">
+                <mdt-header-row>
+                    <mdt-column align-rule="right">Id</mdt-column>
+                    <mdt-column align-rule="left">Package</mdt-column>
+                    <mdt-column align-rule="right">Start</mdt-column>
+                    <mdt-column align-rule="right">Expiry</mdt-column>
+                    <mdt-column align-rule="right">Price</mdt-column>
+                    <mdt-column align-rule="right">Status</mdt-column>
+                </mdt-header-row>
+            </mdt-table>
+        </md-content>
+    </md-tab>
+</md-tabs>

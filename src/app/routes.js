@@ -171,6 +171,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     templateUrl: '/_portal/schedule/_table.html',
                     params: {
                         updateId: {dynamic: true},
+                        updateState: {dynamic: true},
                         updateContent: {dynamic: true},
                     }
                 })
@@ -185,7 +186,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     }
                 })
                 .state('portal.schedule.statistics', {
-                    controller: 'statisticsController',
+                    controller: 'postStatisticsController',
                     url: "/portal/schedule/view/:postId",
                     templateUrl: '/_portal/schedule/_analytics.html',
                     params: {
@@ -195,13 +196,13 @@ define(['./SocialIgnite'], function (SocialIgnite) {
 
 
 
-                .state('portal.heatmap', {
-                    templateUrl: '/_portal/heatmap/index.html',
+                .state('portal.statistics', {
+                    templateUrl: '/_portal/statistics/index.html',
                 })
-                .state('portal.heatmap.view', {
-                    templateUrl: '/_portal/heatmap/_view.html',
-                    controller: 'heatmapController',
-                    url: "/portal/heatmap"
+                .state('portal.statistics.view', {
+                    templateUrl: '/_portal/statistics/_view.html',
+                    controller: 'statisticsController',
+                    url: "/portal/statistics"
                 })
 
 

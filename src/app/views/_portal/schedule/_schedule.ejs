@@ -1,4 +1,9 @@
-<h1 class="page-header">Schedule a post...</h1>
+<div layout="row" layout-align="start center">
+    <h1 class="page-header" flex>Schedule a post...</h1>
+    <md-chips>
+        <md-chip>Beta</md-chip>
+    </md-chips>
+</div>
 
 <div layout="row">
     <div flex-gt-lg="70" flex-offset-gt-lg="15" flex="70" flex-offset="15" flex-gt-xs="90" flex-offset-gt-xs="5">
@@ -12,13 +17,25 @@
             </label>
             <div layout="row" layout-padding layout-wrap>
                 <md-whiteframe
+                        ng-repeat="stackInfo in allStacks" ng-click="chooseStack(stackInfo._id); nextStep();"
+                        class="md-whiteframe-1dp ui-social ui-other page-select"
+                        ng-class="currentSocialPost.stacks.indexOf(stackInfo._id) != -1 ? 'ui-social-active' : ''"
+                        flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
+                    <!--<md-tooltip md-direction="down"></md-tooltip>-->
+                    <div class="text-center" layout="column">
+                        <i class="zmdi zmdi-group"></i>
+                        <small ng-bind="stackInfo.name"></small>
+                    </div>
+                </md-whiteframe>
+
+                <md-whiteframe
                         ng-repeat="pageInfo in allPages" ng-click="choosePage(pageInfo._id); nextStep();"
                         class="md-whiteframe-1dp ui-social ui-{{pageInfo.platform != null ? platforms[pageInfo.platform].id : 'other'}} page-select"
                         ng-class="currentSocialPost.pages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''"
                         flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout layout-align="center center">
                     <!--<md-tooltip md-direction="down"></md-tooltip>-->
                     <div class="text-center" layout="column">
-                        <i class="zmdi zmdi-{{pageInfo.platform != null ? platforms[pageInfo.platform].id : 'group'}}"></i>
+                        <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
                         <small ng-bind="pageInfo.name"></small>
                     </div>
                 </md-whiteframe>

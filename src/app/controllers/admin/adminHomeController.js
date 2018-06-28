@@ -11,7 +11,7 @@ define(['./../module', '../../enums/platforms'], function (controllers, platform
             // $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
 
-            $scope.socket = io(SOCKET);
+            $scope.socket = io(__SOCKETS__);
 
             $scope.socket.on('online', function (onlineCount) {
                 console.log(onlineCount);
@@ -37,9 +37,7 @@ define(['./../module', '../../enums/platforms'], function (controllers, platform
             });
 
 
-            $scope.socket.on('disconnect', function () {
-                Alert.error("Lost connection... Reconnecting.");
-            });
+
             AdminGeneral.getNotifications(function (message) {
                 $scope.usersCount = message.data.users;
                 $scope.usersOnline = message.data.online_users;
