@@ -113,20 +113,18 @@ define(['./SocialIgnite'], function (SocialIgnite) {
 
                 .state('portal.accounts', {
                     templateUrl: '/_portal/accounts/index.html',
+                    controller: 'accountController',
                 })
                 .state('portal.accounts.home', {
                     url: "/portal/accounts",
-                    controller: 'accountController',
-                    templateUrl: '/_portal/accounts/_table.html'
+                    templateUrl: '/_portal/accounts/_table.html',
                 })
                 .state('portal.accounts.continue', {
                     url: "/portal/accounts/continue/{cache_id}",
-                    controller: 'accountController',
                     templateUrl: '/_portal/accounts/_continue.html'
                 })
                 .state('portal.accounts.home_fail', {
                     url: "/portal/accounts/fail/{error}",
-                    controller: 'accountController',
                     templateUrl: '/_portal/accounts/_table.html'
                 })
 

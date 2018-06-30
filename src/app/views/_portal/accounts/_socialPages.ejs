@@ -1,0 +1,102 @@
+<div layout="row" flex>
+    Filter:
+    <md-select flex placeholder="Platform Filter" ng-model="platformFilter" ng-change="platformFiltered()">
+        <md-option ng-value="null">None</md-option>
+        <md-option ng-repeat="platform in socialPlatformDetails" ng-value="platform.id">
+            {{platform.fullname}}
+        </md-option>
+    </md-select>
+</div>
+
+<div layout="column" flex>
+    <md-content layout="row" layout-wrap layout-align="center center">
+        <md-card layout="column"
+                 ng-repeat="socialPage in connectedAccounts" flex="100" flex-gt-md="30">
+            <div layout="row">
+                <div class="md-toolbar-tools">
+                    <md-button
+                            disabled
+                            class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
+                            aria-label=platform>
+                        <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
+                        <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
+                    </md-button>
+                    <span flex ng-bind="socialPage.name"></span>
+
+                    <span ng-if="socialPage.statistic.updated_at != null" layout="column" class="text-center">
+                            <md-button disabled aria-label="Updated time" class="md-icon-button">
+                                <md-tooltip md-direction="top">Last Updated</md-tooltip>
+                                <i class="material-icons">refresh</i>
+                            </md-button>
+                            <small am-time-ago="socialPage.statistic.updated_at"></small>
+                        </span>
+                </div>
+            </div>
+
+
+            <md-card-title>
+                <md-card-title-text>
+
+                    <md-card-actions layout="row" layout-align="start">
+
+                            <span flex ng-if="socialPage.statistic.updated_at == null" class="text-center">
+                            <md-button disabled class="md-icon-button" aria-label="Posts">
+                                <md-tooltip md-direction="top">Queued for fetching...</md-tooltip>
+                                <i class="material-icons">access_time</i>
+                            </md-button>
+                                <br>
+                                Page queued for updating...
+                            </span>
+
+
+                        <span flex ng-if="socialPage.statistic.posts.total >= 0" class="text-center">
+                            <md-button disabled class="md-icon-button" aria-label="Posts">
+                                <md-tooltip md-direction="top">Posts</md-tooltip>
+                                <i class="material-icons">speaker_notes</i>
+                            </md-button>
+                                <br>
+                                {{socialPage.statistic.posts.total}}
+                            </span>
+
+                        <span flex ng-if="socialPage.statistic.views.total >= 0" class="text-center">
+                                <md-button disabled class="md-icon-button" aria-label="Impressions">
+                                    <md-tooltip md-direction="top">Impressions</md-tooltip>
+                                    <i class="material-icons">remove_red_eye</i>
+                                </md-button>
+                                <br>
+                                {{socialPage.statistic.views.total}}
+                            </span>
+
+                        <span flex ng-if="socialPage.statistic.views.unique >= 0" class="text-center">
+                            <md-button disabled class="md-icon-button" aria-label="Unique Views">
+                                <md-tooltip md-direction="top">Unique Views</md-tooltip>
+                                <i class="material-icons">people</i>
+                            </md-button>
+                                <br>
+                                {{socialPage.statistic.views.unique}}
+                            </span>
+
+                        <span flex ng-if="socialPage.statistic.likes.total >= 0" class="text-center">
+                            <md-button disabled class="md-icon-button" aria-label="Fans">
+                                <md-tooltip md-direction="top">Fans</md-tooltip>
+                                <i class="material-icons">thumb_up</i>
+                            </md-button>
+                                <br>
+                                {{socialPage.statistic.likes.total}} {{socialPage.statistic.likes.new > 0 ? '(+' + socialPage.statistic.likes.new + '))' : ''}}
+                            </span>
+                    </md-card-actions>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row">
+                <md-button flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id)">Refresh
+                </md-button>
+                <span flex></span>
+                <md-button flex="30" class="md-warn" ng-click="removeSocialAccount(socialPage._id)">Deactivate
+                </md-button>
+            </md-card-actions>
+        </md-card>
+        <md-card flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()" layout-align="center center">
+            <h3>Load more...</h3>
+        </md-card>
+    </md-content>
+</div>

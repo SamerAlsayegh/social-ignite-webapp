@@ -2,8 +2,6 @@ define(['./module'], function (services) {
     'use strict';
     services.factory('SocialStacks', ['Request',
         function (Request) {
-
-
             return {
                 addSocialStack: function (name, description, socialPages, cbSuccess, cbFail) {
                     if (!name || !description)
@@ -30,7 +28,7 @@ define(['./module'], function (services) {
                             social_pages: socialPages
                         },
                         function (message, data) {
-                            return cbSuccess(data.pages);
+                            return cbSuccess(message);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });

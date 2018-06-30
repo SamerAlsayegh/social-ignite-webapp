@@ -13,6 +13,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const pack = webpackStream(webpackConfig);
 const cluster = require('cluster');
 const os = require('os');
+const fs = require('fs');
 const imageResize = require('gulp-image-resize');
 const compression = require('compression');
 const devBuild = ((process.env.NODE_ENV || 'development').trim().toLowerCase() === 'development');
@@ -126,7 +127,6 @@ gulp.task('webserver', function() {
             console.log("Booted up the dev front-end. Not to be used on production.");
         });
     } else {
-
         gulp.src('dist')
             .pipe(webserver({
                 livereload: false,
@@ -136,8 +136,8 @@ gulp.task('webserver', function() {
                     compression()
                 ],
                 https: {
-                    cert: "/etc/letsencrypt/live/socialignite.media/fullchain.pem",
-                    key: "/etc/letsencrypt/live/socialignite.media/privkey.pem"
+                    cert: "certificates/socialignite.media.pem",
+                    key: "certificates/socialignite.media.key"
                 },
                 fallback: '/index.html',
                 directoryListing: false,

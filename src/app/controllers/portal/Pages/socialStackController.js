@@ -3,9 +3,45 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
     return controllers.controller('socialStackController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog',
         function ($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog) {
             $scope.socialPlatforms = platforms;
-            $scope.step = 1;
+            $scope.socialStacks = [];
             $scope.data = {
                 socialPages: []
+            };
+            $scope.$on('addStack', function () {
+                $scope.addStack();
+            });
+            $scope.editSocialStack = function (ev, stackId) {
+                $mdDialog.show({
+                    locals:{stackId: stackId},
+                    controller: 'socialStackDialogController',
+                    templateUrl: './_portal/accounts/_socialStacksDialog.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                    .then(function (message) {
+                        switch (message.state){
+                            case 'ADD':
+                                $scope.loadSocialStacks();
+                                break;
+                            case 'EDIT':
+                                $scope.loadSocialStacks();
+                                break;
+                            case 'DELETE':
+                                for (var i = 0; i < $scope.socialStacks.length; i++){
+                                    if ($scope.socialStacks[i].stack._id == stackId){
+                                        $scope.socialStacks.splice(i, 1);
+                                    }
+                                }
+                                break;
+                        }
+
+
+
+                    }, function () {
+
+                    });
             };
 
 
@@ -19,88 +55,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             };
             $scope.loadSocialStacks();
 
-            $scope.addStack = function () {
-                $scope.step = 3;
-                $scope.add = true;
-                $scope.edit = false;
-
-            };
-            $scope.editStack = function () {
-                $scope.step = 2;
-                $scope.edit = true;
-                $scope.add = false;
-            };
-
-            $scope.deleteStack = function(_id){
-              SocialStacks.deleteSocialStack(_id, function (message) {
-                  $mdDialog.hide();
-              }, function (status, message) {
-                  Alert.error(message);
-              })
-            };
-            $scope.socialStackEdit = function () {
-                $scope.edit = !$scope.edit;
-            };
-            $scope.editSocialStack = function (_id) {
-                if ($scope.edit && _id) {
-                    SocialStacks.getSocialStack(_id, true, function (data) {
-                        $scope.data = data.stack;
-                        var socialPages = [];
-                        for (var item = 0; item < data.results.length; item++)
-                            socialPages.push(data.results[item]._id)
-                        $scope.step = 3;
-                        $scope.data.socialPages = socialPages;
-                    }, function (status, message) {
-                        Alert.error(message);
-                    });
-                }
-            };
-            SocialAccounts.getSocialAccounts(null, null, function (data) {
-                $scope.allPages = [];
-                for (let index in data.pages) {
-                    if (data.pages[index].platform != 4)
-                        $scope.allPages.push(data.pages[index]);
-                }
-
-            }, function (status, message) {
-                Alert.error(message);
-            });
-
-            $scope.togglePage = function (socialPageId) {
-                if ($scope.data.socialPages.indexOf(socialPageId) == -1)
-                    $scope.data.socialPages.push(socialPageId);
-                else
-                    $scope.data.socialPages.splice($scope.data.socialPages.indexOf(socialPageId), 1);
-            };
-
-            $scope.submitPages = function () {
-                if ($scope.data._id == null) {
-                    SocialStacks.addSocialStack($scope.data.name,
-                        $scope.data.description,
-                        $scope.data.socialPages,
-                        function (message) {
-                            Alert.success("Successfully triggered update.");
-                            $mdDialog.hide();
-                        }, function (status, message) {
-                            Alert.error(message);
-                        })
-                } else {
-                    SocialStacks.updateSocialStack($scope.data._id,
-                        $scope.data.name,
-                        $scope.data.description,
-                        $scope.data.socialPages,
-                        function (message) {
-                            Alert.success("Successfully triggered update.");
-                            $mdDialog.hide();
-                        }, function (status, message) {
-                            Alert.error(message);
-                        })
-                }
-            };
-
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            }
 
         }]);
 });

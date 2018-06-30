@@ -50,6 +50,14 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                getSocialAccount: function (socialAccountId, cbSuccess, cbFail) {
+                    return Request.get('portal/social_pages/' + socialAccountId,
+                        function (message) {
+                            return cbSuccess(message.data);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
                 getSocialAccounts: function (_cursor, _platform, cbSuccess, cbFail) {
                     var funcName = "getSocialAccounts" + _cursor + _platform;
 

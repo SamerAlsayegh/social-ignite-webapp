@@ -1,131 +1,46 @@
-<md-content layout="row" class="tutorial-step-add-pages">
-    <md-fab-speed-dial md-direction="up" class="md-scale page-button">
-        <md-fab-trigger>
-            <md-button aria-label="menu" class="md-fab md-primary">
-                <md-tooltip md-direction="left">Add new profile</md-tooltip>
+<md-tabs layout-fill>
+    <md-tab label="Social Profiles" md-on-select="addPageActive = true" md-on-deselect="addPageActive = false">
+        <md-content class="md-padding" layout="column" ng-controller="pagesController">
+            <div class="md-padding">
+                <%- include _socialPages.ejs %>
+            </div>
+            <md-content layout="row" class="tutorial-step-add-pages">
+                <md-fab-speed-dial md-direction="up" class="md-scale page-button">
+                    <md-fab-trigger>
+                        <md-button aria-label="menu" class="md-fab md-primary">
+                            <md-tooltip md-direction="left">Add new profile</md-tooltip>
+                            <md-icon>add</md-icon>
+                        </md-button>
+                    </md-fab-trigger>
+
+                    <md-fab-actions>
+                        <md-button ng-click="addSocialAccount($event, platformDetails.id); nextStep();"
+                                   ng-repeat="platformDetails in socialPlatformDetails"
+                                   class="md-fab md-raised md-mini ui-social ui-{{platformDetails.shortname}}"
+                                   aria-label=platform>
+                            <i class="zmdi zmdi-{{platformDetails.shortname}}"></i>
+                        </md-button>
+                    </md-fab-actions>
+                </md-fab-speed-dial>
+            </md-content>
+        </md-content>
+    </md-tab>
+    <md-tab label="Social Stacks" md-on-select="addStackActive = true" md-on-deselect="addStackActive = false"
+            layout-fill>
+        <md-content class="md-padding" ng-controller="socialStackController">
+            <md-content class="md-padding" layout="column" layout-wrap>
+
+                <%- include _socialStacks.ejs %>
+            </md-content>
+            <md-button ng-click="editSocialStack();"
+                       class="md-fab md-primary page-button"
+                       aria-label="Add a stack">
+                <md-tooltip md-direction="left">Add new stack</md-tooltip>
                 <md-icon>add</md-icon>
             </md-button>
-        </md-fab-trigger>
+        </md-content>
 
-        <md-fab-actions>
-            <md-button ng-click="addSocialAccount($event, platformDetails.id); nextStep();"
-                       ng-repeat="platformDetails in socialPlatformDetails"
-                       class="md-fab md-raised md-mini ui-social ui-{{platformDetails.shortname}}"
-                       aria-label=platform>
-                <i class="zmdi zmdi-{{platformDetails.shortname}}"></i>
-            </md-button>
-        </md-fab-actions>
-    </md-fab-speed-dial>
-</md-content>
-
-<div layout="row" layout-align="stretch">
-    <md-button class="md-primary md-raised" flex="25" ng-click="socialStackDialog($event)">
-        <i class="zmdi zmdi-group"></i>
-        <md-tooltip md-direction="right">Group profiles for ease.</md-tooltip>
-        Stacks Management
-    </md-button>
-    <!--<md-button ng-if="socialStacks.length > 0"  class="md-primary">-->
-        <!--Edit Stacks-->
-    <!--</md-button>-->
-    <div flex>
-    </div>
-
-    <div layout="row" flex>
-        Filter:
-        <md-select flex placeholder="Platform Filter" ng-model="platformFilter" ng-change="platformFiltered()">
-            <md-option ng-value="null">None</md-option>
-            <md-option ng-repeat="platform in socialPlatformDetails" ng-value="platform.id"">
-            {{platform.fullname}}
-            </md-option>
-        </md-select>
-    </div>
-</div>
-
-<div layout="row" layout-wrap layout-align="center center">
-            <md-card layout="column"
-                     ng-repeat="socialPage in connectedAccounts"  flex="100" flex-gt-md="30">
-                <div layout="row">
-                    <div class="md-toolbar-tools">
-                        <md-button
-                                disabled
-                                class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
-                                aria-label=platform>
-                            <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
-                            <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
-                        </md-button>
-                        <span flex ng-bind="socialPage.name"></span>
-
-                        <span ng-if="socialPage.statistic.updated_at != null" layout="column" class="text-center">
-                            <md-button disabled aria-label="Updated time"  class="md-icon-button">
-                                <md-tooltip md-direction="top">Last Updated</md-tooltip>
-                                <i class="material-icons">refresh</i>
-                            </md-button>
-                            <small am-time-ago="socialPage.statistic.updated_at"></small>
-                        </span>
-                    </div>
-                </div>
+    </md-tab>
+</md-tabs>
 
 
-                <md-card-title>
-                    <md-card-title-text>
-
-                        <md-card-actions layout="row" layout-align="start">
-
-                            <span flex ng-if="socialPage.statistic.updated_at == null" class="text-center">
-                            <md-button disabled class="md-icon-button" aria-label="Posts">
-                                <md-tooltip md-direction="top">Queued for fetching...</md-tooltip>
-                                <i class="material-icons">access_time</i>
-                            </md-button>
-                                <br>
-                                Page queued for updating...
-                            </span>
-
-
-                            <span flex ng-if="socialPage.statistic.posts.total >= 0" class="text-center">
-                            <md-button disabled class="md-icon-button" aria-label="Posts">
-                                <md-tooltip md-direction="top">Posts</md-tooltip>
-                                <i class="material-icons">speaker_notes</i>
-                            </md-button>
-                                <br>
-                                {{socialPage.statistic.posts.total}}
-                            </span>
-
-                            <span flex ng-if="socialPage.statistic.views.total >= 0" class="text-center">
-                                <md-button disabled class="md-icon-button" aria-label="Impressions">
-                                    <md-tooltip md-direction="top">Impressions</md-tooltip>
-                                    <i class="material-icons">remove_red_eye</i>
-                                </md-button>
-                                <br>
-                                {{socialPage.statistic.views.total}}
-                            </span>
-
-                            <span flex ng-if="socialPage.statistic.views.unique >= 0" class="text-center">
-                            <md-button disabled class="md-icon-button" aria-label="Unique Views">
-                                <md-tooltip md-direction="top">Unique Views</md-tooltip>
-                                <i class="material-icons">people</i>
-                            </md-button>
-                                <br>
-                                {{socialPage.statistic.views.unique}}
-                            </span>
-
-                            <span flex ng-if="socialPage.statistic.likes.total >= 0" class="text-center">
-                            <md-button disabled class="md-icon-button" aria-label="Fans">
-                                <md-tooltip md-direction="top">Fans</md-tooltip>
-                                <i class="material-icons">thumb_up</i>
-                            </md-button>
-                                <br>
-                                {{socialPage.statistic.likes.total}} {{socialPage.statistic.likes.new > 0 ? '(+' + socialPage.statistic.likes.new + '))' : ''}}
-                            </span>
-                        </md-card-actions>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-actions layout="row">
-                    <md-button flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id)">Refresh</md-button>
-                    <span flex></span>
-                    <md-button flex="30" class="md-warn" ng-click="removeSocialAccount(socialPage._id)">Deactivate</md-button>
-                </md-card-actions>
-            </md-card>
-        <md-card flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()" layout-align="center center">
-            <h3>Load more...</h3>
-        </md-card>
-</div>

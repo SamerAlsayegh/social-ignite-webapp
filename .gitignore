@@ -4,3 +4,4 @@ node_modules
 package-lock.json
 start.sh
 webpack.config.dev.js
+certificates

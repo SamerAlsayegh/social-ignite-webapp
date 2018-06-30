@@ -8,6 +8,8 @@ define([
     './portal/Support/supportSubController',
     './portal/Pages/accountController',
     './portal/Pages/socialStackController',
+    './portal/Pages/socialStackDialogController',
+    './portal/Pages/pagesController',
     './portal/Profile/profileController',
     './portal/Profile/profileDeleteController',
     './portal/Resources/resourcesController',
