@@ -8,7 +8,7 @@
     </md-select>
 </div>
 
-<div layout="column" flex>
+<div layout="column">
     <md-content layout="row" layout-wrap layout-align="center center">
         <md-card layout="column"
                  ng-repeat="socialPage in connectedAccounts" flex="100" flex-gt-md="30">
@@ -39,14 +39,14 @@
 
                     <md-card-actions layout="row" layout-align="start">
 
-                            <span flex ng-if="socialPage.statistic.updated_at == null" class="text-center">
+                        <span flex ng-if="socialPage.statistic.updated_at == null" class="text-center">
                             <md-button disabled class="md-icon-button" aria-label="Posts">
                                 <md-tooltip md-direction="top">Queued for fetching...</md-tooltip>
                                 <i class="material-icons">access_time</i>
                             </md-button>
                                 <br>
                                 Page queued for updating...
-                            </span>
+                        </span>
 
 
                         <span flex ng-if="socialPage.statistic.posts.total >= 0" class="text-center">

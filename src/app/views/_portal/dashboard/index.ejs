@@ -153,7 +153,7 @@
                                 <md-button
                                         disabled
                                         aria-label="{{(socialPost.statistic.likes.total != null ?  socialPost.statistic.likes.total : 0)}}">
-                                    <span ng-bind="socialPost.statistic.likes.total"></span>
+                                    <span ng-bind="socialPost.statistic.likes.total || 0"></span>
                                     Likes
                                 </md-button>
                                 <md-button

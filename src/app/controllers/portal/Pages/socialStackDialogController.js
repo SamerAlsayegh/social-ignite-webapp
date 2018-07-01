@@ -17,10 +17,10 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             if (stackId) {
                 SocialStacks.getSocialStack(stackId, true, function (data) {
-                    $scope.data = data.stack;
+                    $scope.data = data;
                     var socialPages = [];
-                    for (var item = 0; item < data.results.length; item++)
-                        socialPages.push(data.results[item]._id)
+                    for (var item = 0; item < data.pages.pages.length; item++)
+                        socialPages.push(data.pages.pages[item]._id)
                     $scope.data.socialPages = socialPages;
                 }, function (status, message) {
                     Alert.error(message);

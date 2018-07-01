@@ -6,13 +6,24 @@ define(['./module'], function (services) {
             var dataCache = {};// Only fetch data if older than 5 minutes - prevents
 
             return {
+                getSocialPosts: function (mainSocialPost, pagination, cbSuccess, cbFail) {
+                    if (!mainSocialPost || parseInt(mainSocialPost) == null)
+                        return cbFail(400, "Invalid parameters.");
+
+                    return Request.get('portal/social_posts/' + mainSocialPost, {pagination: pagination},
+                         function (message) {
+                            return cbSuccess(message.data);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
                 getDetails: function (postId, cbSuccess, cbFail) {
                     if (!postId || parseInt(postId) == null)
                         return cbFail(400, message);
 
                     return Request.get('portal/schedule/post/' + postId,
-                         function (message) {
-                            return cbSuccess(message);
+                        function (message) {
+                            return cbSuccess(message.data);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });
@@ -73,12 +84,13 @@ define(['./module'], function (services) {
                         });
                 },
                 getSelectivePosts: function (type, parameters, cbSuccess, cbFail) {
-                    var funcName = "get" + type + "Posts";
+                    var funcName = "get" + type + "Posts"+JSON.stringify(parameters);
+                    console.log(funcName);
 
                     if (dataCache.hasOwnProperty(funcName) && dataCache[funcName].time > (new Date().getTime() - (cacheTime)))
                         return cbSuccess(dataCache[funcName].data);
 
-                    return Request.get('portal/schedule/' + type,
+                    return Request.get('portal/schedule/' + type, parameters,
                         function (message) {
                             dataCache[funcName] = {
                                 data: message,

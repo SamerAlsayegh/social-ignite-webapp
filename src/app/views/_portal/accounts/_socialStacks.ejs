@@ -1,10 +1,10 @@
 <div layout="row" layout-wrap>
     <md-card class="pointer" layout="column" ng-repeat="socialStack in socialStacks"
-             ng-click="editSocialStack($event, socialStack.stack._id)">
+             ng-click="editSocialStack($event, socialStack._id)">
         <div layout="row" class="md-padding" layout-align="center center">
-            <span flex ng-bind="socialStack.stack.name"></span>
+            <span flex ng-bind="socialStack.name"></span>
             <md-button
-                    ng-repeat="socialPage in socialStack.results"
+                    ng-repeat="socialPage in socialStack.pages.pages"
                     class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
                     aria-label=platform>
                 <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>

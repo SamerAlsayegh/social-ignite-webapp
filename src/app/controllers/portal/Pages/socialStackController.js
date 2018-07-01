@@ -30,7 +30,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                 break;
                             case 'DELETE':
                                 for (var i = 0; i < $scope.socialStacks.length; i++){
-                                    if ($scope.socialStacks[i].stack._id == stackId){
+                                    if ($scope.socialStacks[i]._id == stackId){
                                         $scope.socialStacks.splice(i, 1);
                                     }
                                 }

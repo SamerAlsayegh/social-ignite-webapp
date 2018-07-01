@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
+const webpackConfigDev = require('./webpack.config.dev.js');
+
 const webserver = require('gulp-webserver');
 const gulpEjs = require("gulp-ejs");
 const rename = require('gulp-rename');
@@ -18,21 +20,13 @@ const imageResize = require('gulp-image-resize');
 const compression = require('compression');
 const devBuild = ((process.env.NODE_ENV || 'development').trim().toLowerCase() === 'development');
 let ASSETS = 'https://assets.socialignite.media';
-let API = 'https://api.socialignite.media';
-let SOCKETS = 'https://api.socialignite.media';
 
 if (devBuild){
     ASSETS = 'http://localhost:8080';
-    API = 'http://localhost:8000';
-    SOCKETS = 'http://localhost:8001';
 }
-
 
 gulp.task('webpack', function() {
     return gulp.src(__dirname + '/src/app/**/*.js')
-        .pipe(replace(/__ASSETS__/igm, ASSETS))
-        .pipe(replace(/__API__/igm, API))
-        .pipe(replace(/__SOCKETS__/igm, SOCKETS))
         .pipe(pack, webpack)
         .pipe(gulp.dest(__dirname + '/dist/'))
 });
@@ -120,33 +114,32 @@ gulp.task('less', function () {
         .pipe(concat('main.css'))
         .pipe(gulp.dest('./dist/css/'));
 });
+gulp.task('webpack-dev-server', function () {
+    // Start a webpack-dev-server
+    new WebpackDevServer(webpack(webpackConfigDev), webpackConfigDev.devServer).listen(8080, function(err) {
+        console.log("Booted up the dev front-end. Not to be used on production.");
+    });
+});
 
 gulp.task('webserver', function() {
-    if (devBuild) {
-        new WebpackDevServer(webpack(webpackConfig), webpackConfig.devServer).listen(8080, function (err) {
-            console.log("Booted up the dev front-end. Not to be used on production.");
-        });
-    } else {
-        gulp.src('dist')
-            .pipe(webserver({
-                livereload: false,
-                host: '0.0.0.0',
-                port: 8080,
-                middleware: [
-                    compression()
-                ],
-                https: {
-                    cert: "certificates/socialignite.media.pem",
-                    key: "certificates/socialignite.media.key"
-                },
-                fallback: '/index.html',
-                directoryListing: false,
-                open: false
-            }));
-        gulp.start('webpack');
-
-    }
+    gulp.src('dist')
+        .pipe(webserver({
+            livereload: false,
+            host: '0.0.0.0',
+            port: 8080,
+            middleware: [
+                compression()
+            ],
+            https: {
+                cert: "certificates/socialignite.media.pem",
+                key: "certificates/socialignite.media.key"
+            },
+            fallback: '/index.html',
+            directoryListing: false,
+            open: false
+        }));
 });
+
 
 
 gulp.task('cluster', function() {
@@ -164,4 +157,11 @@ gulp.task('cluster', function() {
 
 gulp.task('main', ['cluster']);
 
-gulp.task('default', ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'watch', 'webserver', 'fonts']);
+let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'watch', 'fonts', 'webpack'];
+if (!devBuild){
+    listOfProcesses.push('webserver');
+} else {
+    listOfProcesses.push('webpack-dev-server');
+}
+
+gulp.task('default', listOfProcesses);

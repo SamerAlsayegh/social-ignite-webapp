@@ -1,13 +1,47 @@
-<h4 class="md-headline">It seems we need some more information...</h4>
-<h4 class="md-subhead"><b>Choose the accounts/pages</b> you want to add from the list below...</h4>
-<form method="post" id="choose_account">
-    <md-input-container class="md-block md-primary"  ng-repeat="page in newPage.pages">
-        <md-checkbox class="md-primary" name="{{page.name}}" ng-model="newPage.chosen[page.id]">
-            {{ page.name }}
-        </md-checkbox>
-    </md-input-container>
-    <div layout="column" layout-align="stretch">
-        <md-button type="submit" class="md-primary md-raised" ng-click="submitExtras()">Apply
-        </md-button>
-    </div>
-</form>
+<h4 class="md-headline">Click on pages you would like to link.</h4>
+
+<div layout="column" flex>
+    <md-content layout="row" layout-wrap layout-align="center center">
+        <md-card layout="column" class="pointer md-padding" ng-repeat="socialPage in newPage.pages"
+                  ng-click="linkAccount(socialPage)" flex="100" flex-gt-md="30">
+            <md-tooltip md-direction="top">Click to link</md-tooltip>
+
+            <div layout="row">
+                <div class="md-toolbar-tools">
+                    <md-button
+                            class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
+                            aria-label=platform>
+                        <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
+                        <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
+                    </md-button>
+                    <span flex ng-bind="socialPage.name"></span>
+                </div>
+            </div>
+
+
+            <md-card-title>
+                <md-card-title-text>
+
+                    <md-card-actions layout="row" layout-align="start">
+
+                        <span flex class="text-center">
+                            <md-button class="md-icon-button" aria-label="Linked status">
+                                <md-tooltip md-direction="top">Status</md-tooltip>
+                                <i class="material-icons" ng-class="socialPage.linking ? 'continious_rotation' : (socialPage.linked ? 'text-success' : 'text-warn')"
+                                ng-bind="socialPage.linking ? 'refresh' : (socialPage.linked ? 'check_circle' : 'cancel')"></i>
+                            </md-button>
+                                <br>
+                                <p ng-bind="socialPage.linked ? 'Linked' : 'Unlinked'"></p>
+                        </span>
+                    </md-card-actions>
+                </md-card-title-text>
+            </md-card-title>
+        </md-card>
+    </md-content>
+
+    <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+    <md-button flex md-no-ink class="md-primary" ng-click="return()">
+        Back
+    </md-button>
+</span>
+</div>

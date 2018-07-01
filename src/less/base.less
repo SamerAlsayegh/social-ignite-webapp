@@ -177,9 +177,7 @@ div > .hr {
 
 }
 
-.md-success {
-  background-color: #4CAF50 !important;
-}
+
 
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
   font-family: @font-family-sans-serif;
@@ -215,6 +213,7 @@ div > .ng-hide-remove {
   animation: 0.5s lightSpeedIn ease;
 }
 
+
 .md-toast-animating {
   overflow: initial !important;
 }
@@ -236,6 +235,17 @@ div > .ng-hide-remove {
 .success > div {
   background-color: #4CAF50 !important;
   color: white;
+}
+
+.md-success {
+  background-color: #4CAF50 !important;
+}
+
+.text-success {
+  color: #4CAF50 !important;
+}
+.text-warn {
+  color: #FF5722 !important;
 }
 
 
@@ -728,4 +738,14 @@ HotFix for Icon Sizing
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%)
+}
+
+
+.continious_rotation {
+  -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to   {-webkit-transform: rotate(359deg);}
 }

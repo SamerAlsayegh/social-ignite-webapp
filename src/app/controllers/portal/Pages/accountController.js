@@ -6,6 +6,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                   $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
             $scope.toggle_add = false;
             $scope.socialPlatformDetails = [];
+            $scope.socialPlatforms = platforms;
 
             $scope.addStack = function () {
                 $scope.$emit('addStack', {});
@@ -26,33 +27,31 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                     mainPage: null
                 };
 
-
-                $scope.submitExtras = function () {
-                    var pagesChosen = [];
-                    for (var pageId in $scope.newPage.chosen) {
-                        var chosen = $scope.newPage.chosen[pageId];
-                        if (chosen) {
-                            pagesChosen.push(pageId)
-                        }
+                $scope.linkAccount = function (socialPage) {
+                    if (!socialPage.linked) {
+                        socialPage.linking = true;
+                        SocialAccounts.updateSocialAccount({
+                            pages: [socialPage.id],
+                            cache_id: $stateParams.cache_id
+                        }, function (pages) {
+                            socialPage.linking = false;
+                            socialPage.linked = true;
+                            $scope.connectedAccounts = $scope.connectedAccounts.concat(pages);
+                            // Alert.success("Successfully added account");
+                            // $state.go('portal.accounts.home', {appendPages: pages});//If the session is invalid, take to login page.
+                        }, function (status, message) {
+                            socialPage.linking = false;
+                            Alert.error(message);
+                        });
                     }
-                    SocialAccounts.updateSocialAccount({
-                        pages: pagesChosen,
-                        cache_id: $stateParams.cache_id
-                    }, function (pages) {
-                        $scope.connectedAccounts = $scope.connectedAccounts.concat(pages);
-                        Alert.success("Successfully added account");
-                        $state.go('portal.accounts.home', {appendPages: pages});//If the session is invalid, take to login page.
-                    }, function (status, message) {
-                        Alert.error(message);
-                    });
                 };
-
+                $scope.return = function(){
+                    $state.go('portal.accounts.home', {});//If the session is invalid, take to login page.
+                };
 
                 SocialAccounts.getPagesOnHold({cacheId: $stateParams.cache_id}, function (response) {
                     if (response.hasOwnProperty("pages"))
                         $scope.newPage.pages = response.pages;
-                    if (response.hasOwnProperty("requestAccount"))
-                        $scope.newPage.accountLogin = {};
 
                 }, function (status, message) {
                     Alert.error(message);

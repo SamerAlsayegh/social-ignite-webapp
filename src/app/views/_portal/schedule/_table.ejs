@@ -1,40 +1,60 @@
-<h1 class="page-header">Social Posts
-    <small>Upcoming content to be posted</small>
-</h1>
 <md-button ng-click="addPost($event); nextStep();" class="md-fab md-primary tutorial-step-schedule-add-post page-button" aria-label="New Social Post">
     <md-icon md-font-library="material-icons">add</md-icon>
 </md-button>
 
 
-<calendar-md layout flex layout-fill
-             on-prev-month="prevMonth"
-             on-next-month="nextMonth"
-             on-day-click="dayClick"
-             template-url="'/_portal/schedule/template.html'"
-             title-format="'MMMM y'"
-             ng-social-posts="allActivePosts"
-             ng-model='selectedDate'
-             week-starts-on="monday"
-             tooltips="true"
-             ng-platforms="platforms"
-             day-format="dayFormat"
-             day-label-format="'EEE'"
-             day-label-tooltip-format="'EEEE'"
-             day-tooltip-format="'fullDate'"
-             day-content="setDayContent"
-             disable-future-selection="false"></calendar-md>
-
-<h3 ng-if="allDraftedPosts.length > 0">Drafts pending edits:</h3>
-<md-list ng-if="allDraftedPosts.length > 0" layout-padding flex>
-    <md-list-item ng-repeat="draft in allDraftedPosts" href="/portal/schedule/edit/{{draft._id}}"  class="md-2-line">
-        <md-icon>edit</md-icon>
-        <div flex class="md-list-item-text">
-            <p ng-bind="draft.content"></p>
-            <small>Planned for {{draft.post_time | amCalendar}}</small>
-        </div>
-        <md-button disabled md-no-ink md-no-bar class="md-list-item-text md-secondary">
-            <p ng-bind="draft.state">
-            <p am-time-ago="draft.updated_at"></p>
-        </md-button>
-    </md-list-item>
-</md-list>
+<md-content layout-fill layout="column">
+    <md-tabs flex>
+        <md-tab label="Schedule">
+            <md-content class="md-padding" layout="column">
+                <div layout="row" layout-align="start center">
+                    <h1 class="md-display-1" flex>Your Agenda</h1>
+                    <md-chips>
+                        <md-chip>Beta</md-chip>
+                    </md-chips>
+                </div>
+                <calendar-md layout="column"
+                             on-prev-month="prevMonth"
+                             on-next-month="nextMonth"
+                             on-day-click="dayClick"
+                             template-url="'/_portal/schedule/template.html'"
+                             title-format="'MMMM y'"
+                             ng-social-posts="allActivePosts"
+                             ng-model='selectedDate'
+                             week-starts-on="monday"
+                             tooltips="true"
+                             ng-platforms="platforms"
+                             day-format="dayFormat"
+                             day-label-format="'EEE'"
+                             day-label-tooltip-format="'EEEE'"
+                             day-tooltip-format="'fullDate'"
+                             day-content="setDayContent"
+                             disable-future-selection="false"></calendar-md>
+            </md-content>
+        </md-tab>
+        <md-tab label="Drafts" ng-if="allDraftedPosts.length > 0">
+            <md-content class="md-padding" layout="column">
+                <div layout="row" flex="noshrink" layout-align="start center">
+                    <h1 class="md-display-1" flex>Drafts Planned</h1>
+                    <md-chips>
+                        <md-chip>Beta</md-chip>
+                    </md-chips>
+                </div>
+                <md-list layout-padding flex>
+                    <md-list-item ng-repeat="draft in allDraftedPosts" href="/portal/schedule/edit/{{draft._id}}"  class="md-2-line">
+                        <md-icon>edit</md-icon>
+                        <div flex class="md-list-item-text">
+                            <p ng-bind="draft.content"></p>
+                            <small>Planned for {{draft.post_time | amCalendar}}</small>
+                        </div>
+                        <md-button disabled md-no-ink md-no-bar class="md-list-item-text md-secondary">
+                            <p ng-bind="draft.state">
+                            <p am-time-ago="draft.updated_at"></p>
+                        </md-button>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+    </md-content>
+</md-tab>
+</md-tabs>
+</md-content>

@@ -60,15 +60,11 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
 
             $scope.getActivePosts = function (params) {
-                var deferred = $q.defer();
-                $scope.allSocialPostsLoaded = deferred.allSocialPostsLoaded;
                 SocialPosts.getSelectivePosts('active', params, function (data) {
                     $scope.allActivePosts = data.data;
-                    deferred.resolve();
                 }, function (status, error) {
                     $scope.allActivePosts = [];
                     Alert.error("Failed to get all social posts.");
-                    deferred.resolve();
                 });
             };
 

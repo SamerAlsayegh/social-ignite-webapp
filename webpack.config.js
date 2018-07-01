@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 
 module.exports = {
@@ -13,27 +14,17 @@ module.exports = {
         path: __dirname + "/dist/",
         filename: "[name].js"
     },
-    devServer: {
-        contentBase: path.join(__dirname, "dist"),
-        compress: false,
-        public: "portal.socialignite.media",
-        before: function (app) {
-            app.get("*", function (req, res, next) {
-                var url = req.url;
-                if (url.indexOf("?") >= 0) url = url.split("?")[0];
-                if (fs.existsSync(path.join(__dirname, "dist/" + url)) || url.endsWith(".js") || url.endsWith(".js.gz")) return next();
-                else res.sendFile(path.join(__dirname, "dist/index.html"))
-            });
-        }
-    },
     plugins: [
         new HardSourceWebpackPlugin(),
-        // This would only run on debug files...
         new webpack.DefinePlugin({
-            "__API__": JSON.stringify("http://localhost:8000"),
-            "__ASSETS__": JSON.stringify("http://localhost:8080"),
-            "__SOCKETS__": JSON.stringify("http://localhost:8001"),
+            "__API__": JSON.stringify("https://api.socialignite.media"),
+            "__ASSETS__": JSON.stringify("https://assets.socialignite.media"),
+            "__SOCKETS__": JSON.stringify("https://api.socialignite.media"),
         }),
+        new UglifyJsPlugin({
+            parallel: 4,
+            sourceMap: true
+        })
     ],
     resolve: {
         extensions: [".json", ".js"],

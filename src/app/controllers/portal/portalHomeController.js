@@ -92,7 +92,6 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                     if (!reply.comment || !reply._id) return;
                     Action.postComment({reply_id: reply._id, reply: reply.comment},
                         function (data) {
-                            Alert.success("Successfully commented.", 600);
                             reply.commenting = false;
                             reply.comment = null;
                             if (!reply.replies) reply.replies = [];
@@ -123,7 +122,6 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 $scope.toggleLike = function (reply) {
                     reply.liked = !reply.liked;
                     Action.toggleLikeComment({reply_id: reply._id}, function (data) {
-                        Alert.success("You " + (data.liked ? 'liked' : 'unliked') + " this comment", 600);
                         reply.liked = data.liked;
                     }, function (err, message) {
                         reply.liked = !reply.liked;
