@@ -34,7 +34,7 @@ define([
         'ui.router',
         'angularMoment',
     ])
-        .config(['$mdThemingProvider', '$httpProvider', function ($mdThemingProvider, $httpProvider) {
+        .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', function ($mdThemingProvider, $httpProvider, $mdGestureProvider) {
             var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
                 'contrastDefaultColor': 'light',
                 'contrastDarkColors': ['50', '100',
@@ -42,7 +42,6 @@ define([
                 'contrastLightColors': undefined
             });
             $mdThemingProvider.definePalette('lightBlueCustom', lightBlueCustom);
-
             $mdThemingProvider.theme('default')
                 .primaryPalette('lightBlueCustom')
                 .accentPalette('light-blue')
@@ -51,7 +50,7 @@ define([
                 .primaryPalette('lightBlueCustom')
                 .accentPalette('light-blue')
                 .backgroundPalette('grey').dark();
-
+            $mdGestureProvider.disableAll();
             $httpProvider.defaults.withCredentials = true;
         }])
         .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment',
@@ -117,20 +116,6 @@ define([
                         } else return true;
                     });
                 });
-
-
-                if ('serviceWorker' in navigator) {
-                    window.addEventListener('load', function() {
-                        navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-                            // Registration was successful
-                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                        }, function(err) {
-                            // registration failed :(
-                            console.log('ServiceWorker registration failed: ', err);
-                        });
-                    });
-                }
-
 
                 // // TODO: Temporarily disabled until made more efficient?
                 // angular.forEach($state.get(), function (state, key) {

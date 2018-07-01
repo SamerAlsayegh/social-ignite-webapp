@@ -164,4 +164,5 @@ if (!devBuild){
     listOfProcesses.push('webpack-dev-server');
 }
 
-gulp.task('default', listOfProcesses);
+gulp.task('debug', listOfProcesses);
+gulp.task('default', listOfProcesses);//habits die hard

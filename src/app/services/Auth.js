@@ -9,6 +9,7 @@ define(['./module'], function (services) {
 
                     return Request.post('auth/login', parameters,
                         function (message) {
+                            $cookies.put('sid', message.data.sid, new Date(new Date().getTime() + (1000*60*60*24*7)));
                             return Request.get('user',
                                 function (message) {
                                     $rootScope.user = message.data;
@@ -73,8 +74,23 @@ define(['./module'], function (services) {
                                 $rootScope.loggedIn = true;
                                 return callback(true);
                             }, function (status, message) {
-                                $rootScope.loggedIn = false;
-                                return callback(false);
+                                var sid = $cookies.get('sid');
+                                if (sid != null){
+                                    return Request.post('auth/request_cookie',{sid: sid},
+                                        function (message) {
+                                            // $rootScope.user = message.data;
+                                            $rootScope.user = message.data;
+                                            $rootScope.loggedIn = true;
+                                            return callback(true);
+                                        }, function (status, message) {
+                                            $cookies.remove('sid');
+                                        $rootScope.loggedIn = false;
+                                        return callback(false);
+                                        });
+                                } else {
+                                    $rootScope.loggedIn = false;
+                                    return callback(false);
+                                }
                             });
                     }
                 },

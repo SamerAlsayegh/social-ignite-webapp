@@ -5,6 +5,8 @@ var CACHE_NAME = 'SocialIgnite-Web' + "-" + CACHE_VERSION;
 
 var urlsToCache = [
     '/',
+    '/app.js',
+    '/0.js',
     // '/css/main.css',
     // '/app.js'
 ];

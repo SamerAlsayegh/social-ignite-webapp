@@ -160,6 +160,7 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                     $scope.theme = theme;
                     $cookies.put("theme", theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
                 }
+
             }]);
 });
 

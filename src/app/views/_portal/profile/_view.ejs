@@ -1,8 +1,8 @@
 <md-tabs layout-fill>
-    <md-tab label="General Information">
+    <md-tab label="General Information" flex>
         <md-content layout="column">
             <h1 class="md-display-1">General Information</h1>
-            <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block">
+            <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block" flex>
                 <div layout="row">
                     <md-input-container flex="75" class="md-block">
                         <label>Email</label>
@@ -18,14 +18,14 @@
                     </md-input-container>
                 </div>
                 <h3>Change Password</h3>
-                <div layout="row">
-                    <md-input-container class="md-block" flex>
+                <div layout="row" flex>
+                    <md-input-container flex class="md-block">
                         <label>Current Password</label>
                         <input name="current_password" type="password" ng-model="current_password">
                     </md-input-container>
                 </div>
-                <div layout="row">
-                    <md-input-container class="md-block" flex>
+                <div layout="row" flex>
+                    <md-input-container flex class="md-block">
                         <label>New Password</label>
                         <input name="new_password" type="password" ng-pattern="confirm_password"
                                ng-model="new_password">
@@ -33,7 +33,7 @@
                             <div ng-message="pattern">The passwords do not match.</div>
                         </div>
                     </md-input-container>
-                    <md-input-container class="md-block" flex>
+                    <md-input-container flex class="md-block">
                         <label>Confirm Password</label>
                         <input name="confirm_password" type="password" ng-pattern="new_password"
                                ng-model="confirm_password">
