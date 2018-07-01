@@ -144,7 +144,6 @@ define(['../module'], function (controllers) {
             })
 
             if ('serviceWorker' in navigator) {
-                console.log("ok?")
                 // Register a service worker hosted at the root of the
                 // site using the default scope.
                 navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {

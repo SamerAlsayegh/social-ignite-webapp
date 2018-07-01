@@ -66,7 +66,13 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 }, function (status, message) {
                     Alert.error(message, 600);
                 });
-
+                $scope.allowedActions = [];
+                Action.getAllowedActions(function (data) {
+                    $scope.allowedActions = data;
+                    console.log(data);
+                }, function (status, message) {
+                    // Alert.error(message, 600);
+                });
 
                 $scope.feeds = {};
                 /**

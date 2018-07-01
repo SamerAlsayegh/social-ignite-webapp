@@ -1,6 +1,5 @@
 <h2>Welcome to the dashboard!</h2>
 <h3>Viewing latest activity...</h3>
-
 <script type="text/ng-template" id="commentChildrenTree">
     <span ng-if="!socialComment.deleted" layout="column" layout-align flex>
         <span layout="row" flex>
@@ -13,14 +12,18 @@
             <span layout="column" layout-gt-sm="row">
                 <md-button flex flex-gt-sm="50" class="md-icon-button"
                            ng-disabled="!permissions.post_manage_like"
-                           ng-click="toggleLike(socialComment)" ng-class="socialComment.liked ? 'md-primary' : ''"
+                           ng-if="!allowedActions  || allowedActions[socialPost.page_id.platform].indexOf('LIKE') != -1"
+                           ng-click="toggleLike(socialComment)"
+                           ng-class="socialComment.liked ? 'md-primary' : ''"
                            aria-label="Like"><i
                             class="material-icons">thumb_up</i></md-button>
                 <md-button flex flex-gt-sm="50" class="md-icon-button"
-                           ng-disabled="!permissions.post_manage_reply"
+                           ng-disabled="!permissions.post_manage_reply || allowedActions[socialPost.page_id.platform].indexOf('REPLY') == -1"
                            ng-click="socialComment.commenting = !socialComment.commenting"
+                           ng-if="!allowedActions  || allowedActions[socialPost.page_id.platform].indexOf('REPLY') != -1"
                            aria-label="Reply to comment"><i class="material-icons">comment</i></md-button>
                 <md-button flex flex-gt-sm="50" class="md-icon-button"
+                           ng-if="!allowedActions  || allowedActions[socialPost.page_id.platform].indexOf(socialPost.page_id.name == socialComment.name ? 'DELETE_SELF' : 'DELETE_OTHERS') != -1"
                            ng-click="deleteComment(socialComment)"
                            aria-label="Delete comment"><i class="material-icons">delete</i></md-button>
                 <span ng-if="socialComment.replies_count > 0" layout="column" class="text-center">

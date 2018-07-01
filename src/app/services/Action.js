@@ -44,6 +44,14 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                getAllowedActions: function (cbSuccess, cbFail) {
+                    return Request.get('portal/actions/allowed', {},
+                        function (message) {
+                            return cbSuccess(message.data);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
             };
         }]);
 });
