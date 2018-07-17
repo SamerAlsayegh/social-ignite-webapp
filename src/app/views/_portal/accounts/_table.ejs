@@ -1,4 +1,4 @@
-<md-tabs layout-fill>
+<md-tabs layout-fill md-stretch-tabs="always">
     <md-tab label="Social Profiles" md-on-select="addPageActive = true" md-on-deselect="addPageActive = false">
         <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill>
             <div class="md-padding">
@@ -9,7 +9,7 @@
                     <md-fab-trigger>
                         <md-button aria-label="menu" class="md-fab md-primary">
                             <md-tooltip md-direction="left">Add new profile</md-tooltip>
-                            <md-icon>add</md-icon>
+                            <i class="zmdi zmdi-accounts-add zmdi-hc-2x"></i>
                         </md-button>
                     </md-fab-trigger>
 
@@ -26,7 +26,7 @@
         </md-content>
     </md-tab>
     <md-tab label="Social Stacks" md-on-select="addStackActive = true" md-on-deselect="addStackActive = false">
-        <md-content class="md-padding" layout="column" ng-controller="socialStackController" layout-fill>
+        <md-content layout="column" ng-controller="socialStackController" layout-fill>
             <div class="md-padding">
                 <%- include _socialStacks.ejs %>
             </div>
@@ -34,7 +34,7 @@
                        class="md-fab md-primary page-button"
                        aria-label="Add a stack">
                 <md-tooltip md-direction="left">Add new stack</md-tooltip>
-                <md-icon>add</md-icon>
+                <i class="zmdi zmdi-collection-plus zmdi-hc-2x"></i>
             </md-button>
         </md-content>
 

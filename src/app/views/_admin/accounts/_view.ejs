@@ -26,8 +26,8 @@
 
 <md-list layout-padding flex>
     <md-list-item href="/admin/accounts/{{user._id}}" ng-repeat="user in usersOnPage" class="md-2-line">
-            <md-icon>face</md-icon>
-            <div ng class="md-list-item-text">
+        <i class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
+        <div ng class="md-list-item-text">
                 <h3 ng-bind="user.email"></h3>
                 <p ng-bind="user.scope"></p>
             </div>

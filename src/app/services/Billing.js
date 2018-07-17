@@ -10,7 +10,7 @@ define(['./module'], function (services) {
                             return cbSuccess(message);
                         }, function (status, message) {
                             return cbFail(status, message);
-                        });
+                        }, 20000);
                 },
                 getSubscription: function (cbSuccess, cbFail) {
                     return Request.get('payment/subscription',
@@ -22,6 +22,14 @@ define(['./module'], function (services) {
                 },
                 getPlans: function (cbSuccess, cbFail) {
                     return Request.get('payment/plans',
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                getPlan: function (plan, cbSuccess, cbFail) {
+                    return Request.get('payment/plans/' + plan,
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {

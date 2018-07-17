@@ -7,6 +7,7 @@ define([
     'angular-material',
     'angular-cookies',
     'angular-messages',
+    'angular-google-analytics',
     'angular-moment-picker/dist/angular-moment-picker.js',
     'ng-file-upload',
     'chart.js',
@@ -31,16 +32,22 @@ define([
         'ngFileUpload',
         'ngCookies',
         'materialCalendar',
+        'angular-google-analytics',
         'ui.router',
         'angularMoment',
     ])
-        .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', function ($mdThemingProvider, $httpProvider, $mdGestureProvider) {
+        .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', function ($mdThemingProvider, $httpProvider, $mdGestureProvider, AnalyticsProvider) {
             var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
                 'contrastDefaultColor': 'light',
                 'contrastDarkColors': ['50', '100',
                     '200', '300', '400', 'A100'],
                 'contrastLightColors': undefined
             });
+            AnalyticsProvider.setAccount('UA-63794417-10');
+            AnalyticsProvider.trackPrefix('p');
+            AnalyticsProvider.startOffline(true);
+
+
             $mdThemingProvider.definePalette('lightBlueCustom', lightBlueCustom);
             $mdThemingProvider.theme('default')
                 .primaryPalette('lightBlueCustom')
@@ -51,78 +58,86 @@ define([
                 .accentPalette('light-blue')
                 .backgroundPalette('grey').dark();
             $mdGestureProvider.disableAll();
+
             $httpProvider.defaults.withCredentials = true;
         }])
-        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment',
-            function ($rootScope, $transitions, $state, $templateCache, $http, Auth, moment) {
+        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location',
+            function ($rootScope, $transitions, $state, $templateCache, $http, Auth, moment, $cookies, Analytics, $location) {
+                $transitions.onSuccess({}, function (transition) {
+                    Analytics.trackPage($location.path());
+                });
+
 
                 moment.locale('en', {
-                    relativeTime : {
+                    relativeTime: {
                         future: "in %s",
-                        past:   "%s ago",
-                        s:  "seconds",
-                        m:  "1m",
+                        past: "%s ago",
+                        s: "seconds",
+                        m: "1m",
                         mm: "%dm",
-                        h:  "1h",
+                        h: "1h",
                         hh: "%dh",
-                        d:  "1d",
+                        d: "1d",
                         dd: "%dd",
-                        M:  "1m",
-                        MM: "%dm",
-                        y:  "1y",
+                        M: "1mo",
+                        MM: "%dmos",
+                        y: "1y",
                         yy: "%dy"
                     }
                 });
 
                 $transitions.onBefore({to: 'portal.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
-                    return Auth.sessionValidate(function (loggedIn) {
-                        if (!loggedIn) {
-                            console.log("Redirecting from portal to public");
-                            setTimeout(function () {
-                                transition.router.stateService.target('public.home')
-                                $state.go('public.home')
-                            }, 0);
-                            return false;
-                        } else return true;
+                    return new Promise(function (resolve, reject) {
+                        Auth.sessionValidate(function (loggedIn) {
+                            if (!loggedIn) {
+                                console.log("Redirecting from portal to public");
+                                $cookies.put("redirect_on_login", transition.to().name);
+                                $state.go('public.login');
+                                reject();
+                            } else
+                            resolve();
+                        })
                     })
                 });
 
                 $transitions.onBefore({to: 'public.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
-                    return Auth.sessionValidate(function (loggedIn) {
-                        if (loggedIn && transition.to().name != "public.email_verify_fill_email_code") {
-                            console.log("Redirecting from public to portal");
-                            setTimeout(function () {
-                                transition.router.stateService.target('portal.home');
-                                $state.go('portal.home')
-                            }, 0);
-                            return false;
-                        } else return true;
+                    return new Promise(function (resolve, reject) {
+                        Auth.sessionValidate(function (loggedIn) {
+                            if (loggedIn && transition.to().name != "public.email_verify") {
+                                console.log("Redirecting from public to portal");
+                                $state.go('portal.home');
+                                reject();
+                            } else {
+                                resolve();
+                            }
+                        });
                     });
                 });
 
                 // Remove people not allowed to access frontend. This is simply a deterrent, they still wouldn't have access to backend.
                 $transitions.onBefore({to: 'admin.**'}, function (transition) {
                     var Auth = transition.injector().get('Auth');
-                    Auth.sessionValidate(function (loggedIn) {
-                        if (!$rootScope.user || !($rootScope.user.scope == "admin" || $rootScope.user.scope == "support")) {
-                            console.log("Redirecting from admin to portal");
-                            setTimeout(function () {
-                                transition.router.stateService.target('portal.home');
-                                $state.go('portal.home')
-                            }, 0);
-                            return false;
-                        } else return true;
+                    return new Promise(function (resolve, reject) {
+                        Auth.sessionValidate(function (loggedIn) {
+                            if (!$rootScope.user || !($rootScope.user.scope == "admin" || $rootScope.user.scope == "support")) {
+                                console.log("Redirecting from admin to portal");
+                                $state.go('portal.home');
+                                reject();
+                            } else {
+                                resolve();
+                            }
+                        });
                     });
                 });
 
                 // // TODO: Temporarily disabled until made more efficient?
-                // angular.forEach($state.get(), function (state, key) {
-                //     if (state.templateUrl !== undefined && state.preload !== false) {
-                //         $http.get(state.templateUrl, {cache: $templateCache});
-                //     }
-                // });
+                angular.forEach($state.get(), function (state, key) {
+                    if (state.templateUrl !== undefined && state.preload !== false) {
+                        $http.get(state.templateUrl, {cache: $templateCache});
+                    }
+                });
             }
         ]);
 });

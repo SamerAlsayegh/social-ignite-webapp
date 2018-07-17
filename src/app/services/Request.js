@@ -3,15 +3,23 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
     services.factory('Request', ['$http',
         function ($http) {
             return {
-                post: function (endpoint, parameters, cbSuccess, cbFail) {
+                post: function (endpoint, parameters, cbSuccess, cbFail, customTimeout) {
                     return $http({
                         method: 'POST',
                         url: __API__ + '/api/v1/' + endpoint,
                         data: parameters,
-                        timeout: 10000
-                    }).then(function (data, status, headers, config) {
+                        timeout: customTimeout != null ? customTimeout : 10000
+                    }).then(function (data) {
                         var message = data.data;
-                        cbSuccess(message.data, message);
+                        var status = data.status;
+
+                        if (message.data != null)
+                            cbSuccess(message.data, message);
+                        else if (status == 200){
+                            cbSuccess(message.message, message);
+                        }
+                        else
+                            cbFail(status, message.message, message);
                     }, function (data) {
                         var status = data.status;
                         if (status != -1){
@@ -20,6 +28,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
+                                    console.log(data, data.headers());
+                                    console.log('Content-Range: ' + data.headers('Content-Range'));
                                     cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
                                     break;
                                 default:
@@ -46,8 +56,10 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         url: __API__ + '/api/v1/' + endpoint,
                         params: data,
                         timeout: 10000
-                    }).then(function (data, status, headers, config) {
-                        cbSuccess(data.data, data);
+                    }).then(function (data) {
+                        var message = data.data;
+
+                        cbSuccess(message, data);
                     }, function (data) {
                         var status = data.status;
                         if (status != -1){

@@ -16,10 +16,23 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     templateUrl: '/_public/index.html',
                     controller: 'publicHomeController',
                 })
-                .state('public.home', {
-                    url: "/",
-                    templateUrl: '/_public/auth/register/register.html'
+                .state('public.login', {
+                    url: "/login",
+                    templateUrl: '/_public/auth/login/view.html'
                 })
+                .state('public.register', {
+                    url: "/register",
+                    templateUrl: '/_public/auth/register/view.html'
+                })
+                .state('public.forgotten_password', {
+                    url: "/forgotten_password?secure",
+                    templateUrl: '/_public/auth/forgotten_password/view.html'
+                })
+
+
+
+
+
                 .state('public.feedback', {
                     templateUrl: '/_public/feedback/index.html'
                 })
@@ -30,22 +43,11 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
 
                 .state('public.email_verify', {
-                    url: "/email_verify",
-                    templateUrl: '/_public/auth/emailVerify/emailVerify.html'
-                })
-                .state('public.email_verify_fill_email', {
-                    url: "/email_verify/{email}",
-                    templateUrl: '/_public/auth/emailVerify/emailVerify.html'
-                })
-                .state('public.email_verify_fill_email_code', {
-                    url: "/email_verify/{email}/{code}",
-                    templateUrl: '/_public/auth/emailVerify/emailVerify.html'
+                    url: "/email_verify?email&code",
+                    templateUrl: '/_public/auth/emailVerify/view.html',
                 })
 
-                .state('public.login', {
-                    url: "/login",
-                    templateUrl: '/_public/auth/login/login.html'
-                })
+
 
 
 
@@ -59,7 +61,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     controller: 'portalHomeController',
                 })
                 .state('portal.home', {
-                    url: "/portal",
+                    url: "/",
                     templateUrl: '/_portal/dashboard/index.html'
                 })
 
@@ -68,12 +70,12 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     templateUrl: '/_portal/profile/index.html',
                 })
                 .state('portal.profile.delete', {
-                    url: "/portal/delete/{code}",
+                    url: "/delete?code",
                     controller: 'profileDeleteController',
                     templateUrl: '/_portal/profile/_delete.html'
                 })
                 .state('portal.profile.view', {
-                    url: "/portal/profile",
+                    url: "/profile?tab",
                     controller: 'profileController',
                     templateUrl: '/_portal/profile/_view.html'
                 })
@@ -86,7 +88,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     controller: 'resourcesController',
                 })
                 .state('portal.resources.view', {
-                    url: "/portal/resources",
+                    url: "/resources",
                     templateUrl: '/_portal/resources/_view.html',
                     params: {
                         postId: {dynamic: true},
@@ -95,7 +97,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     }
                 })
                 .state('portal.resources.manage', {
-                    url: "/portal/resources/manage",
+                    url: "/resources/manage",
                     templateUrl: '/_portal/resources/_manage.html'
                 })
 
@@ -106,7 +108,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
 
                 .state('portal.profile.billing.home', {
-                    url: "/portal/billing",
+                    url: "/billing?package",
                     templateUrl: '/_portal/billing/_view.html'
                 })
 
@@ -116,16 +118,12 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     controller: 'accountController',
                 })
                 .state('portal.accounts.home', {
-                    url: "/portal/accounts",
+                    url: "/accounts?fail",
                     templateUrl: '/_portal/accounts/_table.html',
                 })
                 .state('portal.accounts.continue', {
-                    url: "/portal/accounts/continue/{cache_id}",
+                    url: "/accounts/continue/:cache_id",
                     templateUrl: '/_portal/accounts/_continue.html'
-                })
-                .state('portal.accounts.home_fail', {
-                    url: "/portal/accounts/fail/{error}",
-                    templateUrl: '/_portal/accounts/_table.html'
                 })
 
                 .state('portal.support', {
@@ -134,20 +132,20 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
 
                 .state('portal.support.home', {
-                    url: "/portal/support",
+                    url: "/support",
                     templateUrl: '/_portal/support/_view.html'
                 })
                 .state('portal.support.ticket', {
 
                 })
                 .state('portal.support.ticket.new', {
-                    url: "/portal/support/new",
+                    url: "/support/new",
                     controller: 'supportSubController',
                     templateUrl: '/_portal/support/_newTicket.html',
                 })
                 .state('portal.support.ticket.view', {
                     controller: 'supportSubController',
-                    url: "/portal/support/{ticketId}",
+                    url: "/support/{ticketId}",
                     templateUrl: '/_portal/support/_ticket.html',
                 })
 
@@ -165,7 +163,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     controller: 'scheduleController'
                 })
                 .state('portal.schedule.table', {
-                    url: "/portal/schedule",
+                    url: "/schedule",
                     templateUrl: '/_portal/schedule/_table.html',
                     params: {
                         updateId: {dynamic: true},
@@ -175,7 +173,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
                 .state('portal.schedule.edit', {
                     controller: 'editController',
-                    url: "/portal/schedule/edit/:postId",
+                    url: "/schedule/edit/:postId",
                     templateUrl: '/_portal/schedule/_schedule.html',
                     params: {
                         postId: null,
@@ -185,7 +183,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
                 .state('portal.schedule.statistics', {
                     controller: 'postStatisticsController',
-                    url: "/portal/schedule/view/:postId",
+                    url: "/schedule/view/:postId",
                     templateUrl: '/_portal/schedule/_analytics.html',
                     params: {
                         postId: null
@@ -200,7 +198,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 .state('portal.statistics.view', {
                     templateUrl: '/_portal/statistics/_view.html',
                     controller: 'statisticsController',
-                    url: "/portal/statistics"
+                    url: "/statistics"
                 })
 
 

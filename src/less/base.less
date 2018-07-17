@@ -52,6 +52,19 @@ div > .hr {
   color: #fff !important;
   font-size: 30px;
 }
+.ui-social > small{
+  color: #fff !important;
+  font-size: 15px;
+}
+
+.ui-social-button {
+  color: #fff !important;
+  //font-size: 16px;
+}
+.ui-social-button > small{
+  color: #fff !important;
+  //font-size: 15px;
+}
 
 .md-mini {
   font-size: 20px;
@@ -545,6 +558,9 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 .pointer {
   cursor: pointer;
 }
+.pointer:hover {
+  cursor: pointer;
+}
 
 
 .page-select {
@@ -620,19 +636,18 @@ md-icon:focus {
   //overflow: hidden;
   text-overflow: ellipsis;
 
-  .transparent-black {
+  .transparent-hover {
     //background: rgba(0, 0, 0, 0.5);
     opacity: 0.7;
     animation: 0.5s transparentOut ease;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    color: white !important;
   }
 
 }
 
 .resource-select:hover {
-  .transparent-black {
+  .transparent-hover {
     //background: rgba(0, 0, 0, 0.7);
     //opacity: 0.5;
     opacity: 0.9;
@@ -746,6 +761,91 @@ HotFix for Icon Sizing
 }
 
 @-webkit-keyframes rotation {
-  from {-webkit-transform: rotate(0deg);}
-  to   {-webkit-transform: rotate(359deg);}
+  from {-webkit-transform: rotate(359deg);}
+  to   {-webkit-transform: rotate(0deg);}
 }
+
+
+/* roboto-300 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/roboto-v18-latin-300.eot'); /* IE9 Compat Modes */
+  src: local('Roboto Light'), local('Roboto-Light'),
+  url('../fonts/roboto-v18-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v18-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v18-latin-300.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v18-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v18-latin-300.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-regular - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/roboto-v18-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Roboto'), local('Roboto-Regular'),
+  url('../fonts/roboto-v18-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v18-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v18-latin-regular.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v18-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v18-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-500 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/roboto-v18-latin-500.eot'); /* IE9 Compat Modes */
+  src: local('Roboto Medium'), local('Roboto-Medium'),
+  url('../fonts/roboto-v18-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v18-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v18-latin-500.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v18-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v18-latin-500.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+/* roboto-700 - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/roboto-v18-latin-700.eot'); /* IE9 Compat Modes */
+  src: local('Roboto Bold'), local('Roboto-Bold'),
+  url('../fonts/roboto-v18-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/roboto-v18-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/roboto-v18-latin-700.woff') format('woff'), /* Modern Browsers */
+  url('../fonts/roboto-v18-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/roboto-v18-latin-700.svg#Roboto') format('svg'); /* Legacy iOS */
+}
+
+.md-fab > .zmdi {
+  vertical-align: middle;
+}
+
+.day-action {
+  top: 0;
+  right: 0;
+}
+
+
+//md-content {
+//  //-webkit-transition: -webkit-opacity .1s ease-in-out;
+//  //-moz-transition: -moz-opacity .1s ease-in-out;
+//  //-o-transition: -o-opacity .1s ease-in-out;
+//  //transition: opacity .1s ease-in-out;
+//  //opacity: 1;
+//
+//}
+//
+//.ng-enter {
+//  //opacity: 0;
+//}
+//
+//.ng-enter.ng-enter-active, .ng-leave {
+//  //opacity: 1;
+//}
+//
+//.ng-leave.ng-leave-active {
+//  //opacity: 0;
+//}

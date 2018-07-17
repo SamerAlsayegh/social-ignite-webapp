@@ -19,7 +19,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     Alert.error(message);
                 });
 
-                $scope.socket.on('ticket_reply', function (ticket_reply) {
+                $scope.socket.on('ticket_reply_admin', function (ticket_reply) {
                     console.log(ticket_reply, $stateParams.ticketId, $scope.ticket);
                     if (ticket_reply.ticket == $stateParams.ticketId && $scope.ticket){
                         $scope.ticket.responses.responses.push(ticket_reply.response);

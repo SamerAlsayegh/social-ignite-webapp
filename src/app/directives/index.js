@@ -2,7 +2,8 @@ define([
     './fileRead',
     './imageUploader',
     './onScrollToBottom',
-    './delayedImage'
+    './delayedImage',
+    './notificationCard'
     // './tutorialStep'
 ], function () {
 });

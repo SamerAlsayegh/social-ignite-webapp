@@ -4,8 +4,8 @@
         Below is a list of active tickets.
     </md-content>
     <md-content>
-        <md-button href="/portal/support/new" class="md-fab md-primary" aria-label="New Ticket">
-            <md-icon>add</md-icon>
+        <md-button href="/portal/support/new" class="md-fab md-primary page-button" aria-label="New Ticket">
+            <i class="zmdi zmdi-plus md-padding zmdi-hc-lg"></i>
         </md-button>
     </md-content>
 </md-content>
@@ -14,14 +14,15 @@
 
 <h3 ng-if="tickets.length == 0">No tickets were found...</h3>
 <md-list layout-padding flex>
-    <md-list-item href="/portal/support/{{ticket._id}}" ng-repeat="ticket in tickets" class="md-2-line">
-        <md-icon>chat_bubble</md-icon>
+    <md-list-item href="/support/{{ticket._id}}" ng-repeat="ticket in tickets" class="md-2-line">
+        <i class="zmdi zmdi-comment-more md-padding zmdi-hc-lg"></i>
+
         <div flex class="md-list-item-text">
             <h3 ng-bind="ticket.user"></h3>
             <p ng-bind="ticket.title"></p>
         </div>
-        <md-button ng-if="ticket.status != 'Closed'" ng-click="closeTicket(ticket)" class="md-secondary md-icon-button"  aria-label="close">
-            <md-icon>close</md-icon>
+        <md-button ng-if="ticket.status != 'Closed'" ng-click="closeTicket(ticket)" class="md-secondary"  aria-label="close">
+            <i class="zmdi zmdi-close md-padding zmdi-hc-lg"></i>
         </md-button>
         <md-button class="md-list-item-text md-secondary">
             <p ng-bind="ticket.status">

@@ -2,6 +2,7 @@ define([
     './portal/portalHomeController',
     './portal/Schedule/scheduleController',
     './portal/Schedule/editController',
+    './portal/Schedule/editControllerDialog',
     './portal/Statistics/postStatisticsController',
     './portal/Billing/billingController',
     './portal/Support/supportController',

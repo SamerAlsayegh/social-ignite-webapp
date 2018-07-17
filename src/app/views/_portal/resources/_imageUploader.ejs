@@ -15,19 +15,16 @@
 
         <div layout-align="center center" layout-fill layout="column">
                 <span layout-align="center center" class="text-center">
-                <md-icon class="md-48">image</md-icon>
-                <h1>Click here Or</h1>
-                <h1>Drag & Drop</h1>
+                <i class="zmdi zmdi-image zmdi-hc-4x"></i>
+                <h3>Click here or Drag & Drop</h3>
                 </span>
         </div>
     </md-card>
     <md-card ng-if="control == 'view'" ng-click="openSelectorForPost()" class="resource-card image-dragdropzone" layout="column">
         <div layout-align="center center" layout="column">
                 <span layout-align="center center" class="text-center">
-                <md-icon class="md-48">image</md-icon>
-                <h1>Browse gallery</h1>
-                    <h1>Or</h1>
-                <h1>Drag & Drop</h1>
+                <i class="zmdi zmdi-image zmdi-hc-4x"></i>
+                    <h3>Browse gallery or Drag & Drop</h3>
                 </span>
         </div>
     </md-card>
@@ -48,17 +45,15 @@
                 <h1 class="white text-center" layout-align="stretch">{{imageContent.used ? 'Used' : ''}}</h1>
                 <div flex>
                 </div>
-            <md-content class="transparent-black" layout="row" layout-align="center center">
-                <md-button class="md-icon-button" aria-label="Favorite">
-                    <md-icon ng-click="favouriteImage(imageContent)"
-                             ng-class="imageContent.favourite ? 'md-primary' : ''">favorite
-                    </md-icon>
+            <md-content class="transparent-hover" layout="row" layout-align="center center">
+                <md-button ng-click="favouriteImage(imageContent)" aria-label="Favorite"  flex ng-class="imageContent.favourite ? 'md-primary' : ''">
+                    <i class="zmdi zmdi-favorite zmdi-hc-lg "></i>
                 </md-button>
-                <md-button class="md-icon-button" aria-label="Delete">
-                    <md-icon ng-click="deleteImage(imageContent)">delete</md-icon>
+                <md-button  ng-click="deleteImage(imageContent)" aria-label="Delete" flex >
+                    <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
                 </md-button>
-                <md-button ng-if="control == 'manage'" class="md-icon-button" aria-label="Use for post">
-                    <md-icon ng-click="useImage(imageContent)">add_circle</md-icon>
+                <md-button ng-if="control == 'manage'" ng-click="useImage(imageContent)" flex  aria-label="Use for post">
+                    <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
                 </md-button>
             </md-content>
             </span>
@@ -72,7 +67,7 @@
                  layout-align="center center">
             <div flex>
             </div>
-            <div class="transparent-black" layout="row" layout-align="center center">
+            <div class="transparent-hover" layout="row" layout-align="center center">
                 <md-progress-circular md-mode="determinate" value="{{imageContent.progress}}"></md-progress-circular>
             </div>
 

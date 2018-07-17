@@ -1,41 +1,5 @@
-<md-tabs layout-fill>
-    <md-tab ng-if="!subscription || subscription.status == 'cancelled'" label="Packages">
-        <md-content  layout="column">
-            <div layout="row" layout-align="start center">
-                <h1 class="md-display-1" flex>Packages</h1>
-                <md-chips>
-                    <md-chip>Beta</md-chip>
-                </md-chips>
-            </div>
-                <md-content layout-padding layout="row"  layout-wrap>
-                    <md-card ng-repeat="package in packages" ng-click="subscribePackage(package.internal_name)"
-                             class="package-card" layout="column">
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">{{package.name}}</span>
-                                <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
-
-                                <span flex layout="column" layout-align="start">
-                            <ul flex>
-                                <li ng-repeat="feature in package.features">{{feature}}</li>
-                            </ul>
-                        </span>
-                                <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around">
-                                    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-                                </div>
-                            </md-card-title-text>
-                            <md-card-title-media>
-                                <md-icon>shopping_cart</md-icon>
-                            </md-card-title-media>
-                        </md-card-title>
-                        <md-card-actions layout="column" layout-align="stretch">
-                            <md-button class="md-primary md-raised">Subscribe</md-button>
-                        </md-card-actions>
-                    </md-card>
-                </md-content>
-        </md-content>
-    </md-tab>
-    <md-tab ng-if="subscription" label="Active Subscription">
+<md-tabs layout-fill  md-stretch-tabs="always">
+    <md-tab ng-if="subscription && !chosenPackage" label="Active Subscription">
         <md-content  layout="column">
             <h1 class="md-display-1">Active Subscription</h1>
             <md-content class="md-block" ng-if="subscription" flex layout="row">
@@ -58,8 +22,53 @@
                     <input disabled ng-value="subscription.status">
                 </md-input-container>
             </md-content>
-            <md-content ng-if="subscription.status == 'active'" layout="column" layout-align="stretch">
+            <md-content ng-if="subscription.status == 'active' && !cancellingSubscription" layout="column" layout-align="stretch">
                 <md-button ng-click="cancelSubscription()" class="md-warn">Cancel Subscription</md-button>
+            </md-content>
+            <md-content ng-if="cancellingSubscription == true">
+                <h2>Please wait while we cancel your subscription service.</h2>
+            </md-content>
+        </md-content>
+    </md-tab>
+    <md-tab label="Packages">
+        <md-content  layout="column">
+            <div layout="row" layout-align="start center">
+                <h1 class="md-display-1" flex>Packages</h1>
+                <md-chips>
+                    <md-chip>Beta</md-chip>
+                </md-chips>
+            </div>
+            <md-content ng-if="!loading || chosenPackage != null" layout-padding layout="{{chosenPackage != null ? 'column' : 'row'}}">
+                <md-card ng-repeat="package in packages" ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package" ng-click="subscribePackage(package.internal_name)"
+                         class="package-card" layout="column">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{package.name}}</span>
+                            <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
+
+                            <span flex layout="column" layout-align="start">
+                                <ul flex>
+                                    <li ng-repeat="feature in package.features">{{feature}}</li>
+                                </ul>
+                            </span>
+
+                        </md-card-title-text>
+                        <md-card-title-media>
+                            <i class="zmdi zmdi-paypal md-padding zmdi-hc-2x"></i>
+                        </md-card-title-media>
+                    </md-card-title>
+                    <md-card-actions layout="column" ng-if="chosenPackage == null" layout-align="stretch">
+                        <md-button class="md-primary md-raised">Subscribe</md-button>
+                    </md-card-actions>
+                </md-card>
+            </md-content>
+            <md-content ng-if="loading" layout="column">
+                <div layout="row">
+                    <span>
+                        <i class="zmdi zmdi-refresh-sync md-padding zmdi-hc-2x continious_rotation"></i>
+                    </span>
+                    <h2>You will be redirected to PayPal shortly... please wait.</h2>
+                </div>
             </md-content>
         </md-content>
     </md-tab>

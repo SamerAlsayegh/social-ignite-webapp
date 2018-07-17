@@ -27,24 +27,26 @@ module.exports = { '0':
   '12': 
    { id: 'Banned',
      detail: 'This account is banned. Contact support.' },
-  '13': { id: 'AccountNotFound', detail: undefined },
+  '13': { id: 'AccountNotFound', detail: 'Account was not found.' },
   '14': { id: 'NotLoggedOn', detail: 'You are no-longer logged on.' },
   '15': 
    { id: 'InsufficientPrivilege',
      detail: 'You do not have the required permissions.' },
-  '16': { id: 'Revoked', detail: undefined },
-  '17': { id: 'Expired', detail: undefined },
+  '16': { id: 'Revoked', detail: 'This feature has been revoked.' },
+  '17': { id: 'Expired', detail: 'This request has already expired.' },
   '18': 
    { id: 'DuplicateRequest',
      detail: 'This action was repeated earlier.' },
   '19': { id: 'Suspended', detail: 'Action is suspended. Retry later.' },
-  '20': { id: 'Cancelled', detail: undefined },
+  '20': { id: 'Cancelled', detail: 'Action was aborted.' },
   '21': { id: 'PasswordUnset', detail: 'Password was not set.' },
   '22': 
    { id: 'IllegalPassword',
      detail: 'Password is not allowed. Too weak.' },
   '23': { id: 'AccountLogonDeniedNoMail', detail: undefined },
-  '24': { id: 'AccountLockedDown', detail: undefined },
+  '24': 
+   { id: 'AccountLockedDown',
+     detail: 'Suspicious activity found, account locked down. Contact support.' },
   '25': 
    { id: 'AccountLogonDeniedVerifiedEmailRequired',
      detail: 'Account requires verification. Check email.' },
@@ -54,7 +56,7 @@ module.exports = { '0':
   '29': { id: 'Disabled', detail: undefined },
   '30': 
    { id: 'RateLimitExceeded',
-     detail: 'You have been rate-limited, please wait.' },
+     detail: 'You have been rate-limited, please wait %s.' },
   '31': { id: 'AccountLoginDeniedThrottle', detail: undefined },
   '32': { id: 'EmailSendFailure', detail: undefined },
   '33': 
@@ -126,18 +128,20 @@ module.exports = { '0':
   EmailExists: { id: 10, detail: 'This email address is already used.' },
   Timeout: { id: 11, detail: undefined },
   Banned: { id: 12, detail: 'This account is banned. Contact support.' },
-  AccountNotFound: { id: 13, detail: undefined },
+  AccountNotFound: { id: 13, detail: 'Account was not found.' },
   NotLoggedOn: { id: 14, detail: 'You are no-longer logged on.' },
   InsufficientPrivilege: { id: 15, detail: 'You do not have the required permissions.' },
-  Revoked: { id: 16, detail: undefined },
-  Expired: { id: 17, detail: undefined },
+  Revoked: { id: 16, detail: 'This feature has been revoked.' },
+  Expired: { id: 17, detail: 'This request has already expired.' },
   DuplicateRequest: { id: 18, detail: 'This action was repeated earlier.' },
   Suspended: { id: 19, detail: 'Action is suspended. Retry later.' },
-  Cancelled: { id: 20, detail: undefined },
+  Cancelled: { id: 20, detail: 'Action was aborted.' },
   PasswordUnset: { id: 21, detail: 'Password was not set.' },
   IllegalPassword: { id: 22, detail: 'Password is not allowed. Too weak.' },
   AccountLogonDeniedNoMail: { id: 23, detail: undefined },
-  AccountLockedDown: { id: 24, detail: undefined },
+  AccountLockedDown: 
+   { id: 24,
+     detail: 'Suspicious activity found, account locked down. Contact support.' },
   AccountLogonDeniedVerifiedEmailRequired: 
    { id: 25,
      detail: 'Account requires verification. Check email.' },
@@ -145,7 +149,9 @@ module.exports = { '0':
   BadResponse: { id: 27, detail: undefined },
   UnexpectedError: { id: 28, detail: undefined },
   Disabled: { id: 29, detail: undefined },
-  RateLimitExceeded: { id: 30, detail: 'You have been rate-limited, please wait.' },
+  RateLimitExceeded: 
+   { id: 30,
+     detail: 'You have been rate-limited, please wait %s.' },
   AccountLoginDeniedThrottle: { id: 31, detail: undefined },
   EmailSendFailure: { id: 32, detail: undefined },
   EmailAlreadyVerified: { id: 33, detail: 'Email address has already been verified.' },

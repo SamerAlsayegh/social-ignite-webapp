@@ -36,7 +36,7 @@ define(['../../module'], function (controllers) {
                     Alert.error(message);
                 });
 
-                $scope.socket.on('ticket_reply', function (ticket_reply) {
+                $scope.socket.on('ticket_reply_user', function (ticket_reply) {
                     if (ticket_reply.ticket == $scope.ticketId && $scope.ticket){
                         $scope.ticket.responses.responses.push(ticket_reply.response);
                         $scope.ticket.status = 'Replied';

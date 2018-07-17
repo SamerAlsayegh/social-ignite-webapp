@@ -9,7 +9,8 @@ define(['./module'], function (services) {
 
                     return Request.post('auth/login', parameters,
                         function (message) {
-                            $cookies.put('sid', message.data.sid, new Date(new Date().getTime() + (1000*60*60*24*7)));
+                        console.log(message);
+                            $cookies.put('sid', message, new Date(new Date().getTime() + (1000*60*60*24*7)));
                             return Request.get('user',
                                 function (message) {
                                     $rootScope.user = message.data;
@@ -27,7 +28,6 @@ define(['./module'], function (services) {
                         function (message) {
                             $rootScope.user = null;
                             $rootScope.loggedIn = false;
-                            $state.go('public.home', {}, {reload: 'public.home'});
                             return cbSuccess(message);
                         }, function (status, message) {
                             return cbFail(status, message);
@@ -38,6 +38,17 @@ define(['./module'], function (services) {
                         return;
 
                     return Request.post('auth/register', parameters,
+                        function (message) {
+                            return cbSuccess(message);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
+                checkEmail: function (email, cbSuccess, cbFail) {
+                    if (!email)
+                        return;
+
+                    return Request.get('auth/valid', {email: email},
                         function (message) {
                             return cbSuccess(message);
                         }, function (status, message) {
@@ -55,9 +66,28 @@ define(['./module'], function (services) {
                             return cbFail(status, message, messageCode);
                         });
                 },
+                requestPasswordReset: function(email, cbSuccess, cbFail) {
+                    return Request.post('auth/forgotten_password', {
+                      email: email
+                    }, function (message) {
+                        return cbSuccess(message);
+                    }, function (status, message) {
+                        return cbFail(status, message);
+                    });
+                },
+                submitPasswordReset: function(code, password, cbSuccess, cbFail) {
+                    return Request.post('auth/forgotten_password', {
+                        code: code,
+                        password: password
+                    }, function (message) {
+                        return cbSuccess(message);
+                    }, function (status, message) {
+                        return cbFail(status, message);
+                    });
+                },
                 requestEmailResend: function(email, cbSuccess, cbFail) {
                     return Request.post('auth/request_email', {
-                      email: email
+                        email: email
                     }, function (message) {
                         return cbSuccess(message);
                     }, function (status, message) {

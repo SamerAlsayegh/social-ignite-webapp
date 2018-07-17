@@ -5,14 +5,15 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
         function ($rootScope, $scope,
                   $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
 
-
-            if ($stateParams.error != null)
-                Alert.error("Failed to register. " + errorCodes[$stateParams.error].detail);
+            if ($stateParams.fail != null)
+                Alert.error("Failed to register. " + errorCodes[$stateParams.fail].detail);
 
             $scope.socialPlatforms = platforms;
             $scope.connectedAccounts = [];
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
+
+
             for (var platformKey in platforms) {
                 if (parseInt(platformKey) == platformKey) {
                     $scope.socialPlatformDetails.push({
@@ -23,6 +24,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                 }
             }
             $scope.socket.on('updatedPageStatistics', function (pageInfo) {
+                console.log("Updated?")
                 SocialAccounts.getSocialAccount(pageInfo._id, function (message) {
                     for (var i = 0; i < $scope.connectedAccounts.length; i++) {
                         if ($scope.connectedAccounts[i]._id == pageInfo._id) {
@@ -37,9 +39,16 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
 
 
 
-
-
             $scope.socialAccounts = {};
+
+            $scope.filteredPlatforms = [];
+
+
+
+
+            $scope.isPlatformFiltered = function (platform) {
+                return $scope.filteredPlatforms.indexOf(platform) != -1;
+            };
 
             $scope.refreshSocialAccount = function (_id) {
                 SocialAccounts.refreshSocialAccount(_id, 'page_statistics', function (message) {
@@ -62,7 +71,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
             };
 
             $scope.loadMoreSocialPages = function () {
-                SocialAccounts.getSocialAccounts(($scope.connectedAccounts.length > 0 ? ($scope.connectedAccounts[$scope.connectedAccounts.length - 1]._id) : null), $scope.platformFilter, function (data) {
+                SocialAccounts.getSocialAccounts(($scope.connectedAccounts.length > 0 ? ($scope.connectedAccounts[$scope.connectedAccounts.length - 1]._id) : null), $scope.filteredPlatforms, function (data) {
                     $scope.connectedAccounts = $scope.connectedAccounts.concat(data.pages);
                     $scope.remaining = data.remaining;
                 }, function (status, message) {
@@ -72,10 +81,13 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
             $scope.loadMoreSocialPages();
 
 
-            $scope.platformList = platforms;
-            $scope.platformLookup = function (platformId) {
-                return $scope.platformList[platformId].id;
+            $scope.togglePlatformFilter = function (platform) {
+                $scope.filteredPlatforms.indexOf(platform) == -1 ? $scope.filteredPlatforms.push(platform) :  $scope.filteredPlatforms.splice($scope.filteredPlatforms.indexOf(platform), 1);
+                $scope.connectedAccounts = [];
+                $scope.loadMoreSocialPages();
             };
+
+
 
             $scope.platformFiltered = function () {
                 $scope.connectedAccounts = [];

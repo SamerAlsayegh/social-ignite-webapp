@@ -6,7 +6,7 @@
         <md-toolbar class="md-primary">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
-                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                    <i layout-align="start start" layout="stretch" class="white zmdi zmdi-menu zmdi-hc-2x"></i>
                 </md-button>
 
                 <h2 flex md-truncate>Menu</h2>
@@ -24,16 +24,16 @@
                 <img flex class="menu_logo" ng-src="__ASSETS__{{theme == 'dark' ? '/img/thumbnail/w400/light_logo.png' : '/img/thumbnail/w400/dark_logo.png'}}">
             </header>
             <md-list flex>
-                <md-list-item class="home" flex href="/portal/" ng-click="toggleMenu()">
-                    <md-icon>home</md-icon>
+                <md-list-item class="home" flex href="/" ng-click="toggleMenu()">
+                    <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
                     <span flex>User Mode</span>
                 </md-list-item>
                 <md-list-item flex>
-                    <md-icon>person</md-icon>
+                    <i class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
                     <span flex>{{usersOnline + 0}} Online</span>
                 </md-list-item>
                 <md-list-item flex>
-                    <md-icon>person</md-icon>
+                    <i class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
                     <span flex>{{usersCount + 0}} Registered</span>
                 </md-list-item>
             </md-list>
@@ -41,11 +41,11 @@
             <md-list layout-align="end end">
                 <md-subheader class="md-no-sticky">Email: {{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)</md-subheader>
                 <md-list-item flex href="/admin/support" ng-click="toggleMenu()">
-                    <md-icon>contact_support</md-icon>
+                    <i class="zmdi zmdi-pin-help md-padding zmdi-hc-lg"></i>
                     <span flex>Support {{ support_tickets > 0 ? '(' + support_tickets + ')' : ''}}</span>
                 </md-list-item>
                 <md-list-item href="/admin/accounts" ng-click="toggleMenu()">
-                    <md-icon>face</md-icon>
+                    <i class="zmdi zmdi-accounts md-padding zmdi-hc-lg"></i>
                     <span flex>Accounts</span>
                 </md-list-item>
 

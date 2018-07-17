@@ -26,6 +26,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                 $scope.newPage = {
                     mainPage: null
                 };
+                $scope.pendingPages = [];
 
                 $scope.linkAccount = function (socialPage) {
                     if (!socialPage.linked) {
@@ -36,8 +37,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                         }, function (pages) {
                             socialPage.linking = false;
                             socialPage.linked = true;
-                            $scope.connectedAccounts = $scope.connectedAccounts.concat(pages);
-                            // Alert.success("Successfully added account");
+                            $scope.pendingPages = $scope.pendingPages.concat(pages);
                             // $state.go('portal.accounts.home', {appendPages: pages});//If the session is invalid, take to login page.
                         }, function (status, message) {
                             socialPage.linking = false;

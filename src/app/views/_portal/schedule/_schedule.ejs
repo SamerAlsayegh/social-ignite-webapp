@@ -57,17 +57,17 @@
                 <span layout="row" class="md-block" layout-align="stretch">
                     <p ng-if="hashtags != null">Recommended:</p>
                     <md-chips>
-                      <md-chip ng-repeat="hashtag in hashtags" ng-show="hashtag.priority">#{{hashtag.hashtag}}</md-chip>
+                      <md-chip ng-repeat="hashtag in hashtags" ng-show="hashtag.priority" ng-click="addHashtag(hashtag)" class="pointer" ng-disabled="hashtagUsed(hashtag) ">#{{hashtag.hashtag}}</md-chip>
                     </md-chips>
                 </span>
                 <span layout="row" flex class="md-block" layout-align="stretch">
                     <p ng-if="hashtags != null">Optional:</p>
                     <md-chips>
-                      <md-chip ng-repeat="hashtag in hashtags" ng-hide="hashtag.priority">#{{hashtag.hashtag}}</md-chip>
+                      <md-chip ng-repeat="hashtag in hashtags" ng-hide="hashtag.priority" ng-click="addHashtag(hashtag)" class="pointer" ng-disabled="hashtagUsed(hashtag)">#{{hashtag.hashtag}}</md-chip>
                     </md-chips>
                 </span>
                 <span layout="column" layout-gt-md="row">
-                    <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups" ng-click="getHashtags(currentSocialPost.content, false);" flex class="md-primary md-raised">
+                    <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtags != null" ng-click="getHashtags(currentSocialPost.content, false);" flex class="md-primary md-raised">
                         + Suggest Hashtags
                     </md-button>
                     <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups" ng-click="getHashtags(currentSocialPost.content, true);" flex="20" ng-if="hashtags != null" class="md-primary">

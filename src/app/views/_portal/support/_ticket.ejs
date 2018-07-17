@@ -12,8 +12,9 @@
     </md-content>
     <md-list id="ticketResponses" flex style="overflow-y: auto;" class="md-padding">
         <md-list-item class="md-2-line" ng-repeat="reply in ticket.responses.responses">
-            <md-icon ng-if="!reply.admin">account_circle</md-icon>
-            <md-icon ng-if="reply.admin">supervised_user_circle</md-icon>
+            <i ng-if="!reply.admin" class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
+            <i  ng-if="reply.admin" class="zmdi zmdi-account-circle md-padding zmdi-hc-lg"></i>
+
             <div class="md-list-item-text">
                 <span layout="row">
                 <h3 ng-bind="reply.user" flex></h3>

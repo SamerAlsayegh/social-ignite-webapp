@@ -27,8 +27,7 @@
                         <span flex class="text-center">
                             <md-button class="md-icon-button" aria-label="Linked status">
                                 <md-tooltip md-direction="top">Status</md-tooltip>
-                                <i class="material-icons" ng-class="socialPage.linking ? 'continious_rotation' : (socialPage.linked ? 'text-success' : 'text-warn')"
-                                ng-bind="socialPage.linking ? 'refresh' : (socialPage.linked ? 'check_circle' : 'cancel')"></i>
+                                <i class="zmdi zmdi-hc-2x" ng-class="socialPage.linking ? 'continious_rotation zmdi-refresh-sync' : (socialPage.linked ? 'text-success zmdi-check-circle' : 'text-warn zmdi-close-circle')"></i>
                             </md-button>
                                 <br>
                                 <p ng-bind="socialPage.linked ? 'Linked' : 'Unlinked'"></p>

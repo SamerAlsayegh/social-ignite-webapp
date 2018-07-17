@@ -49,7 +49,10 @@ module.exports = {
         id: 12,
         detail: 'This account is banned. Contact support.'
     },
-    AccountNotFound: 13,
+    AccountNotFound: {
+        id: 13,
+        detail: 'Account was not found.'
+    },
     NotLoggedOn: {
         id: 14,
         detail: 'You are no-longer logged on.'
@@ -58,8 +61,14 @@ module.exports = {
         id: 15,
         detail: 'You do not have the required permissions.'
     },
-    Revoked: 16,
-    Expired: 17,
+    Revoked: {
+        id: 16,
+        detail: 'This feature has been revoked.'
+    },
+    Expired: {
+        id: 17,
+        detail: 'This request has already expired.'
+    },
     DuplicateRequest: {
         id: 18,
         detail: 'This action was repeated earlier.'
@@ -68,7 +77,10 @@ module.exports = {
         id: 19,
         detail: 'Action is suspended. Retry later.'
     },
-    Cancelled: 20,
+    Cancelled: {
+        id: 20,
+        detail: 'Action was aborted.'
+    },
     PasswordUnset: {
         id: 21,
         detail: 'Password was not set.'
@@ -78,7 +90,10 @@ module.exports = {
         detail: 'Password is not allowed. Too weak.'
     },
     AccountLogonDeniedNoMail: 23,
-    AccountLockedDown: 24,
+    AccountLockedDown: {
+        id: 24,
+        detail: 'Suspicious activity found, account locked down. Contact support.'
+    },
     AccountLogonDeniedVerifiedEmailRequired: {
         id: 25,
         detail: 'Account requires verification. Check email.'
@@ -89,7 +104,7 @@ module.exports = {
     Disabled: 29,
     RateLimitExceeded: {
         id: 30,
-        detail: 'You have been rate-limited, please wait.'
+        detail: 'You have been rate-limited, please wait %s.'
     },
     AccountLoginDeniedThrottle: 31,
     EmailSendFailure: 32,

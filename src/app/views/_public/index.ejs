@@ -4,9 +4,8 @@
         <md-toolbar class="md-primary">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
-                    <md-icon layout-align="start start" layout="stretch" class="white">list</md-icon>
+                    <i layout-align="start start" layout="stretch" class="white zmdi zmdi-menu zmdi-hc-2x"></i>
                 </md-button>
-
                 <h2 flex md-truncate>Menu</h2>
             </div>
         </md-toolbar>
@@ -23,17 +22,13 @@
             </header>
             <md-content>
                 <md-list flex>
-                    <md-list-item class="md-2-line" href="/" ng-click="toggleMenu()">
-                        <md-icon class="black">home</md-icon>
-                        <div class="md-list-item-text">
-                            <h3>Home</h3>
-                        </div>
+                    <md-list-item class="home" flex href="/" ng-click="toggleMenu()">
+                        <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
+                        <span flex>Home</span>
                     </md-list-item>
-                    <md-list-item class="md-2-line" ng-click="switchTheme()">
-                        <md-icon class="black">brightness_1</md-icon>
-                        <div class="md-list-item-text">
-                            <h3>Load {{theme == "dark" ? 'Light' : 'Dark'}} Theme</h3>
-                        </div>
+                    <md-list-item class="home" flex href="/" ng-click="switchTheme()">
+                        <i class="zmdi zmdi-brightness-6 md-padding zmdi-hc-lg"></i>
+                        <span flex>{{theme == "dark" ? 'Light' : 'Dark'}} Mode</span>
                     </md-list-item>
                 </md-list>
             </md-content>

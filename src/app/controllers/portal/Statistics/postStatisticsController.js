@@ -9,7 +9,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.openStat = null;
 
             $scope.$watch('openStat', function (newVar, oldVar) {
-                console.log("Changed visitors?", newVar)
                 if ($scope.activeSocialPost != null) {
                     switch (newVar) {
                         case 'likes':
@@ -26,7 +25,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
 
             SocialPosts.getDetails(postId, function (data) {
-                console.log(data);
                 SocialPosts.getSocialPosts(data._id, null, function (message) {
                     $scope.socialPosts = message.social_posts;
                     if ($scope.socialPosts.length > 0){
@@ -108,6 +106,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         {
                             label: 'Visitors (Total)',
                             fill: true,
+                            lineTension: 0.3,
                             data: fixedDataTotal,
                         },
                         // {
@@ -138,7 +137,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.loadLikes = function(){
                 $scope.chartElementLikes = document.getElementById("likesChart").getContext('2d');
                 $scope.chartConfigLikes = {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         datasets: [{
                             label: 'Likes (Total)',
@@ -193,6 +192,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         {
                             label: 'Likes (Total)',
                             fill: true,
+                            lineTension: 0.3,
                             data: fixedDataTotal,
                         },
                         // {

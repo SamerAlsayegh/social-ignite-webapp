@@ -1,17 +1,18 @@
 require("expose-loader?io!socket.io-client");
-define(['../module', '../../enums/platforms'], function (controllers, platforms) {
+define(['../module', '../../enums/platforms', '../../enums/errorCodes'], function (controllers, platforms, errorCodes) {
     'use strict';
     return controllers.controller('portalHomeController',
-        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies', 'Profile',
-            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies, Profile) {
+        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies', 'Profile', 'General','$state',
+            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies, Profile, General, $state) {
                 $scope.comments = {};
+                $scope.errorCodes = errorCodes;
                 $scope.permissions = {};
 
                 $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
                 $scope.socket = io(__SOCKETS__);
                 $scope.socket.on('connect', function () {
-                    console.log("Connected");
+                    console.log("Connected to Sockets");
                     $scope.socket.emit('getOnline');
                     if ($scope.disconnected){
                         delete $scope.disconnected;
@@ -19,12 +20,15 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                     }
                 });
 
-                $scope.socket.on('ticket_new', function (ticket_reply) {
-                    Alert.info("A new ticket was created.")
+                $scope.socket.on('ticket_new_user', function (ticket_reply) {
+                    Alert.info("A new ticket was created.");
+                    $scope.notifications.support_tickets++;
                 });
-                $scope.socket.on('ticket_reply', function (ticket_reply) {
-                    Alert.info("A ticket has been replied to")
+                $scope.socket.on('ticket_reply_user', function (ticket_reply) {
+                    Alert.info("A ticket has been replied to");
+                    $scope.notifications.support_tickets++;
                 });
+
 
                 $scope.socket.on('changedScope', function () {
                     Auth.logout(function () {
@@ -69,9 +73,14 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 $scope.allowedActions = [];
                 Action.getAllowedActions(function (data) {
                     $scope.allowedActions = data;
-                    console.log(data);
                 }, function (status, message) {
                     // Alert.error(message, 600);
+                });
+
+                General.getNotifications(function(data){
+                    $scope.notifications = data.data;
+                }, function(status, message){
+
                 });
 
                 $scope.feeds = {};
@@ -120,7 +129,6 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                         }
                         reply.remaining = data.data.remaining;
                     }, function (err, data) {
-                        console.log(err, data)
                         Alert.error("Failed to fetch comments.");
                     });
                 };
@@ -136,15 +144,14 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 };
 
                 $scope.deleteComment = function (reply) {
+                    reply.deleted = true;
+                    Alert.success("Deleting selected comment", 600);
                     Action.deleteComment({reply_id: reply._id}, function (data) {
-                        Alert.success("You deleted this comment", 600);
-                        reply.deleted = true;
                     }, function (err, message) {
                         reply.deleted = false;
                         Alert.error(message, 600);
                     });
                 };
-
 
                 /**
                  * Logout user
@@ -152,10 +159,19 @@ define(['../module', '../../enums/platforms'], function (controllers, platforms)
                 $scope.logout = function () {
                     Auth.logout(function (data) {
                         Alert.info('Logged out successfully!');
+                        $state.go('public.login', {}, {reload: 'public.login'});
                     }, function (err, data) {
                         Alert.error('Failed to log out.');
                     });
                 };
+                $scope.resendEmail = function () {
+                    Auth.requestEmailResend($scope.user.email, function (data) {
+                        Alert.success("An email should be on the way.");
+                    }, function (status, message) {
+                        Alert.error("Failed to request verification email.");
+                    });
+                }
+
 
                 // $scope.switchTheme = function () {
                 //     if ($scope.dynamicTheme == "dark") $scope.dynamicTheme = "default";

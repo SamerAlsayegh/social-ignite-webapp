@@ -1,8 +1,8 @@
-<md-tabs layout-fill>
+<md-tabs layout-fill md-selected="defaultTab"  md-stretch-tabs="always">
     <md-tab label="General Information" flex>
         <md-content layout="column">
             <h1 class="md-display-1">General Information</h1>
-            <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block" flex>
+            <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block md-padding" flex>
                 <div layout="row">
                     <md-input-container flex="75" class="md-block">
                         <label>Email</label>
@@ -18,13 +18,13 @@
                     </md-input-container>
                 </div>
                 <h3>Change Password</h3>
-                <div layout="row" flex>
+                <div layout="row">
                     <md-input-container flex class="md-block">
                         <label>Current Password</label>
                         <input name="current_password" type="password" ng-model="current_password">
                     </md-input-container>
                 </div>
-                <div layout="row" flex>
+                <div layout="row">
                     <md-input-container flex class="md-block">
                         <label>New Password</label>
                         <input name="new_password" type="password" ng-pattern="confirm_password"
@@ -57,50 +57,62 @@
 
                 <span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
                       layout-xs="column">
-        <md-button ng-disabled="checkForm(profile)" flex type="submit" value="Submit" class="md-primary md-raised">
-            <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
-            Save Changes
-        </md-button>
-    </span>
+                    <md-button ng-disabled="checkForm(profile)" flex type="submit" value="Submit" class="md-primary md-raised">
+                        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+                        Save Changes
+                    </md-button>
+                </span>
             </form>
         </md-content>
     </md-tab>
     <md-tab label="Usages">
-        <md-content layout-fill layout="column">
+        <md-content layout="column">
             <h1 class="md-display-1">Usages</h1>
             <md-content layout="row" layout-wrap layout-align="space-around">
-                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center">
-                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.image_upload/limits.image_upload)*100 | number: 0}}"></md-progress-circular>
+                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+                    <md-progress-circular md-diameter="160" md-mode="determinate"
+                                          value="{{(used.image_upload/limits.image_upload)*100 | number: 0}}"></md-progress-circular>
                     <h3 class="process-circular-center text-center">
                         {{used.image_upload + "/" + limits.image_upload}}<br>
                         Images
                     </h3>
                     <md-tooltip md-direction="bottom">Your image upload limits</md-tooltip>
                 </md-content>
-                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center">
-                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.pages_linked_max/limits.pages_linked_max)*100 | number: 0}}"></md-progress-circular>
+                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+                    <md-progress-circular md-diameter="160" md-mode="determinate"
+                                          value="{{(used.pages_linked_max/limits.pages_linked_max)*100 | number: 0}}"></md-progress-circular>
                     <h3 class="process-circular-center text-center">
                         {{used.pages_linked_max + "/" + limits.pages_linked_max}}<br>
                         Pages
                     </h3>
                     <md-tooltip md-direction="bottom">Your page linking limits</md-tooltip>
                 </md-content>
-                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center">
-                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.post_scheduled_max/limits.post_scheduled_max)*100 | number: 0}}"></md-progress-circular>
+                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+                    <md-progress-circular md-diameter="160" md-mode="determinate"
+                                          value="{{(used.post_scheduled_max/limits.post_scheduled_max)*100 | number: 0}}"></md-progress-circular>
                     <h3 class="process-circular-center text-center">
                         {{used.post_scheduled_max + "/" + limits.post_scheduled_max}}<br>
                         Posts
                     </h3>
                     <md-tooltip md-direction="bottom">Your post scheduling limits</md-tooltip>
                 </md-content>
-                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center">
-                    <md-progress-circular md-diameter="160" md-mode="determinate" value="{{(used.hashtag_lookups/limits.hashtag_lookups)*100 | number: 0}}"></md-progress-circular>
+                <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+                    <md-progress-circular md-diameter="160" md-mode="determinate"
+                                          value="{{(used.hashtag_lookups/limits.hashtag_lookups)*100 | number: 0}}"></md-progress-circular>
                     <h3 class="process-circular-center text-center">
                         {{used.hashtag_lookups + "/" + limits.hashtag_lookups}}<br>
                         # Lookups
                     </h3>
                     <md-tooltip md-direction="bottom">Your hashtag lookup limits</md-tooltip>
                 </md-content>
+            </md-content>
+            <md-content layout="column">
+                <h3>Your Features:</h3>
+                <span flex layout="column" layout-align="start">
+                                <ul flex>
+                                    <li ng-repeat="feature in planFeatures">{{feature}}</li>
+                                </ul>
+                            </span>
             </md-content>
         </md-content>
     </md-tab>

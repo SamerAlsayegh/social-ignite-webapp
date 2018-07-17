@@ -73,7 +73,6 @@ define(['./module'], function (directives) {
                         $scope.images.unshift({loading: true, progress: 0});
 
                         Image.addImage({image: image}, function (data) {
-                            Alert.success('Successfully uploaded image.', 1000);
                             $scope.images[0].loading = false;
                             delete $scope.images[0].progress;
                             $scope.uploadImages(imagesList, callback);

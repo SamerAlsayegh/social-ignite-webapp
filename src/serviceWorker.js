@@ -1,4 +1,4 @@
-var CACHE_VERSION = 1;
+var CACHE_VERSION = 0;
 
 
 var CACHE_NAME = 'SocialIgnite-Web' + "-" + CACHE_VERSION;
@@ -7,7 +7,7 @@ var urlsToCache = [
     '/',
     '/app.js',
     '/0.js',
-    // '/css/main.css',
+    '/css/main.css',
     // '/app.js'
 ];
 
@@ -30,7 +30,7 @@ self.addEventListener('activate', function(event) {
         caches.keys().then(function(cacheNames) {
             return Promise.all(
                 cacheNames.map(function(cacheName) {
-                    if (cacheName != CACHE_NAME) {
+                    if (cacheName != CACHE_NAME || CACHE_VERSION == 0) {
                         console.log('Deleting out of date cache:', cacheName);
                         return caches.delete(cacheName);
                     }

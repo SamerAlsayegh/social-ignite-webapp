@@ -15,6 +15,7 @@ define([
     './Tutorial',
     './Support',
     './SocialStacks',
+    './General',
     './Admin/AdminSupport',
     './Admin/AdminAccount',
     './Admin/AdminGeneral'

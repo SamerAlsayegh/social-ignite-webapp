@@ -1,9 +1,20 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Profile',
-        function ($rootScope, $scope, Alert, Profile) {
+    return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Profile', '$stateParams', 'Billing',
+        function ($rootScope, $scope, Alert, Profile, $stateParams, Billing) {
 
             $scope.themeBool = $scope.theme == "dark" ? true : false;
+            $scope.defaultTab = 0;
+
+            if ($stateParams.tab != null){
+                if ($stateParams.tab == 'general')
+                $scope.defaultTab = 0;
+                else if ($stateParams.tab == 'usages')
+                    $scope.defaultTab = 1;
+                else if ($stateParams.tab == 'advanced')
+                    $scope.defaultTab = 2;
+            }
+
 
 
             $scope.checkForm = function (profile) {
@@ -65,6 +76,12 @@ define(['../../module'], function (controllers) {
                 })
             };
 
+
+            Billing.getPlan($scope.user.scope, function(planDetails){
+                $scope.planFeatures = planDetails.data;
+            }, function (status, message) {
+                Alert.error(message);
+            })
 
         }]);
 

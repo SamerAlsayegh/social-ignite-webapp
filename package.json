@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "gulp debug",
-    "start": "gulp default",
+    "start": "NODE_ENV=PROD gulp default",
     "convert": "node ./enums/converter.js"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "angular-aria": "^1.7.0",
     "angular-chart.js": "^1.1.1",
     "angular-cookies": "^1.6.9",
+    "angular-google-analytics": "^1.1.8",
     "angular-material": "^1.1.9",
     "angular-material-data-table": "^0.10.10",
     "angular-messages": "^1.7.0",
@@ -46,6 +47,7 @@
     "hard-source-webpack-plugin": "^0.7.6",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
+    "material-design-icons": "^3.0.1",
     "md-data-table": "^2.2.0",
     "merge-stream": "^1.0.1",
     "moment": "^2.22.1",

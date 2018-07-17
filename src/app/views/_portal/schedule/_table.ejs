@@ -1,5 +1,5 @@
 <md-button ng-click="addPost($event); nextStep();" class="md-fab md-primary tutorial-step-schedule-add-post page-button" aria-label="New Social Post">
-    <md-icon md-font-library="material-icons">add</md-icon>
+    <i class="zmdi zmdi-plus zmdi-hc-2x"></i>
 </md-button>
 
 
@@ -41,8 +41,8 @@
                     </md-chips>
                 </div>
                 <md-list layout-padding flex>
-                    <md-list-item ng-repeat="draft in allDraftedPosts" href="/portal/schedule/edit/{{draft._id}}"  class="md-2-line">
-                        <md-icon>edit</md-icon>
+                    <md-list-item ng-repeat="draft in allDraftedPosts" ng-click="addPost($event, draft._id)"  class="md-2-line">
+                        <i class="zmdi zmdi-edit zmdi-hc-lg md-padding"></i>
                         <div flex class="md-list-item-text">
                             <p ng-bind="draft.content"></p>
                             <small>Planned for {{draft.post_time | amCalendar}}</small>

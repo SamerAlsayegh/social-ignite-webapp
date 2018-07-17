@@ -1,4 +1,4 @@
-define(['../module'], function (controllers) {
+define(['../module', '../../enums/errorCodes'], function (controllers, errorCodes) {
     'use strict';
     return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$cookies', '$location',
         '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window',
@@ -18,13 +18,11 @@ define(['../module'], function (controllers) {
             $scope.email_verify_email = $stateParams.email;
             $scope.email_verify_code = $stateParams.code;
 
-
             /**
              * Login using the form on the login page.
              * @param user
              */
             $scope.loginForm = function (login) {
-                console.log(login.password);
                 if (login.$valid) {
                     Auth.login({
                         email: login.email.$modelValue,
@@ -32,10 +30,18 @@ define(['../module'], function (controllers) {
                         remember: login.remember ? login.remember.$modelValue : false
                     }, function (data) {
                         // $rootScope.user = data;
-                        $state.go('portal.home', {}, {reload: 'portal.home'});
+                        var redirect = $cookies.get("redirect_on_login");
+                        if (redirect != null){
+                            $cookies.remove("redirect_on_login");
+                            $state.go(redirect, {}, {reload: redirect});
+                        } else {
+                            $state.go('portal.home', {}, {reload: 'portal.home'});
+                        }
                     }, function (status, message) {
-                        if (status == 404)
-                            Alert.error("You entered an invalid email/password. Forgot password?");
+                        if (status == 404) {
+                            $scope.forgotPassword =  true;
+                            Alert.error("You entered an invalid email/password.?");
+                        }
                         else
                             Alert.error("Error: " + message);
                     });
@@ -52,9 +58,6 @@ define(['../module'], function (controllers) {
                     if (!register || register.email.$modelValue.length == 0 || register.password.$modelValue.length == 0) {
                         Alert.error("Your email or password field is missing.");
                         return;
-                    } else if (register.password.$modelValue != register.verify_password.$modelValue) {
-                        Alert.error("Your passwords do not match. Make sure they do.");
-                        return;
                     } else if (!register.toc.$modelValue) {
                         Alert.error("To continue, we gotta make you won't set our servers on fire...");
                         return;
@@ -66,13 +69,42 @@ define(['../module'], function (controllers) {
                         mailing_list: register.mailing_list.$modelValue,
                         toc: register.toc.$modelValue
                     }, function (data) {
-                        $state.go('public.email_verify_fill_email', {email: register.email.$modelValue}, {reload: 'public.email_verify_fill_email'});//If the session is invalid, take to login page.
+                        $state.go('public.email_verify', {email: register.email.$modelValue}, {reload: 'public.email_verify'});//If the session is invalid, take to login page.
                     }, function (status, message) {
                         Alert.error(message);
                     });
                 }
             };
 
+            $scope.loginWithFacebook = function() {
+                $window.open(__API__ + '/api/v1/oauth/facebook/', '_self');
+            };
+
+            $scope.requestResetPassword = function (email){
+                Auth.requestPasswordReset(email, function (data) {
+                    Alert.success("An email has been sent to " + email + " if it exists.");
+                }, function (status, message) {
+                    Alert.error(message);
+                });
+            };
+
+            $scope.resetPassword = function (forgot_password) {
+                console.log($stateParams.secure, forgot_password.$valid, forgot_password)
+                if (forgot_password.$valid && $stateParams.secure != null) {
+                    // Backup code that was previouslky coded but technically not needed.
+                    if (!forgot_password || forgot_password.password.$modelValue.length == 0) {
+                        Alert.error("Your password field is missing.");
+                        return;
+                    }
+                    Auth.submitPasswordReset($stateParams.secure, forgot_password.password.$modelValue, function (data) {
+                        $state.go('public.login', {}, {reload: 'public.login'});//If the session is invalid, take to login page.
+                    }, function (status, message) {
+                        Alert.error(message);
+                    });
+                } else {
+                    Alert.error("One or more parameters needed.");
+                }
+            }
 
             $scope.attemptVerify = function (user) {
                 Auth.verify({
@@ -90,16 +122,15 @@ define(['../module'], function (controllers) {
             };
 
             $scope.requestResend = function (email_verify) {
-                if (email_verify.email.$modelValue.length == 0) {
+                if ($scope.email.length == 0) {
                     Alert.error("Your email field is missing.");
                     return;
                 }
                 if (email_verify.$valid) {
-                    Auth.requestEmailResend(email_verify.email.$modelValue, function (data) {
+                    Auth.requestEmailResend($scope.email, function (data) {
                         Alert.success("An email should be on the way.");
                     }, function (status, message) {
                         Alert.error("Failed to request verification email.");
-                        console.log(message);
                     });
                 }
 
@@ -147,7 +178,7 @@ define(['../module'], function (controllers) {
                 // Register a service worker hosted at the root of the
                 // site using the default scope.
                 navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-                    console.log('Service worker registration succeeded:', registration);
+                    console.log('Service worker registration succeeded');
                 }).catch(function(error) {
                     console.log('Service worker registration failed:', error);
                 });

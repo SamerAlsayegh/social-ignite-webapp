@@ -37,6 +37,12 @@ gulp.task('manifest', function() {
 });
 
 gulp.task('watch', function() {
+    gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
+    gulp.watch(__dirname + '/src/views/index.ejs', ['index']);
+
+});
+
+gulp.task('watch-dev', function() {
     gulp.watch(__dirname + '/src/app/**/*.js', ['webpack']);
     gulp.watch(__dirname + '/src/less/**/*.less', ['less']);
     gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
@@ -157,11 +163,13 @@ gulp.task('cluster', function() {
 
 gulp.task('main', ['cluster']);
 
-let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'watch', 'fonts', 'webpack'];
+let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'fonts', 'webpack'];
 if (!devBuild){
     listOfProcesses.push('webserver');
+    listOfProcesses.push('watch-dev');
 } else {
     listOfProcesses.push('webpack-dev-server');
+    listOfProcesses.push('watch-dev');
 }
 
 gulp.task('debug', listOfProcesses);

@@ -9,9 +9,11 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.hashtag_lookups = 0;
             $scope.currentTime = new Date();
             $scope.pending = false;
+            $scope.draftUpdater = null;
 
 
             setTimeout(function () {
+                if ($scope.permissions_used != null)
                 $scope.hashtag_lookups = $scope.permissions_used.hashtag_lookups;
             }, 0);
             $scope.currentSocialPost = {
@@ -87,17 +89,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 }
             };
 
-            // $scope.archivePostToggle = function () {
-            //     SocialPosts.archivePostToggle({
-            //         id: $scope.postId
-            //     }, function (postDetails) {
-            //         $state.go('portal.schedule.table', {'updateId': $scope.postId, 'updateContent': postDetails});
-            //
-            //     }, function (status, message) {
-            //         return Alert.error("Failed to archive post.");
-            //     })
-            // };
-
             $scope.changedForm = function () {
                 SocialPosts.draftScheduledPost()
             };
@@ -115,10 +106,20 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 }
             };
 
-            $scope.draftUpdater = null;
+            $scope.addHashtag = function (hashtag) {
+                if (!$scope.hashtagUsed(hashtag)){
+                    // Add the hashtag
+                    $scope.currentSocialPost.content += " #" + hashtag.hashtag;
+                }
+            };
+            $scope.hashtagUsed = function (hashtag) {
+                return $scope.currentSocialPost.content.indexOf(hashtag.hashtag) != -1;
+            };
+
+
 
             $scope.$watch("currentSocialPost", function (newValue, oldValue) {
-                if (newValue !== oldValue && oldValue != null) {
+                if (newValue !== oldValue && oldValue != null && $scope.currentSocialPost.content.length > 0) {
                     if ($scope.draftUpdater != null)
                         clearTimeout($scope.draftUpdater);
                     try {
@@ -155,10 +156,10 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 } else {
                     SocialPosts.draftScheduledPost(params, function (data) {
                         $scope.postId = data._id;
-                        if ($stateParams.postId != $scope.postId) {
-                            $state.go('portal.schedule.edit', {postId: $scope.postId}, {reload: false})
-
-                        }
+                        // if ($stateParams.postId != $scope.postId) {
+                        //     $state.go('portal.schedule.edit', {postId: $scope.postId}, {reload: false})
+                        //
+                        // }
                     }, function (status, message) {
                         Alert.error("Failed to save draft")
                     });
@@ -225,15 +226,14 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         $state.go('portal.accounts.home');
                     }
                     else {
-                        setTimeout(function () {
-                            $scope.step();
-                        }, 0);
+                        // setTimeout(function () {
+                        //     $scope.step();
+                        // }, 0);
                         if ($scope.postId && !$scope.postInformation) {
                             // Editing social post
                             SocialPosts.getDetails($scope.postId,
                                 function (socialPostDetails) {
-                                    socialPostDetails = socialPostDetails.data;
-                                    if (new Date(socialPostDetails.post_time).getTime() < new Date() && socialPostDetails.state != "DRAFT") {
+                                    if (socialPostDetails != null && new Date(socialPostDetails.post_time).getTime() < new Date() && socialPostDetails.state != "DRAFT") {
                                         // Already posted
                                         Alert.info("You are unable to edit a posted social post.");
                                         $state.go('portal.schedule.table');
@@ -269,7 +269,10 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                 })
                         } else if ($scope.postInformation) {
                             console.log("Preset info", $scope.postInformation)
-                            $scope.currentSocialPost = $scope.postInformation;
+                            $scope.currentSocialPost = Object.assign($scope.currentSocialPost, $scope.postInformation );
+                            console.log("Preset info", $scope.currentSocialPost)
+                            $scope.currentSocialPost.date = moment($scope.currentSocialPost.date);
+
                             if ($scope.attachedImage) {
                                 Image.getDetails($scope.attachedImage, function (data) {
                                     $scope.currentSocialPost.images.push(data.data);
@@ -278,7 +281,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                 })
                             }
                         } else {
-                            $scope.applyDraft();
+                            // $scope.applyDraft();
                         }
                     }
                 }, function (status, error) {

@@ -1,10 +1,9 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert',
-        function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert) {
+    return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert', '$mdDialog',
+        function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert, $mdDialog) {
 
             this.uiOnParamsChanged = function (changedParams, $transition$) {
-                console.log(changedParams.updateState);
                 if (changedParams.updateId && changedParams.updateContent && changedParams.updateState == "ADD") {
                     // Modifying a post
                     $scope.updateSocialPost(changedParams.updateId, changedParams.updateContent);
@@ -90,7 +89,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 } else if (postChangeIndex != null){
                     $scope.allActivePosts.splice(postChangeIndex, 1);
                 }
-                console.log("Cleared?")
             };
 
 
@@ -102,7 +100,21 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 $scope.viewStatistics($event, postId);
             });
             $scope.addPost = function ($event, previousId) {
-                $state.go('portal.schedule.edit', {postId: previousId});
+                $mdDialog.show({
+                    locals:{ 'postId': previousId, 'postInformation': null},
+                    controller: 'editControllerDialog',
+                    templateUrl: './_portal/schedule/_scheduleDialog.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                    .then(function (message) {
+
+                    }, function () {
+
+
+                    });
+                // $state.go('portal.schedule.edit', {postId: previousId});
             };
 
             $scope.viewStatistics = function ($event, postId) {
@@ -114,6 +126,24 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 return $scope.platforms[platformId].id;
             };
 
+            $scope.dayClick = function(date) {
+                $mdDialog.show({
+                    locals:{'postId': null, 'postInformation': {date: date}},
+                    controller: 'editControllerDialog',
+                    templateUrl: './_portal/schedule/_scheduleDialog.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                    .then(function (message) {
+
+                    }, function () {
+
+
+                    });
+                // $state.go('portal.schedule.edit', );
+            };
+
             $scope.getActivePosts();
             $scope.getDraftedPosts();
 
@@ -122,6 +152,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 var monthStart = new Date(data.year, data.month - 1, 1, 0, 0, 0, 0).getTime();
                 $scope.getActivePosts({start: monthStart, end: monthEnd});
             };
+
             $scope.nextMonth = function (data) {
                 var monthEnd = new Date(data.year, data.month, 1, 0, 0, 0, 0).getTime();
                 var monthStart = new Date(data.year, data.month - 1, 1, 0, 0, 0, 0).getTime();
