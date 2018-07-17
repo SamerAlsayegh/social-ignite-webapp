@@ -82,7 +82,7 @@
                 <div class="md-primary" layout="row">
                     {{ day | date:dayFormat }}
                     <span flex></span>
-                    <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;"></i>
+                    <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;" ng-if="day > curTime"></i>
                 </div>
                 <div flex>
 
@@ -107,7 +107,7 @@
                         </span>
                         <div layout="row" layout-align="stretch" class="md-calendar-social-post-content">
                             <span class="md-calendar-social-post-content-quote">&#10077;</span>
-                            <span class="md-primary">{{socialPost.content}}</span>
+                            <span class="md-primary" style="  line-height: 1.5em; max-height: 7.7em; text-overflow: ellipsis; overflow: hidden; ">{{socialPost.content}}</span>
                         </div>
                         <!--<span layout="column" layout-align="stretch">-->
                         <!--<md-button-->

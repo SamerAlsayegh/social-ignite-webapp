@@ -72,9 +72,10 @@
             </md-content>
         </md-content>
     </md-tab>
-    <md-tab label="Transactions">
+    <md-tab label="Transactions" ng-if="$scope.transactions.length > 0">
         <md-content layout="column"  >
             <h1 class="md-display-1">Transactions</h1>
+            <!--<span><h</span>-->
             <md-table-container>
                 <table md-table md-row-select ng-model="transactionModel.selected">
                     <thead md-head md-order="transactionModel.order" md-on-reorder="loadTransactions">

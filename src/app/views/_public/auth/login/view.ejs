@@ -1,0 +1,48 @@
+<div layout="row">
+    <div flex flex-offset-sm="0" flex-offset-gt-sm="30">
+        <h1>Login
+            <small>to get access to all features!</small>
+        </h1>
+        <form name="login" ng-submit="loginForm(login)" method="post" id="login">
+            <div class="text-center">
+                Don't have an account? <strong><a href="/register"  class="label md-primary">Click here.</a></strong>
+            </div>
+            <div class="text-center" ng-if="forgotPassword == true">
+                Forgot password? <a href="/" ng-click="requestResetPassword(email)"  class="label md-primary">Click here to reset..</a>
+            </div>
+            <span class="md-padding"></span>
+            <md-content layout="row" layout-align="center center">
+                <md-button ng-click="loginWithFacebook()" class="ui-social-button ui-facebook md-padding" flex>
+                    <i class="zmdi zmdi-facebook md-padding zmdi-hc-lg"></i>
+                    <span class="md-padding">Login with Facebook</span>
+                </md-button>
+            </md-content>
+            <span class="md-padding"></span>
+
+            <md-input-container class="md-block">
+                <label>Email Address</label>
+                <input name="email" ng-model="email" required type="email">
+                <div ng-messages="login.email.$error">
+                    <div ng-message="email">The email must be in valid format.</div>
+                </div>
+            </md-input-container>
+
+
+            <md-input-container class="md-block">
+                <label>Password</label>
+                <input type="password" ng-model="password" required name="password">
+            </md-input-container>
+
+            <!--<md-input-container class="md-block">-->
+            <!--<md-checkbox class="md-primary" name="remember">-->
+            <!--Remember Password for 30 days?-->
+            <!--</md-checkbox>-->
+            <!--</md-input-container>-->
+            <div layout="column" layout-align="stretch">
+                <md-button type="submit" class="md-primary md-raised">Login</md-button>
+            </div>
+        </form>
+
+    </div>
+    <div flex-gt-sm="30"></div>
+</div>

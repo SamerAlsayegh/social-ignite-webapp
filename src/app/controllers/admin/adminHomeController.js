@@ -7,6 +7,7 @@ define(['./../module', '../../enums/platforms'], function (controllers, platform
         function ($rootScope, $scope, $http, $cookies, $location,
                   $state, $stateParams, moment, $timeout, Alert, $mdSidenav ,Auth, AdminGeneral) {
 
+            $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
             // $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 

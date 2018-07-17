@@ -5,12 +5,13 @@
 <!--</md-content>-->
 
 
-<md-content ngf-drop="uploadFiles($files)"
-            style="overflow: hidden;"
-            ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
-            layout-padding layout="row" layout-align="start start" layout-wrap layout-fill>
+<div ngf-drop="uploadFiles($files)"
+     style="overflow: hidden;"
+     ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
+     layout-padding layout="row" layout-align="start start" layout-wrap layout-fill>
 
-    <md-card ng-if="control == 'manage'" ngf-select="uploadFiles($files)" class="resource-card image-dragdropzone"  layout="column"
+    <md-card ng-if="control == 'manage'" ngf-select="uploadFiles($files)" class="resource-card image-dragdropzone"
+             layout="column"
              ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">
 
         <div layout-align="center center" layout-fill layout="column">
@@ -20,7 +21,8 @@
                 </span>
         </div>
     </md-card>
-    <md-card ng-if="control == 'view'" ng-click="openSelectorForPost()" class="resource-card image-dragdropzone" layout="column">
+    <md-card ng-if="control == 'view'" ng-click="openSelectorForPost()" class="resource-card image-dragdropzone"
+             layout="column">
         <div layout-align="center center" layout="column">
                 <span layout-align="center center" class="text-center">
                 <i class="zmdi zmdi-image zmdi-hc-4x"></i>
@@ -30,8 +32,8 @@
     </md-card>
 
 
-    <div layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
-         ng-repeat="imageContent in images" ng-hide="imageContent.hide">
+    <md-content layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
+                ng-repeat="imageContent in images" ng-hide="imageContent.hide">
 
         <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading"
                  class="resource-card resource-select" layout="column" layout-align="center center">
@@ -41,37 +43,37 @@
                  delayed-image="{{imageContent.url}}"/>
 
 
-            <span style="position: absolute; top: 0px; z-index: 3;" ng-style="imageContent.used ? {background: 'rgba(0, 0, 0, 0.5)'} : {}"  layout-fill layout="column">
+            <span style="position: absolute; top: 0px; z-index: 3;"
+                  ng-style="imageContent.used ? {background: 'rgba(0, 0, 0, 0.5)'} : {}" layout-fill layout="column">
                 <h1 class="white text-center" layout-align="stretch">{{imageContent.used ? 'Used' : ''}}</h1>
                 <div flex>
                 </div>
             <md-content class="transparent-hover" layout="row" layout-align="center center">
-                <md-button ng-click="favouriteImage(imageContent)" aria-label="Favorite"  flex ng-class="imageContent.favourite ? 'md-primary' : ''">
+                <md-button ng-click="favouriteImage(imageContent)" aria-label="Favorite" flex
+                           ng-class="imageContent.favourite ? 'md-primary' : ''">
                     <i class="zmdi zmdi-favorite zmdi-hc-lg "></i>
                 </md-button>
-                <md-button  ng-click="deleteImage(imageContent)" aria-label="Delete" flex >
+                <md-button ng-click="deleteImage(imageContent)" aria-label="Delete" flex>
                     <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
                 </md-button>
-                <md-button ng-if="control == 'manage'" ng-click="useImage(imageContent)" flex  aria-label="Use for post">
+                <md-button ng-if="control == 'manage'" ng-click="useImage(imageContent)" flex aria-label="Use for post">
                     <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
                 </md-button>
             </md-content>
             </span>
-
-
         </md-card>
-
 
 
         <md-card ng-if="imageContent.loading" class="resource-card resource-select" layout="column"
                  layout-align="center center">
-            <div flex>
-            </div>
-            <div class="transparent-hover" layout="row" layout-align="center center">
+            <img class="img-responsive"
+                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="/>
+            <span style="position: absolute; top: 0px; z-index: 3;" layout-fill layout="column">
+                <div flex>
+                </div>
                 <md-progress-circular md-mode="determinate" value="{{imageContent.progress}}"></md-progress-circular>
-            </div>
-
+            </span>
         </md-card>
-    </div>
-</md-content>
+</div>
+</div>
 

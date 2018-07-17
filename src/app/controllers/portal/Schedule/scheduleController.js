@@ -3,41 +3,11 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
     return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert', '$mdDialog',
         function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert, $mdDialog) {
 
-            this.uiOnParamsChanged = function (changedParams, $transition$) {
-                if (changedParams.updateId && changedParams.updateContent && changedParams.updateState == "ADD") {
-                    // Modifying a post
-                    $scope.updateSocialPost(changedParams.updateId, changedParams.updateContent);
-                } else if ($state.params.updateContent  && changedParams.updateState == "ADD") {
-                    // Adding a post
-
-                    for (let index = 0; index < $scope.allDraftedPosts.length; index++){
-                        if ($scope.allDraftedPosts[index]._id == changedParams.updateContent._id){
-                            $scope.allDraftedPosts.splice(index, 1);
-                            break;
-                        }
-                    }
-
-                    $scope.allActivePosts.push(changedParams.updateContent);
-                } else if (changedParams.updateId && changedParams.updateState == "DELETE"){
-                    // Deleting a draft
-                    for (let index = 0; index < $scope.allDraftedPosts.length; index++){
-                        if ($scope.allDraftedPosts[index]._id == changedParams.updateId){
-                            $scope.allDraftedPosts.splice(index, 1);
-                            break;
-                        }
-                    }
-
-                } else if (changedParams.updateId && changedParams.updateContent && changedParams.updateState == "DRAFT"){
-                    // Drafting a post.
-                    $scope.updateSocialPost(changedParams.updateId, null);
-                    $scope.allDraftedPosts.unshift(changedParams.updateContent);
-                }
-
-
-                // TODO: Handle draft changes to scheduled and scheduled changes to draft.
-            };
             $scope.platforms = platforms;
             $scope.scheduledPosts = [];
+            $scope.curDate = new Date();
+
+
             /**
              * Any module declarations here
              */
@@ -101,7 +71,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             });
             $scope.addPost = function ($event, previousId) {
                 $mdDialog.show({
-                    locals:{ 'postId': previousId, 'postInformation': null},
+                    locals:{ 'postId': previousId, 'postInformation': null, 'theme': $scope.theme, 'socket': $scope.socket},
                     controller: 'editControllerDialog',
                     templateUrl: './_portal/schedule/_scheduleDialog.html',
                     parent: angular.element(document.body),
@@ -109,7 +79,33 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     fullscreen: true // Only for -xs, -sm breakpoints.
                 })
                     .then(function (message) {
+                        console.log(message);
+                        if (message.updateId && message.updateContent && message.updateState == "ADD") {
+                            // Modifying a post
+                            $scope.updateSocialPost(message.updateId, message.updateContent);
+                        } else if (message.updateContent  && message.updateState == "ADD") {
+                            // Adding a post
+                            for (let index = 0; index < $scope.allDraftedPosts.length; index++){
+                                if ($scope.allDraftedPosts[index]._id == message.updateContent._id){
+                                    $scope.allDraftedPosts.splice(index, 1);
+                                    break;
+                                }
+                            }
+                            $scope.allActivePosts.push(message.updateContent);
+                        } else if (message.updateId && message.updateState == "DELETE"){
+                            // Deleting a draft
+                            for (let index = 0; index < $scope.allDraftedPosts.length; index++){
+                                if ($scope.allDraftedPosts[index]._id == message.updateId){
+                                    $scope.allDraftedPosts.splice(index, 1);
+                                    break;
+                                }
+                            }
 
+                        } else if (message.updateId && message.updateContent && message.updateState == "DRAFT"){
+                            // Drafting a post.
+                            $scope.updateSocialPost(message.updateId, null);
+                            $scope.allDraftedPosts.unshift(message.updateContent);
+                        }
                     }, function () {
 
 
@@ -125,22 +121,47 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.platformLookup = function (platformId) {
                 return $scope.platforms[platformId].id;
             };
-
             $scope.dayClick = function(date) {
-                $mdDialog.show({
-                    locals:{'postId': null, 'postInformation': {date: date}},
-                    controller: 'editControllerDialog',
-                    templateUrl: './_portal/schedule/_scheduleDialog.html',
-                    parent: angular.element(document.body),
-                    clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.
-                })
-                    .then(function (message) {
+                if (date > $scope.curDate) {
+                    $mdDialog.show({
+                        locals: {'postId': null, 'postInformation': {date: date}, 'theme': $scope.theme, 'socket': $scope.socket},
+                        controller: 'editControllerDialog',
+                        templateUrl: './_portal/schedule/_scheduleDialog.html',
+                        parent: angular.element(document.body),
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                        .then(function (message) {
+                            if (message.updateId && message.updateContent && message.updateState == "ADD") {
+                                // Modifying a post
+                                $scope.updateSocialPost(message.updateId, message.updateContent);
+                            } else if (message.updateContent  && message.updateState == "ADD") {
+                                // Adding a post
+                                for (let index = 0; index < $scope.allDraftedPosts.length; index++){
+                                    if ($scope.allDraftedPosts[index]._id == message.updateContent._id){
+                                        $scope.allDraftedPosts.splice(index, 1);
+                                        break;
+                                    }
+                                }
+                                $scope.allActivePosts.push(message.updateContent);
+                            } else if (message.updateId && message.updateState == "DELETE"){
+                                // Deleting a draft
+                                for (let index = 0; index < $scope.allDraftedPosts.length; index++){
+                                    if ($scope.allDraftedPosts[index]._id == message.updateId){
+                                        $scope.allDraftedPosts.splice(index, 1);
+                                        break;
+                                    }
+                                }
 
-                    }, function () {
+                            } else if (message.updateId && message.updateContent && message.updateState == "DRAFT"){
+                                // Drafting a post.
+                                $scope.updateSocialPost(message.updateId, null);
+                                $scope.allDraftedPosts.unshift(message.updateContent);
+                            }
+                        }, function () {
 
-
-                    });
+                        });
+                }
                 // $state.go('portal.schedule.edit', );
             };
 

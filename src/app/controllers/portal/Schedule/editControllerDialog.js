@@ -1,20 +1,30 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('editController', ['$scope', '$stateParams', '$state',
-        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks',
-        function ($scope, $stateParams, $state, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks) {
-            $scope.postId = $stateParams.postId;
-            $scope.attachedImage = $stateParams.attachedImage;
-            $scope.postInformation = $stateParams.postInformation;
+    return controllers.controller('editControllerDialog', ['$scope', '$rootScope',
+        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$mdDialog', 'postId', 'postInformation', 'theme', 'socket',
+        function ($scope, $rootScope, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks, $mdDialog, postId, postInformation, theme, socket) {
+            $scope.postId = postId;
+            $scope.attachImages = false;
+            $scope.postInformation = postInformation;
             $scope.hashtag_lookups = 0;
             $scope.currentTime = new Date();
             $scope.pending = false;
             $scope.draftUpdater = null;
+            $scope.theme = theme;
+            $scope.socket = socket;
+
+
+            $scope.enableAttachImages = function () {
+                $scope.attachImages = true;
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
 
 
             setTimeout(function () {
                 if ($scope.permissions_used != null)
-                $scope.hashtag_lookups = $scope.permissions_used.hashtag_lookups;
+                    $scope.hashtag_lookups = $scope.permissions_used.hashtag_lookups;
             }, 0);
             $scope.currentSocialPost = {
                 pages: [],
@@ -48,10 +58,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     $scope.currentSocialPost.stacks.push(stack_id);
             };
 
-
-            $scope.cancel = function () {
-                $state.go('portal.schedule.table')
-            };
             $scope.secondaryAction = function () {
 
                 switch ($scope.currentSocialPost.state) {
@@ -61,12 +67,17 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                             // $state.go('portal.schedule.table', {});
                             $scope.currentSocialPost.post_time = $scope.currentSocialPost.date;
                             $scope.currentSocialPost._id = $scope.postId;
-
-                            $state.transitionTo('portal.schedule.table', {
+                            $mdDialog.hide({
                                 'updateId': $scope.postId,
                                 'updateState': 'DRAFT',
                                 'updateContent': $scope.currentSocialPost
                             });
+
+                            // $state.transitionTo('portal.schedule.table', {
+                            //     'updateId': $scope.postId,
+                            //     'updateState': 'DRAFT',
+                            //     'updateContent': $scope.currentSocialPost
+                            // });
 
                         }, function (status, message) {
                             Alert.error(message);
@@ -76,11 +87,19 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     case 'DRAFT':
                         // Delete the post.
                         SocialPosts.deletePost($scope.postId, function (message) {
-                            $state.transitionTo('portal.schedule.table', {
-                                'updateId': $scope.postId,
-                                'updateState': 'DELETE',
-                                'updateContent': null
+                            $mdDialog.hide({
+                                    'updateId': $scope.postId,
+                                    'updateState': 'DELETE',
+                                    'updateContent': null
                             });
+
+
+
+                            // $state.transitionTo('portal.schedule.table', {
+                            //     'updateId': $scope.postId,
+                            //     'updateState': 'DELETE',
+                            //     'updateContent': null
+                            // });
                         }, function (status, message) {
                             Alert.error(message);
                         });
@@ -94,9 +113,10 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             };
 
             $scope.getHashtags = function (content, forceRefresh) {
+                console.log(content, forceRefresh);
                 if (content.length > 0 && $scope.postId != null) {
                     Action.fetchHashtags(content, forceRefresh, $scope.postId, function (message, used) {
-                        $scope.hashtags = message;
+                        $scope.hashtags = [{hashtag: "#@23", priority:false},{hashtag: "#11@23", priority:false},{hashtag: "#@2223", priority:false},]
                         $scope.hashtag_lookups = used;
                     }, function (status, message) {
                         Alert.error(message);
@@ -107,15 +127,14 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             };
 
             $scope.addHashtag = function (hashtag) {
-                if (!$scope.hashtagUsed(hashtag)){
+                if (!$scope.hashtagUsed(hashtag)) {
                     // Add the hashtag
                     $scope.currentSocialPost.content += " #" + hashtag.hashtag;
                 }
             };
             $scope.hashtagUsed = function (hashtag) {
-                return $scope.currentSocialPost.content.indexOf(hashtag.hashtag) != -1;
+                return false;//$scope.currentSocialPost.content.indexOf("#" + hashtag.hashtag) == -1;
             };
-
 
 
             $scope.$watch("currentSocialPost", function (newValue, oldValue) {
@@ -196,10 +215,15 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     SocialPosts.submitScheduledPost(params, function (postDetails) {
                         $scope.pending = false;
                         Alert.success("Scheduled post on " + $filter('date')(postDetails.post_time, 'short'));
-                        $state.transitionTo('portal.schedule.table', {
-                            'updateId': null,
-                            'updateState': 'ADD',
-                            'updateContent': postDetails
+                        // $state.transitionTo('portal.schedule.table', {
+                        //     'updateId': null,
+                        //     'updateState': 'ADD',
+                        //     'updateContent': postDetails
+                        // });
+                        $mdDialog.hide({
+                                'updateId': null,
+                                'updateState': 'ADD',
+                                'updateContent': postDetails
                         });
                     }, function (status, message) {
                         $scope.pending = false;
@@ -223,6 +247,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                     if ($scope.allPages.length == 0) {
                         Alert.error("You must add a social account first.");
+                        $mdDialog.cancel();
                         $state.go('portal.accounts.home');
                     }
                     else {
@@ -236,7 +261,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     if (socialPostDetails != null && new Date(socialPostDetails.post_time).getTime() < new Date() && socialPostDetails.state != "DRAFT") {
                                         // Already posted
                                         Alert.info("You are unable to edit a posted social post.");
-                                        $state.go('portal.schedule.table');
+                                        // $state.go('portal.schedule.table');
                                     }
 
                                     var chosenPlatforms = [];
@@ -248,6 +273,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     $scope.currentSocialPost.state = socialPostDetails.state;
                                     $scope.currentSocialPost.pages = chosenPlatforms;
                                     $scope.currentSocialPost.images = socialPostDetails.images;
+                                    if ($scope.currentSocialPost.images.length  > 0) $scope.enableAttachImages();
                                     $scope.currentSocialPost.content = socialPostDetails.content;
                                     // var time = new Date(socialPostDetails.post_time);
                                     if ($scope.attachedImage) {
@@ -260,6 +286,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
 
                                     $scope.currentSocialPost.date = moment(socialPostDetails.post_time);
+                                    console.log("ok?")
                                 }, function (status, message) {
                                     // Failed to get details...
                                     console.log(message);
@@ -268,17 +295,18 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                                 })
                         } else if ($scope.postInformation) {
-                            console.log("Preset info", $scope.postInformation)
-                            $scope.currentSocialPost = Object.assign($scope.currentSocialPost, $scope.postInformation );
-                            console.log("Preset info", $scope.currentSocialPost)
+                            $scope.currentSocialPost = Object.assign($scope.currentSocialPost, $scope.postInformation);
                             $scope.currentSocialPost.date = moment($scope.currentSocialPost.date);
-
-                            if ($scope.attachedImage) {
-                                Image.getDetails($scope.attachedImage, function (data) {
-                                    $scope.currentSocialPost.images.push(data.data);
-                                }, function (status, message) {
-                                    console.log("Failed?", status, message)
-                                })
+                            console.log($scope.postInformation.attachedImages);
+                            if ($scope.postInformation.attachedImages != null && $scope.postInformation.attachedImages.length > 0) {
+                                $scope.attachImages = true;
+                                for (var index = 0; index < $scope.postInformation.attachedImages.length; index++) {
+                                    Image.getDetails($scope.postInformation.attachedImages[index], function (data) {
+                                        $scope.currentSocialPost.images.push(data.data);
+                                    }, function (status, message) {
+                                        console.log("Failed?", status, message)
+                                    })
+                                }
                             }
                         } else {
                             // $scope.applyDraft();

@@ -1,0 +1,8 @@
+<md-toolbar class="{{typeTheme}}" ng-if="!dismissed">
+    <div class="md-toolbar-tools">
+        <h2 flex ng-transclude></h2>
+        <md-button ng-show="canDismiss == true" class="md-icon-button" aria-label="Close" ng-click="dismissNotification()">
+            <md-icon>close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>

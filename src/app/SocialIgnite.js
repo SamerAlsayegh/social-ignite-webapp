@@ -36,7 +36,7 @@ define([
         'ui.router',
         'angularMoment',
     ])
-        .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', function ($mdThemingProvider, $httpProvider, $mdGestureProvider, AnalyticsProvider) {
+        .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', function ($mdThemingProvider, $httpProvider, $mdGestureProvider, AnalyticsProvider, momentPickerProvider) {
             var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
                 'contrastDefaultColor': 'light',
                 'contrastDarkColors': ['50', '100',
@@ -45,8 +45,7 @@ define([
             });
             AnalyticsProvider.setAccount('UA-63794417-10');
             AnalyticsProvider.trackPrefix('p');
-            AnalyticsProvider.startOffline(true);
-
+            momentPickerProvider.options({ hoursFormat: 'LT', minutesFormat: 'LT' });
 
             $mdThemingProvider.definePalette('lightBlueCustom', lightBlueCustom);
             $mdThemingProvider.theme('default')
@@ -133,11 +132,11 @@ define([
                 });
 
                 // // TODO: Temporarily disabled until made more efficient?
-                angular.forEach($state.get(), function (state, key) {
-                    if (state.templateUrl !== undefined && state.preload !== false) {
-                        $http.get(state.templateUrl, {cache: $templateCache});
-                    }
-                });
+                // angular.forEach($state.get(), function (state, key) {
+                //     if (state.templateUrl !== undefined && state.preload !== false) {
+                //         $http.get(state.templateUrl, {cache: $templateCache});
+                //     }
+                // });
             }
         ]);
 });

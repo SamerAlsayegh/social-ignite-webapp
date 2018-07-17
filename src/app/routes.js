@@ -171,16 +171,16 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                         updateContent: {dynamic: true},
                     }
                 })
-                .state('portal.schedule.edit', {
-                    controller: 'editController',
-                    url: "/schedule/edit/:postId",
-                    templateUrl: '/_portal/schedule/_schedule.html',
-                    params: {
-                        postId: null,
-                        attachedImage: null,
-                        postInformation: {dynamic: true},
-                    }
-                })
+                // .state('portal.schedule.edit', {
+                //     controller: 'editController',
+                //     url: "/schedule/edit/:postId",
+                //     templateUrl: '/_portal/schedule/_schedule.html',
+                //     params: {
+                //         postId: null,
+                //         attachedImage: null,
+                //         postInformation: {dynamic: true},
+                //     }
+                // })
                 .state('portal.schedule.statistics', {
                     controller: 'postStatisticsController',
                     url: "/schedule/view/:postId",

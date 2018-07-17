@@ -1,6 +1,6 @@
 define(['./module'], function (directives) {
     'use strict';
-    directives.directive("imageUploader", ['$http', '$injector','Request', 'Alert', 'Image', '$state', function($http, $injector, Request, Alert, Image, $state) {
+    directives.directive("imageUploader", ['$http', '$injector','Request', 'Alert', 'Image', '$state', '$mdDialog', '$rootScope', function($http, $injector, Request, Alert, Image, $state, $mdDialog, $rootScope) {
         return {
             restrict: 'E',
             replace: false,
@@ -63,7 +63,19 @@ define(['./module'], function (directives) {
                 };
 
                 $scope.useImage = function (image) {
-                    $state.go('portal.schedule.edit', {'postId': $scope.postId, 'attachedImage': image._id, 'postInformation': $scope.postInformation});
+                    $mdDialog.show({
+                        locals: {'postId': null, 'postInformation': {attachedImages: [image._id]}, 'theme': $scope.$parent.theme, 'socket': $scope.$parent.socket},
+                        controller: 'editControllerDialog',
+                        templateUrl: './_portal/schedule/_scheduleDialog.html',
+                        parent: angular.element(document.body),
+                        clickOutsideToClose: true,
+                        fullscreen: true // Only for -xs, -sm breakpoints.
+                    })
+                        .then(function (message) {
+
+                        }, function () {
+
+                        });
                 };
 
                 $scope.uploadImages = function (imagesList, callback) {
