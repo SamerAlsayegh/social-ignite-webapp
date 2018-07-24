@@ -420,7 +420,7 @@ body.pg-loaded > .inner {
 }
 
 .gray_text {
-  color: @gray-light;
+  color: @gray-light !important;
 }
 
 .horizontal-three-colors(@start-color: #00b3ee;  @mid-color: #7a43b6;  @color-stop: 50%;  @end-color: #c3325f) {
@@ -543,8 +543,8 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 
 
 .sub_comment {
-  padding-left: 10px;
-  border-left: 5px solid;
+  padding-left: 5px;
+  border-left: 3px solid @gray-light;
 }
 
 //.page_comment {
@@ -693,7 +693,7 @@ HotFix for Icon Sizing
 
 .obscure {
   position: absolute;
-  background-color: rgba(0,0,0,.7);
+  background-color: rgba(0,0,0,.4);
   margin: 0; padding: 0;
 }
 
@@ -710,7 +710,6 @@ HotFix for Icon Sizing
   right: 0;
   top: 0;
   bottom: 0;
-
 }
 .darken_top{
   z-index: 999;
@@ -721,7 +720,9 @@ HotFix for Icon Sizing
   background-color: rgba(0,0,0,0);
   z-index: 1000 !important;
   position: fixed;
-  margin: 0; padding: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
   color: white !important;
 }
 
@@ -849,3 +850,51 @@ HotFix for Icon Sizing
 //.ng-leave.ng-leave-active {
 //  //opacity: 0;
 //}
+.button-small-hint {
+  font-size: 0.6em;
+}
+//.left-side-white-seperator{
+//  margin-left: ;
+//}
+
+
+
+.paypal {
+  &-logo {
+    font-family: Verdana, Tahoma;
+    font-weight: bold;
+    font-size: 20px;
+
+    i:first-child {
+      color: #253b80;
+    }
+
+    i:last-child {
+      color: #179bd7;
+    }
+  }
+
+  &-button {
+    padding: 15px 15px;
+    border: 1px solid #FF9933;
+    border-radius: 5px;
+    background-image: linear-gradient(#FFF0A8, #F9B421);
+    margin: 0 auto;
+    display: block;
+    min-width: 138px;
+    position: relative;
+
+    &-title {
+      font-size: 14px;
+      color: #505050;
+      vertical-align: baseline;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
+    }
+
+    .paypal-logo {
+      display: inline-block;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.6);
+      font-size: 18px;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes'], function (controllers, platforms, errorCodes) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('accountController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'SocialAccounts', '$mdDialog', 'moment', '$window', 'Alert',
@@ -6,17 +6,16 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                   $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
             $scope.toggle_add = false;
             $scope.socialPlatformDetails = [];
-            $scope.socialPlatforms = platforms;
 
             $scope.addStack = function () {
                 $scope.$emit('addStack', {});
             };
 
             $scope.addSocialAccount = function ($event, platformId) {
-                if (!platforms.hasOwnProperty(parseInt(platformId)))
+                if (!$scope.platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
                 platformId = parseInt(platformId);
-                $window.open(__API__ + '/api/v1/oauth/' + platforms[platformId].id + '/', '_self');
+                $window.open(__API__ + '/api/v1/oauth/' + $scope.platforms[platformId].id + '/', '_self');
             };
 
 
@@ -38,6 +37,7 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                             socialPage.linking = false;
                             socialPage.linked = true;
                             $scope.pendingPages = $scope.pendingPages.concat(pages);
+                            $scope.nextStep();
                             // $state.go('portal.accounts.home', {appendPages: pages});//If the session is invalid, take to login page.
                         }, function (status, message) {
                             socialPage.linking = false;
@@ -57,12 +57,12 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                     Alert.error(message);
                 });
             } else {
-                for (var platformKey in platforms) {
+                for (var platformKey in $scope.platforms) {
                     if (parseInt(platformKey) == platformKey) {
                         $scope.socialPlatformDetails.push({
                             id: platformKey,
-                            shortname: platforms[platformKey].id,
-                            fullname: platforms[platformKey].detail
+                            shortname: $scope.platforms[platformKey].id,
+                            fullname: $scope.platforms[platformKey].detail
                         });
                     }
                 }

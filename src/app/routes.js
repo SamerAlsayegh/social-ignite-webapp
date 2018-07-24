@@ -62,6 +62,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
                 .state('portal.home', {
                     url: "/",
+                    controller: 'dashboardController',
                     templateUrl: '/_portal/dashboard/index.html'
                 })
 
@@ -108,7 +109,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                 })
 
                 .state('portal.profile.billing.home', {
-                    url: "/billing?package",
+                    url: "/billing?package?tab",
                     templateUrl: '/_portal/billing/_view.html'
                 })
 
@@ -163,7 +164,7 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                     controller: 'scheduleController'
                 })
                 .state('portal.schedule.table', {
-                    url: "/schedule",
+                    url: "/schedule?tab",
                     templateUrl: '/_portal/schedule/_table.html',
                     params: {
                         updateId: {dynamic: true},
@@ -171,6 +172,27 @@ define(['./SocialIgnite'], function (SocialIgnite) {
                         updateContent: {dynamic: true},
                     }
                 })
+
+                // .state('portal.setup', {
+                //     controller: 'setupController',
+                //     templateUrl: '/_portal/setup/index.html',
+                // })
+                // .state('portal.setup.intro', {
+                //     url: "/setup/intro",
+                //     templateUrl: '/_portal/setup/_intro.html',
+                // })
+                // .state('portal.setup.add_page', {
+                //     url: "/setup/add_page",
+                //     templateUrl: '/_portal/setup/_add_page.html',
+                // })
+                // .state('portal.setup.schedule_post', {
+                //     url: "/setup/schedule_post",
+                //     templateUrl: '/_portal/setup/_schedule_post.html',
+                // })
+                // .state('portal.setup.finish', {
+                //     url: "/setup/finish",
+                //     templateUrl: '/_portal/setup/_finish.html',
+                // })
                 // .state('portal.schedule.edit', {
                 //     controller: 'editController',
                 //     url: "/schedule/edit/:postId",

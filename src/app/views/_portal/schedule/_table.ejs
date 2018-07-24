@@ -1,10 +1,10 @@
-<md-button ng-click="addPost($event); nextStep();" class="md-fab md-primary tutorial-step-schedule-add-post page-button" aria-label="New Social Post">
+<md-button ng-click="addPost($event); nextStep();" class="md-fab md-primary page-button tutorial_step_6" aria-label="New Social Post">
     <i class="zmdi zmdi-plus zmdi-hc-2x"></i>
 </md-button>
 
 
 <md-content layout-fill layout="column">
-    <md-tabs flex>
+    <md-tabs layout-fill md-selected="defaultTab" md-stretch-tabs="always">
         <md-tab label="Schedule">
             <md-content class="md-padding" layout="column">
                 <div layout="row" layout-align="start center">
@@ -32,7 +32,7 @@
                              disable-future-selection="false"></calendar-md>
             </md-content>
         </md-tab>
-        <md-tab label="Drafts" ng-if="allDraftedPosts.length > 0">
+        <md-tab label="Drafts" ng-show="allDraftedPosts.length > 0">
             <md-content class="md-padding" layout="column">
                 <div layout="row" flex="noshrink" layout-align="start center">
                     <h1 class="md-display-1" flex>Drafts Planned</h1>
@@ -40,6 +40,9 @@
                         <md-chip>Beta</md-chip>
                     </md-chips>
                 </div>
+                <notification-card type="info" can-dismiss="false">
+                    <p>Please note, draft edits older than 14 days will be deleted.</p>
+                </notification-card>
                 <md-list layout-padding flex>
                     <md-list-item ng-repeat="draft in allDraftedPosts" ng-click="addPost($event, draft._id)"  class="md-2-line">
                         <i class="zmdi zmdi-edit zmdi-hc-lg md-padding"></i>

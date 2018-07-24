@@ -1,11 +1,20 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert', '$mdDialog',
-        function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert, $mdDialog) {
+    return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert', '$mdDialog', "$stateParams",
+        function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert, $mdDialog, $stateParams) {
 
             $scope.platforms = platforms;
             $scope.scheduledPosts = [];
             $scope.curDate = new Date();
+            $scope.defaultTab = 0;
+
+            if ($stateParams.tab != null){
+                if ($stateParams.tab == 'schedule')
+                    $scope.defaultTab = 0;
+                else if ($stateParams.tab == 'drafts')
+                    $scope.defaultTab = 1;
+            }
+
 
 
             /**
@@ -92,6 +101,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                 }
                             }
                             $scope.allActivePosts.push(message.updateContent);
+                            $scope.nextStep();
                         } else if (message.updateId && message.updateState == "DELETE"){
                             // Deleting a draft
                             for (let index = 0; index < $scope.allDraftedPosts.length; index++){
@@ -144,6 +154,8 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     }
                                 }
                                 $scope.allActivePosts.push(message.updateContent);
+                                $scope.nextStep();
+
                             } else if (message.updateId && message.updateState == "DELETE"){
                                 // Deleting a draft
                                 for (let index = 0; index < $scope.allDraftedPosts.length; index++){

@@ -1,0 +1,55 @@
+<md-content layout="column">
+    <h1 class="md-display-1">Usages</h1>
+    <md-content layout="row" layout-wrap layout-align="space-around">
+        <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+            <md-progress-circular md-diameter="135" md-mode="determinate"
+                                  value="{{(used.image_upload/limits.image_upload)*100 | number: 0}}"></md-progress-circular>
+            <h3 class="process-circular-center text-center">
+                {{used.image_upload + "/" + limits.image_upload}}<br>
+                Images
+            </h3>
+            <md-tooltip md-direction="bottom">Your image upload limits</md-tooltip>
+        </md-content>
+        <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+            <md-progress-circular md-diameter="135" md-mode="determinate"
+                                  value="{{(used.pages_linked_max/limits.pages_linked_max)*100 | number: 0}}"></md-progress-circular>
+            <h3 class="process-circular-center text-center">
+                {{used.pages_linked_max + "/" + limits.pages_linked_max}}<br>
+                Pages
+            </h3>
+            <md-tooltip md-direction="bottom">Your page linking limits</md-tooltip>
+        </md-content>
+        <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+            <md-progress-circular md-diameter="135" md-mode="determinate"
+                                  value="{{(used.post_scheduled_max/limits.post_scheduled_max)*100 | number: 0}}"></md-progress-circular>
+            <h3 class="process-circular-center text-center">
+                {{used.post_scheduled_max + "/" + limits.post_scheduled_max}}<br>
+                Posts
+            </h3>
+            <md-tooltip md-direction="bottom">Your post scheduling limits</md-tooltip>
+        </md-content>
+        <md-content layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
+            <md-progress-circular md-diameter="135" md-mode="determinate"
+                                  value="{{(used.hashtag_lookups/limits.hashtag_lookups)*100 | number: 0}}"></md-progress-circular>
+            <h3 class="process-circular-center text-center">
+                {{used.hashtag_lookups + "/" + limits.hashtag_lookups}}<br>
+                # Lookups
+            </h3>
+            <md-tooltip md-direction="bottom">Your hashtag lookup limits</md-tooltip>
+        </md-content>
+    </md-content>
+    <md-content layout="column">
+        <h3>Your Features:</h3>
+        <span flex layout="column" layout-align="start">
+                                <ul flex>
+                                    <li ng-repeat="feature in planFeatures">{{feature}}</li>
+                                </ul>
+                            </span>
+    </md-content>
+    <span class="md-padding" layout="column">
+                    <md-button flex href="/billing" ng-if="user.scope != 'business'"
+                               class="md-secondary md-raised">
+                        Upgrade for increased limits and more features
+                    </md-button>
+                </span>
+</md-content>

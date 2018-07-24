@@ -130,10 +130,14 @@
     border-radius: 4px;
     &:hover {
     }
+
     &.disabled, &.disabled:hover {
-      color: @disabled-fg;
-      background: none;
-      cursor: default;
+      opacity: 0;
+      display: none;
+    }
+    &.disabled.highlighted, &.disabled.highlighted:hover {
+      opacity: 1;
+      display: block;
     }
   }
   td {

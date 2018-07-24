@@ -1,8 +1,8 @@
-<md-tabs layout-fill  md-stretch-tabs="always">
-    <md-tab ng-if="subscription && !chosenPackage" label="Active Subscription">
-        <md-content  layout="column">
+<md-tabs layout-fill md-selected="defaultTab" md-autoselect="false" md-stretch-tabs="always">
+    <md-tab ng-show="subscription && !chosenPackage" label="Active Subscription">
+        <md-content layout="column">
             <h1 class="md-display-1">Active Subscription</h1>
-            <md-content class="md-block" ng-if="subscription" flex layout="row">
+            <md-content class="md-block md-padding" ng-if="subscription" flex layout="row">
                 <md-input-container flex class="md-block">
                     <label>Package</label>
                     <input disabled ng-model="subscription.package">
@@ -12,7 +12,7 @@
                     <input disabled ng-value="subscription.renewal | date : 'longDate'">
                 </md-input-container>
             </md-content>
-            <md-content class="md-block" ng-if="subscription" flex layout="row">
+            <md-content class="md-block md-padding" ng-if="subscription" flex layout="row">
                 <md-input-container flex class="md-block">
                     <label>Last Payment</label>
                     <input disabled ng-value="subscription.created_at | date : 'longDate'">
@@ -22,7 +22,8 @@
                     <input disabled ng-value="subscription.status">
                 </md-input-container>
             </md-content>
-            <md-content ng-if="subscription.status == 'active' && !cancellingSubscription" layout="column" layout-align="stretch">
+            <md-content ng-if="subscription.status == 'active' && !cancellingSubscription" layout="column"
+                        layout-align="stretch">
                 <md-button ng-click="cancelSubscription()" class="md-warn">Cancel Subscription</md-button>
             </md-content>
             <md-content ng-if="cancellingSubscription == true">
@@ -31,15 +32,21 @@
         </md-content>
     </md-tab>
     <md-tab label="Packages">
-        <md-content  layout="column">
+        <md-content layout="column">
             <div layout="row" layout-align="start center">
                 <h1 class="md-display-1" flex>Packages</h1>
                 <md-chips>
                     <md-chip>Beta</md-chip>
                 </md-chips>
             </div>
-            <md-content ng-if="!loading || chosenPackage != null" layout-padding layout="{{chosenPackage != null ? 'column' : 'row'}}">
-                <md-card ng-repeat="package in packages" ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package" ng-click="subscribePackage(package.internal_name)"
+            <notification-card type="info" ng-if="subscription">
+                <p>Subscribing to any new package will automatically cancel current package (if current package is cheaper) and charge only the difference for the initial month.</p>
+            </notification-card>
+            <md-content ng-if="!loading || chosenPackage != null" layout-padding
+                        layout="{{chosenPackage != null ? 'column' : 'row'}}">
+                <md-card ng-repeat="package in packages"
+                         ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package"
+                         ng-click="subscribePackage(package.internal_name)"
                          class="package-card" layout="column">
                     <md-card-title>
                         <md-card-title-text>
@@ -54,11 +61,19 @@
 
                         </md-card-title-text>
                         <md-card-title-media>
-                            <i class="zmdi zmdi-paypal md-padding zmdi-hc-2x"></i>
                         </md-card-title-media>
                     </md-card-title>
                     <md-card-actions layout="column" ng-if="chosenPackage == null" layout-align="stretch">
-                        <md-button class="md-primary md-raised">Subscribe</md-button>
+                        <div class="box">
+                            <button class="paypal-button">
+                                <span class="paypal-button-title">
+                                    Subscribe via
+                                </span>
+                                <span class="paypal-logo">
+                                    <i>Pay</i><i>Pal</i>
+                                </span>
+                            </button>
+                        </div>
                     </md-card-actions>
                 </md-card>
             </md-content>
@@ -72,36 +87,8 @@
             </md-content>
         </md-content>
     </md-tab>
-    <md-tab label="Transactions" ng-if="$scope.transactions.length > 0">
-        <md-content layout="column"  >
-            <h1 class="md-display-1">Transactions</h1>
-            <!--<span><h</span>-->
-            <md-table-container>
-                <table md-table md-row-select ng-model="transactionModel.selected">
-                    <thead md-head md-order="transactionModel.order" md-on-reorder="loadTransactions">
-                    <tr md-row>
-                        <th md-column md-order-by="_id">id</th>
-                        <th md-column md-order-by="package.name"><span>Package</span></th>
-                        <th md-column md-order-by="created_at">Start</th>
-                        <th md-column md-order-by="expiry">Expiry</th>
-                        <th md-column md-order-by="package.value">Price</th>
-                        <th md-column md-order-by="status">Status</th>
-                    </tr>
-                    </thead>
-                    <tbody md-body>
-                    <tr md-row ng-repeat="transaction in transactions.transactions">
-                        <td class="md-primary" md-cell>{{transaction._id}}</td>
-                        <td md-cell>{{transaction.package.name}}</td>
-                        <td md-cell>{{transaction.created_at | amCalendar}}</td>
-                        <td md-cell>{{transaction.expiry | amCalendar}}</td>
-                        <td md-cell>{{transaction.package.value | number: 2}}</td>
-                        <td md-cell>{{transaction.status}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </md-table-container>
-            <md-table-pagination md-limit="transactionModel.limit" md-limit-options="[5, 10, 15]" md-page="transactionModel.page" md-total="{{transactions.count}}" md-on-paginate="paginateTransactions" md-page-select></md-table-pagination>
-        </md-content>
+    <md-tab label="Transactions" ng-show="transactions.count > 0">
+        <%- include('../../_portal/billing/_transactions'); %>
     </md-tab>
 </md-tabs>
 

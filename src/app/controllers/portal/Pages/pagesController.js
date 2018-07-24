@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes'], function (controllers, platforms, errorCodes) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('pagesController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'SocialAccounts', '$mdDialog', 'moment', '$window', 'Alert',
@@ -6,25 +6,23 @@ define(['../../module', '../../../enums/platforms', '../../../enums/errorCodes']
                   $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
 
             if ($stateParams.fail != null)
-                Alert.error("Failed to register. " + errorCodes[$stateParams.fail].detail);
+                Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail);
 
-            $scope.socialPlatforms = platforms;
             $scope.connectedAccounts = [];
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
 
 
-            for (var platformKey in platforms) {
+            for (var platformKey in $scope.platforms) {
                 if (parseInt(platformKey) == platformKey) {
                     $scope.socialPlatformDetails.push({
                         id: platformKey,
-                        shortname: platforms[platformKey].id,
-                        fullname: platforms[platformKey].detail
+                        shortname: $scope.platforms[platformKey].id,
+                        fullname: $scope.platforms[platformKey].detail
                     });
                 }
             }
             $scope.socket.on('updatedPageStatistics', function (pageInfo) {
-                console.log("Updated?")
                 SocialAccounts.getSocialAccount(pageInfo._id, function (message) {
                     for (var i = 0; i < $scope.connectedAccounts.length; i++) {
                         if ($scope.connectedAccounts[i]._id == pageInfo._id) {

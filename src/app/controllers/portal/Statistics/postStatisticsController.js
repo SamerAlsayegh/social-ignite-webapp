@@ -1,9 +1,8 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('postStatisticsController', ['$scope', '$stateParams', 'Alert', 'SocialPosts', 'Statistics', '$state',
         function ($scope, $stateParams, Alert, SocialPosts, Statistics, $state) {
             var postId = $stateParams.postId;
-            $scope.platforms = platforms;
             $scope.socialPosts = [];
             $scope.activeSocialPost = null;
             $scope.openStat = null;

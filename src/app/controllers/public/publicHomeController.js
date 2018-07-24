@@ -169,25 +169,6 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
                 else $scope.theme = "dark";
                 $cookies.put("theme", $scope.theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
             };
-
-            $window.addEventListener('beforeinstallprompt', function(e) {
-                e.prompt();
-            })
-
-            if ('serviceWorker' in navigator) {
-                // Register a service worker hosted at the root of the
-                // site using the default scope.
-                navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-                    console.log('Service worker registration succeeded');
-                }).catch(function(error) {
-                    console.log('Service worker registration failed:', error);
-                });
-            } else {
-                console.log('Service workers are not supported.');
-            }
-
-
-
         }]);
 
 

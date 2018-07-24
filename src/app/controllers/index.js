@@ -1,5 +1,6 @@
 define([
     './portal/portalHomeController',
+    './portal/Dashboard/dashboardController',
     './portal/Schedule/scheduleController',
     './portal/Schedule/editControllerDialog',
     './portal/Statistics/postStatisticsController',

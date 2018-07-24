@@ -20,10 +20,10 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
-                getPlans: function (cbSuccess, cbFail) {
-                    return Request.get('payment/plans',
+                getPlans: function (includeFree, cbSuccess, cbFail) {
+                    return Request.get('payment/plans', {free: includeFree},
                         function (message) {
-                            return cbSuccess(message);
+                            return cbSuccess(message.data);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });

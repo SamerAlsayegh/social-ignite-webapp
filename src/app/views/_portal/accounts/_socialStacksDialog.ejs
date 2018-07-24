@@ -34,12 +34,12 @@
                                 ng-repeat="pageInfo in allPages"
                                 ng-class="data.socialPages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''"
                                 ng-click="togglePage(pageInfo._id)"
-                                class="md-whiteframe-1dp ui-social ui-{{socialPlatforms[pageInfo.platform].id}} page-select"
+                                class="md-whiteframe-1dp ui-social ui-{{platforms[pageInfo.platform].id}} page-select"
                                 flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20" layout
                                 layout-align="center center">
                             <!--<md-tooltip md-direction="down"></md-tooltip>-->
                             <div class="text-center" layout="column">
-                                <i class="zmdi zmdi-{{socialPlatforms[pageInfo.platform].id}}"></i>
+                                <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
                                 <small ng-bind="pageInfo.name"></small>
                             </div>
                         </md-whiteframe>

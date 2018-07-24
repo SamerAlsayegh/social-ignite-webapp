@@ -1,6 +1,6 @@
 define(['./module'], function (directives) {
     'use strict';
-    directives.directive("tutorialStep", ['$http', '$injector', '$state', function($http, $injector, $state) {
+    directives.directive("tutorialStep", ['$http', '$injector', '$state', function ($http, $injector, $state) {
         return {
             restrict: 'E',
             replace: false,
@@ -9,27 +9,18 @@ define(['./module'], function (directives) {
                 activeDescription: "=",
             },
             templateUrl: '/_portal/directives/_tutorialStep.html',
-            link: function($scope, element, attrs) {
+            link: function ($scope, element, attrs) {
 
                 $scope.$watch('activeDiv', function (newVal, oldVal) {
-                    console.log("Changed val?")
+                    if (newVal != null) {
                         setTimeout(function () {
-                            var space = 10;
+                            var space = 0;
                             var el = angular.element(document.getElementsByClassName($scope.activeDiv))[0].getBoundingClientRect();
                             var darken_right = angular.element(document.getElementsByClassName("darken_right"));
                             var darken_left = angular.element(document.getElementsByClassName("darken_left"));
                             var darken_top = angular.element(document.getElementsByClassName("darken_top"));
                             var darken_bottom = angular.element(document.getElementsByClassName("darken_bottom"));
 
-
-                            var darken_text = angular.element(document.getElementsByClassName("darken_text"));
-
-
-                            darken_text.css("left", (el.left + space) + "px");
-                            darken_text.css("top", (el.top - space - 50) < 0 ? 0 : (el.top - space - 50) + "px");
-                            // darken_text.css("width", (el.width) + "px");
-                            // darken_text.css("height", (el.height - space) + "px");
-                            darken_text.css("z-index", 1000);
 
                             darken_right.css("left", (el.left + space + el.width) + "px");
                             darken_left.css("width", (el.left - space) + "px");
@@ -42,6 +33,7 @@ define(['./module'], function (directives) {
                             angular.element(element)[0].scrollTop = 0;
 
                         }, 50);
+                    }
 
                 });
             }

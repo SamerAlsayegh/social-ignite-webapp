@@ -3,7 +3,7 @@ define([
     './imageUploader',
     './onScrollToBottom',
     './delayedImage',
-    './notificationCard'
-    // './tutorialStep'
+    './notificationCard',
+    './tutorialStep'
 ], function () {
 });

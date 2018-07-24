@@ -14,7 +14,7 @@
                 <h3 ng-bind="ticket.user"></h3>
                 <p ng-bind="ticket.title"></p>
             </div>
-        <md-button ng-if="ticket.status != 'Closed'" ng-click="closeTicket(ticket)" class="md-secondary md-icon-button"  aria-label="close">
+        <md-button ng-if="ticket.status != 'Closed'" ng-click="closeTicket(ticket)" class="md-secondary"  aria-label="close">
             <i class="zmdi zmdi-close md-padding zmdi-hc-lg"></i>
         </md-button>
         <md-button class="md-list-item-text md-secondary">

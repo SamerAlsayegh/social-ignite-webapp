@@ -57,11 +57,10 @@ define([
                 .accentPalette('light-blue')
                 .backgroundPalette('grey').dark();
             $mdGestureProvider.disableAll();
-
             $httpProvider.defaults.withCredentials = true;
         }])
-        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location',
-            function ($rootScope, $transitions, $state, $templateCache, $http, Auth, moment, $cookies, Analytics, $location) {
+        .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location', '$window',
+            function ($rootScope, $transitions, $state, $templateCache, $http, Auth, moment, $cookies, Analytics, $location, $window) {
                 $transitions.onSuccess({}, function (transition) {
                     Analytics.trackPage($location.path());
                 });
@@ -137,6 +136,22 @@ define([
                 //         $http.get(state.templateUrl, {cache: $templateCache});
                 //     }
                 // });
+
+                $window.addEventListener('beforeinstallprompt', function(e) {
+                    e.prompt();
+                })
+
+                if ('serviceWorker' in navigator) {
+                    // Register a service worker hosted at the root of the
+                    // site using the default scope.
+                    navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
+                        console.log('Service worker registration succeeded');
+                    }).catch(function(error) {
+                        console.log('Service worker registration failed:', error);
+                    });
+                } else {
+                    console.log('Service workers are not supported.');
+                }
             }
         ]);
 });

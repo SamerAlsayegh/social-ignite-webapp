@@ -50,10 +50,20 @@ define(['./../module', '../../enums/platforms'], function (controllers, platform
             $scope.platformLookup = function (platformId) {
                 return platforms[platformId];
             };
+
             $scope.toggleMenu = function () {
                 $mdSidenav('left').toggle()
             };
 
+
+            $scope.logout = function () {
+                Auth.logout(function (data) {
+                    Alert.info('Logged out successfully!');
+                    $state.go('public.login', {}, {reload: 'public.login'});
+                }, function (err, data) {
+                    Alert.error('Failed to log out.');
+                });
+            };
 
         }]);
 });

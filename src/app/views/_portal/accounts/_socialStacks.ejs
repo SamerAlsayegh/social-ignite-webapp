@@ -5,10 +5,10 @@
             <span flex ng-bind="socialStack.name"></span>
             <md-button
                     ng-repeat="socialPage in socialStack.pages.pages"
-                    class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
+                    class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
                     aria-label=platform>
                 <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
-                <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
+                <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
             </md-button>
         </div>
     </md-card>

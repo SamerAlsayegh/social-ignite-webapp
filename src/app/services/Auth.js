@@ -8,9 +8,7 @@ define(['./module'], function (services) {
                         return cbFail(400, "Invalid parameters.");
 
                     return Request.post('auth/login', parameters,
-                        function (message) {
-                        console.log(message);
-                            $cookies.put('sid', message, new Date(new Date().getTime() + (1000*60*60*24*7)));
+                        function (message, res) {
                             return Request.get('user',
                                 function (message) {
                                     $rootScope.user = message.data;
@@ -66,16 +64,16 @@ define(['./module'], function (services) {
                             return cbFail(status, message, messageCode);
                         });
                 },
-                requestPasswordReset: function(email, cbSuccess, cbFail) {
+                requestPasswordReset: function (email, cbSuccess, cbFail) {
                     return Request.post('auth/forgotten_password', {
-                      email: email
+                        email: email
                     }, function (message) {
                         return cbSuccess(message);
                     }, function (status, message) {
                         return cbFail(status, message);
                     });
                 },
-                submitPasswordReset: function(code, password, cbSuccess, cbFail) {
+                submitPasswordReset: function (code, password, cbSuccess, cbFail) {
                     return Request.post('auth/forgotten_password', {
                         code: code,
                         password: password
@@ -85,7 +83,7 @@ define(['./module'], function (services) {
                         return cbFail(status, message);
                     });
                 },
-                requestEmailResend: function(email, cbSuccess, cbFail) {
+                requestEmailResend: function (email, cbSuccess, cbFail) {
                     return Request.post('auth/request_email', {
                         email: email
                     }, function (message) {
@@ -104,23 +102,7 @@ define(['./module'], function (services) {
                                 $rootScope.loggedIn = true;
                                 return callback(true);
                             }, function (status, message) {
-                                var sid = $cookies.get('sid');
-                                if (sid != null){
-                                    return Request.post('auth/request_cookie',{sid: sid},
-                                        function (message) {
-                                            // $rootScope.user = message.data;
-                                            $rootScope.user = message.data;
-                                            $rootScope.loggedIn = true;
-                                            return callback(true);
-                                        }, function (status, message) {
-                                            $cookies.remove('sid');
-                                        $rootScope.loggedIn = false;
-                                        return callback(false);
-                                        });
-                                } else {
-                                    $rootScope.loggedIn = false;
-                                    return callback(false);
-                                }
+                                return callback(false);
                             });
                     }
                 },

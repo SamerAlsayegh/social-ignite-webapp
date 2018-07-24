@@ -11,12 +11,24 @@ define(['../../module'], function (controllers) {
                 limit: 10,
                 page: 1
             };
+            $scope.defaultTab = 0;
+
+            if ($stateParams.tab != null){
+                if ($stateParams.tab == 'active')
+                    $scope.defaultTab = 0;
+                else if ($stateParams.tab == 'packages')
+                    $scope.defaultTab = 1;
+                else if ($stateParams.tab == 'transactions')
+                    $scope.defaultTab = 2;
+            }
+            console.log($stateParams.tab, $scope.defaultTab);
 
 
 
 
-            Billing.getPlans(function (plans) {
-                $scope.packages = plans.data;
+
+            Billing.getPlans(false, function (plans) {
+                $scope.packages = plans;
             }, function (status, message) {
                 Alert.error(message)
             });
@@ -50,13 +62,8 @@ define(['../../module'], function (controllers) {
             $scope.subscribePackage = function (packageName) {
                 if ($scope.loading == false) {
                     $scope.loading = true;
-                    Billing.subscribePlan(packageName, "paypal", function (message) {
-                        $window.location.href = message;
-                    }, function (status, message) {
-                        $scope.loading = false;
-                        Alert.error(message)
-                    });
                     Analytics.trackEvent('billing', 'start_plan', packageName);
+                    $window.open(__API__ + '/api/v1/payment/subscription/' + packageName + '/paypal', '_self');
                 }
             };
 

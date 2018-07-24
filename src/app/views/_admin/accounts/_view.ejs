@@ -28,8 +28,8 @@
     <md-list-item href="/admin/accounts/{{user._id}}" ng-repeat="user in usersOnPage" class="md-2-line">
         <i class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
         <div ng class="md-list-item-text">
-                <h3 ng-bind="user.email"></h3>
-                <p ng-bind="user.scope"></p>
+                <h3 layout="row"><span ng-bind="user.email" flex></span> <small>last seen <span am-time-ago="user.information.last_seen"></span></small></h3>
+                <p layout="row"><span ng-bind="user.scope" flex></span> <small ng-if="user.information.online">Online</small></p>
             </div>
         <!--<md-button ng-click="suspendUser(user)" class="md-secondary md-icon-button"  aria-label="suspend account">-->
             <!--<md-icon>close</md-icon>-->

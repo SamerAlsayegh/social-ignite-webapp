@@ -1,6 +1,6 @@
-<!--<tutorial-step active-div="activeDiv" active-description="activeDescription"></tutorial-step>-->
+<tutorial-step active-div="activeDiv" active-description="activeDescription" ng-if="tutorialMode"></tutorial-step>
 
-<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
+<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex class="tutorial_step_7">
 
     <md-content hide-gt-sm>
         <md-toolbar class="md-primary">
@@ -25,17 +25,17 @@
                 <img flex class="menu_logo" ng-src="__ASSETS__{{theme == 'dark' ? '/img/thumbnail/w400/light_logo.png' : '/img/thumbnail/w400/dark_logo.png'}}">
             </header>
             <md-list flex>
-                <md-list-item class="home" flex href="/" ng-click="toggleMenu()">
+                <md-list-item class="home" flex href="/" ng-click="toggleMenu();">
                     <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
                     <span flex>Home</span>
                 </md-list-item>
 
-                <md-list-item class="tutorial-step-schedule-menu" flex href="/schedule"
-                              ng-click="toggleMenu()">
+                <md-list-item class="tutorial-step-schedule-menu tutorial_step_5" flex href="/schedule"
+                              ng-click="toggleMenu(); nextStep();">
                     <i class="zmdi zmdi-calendar md-padding zmdi-hc-lg"></i>
                     <span flex>Schedule</span>
                 </md-list-item>
-                <md-list-item class="tutorial-step-pages-menu" flex href="/accounts" ng-click="toggleMenu()">
+                <md-list-item class="tutorial-step-pages-menu tutorial_step_1" flex href="/accounts" ng-click="toggleMenu(); nextStep();">
                     <i class="zmdi zmdi-share md-padding zmdi-hc-lg"></i>
                     <span flex>Socials</span>
                 </md-list-item>
@@ -63,7 +63,7 @@
                 </md-list-item>
                 <md-list-item flex href="/billing" ng-click="toggleMenu()">
                     <i class="zmdi zmdi-shopping-cart md-padding zmdi-hc-lg"></i>
-                    <span flex>Billing</span>
+                    <span flex ng-bind="user.scope == 'user' ? 'Upgrade' : 'Billing'"></span>
                 </md-list-item>
 
                 <md-list-item flex href="/support" ng-click="toggleMenu()">

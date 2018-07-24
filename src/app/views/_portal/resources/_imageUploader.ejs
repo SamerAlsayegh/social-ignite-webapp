@@ -10,7 +10,7 @@
      ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
      layout-padding layout="row" layout-align="start start" layout-wrap layout-fill>
 
-    <md-card ng-if="control == 'manage'" ngf-select="uploadFiles($files)" class="resource-card image-dragdropzone"
+    <md-card ng-if="control == 'manage' || control == 'manage2'" ng-hide="control == 'manage2'" ngf-select="uploadFiles($files)" class="resource-card image-dragdropzone imageSelector"
              layout="column"
              ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">
 
@@ -32,7 +32,7 @@
     </md-card>
 
 
-    <md-content layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
+    <div layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
                 ng-repeat="imageContent in images" ng-hide="imageContent.hide">
 
         <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading"

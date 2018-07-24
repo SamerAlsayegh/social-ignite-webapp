@@ -1,0 +1,31 @@
+<md-content layout="column">
+    <h1 class="md-display-1">Transactions</h1>
+    <!--<span><h</span>-->
+    <md-table-container>
+        <table md-table md-row-select ng-model="transactionModel.selected">
+            <thead md-head md-order="transactionModel.order" md-on-reorder="loadTransactions">
+            <tr md-row>
+                <th md-column md-order-by="_id">id</th>
+                <th md-column md-order-by="package.name"><span>Package</span></th>
+                <th md-column md-order-by="created_at">Start</th>
+                <th md-column md-order-by="expiry">Expiry</th>
+                <th md-column md-order-by="package.value">Price</th>
+                <th md-column md-order-by="status">Status</th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row ng-repeat="transaction in transactions.transactions">
+                <td class="md-primary" md-cell>{{transaction._id}}</td>
+                <td md-cell>{{transaction.package.name}}</td>
+                <td md-cell>{{transaction.created_at | amCalendar}}</td>
+                <td md-cell>{{transaction.expiry | amCalendar}}</td>
+                <td md-cell>${{transaction.package.value | number: 2}}</td>
+                <td md-cell>{{transaction.status}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="transactionModel.limit" md-limit-options="[5, 10, 15]"
+                         md-page="transactionModel.page" md-total="{{transactions.count}}"
+                         md-on-paginate="paginateTransactions" md-page-select></md-table-pagination>
+</md-content>

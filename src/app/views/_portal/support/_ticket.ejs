@@ -1,33 +1,27 @@
-<md-content layout-padding layout-fill layout="column">
-    <md-content layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
-                layout-xs="column">
-
-        <h3 flex class="page-header">Ticket: {{ticket.title}}</h3>
-
-
-        <h4 class="page-header" layout-align="center end">
-            <md-button ng-bind="ticket.status" class="md-secondary" disabled  aria-label="status"></md-button>
-            <!--<small>author: {{ticket.user}}</small>-->
-        </h4>
+<md-content layout-fill layout="column">
+    <md-content layout="row" class="md-block">
+        <h3 flex>Ticket: {{ticket.title}}</h3>
+        <md-button ng-bind="ticket.status" class="md-secondary" disabled  aria-label="status"></md-button>
     </md-content>
-    <md-list id="ticketResponses" flex style="overflow-y: auto;" class="md-padding">
+    <md-list id="ticketResponses" flex style="overflow-y: auto;">
         <md-list-item class="md-2-line" ng-repeat="reply in ticket.responses.responses">
-            <i ng-if="!reply.admin" class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
-            <i  ng-if="reply.admin" class="zmdi zmdi-account-circle md-padding zmdi-hc-lg"></i>
-
+            <md-button class="md-fab md-mini md-padding" disabled layout="row" layout-align="center center">
+                <i ng-if="!reply.admin" class="zmdi zmdi-account zmdi-hc-lg"></i>
+                <i  ng-if="reply.admin" class="zmdi zmdi-assignment-account zmdi-hc-lg"></i>
+            </md-button>
             <div class="md-list-item-text">
                 <span layout="row">
                 <h3 ng-bind="reply.user" flex></h3>
-                <h4 am-time-ago="reply.created_at"></h4>
+                <h4 class="gray_text" am-time-ago="reply.created_at"></h4>
                 </span>
                 <p>{{reply.content}}</p>
             </div>
         </md-list-item>
     </md-list>
     <form name="ticketReply" ng-submit="sendReply(ticketReply)" layout="row">
-        <md-input-container md-padding flex class="md-block">
+        <md-input-container flex class="md-block">
             <label>Reply message</label>
-            <input type="text" name="replyMessage" ng-model="reply" md-maxlength="255"/>
+            <input type="text" name="replyMessage" ng-model="reply" ng-maxlength="255"/>
         </md-input-container>
         <md-button ng-disabled="!ticketReply.$valid" type="submit">Submit</md-button>
     </form>

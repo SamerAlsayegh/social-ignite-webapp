@@ -14,17 +14,17 @@
 </div>
 
 <div layout="column">
-    <md-content layout="row" layout-wrap layout-align="center center">
+    <md-content layout="row" layout-wrap layout-align="start center">
         <md-card layout="column"
                  ng-repeat="socialPage in connectedAccounts" flex="100" flex-gt-md="30">
             <div layout="row">
                 <div class="md-toolbar-tools">
                     <md-button
                             disabled
-                            class="md-fab md-mini ui-social ui-{{socialPlatforms[socialPage.platform].id}}"
+                            class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
                             aria-label=platform>
                         <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
-                        <i class="zmdi zmdi-{{socialPlatforms[socialPage.platform].id}}"></i>
+                        <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
                     </md-button>
                     <span flex ng-bind="socialPage.name"></span>
 

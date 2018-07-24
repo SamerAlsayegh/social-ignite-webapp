@@ -4,10 +4,14 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes'], functio
     return controllers.controller('portalHomeController',
         ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies', 'Profile', 'General','$state',
             function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies, Profile, General, $state) {
-                $scope.comments = {};
                 $scope.errorCodes = errorCodes;
-                $scope.permissions = {};
+                $scope.platforms = platforms;
 
+
+
+
+                $scope.permissions = {};
+                $scope.notifications = [];
                 $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
                 $scope.socket = io(__SOCKETS__);
@@ -62,11 +66,6 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes'], functio
                     $scope.permissions = data.data.permissions;
                     $scope.limits = data.data.limits;
                     $scope.used = data.data.used;
-                    Dashboard.getDashboardPosts(null, function (data) {
-                        $scope.socialPostMainList = data;
-                    }, function (status, message) {
-                        Alert.error(message, 600);
-                    });
                 }, function (status, message) {
                     Alert.error(message, 600);
                 });
@@ -83,74 +82,64 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes'], functio
 
                 });
 
-                $scope.feeds = {};
                 /**
                  * Initialize code...
                  */
+                $scope.$step = $cookies.get("tutorial") == 3 ? 3 : 0;
+                $scope.$steps = [{
+                    description: 'Navigate to Socials',
+                    div: 'tutorial_step_1',
+                    state: 'portal.home',
+                }, {
+                    description: 'Click the Add button',
+                    div: 'tutorial_step_2',
+                    state: 'portal.schedule.table',
+                }, {
+                    description: 'Choose a platform to add',
+                    div: 'tutorial_step_3',
+                    state: 'portal.schedule.table',
+                }, {
+                    description: 'Choose one page to add to your account.',
+                    div: 'tutorial_step_4'
+                }, {
+                    description: 'Open the Schedule/Agenda',
+                    div: 'tutorial_step_5'
+                }, {
+                    description: 'Click to schedule a new post.',
+                    div: 'tutorial_step_6'
+                }, {
+                    description: 'Fill the fields and choose the time.',
+                    div: 'tutorial_step_7'
+                }, {
+                    description: 'You have successfully scheduled your first post.',
+                    div: 'DONE'
+                }];
 
+                $scope.nextStep = function () {
+                    if (!$scope.tutorialMode) return;
+                    if ($scope.$step == 0) $state.go('portal.home');
+                    if ($scope.$steps.length <= $scope.$step) $scope.$step = 0;
 
+                    $scope.activeDiv = $scope.$steps[$scope.$step].div;
+                    $scope.activeDescription = $scope.$steps[$scope.$step].description;
+                    console.log("Clicked on a step.", $scope.$step)
 
+                    angular.element(document.getElementsByClassName($scope.activeDiv)).bind("click", function(e){
+                        console.log("Clicked on a step.")
+                    });
+                    console.log(angular.element(document.getElementsByClassName($scope.activeDiv)));
 
+                    $cookies.put("tutorial", $scope.$step, {});
 
-
-
-
+                    $scope.$step++;
+                };
+                // $scope.nextStep();
 
                 $scope.platformLookup = function (platformId) {
                     return platforms[platformId];
                 };
                 $scope.toggleMenu = function () {
                     $mdSidenav('left').toggle()
-                };
-
-                $scope.postComment = function (reply) {
-                    if (!reply.comment || !reply._id) return;
-                    Action.postComment({reply_id: reply._id, reply: reply.comment},
-                        function (data) {
-                            reply.commenting = false;
-                            reply.comment = null;
-                            if (!reply.replies) reply.replies = [];
-                            reply.replies.push(data.reply)
-                        }, function (status, message) {
-                            Alert.error(message, 600);
-                        });
-                };
-                $scope.loadReplies = function (reply, parent_post, parent_reply, cursor) {
-                    if (reply.remaining == 0) return;
-                    reply.hide = false;
-                    var data = {parent_post: parent_post};
-                    if (parent_reply) data.parent_reply = parent_reply;
-                    if (cursor) data.cursor = cursor;
-                    PostComment.getReplies(data, function (data) {
-                        if (!reply.replies) reply.replies = [];
-
-                        for (var index = 0; index < data.data.replies.length; index++) {
-                            reply.replies.unshift(data.data.replies[index]);
-                        }
-                        reply.remaining = data.data.remaining;
-                    }, function (err, data) {
-                        Alert.error("Failed to fetch comments.");
-                    });
-                };
-
-                $scope.toggleLike = function (reply) {
-                    reply.liked = !reply.liked;
-                    Action.toggleLikeComment({reply_id: reply._id}, function (data) {
-                        reply.liked = data.liked;
-                    }, function (err, message) {
-                        reply.liked = !reply.liked;
-                        Alert.error(message, 600);
-                    });
-                };
-
-                $scope.deleteComment = function (reply) {
-                    reply.deleted = true;
-                    Alert.success("Deleting selected comment", 600);
-                    Action.deleteComment({reply_id: reply._id}, function (data) {
-                    }, function (err, message) {
-                        reply.deleted = false;
-                        Alert.error(message, 600);
-                    });
                 };
 
                 /**
@@ -172,12 +161,6 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes'], functio
                     });
                 }
 
-
-                // $scope.switchTheme = function () {
-                //     if ($scope.dynamicTheme == "dark") $scope.dynamicTheme = "default";
-                //     else $scope.dynamicTheme = "dark";
-                //     $cookies.put("theme", $scope.dynamicTheme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
-                // };
                 $scope.setTheme = function (theme) {
                     $scope.theme = theme;
                     $cookies.put("theme", theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});

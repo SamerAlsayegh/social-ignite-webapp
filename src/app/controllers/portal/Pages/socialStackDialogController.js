@@ -1,8 +1,7 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('socialStackDialogController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog', 'stackId',
         function ($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog, stackId) {
-            $scope.socialPlatforms = platforms;
             $scope.data = {
                 socialPages: []
             };

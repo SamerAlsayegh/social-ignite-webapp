@@ -1,4 +1,4 @@
-var CACHE_VERSION = 0;
+var CACHE_VERSION = 3;
 
 
 var CACHE_NAME = 'SocialIgnite-Web' + "-" + CACHE_VERSION;

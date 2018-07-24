@@ -12,7 +12,6 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                     }).then(function (data) {
                         var message = data.data;
                         var status = data.status;
-
                         if (message.data != null)
                             cbSuccess(message.data, message);
                         else if (status == 200){
@@ -28,9 +27,7 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
-                                    console.log(data, data.headers());
-                                    console.log('Content-Range: ' + data.headers('Content-Range'));
-                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail.replace("%s", ((data.headers('x-ratelimit-pathreset') - new Date().getTime())/1000).toFixed(0) + ' seconds'), errorCodes.RateLimitExceeded.id);
                                     break;
                                 default:
                                     var message = data.data.message;

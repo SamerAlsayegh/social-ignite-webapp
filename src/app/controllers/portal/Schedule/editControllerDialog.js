@@ -1,8 +1,8 @@
 define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
     return controllers.controller('editControllerDialog', ['$scope', '$rootScope',
-        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$mdDialog', 'postId', 'postInformation', 'theme', 'socket',
-        function ($scope, $rootScope, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks, $mdDialog, postId, postInformation, theme, socket) {
+        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$mdDialog', 'postId', 'postInformation', 'theme', 'socket', '$window',
+        function ($scope, $rootScope, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks, $mdDialog, postId, postInformation, theme, socket, $window) {
             $scope.postId = postId;
             $scope.attachImages = false;
             $scope.postInformation = postInformation;
@@ -12,11 +12,39 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.draftUpdater = null;
             $scope.theme = theme;
             $scope.socket = socket;
+            $scope.dirtyForm = false;
+            $scope.scheduleShowing = false;
 
 
-            $scope.enableAttachImages = function () {
-                $scope.attachImages = true;
+            function confirmLeavePage(e) {
+                if ($scope.dirtyForm) {
+                    var confirmed;
+                    confirmed = $window.confirm("You have unsaved edits. Do you wish to leave?");
+                    if (e && !confirmed) {
+                        e.returnValue = "You have unsaved edits.";
+                        e.preventDefault();
+                    } else {
+                        $mdDialog.cancel();
+                    }
+                }
+            }
+
+
+            if (window.addEventListener) {
+                $window.addEventListener("beforeunload", confirmLeavePage);
+            } else {
+                $window.attachEvent("onbeforeunload", confirmLeavePage); //For IE
+            }
+
+            $scope.attachImage = function () {
+               setTimeout(function(){
+                   angular.element(document.querySelectorAll('.imageSelector')).triggerHandler('click');
+               }, 0);
             };
+            $scope.scheduleShow = function(){
+                $scope.scheduleShowing = true;
+            }
+
             $scope.cancel = function () {
                 $mdDialog.cancel();
             };
@@ -40,7 +68,8 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             $scope.validateTime = function (date, type) {
                 // disable all Sundays in the Month View
-                return date > $scope.currentTime;
+                console.log(date._d, $scope.currentTime);
+                return !(date._d < $scope.currentTime);
             };
 
             $scope.choosePage = function (page_id) {
@@ -116,7 +145,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 console.log(content, forceRefresh);
                 if (content.length > 0 && $scope.postId != null) {
                     Action.fetchHashtags(content, forceRefresh, $scope.postId, function (message, used) {
-                        $scope.hashtags = [{hashtag: "#@23", priority:false},{hashtag: "#11@23", priority:false},{hashtag: "#@2223", priority:false},]
+                        $scope.hashtags = message
                         $scope.hashtag_lookups = used;
                     }, function (status, message) {
                         Alert.error(message);
@@ -129,16 +158,23 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.addHashtag = function (hashtag) {
                 if (!$scope.hashtagUsed(hashtag)) {
                     // Add the hashtag
-                    $scope.currentSocialPost.content += " #" + hashtag.hashtag;
+                    if (!$scope.currentSocialPost.content.endsWith(" ")) $scope.currentSocialPost.content += " ";
+                    $scope.currentSocialPost.content += "#" + hashtag + " ";
                 }
             };
             $scope.hashtagUsed = function (hashtag) {
-                return false;//$scope.currentSocialPost.content.indexOf("#" + hashtag.hashtag) == -1;
+                return $scope.currentSocialPost.content.indexOf("#" + hashtag + " ") != -1;
             };
 
 
             $scope.$watch("currentSocialPost", function (newValue, oldValue) {
-                if (newValue !== oldValue && oldValue != null && $scope.currentSocialPost.content.length > 0) {
+                if (newValue == oldValue || newValue == null) return;
+
+                if (newValue.images.length > 0) $scope.attachImages = true;
+                else $scope.attachImages = false;
+
+                $scope.dirtyForm = true;
+                if ($scope.currentSocialPost.content.length > 0) {
                     if ($scope.draftUpdater != null)
                         clearTimeout($scope.draftUpdater);
                     try {
@@ -172,6 +208,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     params.id = $scope.postId;
                 if ($scope.postId) {
                     $scope.socket.emit('updateDraft', params);
+                    $scope.dirtyForm = false;
                 } else {
                     SocialPosts.draftScheduledPost(params, function (data) {
                         $scope.postId = data._id;
@@ -179,6 +216,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         //     $state.go('portal.schedule.edit', {postId: $scope.postId}, {reload: false})
                         //
                         // }
+                        $scope.dirtyForm = false;
                     }, function (status, message) {
                         Alert.error("Failed to save draft")
                     });
@@ -225,6 +263,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                 'updateState': 'ADD',
                                 'updateContent': postDetails
                         });
+
                     }, function (status, message) {
                         $scope.pending = false;
                         Alert.error("Failed to submit: " + message)
@@ -273,7 +312,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     $scope.currentSocialPost.state = socialPostDetails.state;
                                     $scope.currentSocialPost.pages = chosenPlatforms;
                                     $scope.currentSocialPost.images = socialPostDetails.images;
-                                    if ($scope.currentSocialPost.images.length  > 0) $scope.enableAttachImages();
                                     $scope.currentSocialPost.content = socialPostDetails.content;
                                     // var time = new Date(socialPostDetails.post_time);
                                     if ($scope.attachedImage) {

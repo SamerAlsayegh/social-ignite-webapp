@@ -36,7 +36,7 @@ define(['./module'], function (directives) {
                 };
 
                 $scope.deleteImage = function (image) {
-                    if ($scope.control == 'manage') {
+                    if ($scope.control == 'manage' || $scope.control == 'manage2') {
                         $scope.images.hide = true;
                         Image.deleteImage(image._id, function (data) {
                             $scope.images.splice($scope.images.indexOf(image), 1);
