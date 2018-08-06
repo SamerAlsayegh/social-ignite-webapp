@@ -1,18 +1,18 @@
 require("expose-loader?io!socket.io-client");
-define(['../module', '../../enums/platforms', '../../enums/errorCodes'], function (controllers, platforms, errorCodes) {
+// require("expose-loader?moment!moment");
+
+define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../enums/platformErrors'], function (controllers, platforms, errorCodes, platformErrors) {
     'use strict';
     return controllers.controller('portalHomeController',
         ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies', 'Profile', 'General','$state',
             function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $cookies, Profile, General, $state) {
                 $scope.errorCodes = errorCodes;
                 $scope.platforms = platforms;
-
-
-
-
+                $scope.platformErrors = platformErrors;
                 $scope.permissions = {};
                 $scope.notifications = [];
                 $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
+
 
                 $scope.socket = io(__SOCKETS__);
                 $scope.socket.on('connect', function () {
@@ -133,7 +133,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes'], functio
 
                     $scope.$step++;
                 };
-                // $scope.nextStep();
+                $scope.nextStep();
 
                 $scope.platformLookup = function (platformId) {
                     return platforms[platformId];
@@ -157,7 +157,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes'], functio
                     Auth.requestEmailResend($scope.user.email, function (data) {
                         Alert.success("An email should be on the way.");
                     }, function (status, message) {
-                        Alert.error("Failed to request verification email.");
+                        Alert.error(message);
                     });
                 }
 

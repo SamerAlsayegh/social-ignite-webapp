@@ -79,8 +79,8 @@
         <md-content layout="column" flex>
             <md-content ng-if="user.notices.length > 0">
                 <notification-card ng-repeat="notice in user.notices" type="{{notice.type}}" can-dismiss="{{notice.can_dismiss}}">
-                    <p ng-if="notice.reason == errorCodes.AccountLogonDeniedVerifiedEmailRequired.id">
-                    Account requires verification for full access to features. Please check {{user.email}} or <b class="pointer" ng-click="resendEmail()">resend email</b>.
+                    <p layout-fill ng-if="notice.reason == errorCodes.AccountLogonDeniedVerifiedEmailRequired.id">
+                    Account requires verification for full access to features. Please check {{user.email}} or <b class="pointer underline-link" ng-click="resendEmail()">resend email</b>.
                     </p>
 
                 </notification-card>

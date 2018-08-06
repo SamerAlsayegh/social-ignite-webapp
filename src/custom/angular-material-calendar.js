@@ -169,6 +169,7 @@ angular.module("materialCalendar").directive("calendarMd", ["$compile", "$parse"
             $scope.weekLayout = "row";
             $scope.timezone = $scope.timezone || null;
             $scope.noCache = $attrs.clearDataCacheOnLoad || false;
+            $scope.startOfDay = date.setHours(0, 0, 0, 0);
 
             // Parse the parent model to determine if it's an array.
             // If it is an array, than we'll automatically be able to select

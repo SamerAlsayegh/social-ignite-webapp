@@ -79,7 +79,7 @@
                 </md-list-item>
 
 
-                <md-list-item class="md-2-line md-long-text" ng-repeat="socialComment in socialReplies" layout="row" ng-click="replyConversation()">
+                <md-list-item class="md-2-line md-long-text" ng-repeat="socialComment in socialReplies" layout="row" ng-click="replyConversation(socialComment)">
                     <md-button
                             class="md-fab md-secondary md-mini ui-social ui-{{platforms[socialComment.page_id.platform].id}}"
                             aria-label="platform name">

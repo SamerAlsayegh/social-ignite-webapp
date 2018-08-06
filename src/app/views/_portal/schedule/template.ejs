@@ -82,7 +82,7 @@
                 <div class="md-primary" layout="row">
                     {{ day | date:dayFormat }}
                     <span flex></span>
-                    <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;" ng-if="day > curTime"></i>
+                    <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;" ng-if="day >= startOfDay"></i>
                 </div>
                 <div flex>
 

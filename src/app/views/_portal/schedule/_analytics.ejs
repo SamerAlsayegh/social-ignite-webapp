@@ -1,8 +1,6 @@
+<md-button ng-click="return()" class="md-primary page-link"> < Back to calendar</md-button>
 <md-content layout-fill layout="column">
-<md-button class="md-warn md-raised" ng-click="return()">
-    Return
-</md-button>
-<label>
+    <label>
     <div layout="row" layout-padding layout-wrap>
         <md-whiteframe
                 ng-repeat="socialPost in socialPosts" ng-click="loadPageStatistics(socialPost)"
@@ -19,7 +17,7 @@
 </label>
     <md-tabs flex>
 
-        <md-tab label="Unique Visitors" md-on-select="openStat = 'visitors';">
+        <md-tab ng-if="viewsUnsupported" label="Unique Visitors" md-on-select="openStat = 'visitors';">
             <md-content class="md-padding" layout="column" layout-fill>
                 <div layout="row" flex="noshrink"  layout-align="start center">
                     <h1 class="md-display-1" flex>Unique Visitors</h1>
@@ -32,7 +30,7 @@
                 </div>
             </md-content>
         </md-tab>
-        <md-tab label="Likes" md-on-select="openStat = 'likes';">
+        <md-tab ng-if="likesUnsupported" label="Likes" md-on-select="openStat = 'likes';">
             <md-content class="md-padding" layout="column" layout-fill>
                 <div layout="row" flex="noshrink"  layout-align="start center">
                     <h1 class="md-display-1" flex>Likes</h1>

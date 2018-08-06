@@ -15,6 +15,9 @@ define([
     './portal/Profile/profileDeleteController',
     './portal/Resources/resourcesController',
     './portal/Statistics/statisticsController',
+    './portal/Statistics/pageStatisticsController',
+    './portal/Statistics/pageStatisticsDetailController',
+    './portal/Dashboard/conversationDialogController',
 
     './admin/adminHomeController',
     './admin/adminSupportController',

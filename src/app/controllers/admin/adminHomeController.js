@@ -24,9 +24,11 @@ define(['./../module', '../../enums/platforms'], function (controllers, platform
 
             $scope.socket.on('ticket_new_admin', function (ticket_reply) {
                 Alert.info("A new ticket was created.")
+                console.log(ticket_reply);
             });
             $scope.socket.on('ticket_reply_admin', function (ticket_reply) {
                 Alert.info("A ticket has been replied to")
+                console.log(ticket_reply);
             });
 
             $scope.socket.on('changedScope', function () {

@@ -126,15 +126,20 @@ gulp.task('webpack-dev-server', function () {
         console.log("Booted up the dev front-end. Not to be used on production.");
     });
 });
-
+var cors = function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+};
 gulp.task('webserver', function() {
     gulp.src('dist')
         .pipe(webserver({
-            livereload: false,
+            livereload: true,
             host: '0.0.0.0',
             port: 8080,
             middleware: [
-                compression()
+                compression(),
+                cors
             ],
             https: {
                 cert: "certificates/socialignite.media.pem",
@@ -167,10 +172,10 @@ let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less','views', '
 if (!devBuild){
     listOfProcesses.push('webserver');
     listOfProcesses.push('watch-dev');
+    gulp.task('default', listOfProcesses);//habits die hard
 } else {
     listOfProcesses.push('webpack-dev-server');
     listOfProcesses.push('watch-dev');
+    gulp.task('default', listOfProcesses);
 }
 
-gulp.task('debug', listOfProcesses);
-gulp.task('default', listOfProcesses);//habits die hard

@@ -1,5 +1,5 @@
 <md-tabs layout-fill md-selected="defaultTab" md-autoselect="false" md-stretch-tabs="always">
-    <md-tab ng-show="subscription && !chosenPackage" label="Active Subscription">
+    <md-tab ng-show="subscription != null && !chosenPackage" label="Active Subscription">
         <md-content layout="column">
             <h1 class="md-display-1">Active Subscription</h1>
             <md-content class="md-block md-padding" ng-if="subscription" flex layout="row">

@@ -7,9 +7,6 @@ define(['./module'], function (services) {
 
             return {
                 getReplies: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters.parent_post)
-                        return cbFail(400, 'Missing parent reply or post information.');
-
                     return Request.get('portal/replies' + Request.ArrayToURL(parameters),
                          function (message) {
                             return cbSuccess(message);

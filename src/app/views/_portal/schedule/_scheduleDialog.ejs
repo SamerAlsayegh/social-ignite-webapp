@@ -44,7 +44,7 @@
                               md-select-on-focus></textarea>
                 </md-input-container>
                 <md-button layout="column" ng-click="attachImage()"
-                           class="md-secondary" layout-align="space-around">
+                           class="md-secondary layout-padding" layout-align="space-around">
                     <i class="zmdi zmdi-attachment-alt zmdi-hc-3x"></i>
                     Attach Images
                 </md-button>
@@ -93,7 +93,8 @@
         <div class="md-padding" ng-if="scheduleShowing">
             <div
                     moment-picker="currentSocialPost.dateString"
-                    selectable="validateTime(date, type)"
+                    min-date="currentTime"
+                    start-date="currentTime"
                     ng-model="currentSocialPost.date"
                     format="LT"
                     min-view="month"

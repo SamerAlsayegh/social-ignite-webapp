@@ -1,7 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Auth', ['Request', '$cookies', '$state', '$rootScope',
-        function (Request, $cookies, $state, $rootScope) {
+    services.factory('Auth', ['Request', '$cookies', '$rootScope',
+        function (Request, $cookies, $rootScope) {
             return {
                 login: function (parameters, cbSuccess, cbFail) {
                     if (!parameters)
@@ -58,7 +58,6 @@ define(['./module'], function (services) {
                         return;
                     return Request.post('auth/verify_email', parameters,
                         function (message) {
-                            $state.go('public.home', {}, {reload: 'public.home'});//If the session is invalid, take to login page.
                             return cbSuccess(message);
                         }, function (status, message, messageCode) {
                             return cbFail(status, message, messageCode);

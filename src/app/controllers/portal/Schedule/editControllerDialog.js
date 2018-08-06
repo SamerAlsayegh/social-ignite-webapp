@@ -68,8 +68,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
             $scope.validateTime = function (date, type) {
                 // disable all Sundays in the Month View
-                console.log(date._d, $scope.currentTime);
-                return !(date._d < $scope.currentTime);
+                return !(date < $scope.currentTime);
             };
 
             $scope.choosePage = function (page_id) {

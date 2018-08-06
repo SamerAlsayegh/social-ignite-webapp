@@ -1,0 +1,24 @@
+<md-dialog aria-label="Social Stack Editing" md-theme="{{theme}}" flex="70">
+
+<md-card>
+    <div layout="row">
+        <div class="md-toolbar-tools">
+            <md-button
+                    disabled
+                    class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
+                    aria-label="platform name">
+                <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
+            </md-button>
+            <span ng-bind="'Replying as ' + socialPage.name" flex></span>
+        </div>
+    </div>
+    <md-content>
+        <md-list class="md-dense">
+            <md-list-item class="md-2-line"
+                          ng-repeat="socialComment in socialComments"
+                          ng-include="'commentChildrenTree'">
+            </md-list-item>
+        </md-list>
+    </md-content>
+</md-card>
+</md-dialog>

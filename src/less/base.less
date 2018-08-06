@@ -577,6 +577,21 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 .page-select:focus {
   outline:none
 }
+.page_card {
+  cursor: pointer;
+  margin: 3px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  width: 100px;
+  height: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-select:focus {
+  outline:none
+}
 
 md-icon:focus {
   outline:none
@@ -590,7 +605,9 @@ md-icon:focus {
   margin-left: -30px;
   text-decoration: underline;
 }
-
+.underline-link {
+  text-decoration: underline;
+}
 .resource-card {
   height: 100%;
   width: 100%;
@@ -898,3 +915,13 @@ HotFix for Icon Sizing
     }
   }
 }
+
+
+.statistics-card-container {
+  padding: 10px;
+  md-whiteframe {
+    min-height: 300px;
+
+  }
+}
+

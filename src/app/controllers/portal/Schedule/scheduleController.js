@@ -1,9 +1,8 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('scheduleController', ['$rootScope', '$scope', '$state', 'SocialPosts', '$q', 'moment', 'Alert', '$mdDialog', "$stateParams",
         function ($rootScope, $scope, $state, SocialPosts, $q, moment, Alert, $mdDialog, $stateParams) {
 
-            $scope.platforms = platforms;
             $scope.scheduledPosts = [];
             $scope.curDate = new Date();
             $scope.defaultTab = 0;
@@ -131,8 +130,9 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.platformLookup = function (platformId) {
                 return $scope.platforms[platformId].id;
             };
+            $scope.startOfDay = $scope.curDate.setHours(0, 0, 0, 0);
             $scope.dayClick = function(date) {
-                if (date > $scope.curDate) {
+                if (date >= $scope.startOfDay) {
                     $mdDialog.show({
                         locals: {'postId': null, 'postInformation': {date: date}, 'theme': $scope.theme, 'socket': $scope.socket},
                         controller: 'editControllerDialog',

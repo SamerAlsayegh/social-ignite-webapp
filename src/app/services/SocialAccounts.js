@@ -2,10 +2,6 @@ define(['./module'], function (services) {
     'use strict';
     services.factory('SocialAccounts', ['Request',
         function (Request) {
-            var cacheTime = 1000 * 60 * 5;
-            var dataCache = {};// Only fetch data if older than 5 minutes - prevents
-
-
             return {
                 updateSocialAccount: function (parameters, cbSuccess, cbFail) {
                     if (!parameters || !parameters.hasOwnProperty('pages') || !parameters.hasOwnProperty("cache_id"))
@@ -13,7 +9,6 @@ define(['./module'], function (services) {
 
                     return Request.post('portal/social_pages/' + parameters.cache_id + '/main_account',
                         parameters, function (message, data) {
-                            delete dataCache['getSocialAccounts'];
                             return cbSuccess(data.pages);
                         }, function (status, message) {
                             return cbFail(status, message);
@@ -32,7 +27,6 @@ define(['./module'], function (services) {
                     if (!page_id)
                         return cbFail(400, "Invalid parameters.");
                     return Request.post('portal/social_pages/' + page_id + '/delete', {}, function (message) {
-                            delete dataCache['getSocialAccounts'];
                             return cbSuccess(message);
                         }, function (status, message) {
                             return cbFail(status, message);
@@ -59,19 +53,11 @@ define(['./module'], function (services) {
                         });
                 },
                 getSocialAccounts: function (_cursor, filteredPlatforms, cbSuccess, cbFail) {
-                    var funcName = "getSocialAccounts" + _cursor + filteredPlatforms;
-
-                    if (dataCache.hasOwnProperty(funcName) && dataCache[funcName].time > (new Date().getTime() - (cacheTime)))
-                        return cbSuccess(dataCache[funcName].data);
                     return Request.get('portal/social_pages', {
                         platforms: filteredPlatforms,
                         cursor: _cursor
                         },
                         function (message) {
-                            dataCache[funcName] = {
-                                data: message.data,
-                                time: new Date().getTime()
-                            };
                             return cbSuccess(message.data);
                         }, function (status, message) {
                             return cbFail(status, message);

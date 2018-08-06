@@ -45,17 +45,19 @@ define(['../../module'], function (controllers) {
             $scope.paginateTransactions = function(page, limit) {
                 $scope.loadTransactions($scope.transactionModel.sort, page, limit);
             };
-            $scope.loadTransactions();
 
 
+            console.log("Subscription1: ",$scope.subscription)
 
 
             Billing.getSubscription(function (subscriptionData) {
                 $scope.subscription = subscriptionData.data;
+                console.log("Subscription: ",$scope.subscription)
             }, function (status, message) {
                 Alert.error(message)
             });
 
+            $scope.loadTransactions();
 
             $scope.loading = false;
 

@@ -26,7 +26,7 @@ define(['../../module'], function (controllers) {
             SocialPosts.getDetails(postId, function (data) {
                 SocialPosts.getSocialPosts(data._id, null, function (message) {
                     $scope.socialPosts = message.social_posts;
-                    if ($scope.socialPosts.length > 0){
+                    if ($scope.socialPosts.length > 0) {
                         $scope.activeSocialPost = $scope.socialPosts[0];
                         switch ($scope.openStat) {
                             case 'likes':
@@ -45,199 +45,82 @@ define(['../../module'], function (controllers) {
                 Alert.error(message);
             });
 
-            $scope.loadVisitors = function(){
-                $scope.chartElementVisitors = document.getElementById("visitorsChart").getContext('2d');
-                $scope.chartConfigVisitors = {
-                    type: 'line',
-                    data: {
-                        datasets: [{
-                            label: 'Visitors (Total)',
-                            data: [{x:0, y: 0}],
-                        },
-                            {
-                                label: 'Visitors (Unique)',
-                                data: [{x:0, y: 0}],
-                            }]
-                    },
-                    options: {
-                        responsive: false,
-                        maintainAspectRatio: true,
-                        title: {
-                            display: true,
-                            text: 'Post Statistics'
-                        },
-                        scales: {
-                            xAxes: [{
-                                type: 'time',
-                                display: true,
-                                scaleLabel: {
-                                    display: false,
-                                    labelString: 'Date'
-                                },
-                                ticks: {
-                                    major: {
-                                        fontStyle: 'bold',
-                                        fontColor: '#FF0000'
-                                    }
-                                },
-                            }],
-                            yAxes: [{
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'value'
-                                }
-                            }]
-                        }
-                    }
-                };
-                $scope.chartObjectVisitors = new Chart($scope.chartElementVisitors, $scope.chartConfigVisitors);
+            $scope.loadVisitors = function () {
+                if (!$scope.chartObjectVisitors) {
+                    $scope.chartElementVisitors = document.getElementById("visitorsChart").getContext('2d');
+                    $scope.chartObjectVisitors = new Chart($scope.chartElementVisitors, Statistics.getStatisticsConfig("Post Statistics", "Time", "Value"));
+                }
+
                 Statistics.getPostStatistics($scope.activeSocialPost._id, ["views.total"], function (data) {
                     var fixedDataTotal = data.data.set;
-
-                    // Statistics.getPostStatistics(socialPost._id, ["views.unique"], function (data) {
-                    //     console.log(data);
-                    //     var fixedDataUnique = data.data.set;
-
                     $scope.chartObjectVisitors.data.datasets = [];
 
                     $scope.chartObjectVisitors.data.datasets = [
                         {
                             label: 'Visitors (Total)',
+                            borderColor: "rgba(63,169,245, 0.7)",
+                            backgroundColor: "rgba(63,169,245, 0.5)",
                             fill: true,
+                            datalabels: {
+                                display: false,
+                            },
                             lineTension: 0.3,
                             data: fixedDataTotal,
                         },
                         // {
-                        //     label: 'Visitors (Unique)',
+                        //     label: 'Trend-line',
+                        //     borderColor: "rgba(0,0,0, 0.4)",
+                        //     backgroundColor: "rgba(0,0,0, 0.3)",
                         //     fill: false,
-                        //     data: fixedDataUnique,
+                        //     datalabels: {
+                        //         display: false,
+                        //     },
+                        //     data: [
+                        //         data.data.other.bestFit.start,
+                        //         data.data.other.bestFit.end
+                        //     ],
                         // },
-                        {
-                            label: 'Trend-line',
-                            borderColor: "#000",
-                            borderWidth: 1,
-                            fill: false,
-                            data: [
-                                data.data.other.bestFit.start,
-                                data.data.other.bestFit.end
-                            ],
-                        },
                     ];
                     $scope.chartObjectVisitors.update();
-                    // }, function (status, message) {
-                    //     Alert.error("Failed to load statistics");
-                    // })
-                }, function (status, message) {
-                    Alert.error("Failed to load statistics");
+                }, function (status, message, rawMessage) {
+                    console.log(rawMessage, $scope.errorCodes.Disabled.id, rawMessage != $scope.errorCodes.Disabled.id)
+                    if (rawMessage != $scope.errorCodes.Disabled.id) {
+                        Alert.error("Failed to load statistics");
+                    } else {
+                        $scope.viewsUnsupported = true;
+                    }
                 });
             };
 
-            $scope.loadLikes = function(){
-                $scope.chartElementLikes = document.getElementById("likesChart").getContext('2d');
-                $scope.chartConfigLikes = {
-                    type: 'line',
-                    data: {
-                        datasets: [{
-                            label: 'Likes (Total)',
-                            data: [{x:0, y: 0}],
-                        },
-                            {
-                                label: 'Likes (New)',
-                                data: [{x:0, y: 0}],
-                            }]
-                    },
-                    options: {
-                        responsive: false,
-                        maintainAspectRatio: true,
-                        title: {
-                            display: true,
-                            text: 'Post Statistics'
-                        },
-                        scales: {
-                            xAxes: [{
-                                type: 'time',
-                                display: true,
-                                scaleLabel: {
-                                    display: false,
-                                    labelString: 'Date'
-                                },
-                                ticks: {
-                                    major: {
-                                        fontStyle: 'bold',
-                                        fontColor: '#FF0000'
-                                    }
-                                },
-                            }],
-                            yAxes: [{
-                                display: true,
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'value'
-                                }
-                            }]
-                        }
-                    }
-                };
-                $scope.chartObjectLikes = new Chart($scope.chartElementLikes, $scope.chartConfigLikes);
+            $scope.loadLikes = function () {
+
+                if (!$scope.chartObjectLikes) {
+                    $scope.chartElementLikes = document.getElementById("likesChart").getContext('2d');
+                    $scope.chartObjectLikes = new Chart($scope.chartElementLikes, Statistics.getStatisticsConfig("Post Statistics", "Time", "Value"));
+                }
+
                 Statistics.getPostStatistics($scope.activeSocialPost._id, ["likes.total"], function (data) {
                     var fixedDataTotal = data.data.set;
-
-                    // Statistics.getPostStatistics(socialPost._id, ["likes.new"], function (data) {
-                    //     console.log(data);
-                    //     var fixedDataUnique = data.data.set;
 
                     $scope.chartObjectLikes.data.datasets = [
                         {
                             label: 'Likes (Total)',
+                            borderColor: "rgba(63,169,245, 0.7)",
+                            backgroundColor: "rgba(63,169,245, 0.5)",
                             fill: true,
                             lineTension: 0.3,
                             data: fixedDataTotal,
-                        },
-                        // {
-                        //     label: 'Likes (New)',
-                        //     fill: false,
-                        //     data: fixedDataUnique,
-                        // },
-                        {
-                            label: 'Trend-line',
-                            borderColor: "#000",
-                            borderWidth: 1,
-                            fill: false,
-                            data: [
-                                data.data.other.bestFit.start,
-                                data.data.other.bestFit.end
-                            ],
-                        },
+
+                        }
                     ];
 
-
-                    // $scope.chartObjectLikes.options.annotation = {
-                    //     annotations: [{
-                    //         type: 'line',
-                    //         mode: 'horizontal',
-                    //         scaleID: 'y-axis-0',
-                    //         value: ,
-                    //         endValue: data.data.other.bestFit.end.y,
-                    //         borderColor: 'rgb(75, 192, 192)',
-                    //         borderWidth: 4,
-                    //         label: {
-                    //             enabled: true,
-                    //             content: 'Trend',
-                    //             yAdjust: 0,
-                    //         }
-                    //     }]
-                    // };
-
-
-
-
                     $scope.chartObjectLikes.update();
-                    // }, function (status, message) {
-                    //     Alert.error("Failed to load statistics");
-                    // })
-                }, function (status, message) {
-                    Alert.error("Failed to load statistics");
+                }, function (status, message, rawMessage) {
+                    if (rawMessage != $scope.errorCodes.Disabled) {
+                        Alert.error("Failed to load statistics");
+                    } else {
+                        $scope.likesUnsupported = true;
+                    }
                 });
             };
 

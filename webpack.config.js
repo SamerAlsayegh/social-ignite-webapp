@@ -1,8 +1,8 @@
 const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 
 module.exports = {
@@ -10,47 +10,38 @@ module.exports = {
     entry: {
         app: ['babel-polyfill', './bootstrap.js'],
     },
+    mode: 'production',
     output: {
         path: __dirname + "/dist/",
         filename: "[name].js"
     },
     plugins: [
-        new HardSourceWebpackPlugin(),
+        // new HardSourceWebpackPlugin(),
         new webpack.DefinePlugin({
-            "__API__": JSON.stringify("https://api.socialignite.media"),
+            "__API__": JSON.stringify("https://portal.socialignite.media"),
             "__ASSETS__": JSON.stringify("https://assets.socialignite.media"),
-            "__SOCKETS__": JSON.stringify("https://api.socialignite.media"),
+            "__SOCKETS__": JSON.stringify("https://portal.socialignite.media"),
         }),
-        new UglifyJsPlugin({
-            parallel: 4,
-            sourceMap: true
-        })
+        // new UglifyJsPlugin({
+        //     parallel: 4,
+        //     sourceMap: true
+        // })
     ],
+    optimization: {
+        namedModules: true, // NamedModulesPlugin()
+        splitChunks: { // CommonsChunkPlugin()
+            name: 'vendor',
+            minChunks: 5,
+            chunks: 'all'
+        },
+        noEmitOnErrors: true, // NoEmitOnErrorsPlugin
+        concatenateModules: true //ModuleConcatenationPlugin
+    },
     resolve: {
         extensions: [".json", ".js"],
         modules: [
             "node_modules",
             "src/app"
-        ]
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: "babel-loader",
-                }
-            },
-            {test: require.resolve("moment"), loader: "expose-loader?moment"},
-
-            {
-                use: [{
-                    loader: "expose-loader",
-                    options: "wait"
-                }]
-            },
-
         ]
     },
 };

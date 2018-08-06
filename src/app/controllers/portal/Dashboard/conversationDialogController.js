@@ -1,13 +1,15 @@
-define(['../../module'], function (controllers) {
+define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
     'use strict';
-    return controllers.controller('dashboardController',
-        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$mdDialog',
-            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav, $mdDialog) {
-                $scope.comments = {};
-                $scope.toggleMenu = function () {
-                    $mdSidenav('left').toggle()
-                };
+    return controllers.controller('conversationDialogController',
+        ['$rootScope', '$scope', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdDialog', 'socialComment', 'socialPage', 'permissions', 'theme',
+            function ($rootScope, $scope, Alert, Action, Dashboard, PostComment, $mdDialog, socialComment, socialPage, permissions, theme) {
+                $scope.socialComments = [socialComment];
+                $scope.socialPage = socialPage;
+                $scope.permissions = permissions;
+                $scope.theme = theme;
 
+                console.log(socialPage, $scope.permissions);
+                $scope.platforms = platforms;
                 $scope.postComment = function (reply) {
                     if (!reply.comment || !reply._id) return;
                     Action.postComment({reply_id: reply._id, reply: reply.comment},
@@ -20,10 +22,12 @@ define(['../../module'], function (controllers) {
                             Alert.error(message, 600);
                         });
                 };
+
+
                 $scope.loadReplies = function (reply, parent_post, parent_reply, cursor) {
                     if (reply.remaining == 0) return;
                     reply.hide = false;
-                    var data = {parent_post: parent_post};
+                    var data = {};
                     if (parent_reply) data.parent_reply = parent_reply;
                     if (cursor) data.cursor = cursor;
                     PostComment.getReplies(data, function (data) {
@@ -61,37 +65,6 @@ define(['../../module'], function (controllers) {
                         Alert.error(message, 600);
                     });
                 };
-
-                $scope.replyConversation = function (socialComment) {
-                    $mdDialog.show({
-                        locals:{ 'socialComment': socialComment, 'socialPage': socialComment.page_id, 'permissions': $scope.permissions, 'theme': $scope.theme},
-                        controller: 'conversationDialogController',
-                        templateUrl: './_portal/dashboard/_conversation.html',
-                        parent: angular.element(document.body),
-                        clickOutsideToClose: true,
-                        fullscreen: true // Only for -xs, -sm breakpoints.
-                    })
-                        .then(function (message) {
-                            console.log(message);
-
-                        }, function () {
-
-
-                        });
-                };
-
-                Dashboard.getDashboardPosts(null, function (data) {
-                    $scope.socialPostMainList = data;
-                }, function (status, message) {
-                    Alert.error(message, 600);
-                });
-                Dashboard.getPagesWithStandAlones(null, function (data) {
-                    $scope.socialReplies = data.replies;
-                }, function (status, message) {
-                    Alert.error(message, 600);
-                });
-
-
             }]);
 });
 

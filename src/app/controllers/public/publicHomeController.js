@@ -130,7 +130,7 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
                     Auth.requestEmailResend($scope.email, function (data) {
                         Alert.success("An email should be on the way.");
                     }, function (status, message) {
-                        Alert.error("Failed to request verification email.");
+                        Alert.error(message);
                     });
                 }
 
