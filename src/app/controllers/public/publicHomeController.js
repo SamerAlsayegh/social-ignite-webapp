@@ -59,7 +59,7 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
                         Alert.error("Your email or password field is missing.");
                         return;
                     } else if (!register.toc.$modelValue) {
-                        Alert.error("To continue, we gotta make you won't set our servers on fire...");
+                        Alert.error("Please tick the Terms and Conditions box so you won't set our servers on fire");
                         return;
                     }
 

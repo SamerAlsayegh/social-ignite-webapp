@@ -4,6 +4,7 @@ define([
     './portal/Schedule/scheduleController',
     './portal/Schedule/editControllerDialog',
     './portal/Statistics/postStatisticsController',
+    './portal/Statistics/postStatisticsDetailController',
     './portal/Billing/billingController',
     './portal/Support/supportController',
     './portal/Support/supportSubController',

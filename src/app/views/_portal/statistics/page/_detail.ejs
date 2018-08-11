@@ -5,34 +5,33 @@
 <small>Click on the labels to get further details.</small>
 
 <div layout-padding layout="row" flex="noshrink" layout-align="center center">
-    <canvas id="fansChart" flex="100" flex-gt-lg="80" layout="column"></canvas>
+    <canvas id="fansChart" flex="100" flex-gt-lg="80" style="height: 500px" layout="column"></canvas>
 </div>
 
 
-<div layout="row" layout-wrap flex layout-align="center start" >
-    <div class="statistics-card-container" flex="33">
-        <md-whiteframe class="md-whiteframe-2dp" layout="column" flex="49" flex-gt-md="24">
+<div layout="row" layout-wrap layout-align="center start" >
+    <div class="statistics-card-container" flex="100" flex-gt-md="33" ng-if="activePage.platform != platforms.instagram.id">
+        <md-whiteframe class="md-whiteframe-2dp" layout="column">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
                     <span flex>Scheduled Posts</span>
-                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding"></i>
+                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding" ng-click="editPost()"></i>
                 </div>
             </md-toolbar>
 
             <md-content layout-padding class="text-center" ng-if="scheduledPosts.length == 0 || scheduledPosts == null">
                 <h3>You currently have no scheduled posts.</h3>
-                <h3>Create One</h3>
+                <md-button class="md-primary md-raised md-padding" ng-click="editPost()">Create a post</md-button>
             </md-content>
             <md-list layout-align="stretch">
-                <md-list-item class="md-2-line" layout="row" layout-align="center center" ng-click="null" ng-repeat="post in scheduledPosts">
-                    <md-button
-                             disabled aria-label="image">
+                <md-list-item class="md-2-line" layout="row" layout-align="center center" ng-repeat="post in scheduledPosts"  ng-click="editPost(post._id)">
+                    <md-button disabled aria-label="image">
                         <i class="zmdi zmdi-image zmdi-hc-lg" ng-if="post.tags.indexOf('Image')"></i>
                     </md-button>
 
                     <span class="md-list-item-text" layout-align="stretch" layout="column">
                         <h3 layout="row">
-                                Scheduled<span>&nbsp;</span><span am-time-ago="post.post_time"></span>
+                                Scheduled {{post.post_time | amTimeAgo}} at {{post.post_time | amDateFormat:'LT'}}
                         </h3>
                         <span layout="row">
                             <p ng-bind="post.content"></p>
@@ -42,9 +41,8 @@
             </md-list>
         </md-whiteframe>
     </div>
-    <div class="statistics-card-container" flex="33">
-
-        <md-whiteframe class="md-whiteframe-2dp" c layout="column" layout="column" flex="49" flex-gt-md="24">
+    <div class="statistics-card-container" flex="100" flex-gt-md="33">
+        <md-whiteframe class="md-whiteframe-2dp" c layout="column" layout="column">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
                     <span>Fans Analysis</span>
@@ -61,9 +59,9 @@
     </div>
 
 
-    <div class="statistics-card-container" flex="33">
+    <div class="statistics-card-container" flex="100" flex-gt-md="33">
 
-        <md-whiteframe class="md-whiteframe-2dp" layout="column" layout="column" flex="49" flex-gt-md="24">
+        <md-whiteframe class="md-whiteframe-2dp" layout="column" layout="column">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
                     <span>Recommendations</span>
@@ -75,9 +73,9 @@
             </md-content>
         </md-whiteframe>
     </div>
-    <div class="statistics-card-container" flex="33">
+    <div class="statistics-card-container" flex="100" flex-gt-md="33">
 
-        <md-whiteframe class="md-whiteframe-2dp" layout="column" layout="column" flex="49" flex-gt-md="24">
+        <md-whiteframe class="md-whiteframe-2dp" layout="column">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
                     <span>Content Analysis</span>
@@ -85,24 +83,26 @@
             </md-toolbar>
 
             <md-content layout-padding class="text-center">
-                <p>Analysis of what topics reach more audience.</p>
-
-                <h3>Upgrade now</h3>
+                <md-content layout-padding class="text-center">
+                    <h3>Analysis of what topics reach more audience.</h3>
+                    <md-button class="md-primary md-raised md-padding" href="/billing">Upgrade now</md-button>
+                </md-content>
             </md-content>
         </md-whiteframe>
     </div>
-    <div class="statistics-card-container" flex="33">
+    <div class="statistics-card-container" flex="100" flex-gt-md="33">
 
-        <md-whiteframe class="md-whiteframe-2dp" layout="column" layout="column" flex="49" flex-gt-md="24">
+        <md-whiteframe class="md-whiteframe-2dp" layout="column">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
-                    <span>Recommended Schedule</span>
+                    <span flex>Recommended Schedule</span>
+                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding" ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()"></i>
                 </div>
             </md-toolbar>
 
             <md-content layout-padding class="text-center">
                 <p>Please post more often to gain insights.</p>
-                <h3>Create One</h3>
+                <md-button class="md-primary md-raised md-padding" ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()">Create a post</md-button>
             </md-content>
         </md-whiteframe>
     </div>

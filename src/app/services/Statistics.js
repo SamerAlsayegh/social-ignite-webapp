@@ -8,11 +8,10 @@ define(['./module'], function (services) {
                     if (postId == null) {
                         return cbFail(400, "Missing postId");
                     }
-                    filter = filter || {};
 
-                    return Request.get('portal/statistic/post/' + postId + '?type=graph&filter=' + JSON.stringify(filter),
+                    return Request.get('portal/statistic/post/' + postId, {filter: filter},
                          function (message) {
-                            return cbSuccess(message);
+                            return cbSuccess(message.data);
                         }, function (status, message, rawMessage) {
                             return cbFail(status, message, rawMessage);
                         });
@@ -21,11 +20,10 @@ define(['./module'], function (services) {
                     if (pageId == null) {
                         return cbFail(400, "Missing pageId");
                     }
-                    filter = filter || {};
 
-                    return Request.get('portal/statistic/page/' + pageId + '?filter=' + JSON.stringify(filter),
+                    return Request.get('portal/statistic/page/' + pageId ,
                         function (message) {
-                            return cbSuccess(message);
+                            return cbSuccess(message.data);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });
@@ -36,7 +34,7 @@ define(['./module'], function (services) {
                     }
                     return Request.get('portal/statistic/general/' + pageId,
                         function (message) {
-                            return cbSuccess(message);
+                            return cbSuccess(message.data);
                         }, function (status, message) {
                             return cbFail(status, message);
                         });
@@ -51,7 +49,7 @@ define(['./module'], function (services) {
                         },
                         options: {
                             responsive: true,
-                            maintainAspectRatio: true,
+                            maintainAspectRatio: false,
                             title: {
                                 display: true,
                                 text: graphTitle
@@ -65,10 +63,10 @@ define(['./module'], function (services) {
                                         labelString: xLabelTitle
                                     },
                                     time: {
-                                        tooltipFormat:'h:mm A', // <- HERE
+                                        tooltipFormat:'h:mm A on MMM DD', // <- HERE
                                         format: "MMM DD",
-                                        // unit: 'day',
-                                        // unitStepSize: 1,
+                                        unit: 'day',
+                                        unitStepSize: 1,
                                     },
                                 }],
                                 yAxes: [{

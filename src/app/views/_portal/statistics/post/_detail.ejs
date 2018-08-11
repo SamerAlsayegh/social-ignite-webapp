@@ -1,0 +1,34 @@
+<div>
+    <md-button ng-click="return()" class="md-primary page-link"> < Back to list</md-button>
+    <md-tabs flex md-autoselect="true" md-stretch-tabs="always" md-dynamic-height="true">
+
+
+        <md-tab ng-disabled="supportedStatistics.indexOf('likes.total') == -1" label="Likes" md-on-select="openStat = 'likes';">
+            <md-content class="md-padding" layout="column" layout-fill>
+                <div layout="row">
+                    <h1 class="md-display-1" flex>Likes</h1>
+                    <md-chips>
+                        <md-chip>Beta</md-chip>
+                    </md-chips>
+                </div>
+                <div layout-padding layout="row" flex="noshrink" layout-align="center center">
+                    <canvas id="likesChart" flex="100" flex-gt-lg="60" style="height: 500px" layout="column"></canvas>
+                </div>
+            </md-content>
+        </md-tab>
+        <md-tab ng-disabled="supportedStatistics.indexOf('views.total') == -1" label="Unique Visitors" md-on-select="openStat = 'visitors';">
+            <md-content class="md-padding" layout="column" layout-fill>
+                <div layout="row">
+                    <h1 class="md-display-1" flex>Unique Visitors</h1>
+                    <md-chips>
+                        <md-chip>Beta</md-chip>
+                    </md-chips>
+                </div>
+                <div layout-padding layout="row" flex="noshrink" layout-align="center center">
+                    <canvas id="visitorsChart" flex="100" flex-gt-lg="60" style="height: 500px" layout="column"></canvas>
+                </div>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+
+</div>

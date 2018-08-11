@@ -374,9 +374,10 @@ angular.module("materialCalendar").directive("calendarMd", ["$compile", "$parse"
             $scope.dataService = CalendarData;
             $scope.loadedMore = [];
 
-            $scope.loadMore = function (dayKey) {
+            $scope.loadMore = function (dayKey, $event) {
                 if ($scope.loadedMore.indexOf(dayKey) == -1)
                     $scope.loadedMore.push(dayKey);
+                $event.stopPropagation();
             };
 
             // Set the html contents of each date.

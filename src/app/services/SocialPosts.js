@@ -17,6 +17,17 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                getSocialPost: function (social_post_main, social_post, cbSuccess, cbFail) {
+                    if (social_post_main == null || social_post == null)
+                        return cbFail(400, "Invalid parameters.");
+
+                    return Request.get('portal/social_posts/' + social_post_main + "/" + social_post,
+                        function (message) {
+                            return cbSuccess(message.data);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
                 getDetails: function (postId, cbSuccess, cbFail) {
                     if (!postId || parseInt(postId) == null)
                         return cbFail(400, message);

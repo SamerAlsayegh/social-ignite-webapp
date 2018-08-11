@@ -25,7 +25,7 @@
             <md-input-container class="md-block">
                 <md-input-container class="md-block">
                     <md-checkbox class="md-primary" ng-model="toc" required name="toc">
-                        I Agree to
+                        I agree to
                         <a class="md-primary" class="md-caption" href="https://socialignite.media/terms-and-conditions/">Terms & Conditions</a>
                     </md-checkbox>
                     <div ng-messages="register.toc.$error">
@@ -33,8 +33,8 @@
                     </div>
                 </md-input-container>
                 <md-input-container class="md-block">
-                    <md-checkbox class="md-primary" ng-model="mailing_list" name="mailing_list">
-                        I am interested in updates by SocialIgnite - We won't spam :)
+                    <md-checkbox class="md-primary" ng-model="mailing_list" ng-init="mailing_list = true" name="mailing_list">
+                        Yes, I want social media tips straight to my mailbox
                     </md-checkbox>
                 </md-input-container>
             </md-input-container>

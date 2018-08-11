@@ -4,8 +4,8 @@
   "description": "A social media management panel for SocialIgnite built with AngularJS. Allows users to schedule, moderate and monitor their social media pages on Facebook, Twitter, LinkedIn and Instagram.",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "NODE_ENV=production gulp default",
-    "start": "NODE_ENV=development gulp default",
+    "test": "gulp default",
+    "start": "NODE_ENV=production gulp default",
     "convert": "node ./enums/converter.js"
   },
   "dependencies": {
@@ -21,11 +21,12 @@
     "angular-messages": "^1.7.0",
     "angular-moment": "^1.2.0",
     "angular-moment-picker": "^0.10.2",
-    "angular-sanitize": "^1.7.2",
+    "angular-sanitize": "^1.7.3",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
+    "chart.heatmap.js": "0.0.1-alpha",
     "chart.js": "^2.7.2",
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-datalabels": "^0.3.0",

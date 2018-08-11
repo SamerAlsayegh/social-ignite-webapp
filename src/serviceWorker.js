@@ -4,7 +4,7 @@ var CACHE_VERSION = 0;
 var CACHE_NAME = 'SocialIgnite-Web' + "-" + CACHE_VERSION;
 
 var urlsToCache = [
-    '/',
+    // '/',
     '/app.js',
     '/0.js',
     '/css/main.css',
@@ -39,24 +39,24 @@ self.addEventListener('activate', function(event) {
         })
     );
 
-    console.log("Requesting notification access", Notification.permission)
-    if (Notification.permission != "denied") {
-        Notification.requestPermission(function (test) {
-            console.log(test)
-        }).then(function(result) {
-            if (result === 'denied') {
-                console.log('Permission wasn\'t granted. Allow a retry.');
-                return;
-            }
-            if (result === 'default') {
-                console.log('The permission request was dismissed.');
-                return;
-            }
-            // Do something with the granted permission.
-        });
-    } else {
-        var notification = new Notification("Welcome to notifications!");
-    }
+    // console.log("Requesting notification access", Notification.permission)
+    // if (Notification.permission != "denied") {
+    //     Notification.requestPermission(function (test) {
+    //         console.log(test)
+    //     }).then(function(result) {
+    //         if (result === 'denied') {
+    //             console.log('Permission wasn\'t granted. Allow a retry.');
+    //             return;
+    //         }
+    //         if (result === 'default') {
+    //             console.log('The permission request was dismissed.');
+    //             return;
+    //         }
+    //         // Do something with the granted permission.
+    //     });
+    // } else {
+    //     var notification = new Notification("Welcome to notifications!");
+    // }
 
 });
 

@@ -1,0 +1,16 @@
+<md-button ng-click="return()" class="md-primary page-link"> < Back to schedule</md-button>
+
+<h2>Choose a page to view statistics for:</h2>
+<div layout="row" layout-padding layout-wrap layout-align="center center">
+    <a
+            ng-repeat="socialPage in socialPages" href="/statistics/post/{{postId}}/{{socialPage.social_post}}"
+            class="md-whiteframe-1dp ui-social ui-{{platforms[socialPage.platform].id}} page_card"
+            flex-sm="100" flex-xs="100" flex-gt-sm="20" flex-gt-md="20" layout layout-align="space-around center">
+        <!--<md-tooltip md-direction="down"></md-tooltip>-->
+        <div class="text-center" layout="column">
+            <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
+
+            <small ng-bind="socialPage.name"></small>
+        </div>
+    </a>
+</div>

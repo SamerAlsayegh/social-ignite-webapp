@@ -10,8 +10,8 @@ define(['../../module'], function (controllers) {
             $scope.addStack = function () {
                 $scope.$emit('addStack', {});
             };
-
-            $scope.addSocialAccount = function ($event, platformId) {
+            $scope.addSocialAccount = function (platformId) {
+                console.log($scope.platforms, platformId);
                 if (!$scope.platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
                 platformId = parseInt(platformId);

@@ -49,12 +49,12 @@
                     <!--</div>-->
                     <div layout="column" layout-align="stretch">
                         <md-button ng-if="dataService.data[dayKey(day)].length == 0"
-                                   ng-click="loadMore(dayKey(day))" md-no-ink class="md-primary">
+                                   ng-click="loadMore(dayKey(day), $event)" md-no-ink class="md-primary">
                             Schedule
                         </md-button>
                         <md-button
                                 ng-if="dataService.data[dayKey(day)].length > 3 && loadedMore.indexOf(dayKey(day)) == -1"
-                                ng-click="loadMore(dayKey(day))" md-no-ink class="md-primary">Load more...
+                                ng-click="loadMore(dayKey(day), $event)" md-no-ink class="md-primary">Load more...
                         </md-button>
                     </div>
 
@@ -121,7 +121,7 @@
                     <div layout="column" layout-align="stretch">
                         <md-button
                                 ng-if="dataService.data[dayKey(day)].length > 3 && loadedMore.indexOf(dayKey(day)) == -1"
-                                ng-click="loadMore(dayKey(day))" md-no-ink class="md-primary">Load more...
+                                ng-click="loadMore(dayKey(day), $event)" md-no-ink class="md-primary">Load more...
                         </md-button>
                     </div>
                 </div>

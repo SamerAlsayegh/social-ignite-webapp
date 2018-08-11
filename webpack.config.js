@@ -27,16 +27,6 @@ module.exports = {
         //     sourceMap: true
         // })
     ],
-    optimization: {
-        namedModules: true, // NamedModulesPlugin()
-        splitChunks: { // CommonsChunkPlugin()
-            name: 'vendor',
-            minChunks: 5,
-            chunks: 'all'
-        },
-        noEmitOnErrors: true, // NoEmitOnErrorsPlugin
-        concatenateModules: true //ModuleConcatenationPlugin
-    },
     resolve: {
         extensions: [".json", ".js"],
         modules: [

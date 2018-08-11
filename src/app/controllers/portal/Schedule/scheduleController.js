@@ -81,7 +81,7 @@ define(['../../module'], function (controllers) {
                 $mdDialog.show({
                     locals:{ 'postId': previousId, 'postInformation': null, 'theme': $scope.theme, 'socket': $scope.socket},
                     controller: 'editControllerDialog',
-                    templateUrl: './_portal/schedule/_scheduleDialog.html',
+                    templateUrl: __ASSETS__ + '/_portal/schedule/_scheduleDialog.html',
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
                     fullscreen: true // Only for -xs, -sm breakpoints.
@@ -123,7 +123,7 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.viewStatistics = function ($event, postId) {
-                $state.go('portal.schedule.statistics', {postId: postId});
+                $state.go('portal.statistics.post_list', {postId: postId});
             };
 
 
@@ -136,7 +136,7 @@ define(['../../module'], function (controllers) {
                     $mdDialog.show({
                         locals: {'postId': null, 'postInformation': {date: date}, 'theme': $scope.theme, 'socket': $scope.socket},
                         controller: 'editControllerDialog',
-                        templateUrl: './_portal/schedule/_scheduleDialog.html',
+                        templateUrl: __ASSETS__ + '/_portal/schedule/_scheduleDialog.html',
                         parent: angular.element(document.body),
                         clickOutsideToClose: true,
                         fullscreen: true // Only for -xs, -sm breakpoints.

@@ -127,14 +127,15 @@ gulp.task('webpack-dev-server', function () {
     });
 });
 var cors = function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://portal.socialignite.media');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', '*');
     next();
 };
 gulp.task('webserver', function() {
     gulp.src('dist')
         .pipe(webserver({
-            livereload: true,
+            livereload: false,
             host: '0.0.0.0',
             port: 8080,
             middleware: [

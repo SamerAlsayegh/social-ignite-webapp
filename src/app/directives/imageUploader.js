@@ -12,7 +12,7 @@ define(['./module'], function (directives) {
                 postInformation: "=",
                 control: "@",
             },
-            templateUrl: '/_portal/resources/_imageUploader.html',
+            templateUrl: __ASSETS__ + '/_portal/resources/_imageUploader.html',
             link: function($scope, element, attrs) {
                 $scope.uploading = false;
                 $scope.isOpen = false;

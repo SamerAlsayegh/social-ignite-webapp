@@ -10,7 +10,7 @@ define(['./module'], function (directives) {
                 canDismiss: "@"
             },
             transclude: true,
-            templateUrl: '/_portal/directives/_notificationCard.html',
+            templateUrl: __ASSETS__ + '/_portal/directives/_notificationCard.html',
             link: function ($scope, element, attrs) {
                 $scope.dismissed = false;
                 if ($scope.type.toLowerCase() == "error") {

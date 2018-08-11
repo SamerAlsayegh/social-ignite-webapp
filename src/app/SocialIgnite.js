@@ -10,6 +10,7 @@ import "angular-messages";
 import "angular-google-analytics";
 import "ng-file-upload";
 import "chart.js";
+import "chart.heatmap.js"
 import "../custom/angular-material-calendar";
 import "./directives/index";
 import "./controllers/index";
@@ -40,8 +41,8 @@ export default angular.module('SocialIgnite', [
     'ui.router',
     'angularMoment',
 ])
-    .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider',
-        function ($mdThemingProvider, $httpProvider, $mdGestureProvider, AnalyticsProvider, momentPickerProvider) {
+    .config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider',
+        function ($mdThemingProvider, $httpProvider, $mdGestureProvider, AnalyticsProvider, momentPickerProvider, $sceDelegateProvider) {
         var lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
             'contrastDefaultColor': 'light',
             'contrastDarkColors': ['50', '100',
@@ -64,6 +65,7 @@ export default angular.module('SocialIgnite', [
             .backgroundPalette('grey').dark();
         $mdGestureProvider.disableAll();
         $httpProvider.defaults.withCredentials = true;
+        $sceDelegateProvider.resourceUrlWhitelist(['https://assets.socialignite.media/**', 'self']);
     }])
     .run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location', '$window',
         function ($rootScope, $transitions, $state, $templateCache, $http, Auth,

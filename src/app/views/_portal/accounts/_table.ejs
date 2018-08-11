@@ -14,7 +14,7 @@
                     </md-fab-trigger>
 
                     <md-fab-actions class="tutorial_step_3">
-                        <md-button ng-click="addSocialAccount($event, platformDetails.id); nextStep();"
+                        <md-button ng-click="addSocialAccount(platformDetails.id); nextStep();"
                                    ng-repeat="platformDetails in socialPlatformDetails"
                                    class="md-fab md-raised md-mini ui-social ui-{{platformDetails.shortname}}"
                                    aria-label=platform>

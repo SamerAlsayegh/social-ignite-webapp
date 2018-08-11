@@ -1,7 +1,7 @@
 define(['../../module'], function (controllers) {
     'use strict';
-    return controllers.controller('pageStatisticsDetailController', ['$scope', '$stateParams', 'Alert', 'SocialAccounts', 'Statistics', 'SocialPosts',
-        function ($scope, $stateParams, Alert, SocialAccounts, Statistics, SocialPosts) {
+    return controllers.controller('pageStatisticsDetailController', ['$scope', '$stateParams', 'Alert', 'SocialAccounts', 'Statistics', 'SocialPosts', '$mdDialog',
+        function ($scope, $stateParams, Alert, SocialAccounts, Statistics, SocialPosts, $mdDialog) {
             $scope.socialPages = [];
             $scope.activePage = null;
 
@@ -23,11 +23,11 @@ define(['../../module'], function (controllers) {
                 Statistics.getPageGeneralStatistics(page._id, function (data) {
                     var fixedDataTotal = [];
                     var projectedTotal = [];
-                    $scope.currentTrend = data.data.trend;
-                    $scope.recent_change_7 = data.data.recent_change_7;
-                    $scope.recent_change_1 = data.data.recent_change_1;
+                    $scope.currentTrend = data.trend;
+                    $scope.recent_change_7 = data.recent_change_7;
+                    $scope.recent_change_1 = data.recent_change_1;
 
-                    angular.forEach(data.data.data, function (data) {
+                    angular.forEach(data.dataset, function (data) {
                         if (data.p) projectedTotal.push(data);
                         else fixedDataTotal.push(data);
                     });
@@ -95,6 +95,49 @@ define(['../../module'], function (controllers) {
                     Alert.error("Failed to load statistics");
                 });
             };
+
+            $scope.editPost = function (postId) {
+                $mdDialog.show({
+                    locals: {'postId': postId, 'postInformation': postId == null ? {pages: [$stateParams.pageId]} : null, 'theme': $scope.theme, 'socket': $scope.socket},
+                    controller: 'editControllerDialog',
+                    templateUrl: './_portal/schedule/_scheduleDialog.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                    .then(function (message) {
+                        if (message.updateId && message.updateContent && message.updateState == "ADD") {
+                            $scope.scheduledPosts.push(message.updateContent);
+                        } else if (message.updateContent  && message.updateState == "ADD") {
+                            for (let x in $scope.scheduledPosts){
+                                if ($scope.scheduledPosts[x]._id == postId){
+                                    $scope.scheduledPosts[x] = message.updateContent;
+                                    break;
+                                }
+                            }
+                            $scope.scheduledPosts.push(message.updateContent);
+
+                        } else if (message.updateId && message.updateState == "DELETE"){
+                            for (let x in $scope.scheduledPosts){
+                                if ($scope.scheduledPosts[x]._id == postId){
+                                    $scope.scheduledPosts.splice(x, 1);
+                                    break;
+                                }
+                            }
+                        } else if (message.updateId && message.updateContent && message.updateState == "DRAFT"){
+                            for (let x in $scope.scheduledPosts){
+                                if ($scope.scheduledPosts[x]._id == postId){
+                                    $scope.scheduledPosts[x] = message.updateContent;
+                                    break;
+                                }
+                            }
+                        }
+                    }, function () {
+
+                    });
+            };
+
+
             SocialAccounts.getSocialAccount($stateParams.pageId, function (data) {
                 $scope.loadVisitors(data);
             }, function (status, message) {

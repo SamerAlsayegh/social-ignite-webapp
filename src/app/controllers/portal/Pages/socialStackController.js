@@ -13,7 +13,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 $mdDialog.show({
                     locals:{stackId: stackId},
                     controller: 'socialStackDialogController',
-                    templateUrl: './_portal/accounts/_socialStacksDialog.html',
+                    templateUrl: __ASSETS__ + '/_portal/accounts/_socialStacksDialog.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,

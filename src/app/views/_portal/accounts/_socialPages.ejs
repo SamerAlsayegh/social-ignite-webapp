@@ -32,7 +32,7 @@
                             <md-button disabled aria-label="Updated time" class="md-icon-button">
                                 <md-tooltip md-direction="top">Last Updated</md-tooltip>
                                 <!--<i class="material-icons">refresh</i>-->
-                                 <i class="white zmdi zmdi-refresh-sync zmdi-hc-lg md-padding"></i>
+                                 <i class="zmdi zmdi-refresh-sync zmdi-hc-lg md-padding"></i>
 
                             </md-button>
                             <small am-time-ago="socialPage.statistic.updated_at"></small>
@@ -50,15 +50,15 @@
                         <span flex ng-if="socialPage.state == 'ERROR'" class="text-center">
                             <md-button disabled class="md-icon-button" aria-label="Posts">
                                 <md-tooltip md-direction="top">Page has an error...</md-tooltip>
-                                 <i class="white zmdi zmdi-refresh-sync zmdi-hc-2x"></i>
+                                 <i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>
                             </md-button>
                                 <br>
-                                Error: {{platformErrors[sociaPage.state_details.code]}}
+                                {{platformErrors[socialPage.state_details.code].detail}}
                         </span>
                         <span flex ng-if="socialPage.statistic.updated_at == null && socialPage.state != 'ERROR'" class="text-center">
                             <md-button disabled class="md-icon-button" aria-label="Posts">
                                 <md-tooltip md-direction="top">Queued for fetching...</md-tooltip>
-                                 <i class="white zmdi zmdi-refresh-sync zmdi-hc-2x"></i>
+                                 <i class="zmdi zmdi-refresh-sync zmdi-hc-2x"></i>
                             </md-button>
                                 <br>
                                 Page queued for updating...
@@ -106,7 +106,9 @@
                 </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row">
-                <md-button flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id)">Refresh
+                <md-button ng-if="socialPage.state_details.code != platformErrors.AUTH_FAIL.id && updatedRecently(socialPage.statistic.updated_at)" flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id)">Refresh
+                </md-button>
+                <md-button ng-if="socialPage.state_details.code == platformErrors.AUTH_FAIL.id" flex="30" class="md-primary" ng-click="addSocialAccount(socialPage.platform);">Re-authenticate
                 </md-button>
                 <span flex></span>
                 <md-button flex="30" class="md-warn" ng-click="removeSocialAccount(socialPage._id)">Deactivate

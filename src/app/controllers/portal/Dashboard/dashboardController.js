@@ -66,7 +66,7 @@ define(['../../module'], function (controllers) {
                     $mdDialog.show({
                         locals:{ 'socialComment': socialComment, 'socialPage': socialComment.page_id, 'permissions': $scope.permissions, 'theme': $scope.theme},
                         controller: 'conversationDialogController',
-                        templateUrl: './_portal/dashboard/_conversation.html',
+                        templateUrl: __ASSETS__ + '/_portal/dashboard/_conversation.html',
                         parent: angular.element(document.body),
                         clickOutsideToClose: true,
                         fullscreen: true // Only for -xs, -sm breakpoints.

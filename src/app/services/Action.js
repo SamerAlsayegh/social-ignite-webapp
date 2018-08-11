@@ -33,7 +33,7 @@ define(['./module'], function (services) {
                         });
                 },
                 fetchHashtags: function (content, forceRefresh, scheduleId, cbSuccess, cbFail) {
-                    return Request.post('portal/actions/recommended_hashtags', {
+                    return Request.post('portal/actions/twitter_recommendation', {
                         content: content,
                         force_refresh: forceRefresh,
                         schedule_id: scheduleId

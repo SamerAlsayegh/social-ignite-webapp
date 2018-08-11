@@ -8,7 +8,7 @@ define(['./module'], function (directives) {
                 activeDiv: "=",
                 activeDescription: "=",
             },
-            templateUrl: '/_portal/directives/_tutorialStep.html',
+            templateUrl: __ASSETS__ + '/_portal/directives/_tutorialStep.html',
             link: function ($scope, element, attrs) {
 
                 $scope.$watch('activeDiv', function (newVal, oldVal) {

@@ -12,7 +12,12 @@ define(['../../module'], function (controllers) {
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
 
+            $scope.past5Minutes = new Date(new Date().getTime() - (1000 * 60 * 5));
 
+
+            $scope.updatedRecently = function (itemUpdated) {
+               return new Date(itemUpdated).getTime() < $scope.past5Minutes.getTime();
+            };
             for (var platformKey in $scope.platforms) {
                 if (parseInt(platformKey) == platformKey) {
                     $scope.socialPlatformDetails.push({
@@ -50,7 +55,7 @@ define(['../../module'], function (controllers) {
 
             $scope.refreshSocialAccount = function (_id) {
                 SocialAccounts.refreshSocialAccount(_id, 'page_statistics', function (message) {
-                    Alert.success("Successfully triggered update.");
+                    Alert.success("Successfully queued page for update.");
                 }, function (status, message) {
                     Alert.error(message);
                 })
