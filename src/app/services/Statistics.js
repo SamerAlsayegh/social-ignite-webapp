@@ -93,7 +93,7 @@ define(['./module'], function (services) {
                             }
                         }
                     }));
-                }
+                },
             };
         }]);
 });

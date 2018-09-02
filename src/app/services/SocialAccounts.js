@@ -27,10 +27,10 @@ define(['./module'], function (services) {
                     if (!page_id)
                         return cbFail(400, "Invalid parameters.");
                     return Request.post('portal/social_pages/' + page_id + '/delete', {}, function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
+                        return cbSuccess(message);
+                    }, function (status, message) {
+                        return cbFail(status, message);
+                    });
                 },
                 getPagesOnHold: function (parameters, cbSuccess, cbFail) {
                     if (!parameters || !parameters.hasOwnProperty('cacheId'))
@@ -54,8 +54,8 @@ define(['./module'], function (services) {
                 },
                 getSocialAccounts: function (_cursor, filteredPlatforms, cbSuccess, cbFail) {
                     return Request.get('portal/social_pages', {
-                        platforms: filteredPlatforms,
-                        cursor: _cursor
+                            platforms: filteredPlatforms,
+                            cursor: _cursor,
                         },
                         function (message) {
                             return cbSuccess(message.data);

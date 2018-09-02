@@ -1,8 +1,8 @@
 <md-tabs layout-fill md-selected="defaultTab" md-autoselect="false" md-stretch-tabs="always">
-    <md-tab ng-show="subscription && !chosenPackage" label="Active Subscription">
-        <md-content layout="column">
-            <h1 class="md-display-1">Active Subscription</h1>
-            <md-content class="md-block md-padding" ng-if="subscription" flex layout="row">
+    <md-tab label="Active Subscription" ng-if="subscription || chosenPackage">
+        <md-card class="md-whiteframe-3dp md-padding">
+            <h2>Subscription</h2>
+            <span class="md-block md-padding" flex layout="row">
                 <md-input-container flex class="md-block">
                     <label>Package</label>
                     <input disabled ng-model="subscription.package">
@@ -11,8 +11,8 @@
                     <label>Renewal</label>
                     <input disabled ng-value="subscription.renewal | date : 'longDate'">
                 </md-input-container>
-            </md-content>
-            <md-content class="md-block md-padding" ng-if="subscription" flex layout="row">
+            </span>
+            <span class="md-block md-padding" ng-if="subscription" flex layout="row">
                 <md-input-container flex class="md-block">
                     <label>Last Payment</label>
                     <input disabled ng-value="subscription.created_at | date : 'longDate'">
@@ -21,28 +21,23 @@
                     <label>Status</label>
                     <input disabled ng-value="subscription.status">
                 </md-input-container>
-            </md-content>
-            <md-content ng-if="subscription.status == 'active' && !cancellingSubscription" layout="column"
+            </span>
+            <span ng-if="subscription.status == 'active' && !cancellingSubscription" layout="column"
                         layout-align="stretch">
                 <md-button ng-click="cancelSubscription()" class="md-warn">Cancel Subscription</md-button>
-            </md-content>
-            <md-content ng-if="cancellingSubscription == true">
+            </span>
+            <span ng-if="cancellingSubscription == true">
                 <h2>Please wait while we cancel your subscription service.</h2>
-            </md-content>
-        </md-content>
+            </span>
+        </md-card>
     </md-tab>
-    <md-tab label="Packages">
-        <md-content layout="column">
-            <div layout="row" layout-align="start center">
-                <h1 class="md-display-1" flex>Packages</h1>
-                <md-chips>
-                    <md-chip>Beta</md-chip>
-                </md-chips>
-            </div>
+    <md-tab label="Plans">
+        <md-card class="md-whiteframe-3dp md-padding">
+            <h2>Plans</h2>
             <notification-card type="info" ng-if="subscription">
                 <p>Subscribing to any new package will automatically cancel current package (if current package is cheaper) and charge only the difference for the initial month.</p>
             </notification-card>
-            <md-content ng-if="!loading || chosenPackage != null" layout-padding
+            <span ng-if="!loading || chosenPackage != null" layout-padding
                         layout="{{chosenPackage != null ? 'column' : 'row'}}">
                 <md-card ng-repeat="package in packages"
                          ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package"
@@ -76,19 +71,22 @@
                         </div>
                     </md-card-actions>
                 </md-card>
-            </md-content>
-            <md-content ng-if="loading" layout="column">
+            </span>
+            <span ng-if="loading" layout="column">
                 <div layout="row">
                     <span>
                         <i class="zmdi zmdi-refresh-sync md-padding zmdi-hc-2x continious_rotation"></i>
                     </span>
                     <h2>You will be redirected to PayPal shortly... please wait.</h2>
                 </div>
-            </md-content>
-        </md-content>
+            </span>
+        </md-card>
     </md-tab>
-    <md-tab label="Transactions" ng-show="transactions.count > 0">
-        <%- include('../../_portal/billing/_transactions'); %>
+    <md-tab label="Transactions" ng-if="transactions.count > 0">
+        <md-card class="md-whiteframe-3dp md-padding">
+            <h2>Transactions</h2>
+            <%- include /src/app/views/_portal/billing/_transactions.ejs %>
+        </md-card>
     </md-tab>
 </md-tabs>
 

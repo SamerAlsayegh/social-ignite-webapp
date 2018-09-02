@@ -1,109 +1,268 @@
 <md-button href="/statistics" class="md-primary page-link"> < Back to social profile list</md-button>
-<span layout="row">
-    <h2 ng-bind="activePage.name + '\'s Overview '" flex></h2> <md-button>Trend: {{currentTrend}}</md-button>
-</span>
-<small>Click on the labels to get further details.</small>
 
-<div layout-padding layout="row" flex="noshrink" layout-align="center center">
-    <canvas id="fansChart" flex="100" flex-gt-lg="80" style="height: 500px" layout="column"></canvas>
-</div>
+<md-card class="md-padding">
+    <span layout="row">
+        <h2 ng-bind="activePage.name + '\'s Overview '" flex></h2> <md-button>Trend: {{currentTrend}}</md-button>
+    </span>
+    <small>Click on the labels to get further details.</small>
+
+    <canvas flex id="fansChart" flex-grow style="max-height: 500px !important;" layout="row"></canvas>
+</md-card>
+
+<!--<div layout="row" layout-wrap class="md-padding" layout-align="center start">-->
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span flex>Scheduled Posts</span>-->
+<!--<i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding" ng-click="addPost()"></i>-->
+<!--</div>-->
+<!--</md-toolbar>-->
+
+<!--<span layout-padding class="text-center" ng-if="scheduledPosts.length == 0 || scheduledPosts == null">-->
+<!--<h3>You currently have no scheduled posts.</h3>-->
+<!--<md-button class="md-primary md-raised md-padding" ng-click="addPost()">Create a post</md-button>-->
+<!--</span>-->
+<!--<md-list layout-align="stretch">-->
+<!--<md-list-item class="md-2-line" layout="row" layout-align="center center"-->
+<!--ng-repeat="post in scheduledPosts" ng-click="addPost(post._id)">-->
+<!--<md-button disabled aria-label="image">-->
+<!--<i class="zmdi zmdi-image zmdi-hc-lg" ng-if="post.tags.indexOf('Image')"></i>-->
+<!--</md-button>-->
+
+<!--<span class="md-list-item-text" layout-align="stretch" layout="column">-->
+<!--<h3 layout="row">-->
+<!--Scheduled {{post.post_time | amTimeAgo}} at {{post.post_time | amDateFormat:'LT'}}-->
+<!--</h3>-->
+<!--<span layout="row">-->
+<!--<p ng-bind="post.content"></p>-->
+<!--</span>-->
+<!--</span>-->
+<!--</md-list-item>-->
+<!--</md-list>-->
+<!--</md-card>-->
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span>Fans Analysis (Gender)</span>-->
+<!--</div>-->
+<!--</md-toolbar>-->
+<!--<canvas flex id="audienceGenderChart" flex-grow style="max-height: 250px !important;"-->
+<!--layout="row"></canvas>-->
+<!--</md-card>-->
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span>Fans Analysis (Age)</span>-->
+<!--</div>-->
+<!--</md-toolbar>-->
+<!--<md-card class="md-padding">-->
+<!--<canvas flex id="audienceAgeChart" flex-grow style="max-height: 250px !important;"-->
+<!--layout="row"></canvas>-->
+<!--</md-card>-->
+<!--</md-card>-->
+
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span>Audience Change</span>-->
+<!--</div>-->
+<!--</md-toolbar>-->
 
 
-<div layout="row" layout-wrap layout-align="center start" >
-    <div class="statistics-card-container" flex="100" flex-gt-md="33" ng-if="activePage.platform != platforms.instagram.id">
-        <md-whiteframe class="md-whiteframe-2dp" layout="column">
+<!--<span layout-wrap class="text-center">-->
+<!--<h2 ng-if="recent_change_1">Recent {{recent_change_1}}% (24h)</h2>-->
+<!--<h2 ng-if="recent_change_7">Past 7 days {{recent_change_7}}%</h2>-->
+<!--<h2 ng-if="!recent_change_7 && !recent_change_1">No analysis available yet.</h2>-->
+<!--<h3 ng-if="!recent_change_7 && !recent_change_1">Please wait at least a day.</h3>-->
+<!--</span>-->
+<!--</md-card>-->
+
+
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span>Recommendations</span>-->
+<!--</div>-->
+<!--</md-toolbar>-->
+
+<!--<span layout-padding class="text-center">-->
+<!--<p>No recommendations currently.</p>-->
+<!--</span>-->
+<!--</md-card>-->
+
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span>Content Analysis</span>-->
+<!--</div>-->
+<!--</md-toolbar>-->
+
+<!--<span layout-padding class="text-center">-->
+<!--<h3>Analysis of what topics reach more audience.</h3>-->
+<!--<md-button class="md-primary md-raised md-padding" href="/billing">Upgrade now</md-button>-->
+<!--</span>-->
+<!--</md-card>-->
+
+<!--<md-card class="md-whiteframe-3dp" layout="column" flex="100" flex-gt-md="30">-->
+<!--<md-toolbar layout="row" class="md-primary">-->
+<!--<div class="md-toolbar-tools">-->
+<!--<span flex>Recommended Schedule</span>-->
+<!--<i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding"-->
+<!--ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()"></i>-->
+<!--</div>-->
+<!--</md-toolbar>-->
+
+<!--<span layout-padding class="text-center">-->
+<!--<p>Please post more often to gain insights.</p>-->
+<!--<md-button class="md-primary md-raised md-padding" ng-if="activePage.platform != platforms.instagram.id"-->
+<!--ng-click="editPost()">Create a post-->
+<!--</md-button>-->
+<!--</span>-->
+<!--</md-card>-->
+<!--</div>-->
+
+
+<div layout="row" layout-wrap class="md-padding" layout-align="center start">
+
+    <span layout="column" flex="100" flex-gt-md="30">
+        <md-card class="md-whiteframe-3dp">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
-                    <span flex>Scheduled Posts</span>
-                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding" ng-click="editPost()"></i>
+                    <span>Fans Analysis (Age)</span>
                 </div>
             </md-toolbar>
-
-            <md-content layout-padding class="text-center" ng-if="scheduledPosts.length == 0 || scheduledPosts == null">
-                <h3>You currently have no scheduled posts.</h3>
-                <md-button class="md-primary md-raised md-padding" ng-click="editPost()">Create a post</md-button>
-            </md-content>
-            <md-list layout-align="stretch">
-                <md-list-item class="md-2-line" layout="row" layout-align="center center" ng-repeat="post in scheduledPosts"  ng-click="editPost(post._id)">
-                    <md-button disabled aria-label="image">
-                        <i class="zmdi zmdi-image zmdi-hc-lg" ng-if="post.tags.indexOf('Image')"></i>
-                    </md-button>
-
-                    <span class="md-list-item-text" layout-align="stretch" layout="column">
-                        <h3 layout="row">
-                                Scheduled {{post.post_time | amTimeAgo}} at {{post.post_time | amDateFormat:'LT'}}
-                        </h3>
-                        <span layout="row">
-                            <p ng-bind="post.content"></p>
-                        </span>
-                    </span>
-                </md-list-item>
-            </md-list>
-        </md-whiteframe>
-    </div>
-    <div class="statistics-card-container" flex="100" flex-gt-md="33">
-        <md-whiteframe class="md-whiteframe-2dp" c layout="column" layout="column">
+            <span class="md-padding">
+                <canvas flex id="audienceAgeChart" flex-grow style="max-height: 300px !important;"
+                        layout="row"></canvas>
+            </span>
+        </md-card>
+        <md-card class="md-whiteframe-3dp" layout="column">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
-                    <span>Fans Analysis</span>
+                    <span>Fans Analysis (Gender)</span>
                 </div>
             </md-toolbar>
-
-            <md-content layout-wrap layout-padding class="text-center">
+            <span class="md-padding">
+                <canvas flex id="audienceGenderChart" flex-grow style="max-height: 300px !important;"
+                        layout="row"></canvas>
+            </span>
+        </md-card>
+        <md-card class="md-whiteframe-3dp">
+            <md-toolbar layout="row" class="md-primary">
+                <div class="md-toolbar-tools">
+                    <span>Audience Change</span>
+                </div>
+            </md-toolbar>
+            <span layout-wrap class="text-center">
                 <h2 ng-if="recent_change_1">Recent {{recent_change_1}}% (24h)</h2>
                 <h2 ng-if="recent_change_7">Past 7 days {{recent_change_7}}%</h2>
                 <h2 ng-if="!recent_change_7 && !recent_change_1">No analysis available yet.</h2>
                 <h3 ng-if="!recent_change_7 && !recent_change_1">Please wait at least a day.</h3>
-            </md-content>
-        </md-whiteframe>
-    </div>
+            </span>
+        </md-card>
+        <md-card class="md-whiteframe-3dp">
+            <md-toolbar layout="row" class="md-primary">
+                <div class="md-toolbar-tools">
+                    <span>Audience Opinions (Premium)</span>
+                </div>
+            </md-toolbar>
+            <span layout="column" class="text-center">
+                <span class="md-success-override md-padding">
+                    <h4>Happy: 100+</h4>
+                </span>
+                <span class="md-warn-override md-padding">
+                    <h4>Angry: 100+</h4>
+                </span>
+                <span class="md-info-override md-padding">
+                    <h4>Neutral: 100+</h4>
+                </span>
 
+        </span>
+        </md-card>
 
-    <div class="statistics-card-container" flex="100" flex-gt-md="33">
+    </span>
 
-        <md-whiteframe class="md-whiteframe-2dp" layout="column" layout="column">
+    <span layout="column" flex="100" flex-gt-md="30">
+        <md-card class="md-whiteframe-3dp">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
                     <span>Recommendations</span>
                 </div>
             </md-toolbar>
 
-            <md-content layout-padding class="text-center">
+            <span layout-padding class="text-center">
                 <p>No recommendations currently.</p>
-            </md-content>
-        </md-whiteframe>
-    </div>
-    <div class="statistics-card-container" flex="100" flex-gt-md="33">
+            </span>
+        </md-card>
 
-        <md-whiteframe class="md-whiteframe-2dp" layout="column">
+        <md-card class="md-whiteframe-3dp">
+            <md-toolbar layout="row" class="md-primary">
+                <div class="md-toolbar-tools">
+                    <span flex>Recommended Schedule</span>
+                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding"
+                       ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()"></i>
+                </div>
+            </md-toolbar>
+
+            <span layout-padding class="text-center">
+                <p>Please post more often to gain insights.</p>
+                <md-button class="md-primary md-raised md-padding" ng-if="activePage.platform != platforms.instagram.id"
+                           ng-click="editPost()">Create a post
+                </md-button>
+                    <canvas flex id="audienceActivityChart" flex-grow style="max-height: 300px !important;"
+                            layout="row"></canvas>
+
+            </span>
+        </md-card>
+
+    </span>
+
+    <span layout="column" flex="100" flex-gt-md="30">
+        <md-card class="md-whiteframe-3dp">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
                     <span>Content Analysis</span>
                 </div>
             </md-toolbar>
 
-            <md-content layout-padding class="text-center">
-                <md-content layout-padding class="text-center">
+            <span layout-padding class="text-center">
                     <h3>Analysis of what topics reach more audience.</h3>
                     <md-button class="md-primary md-raised md-padding" href="/billing">Upgrade now</md-button>
-                </md-content>
-            </md-content>
-        </md-whiteframe>
-    </div>
-    <div class="statistics-card-container" flex="100" flex-gt-md="33">
+            </span>
+        </md-card>
 
-        <md-whiteframe class="md-whiteframe-2dp" layout="column">
+
+        <md-card class="md-whiteframe-3dp">
             <md-toolbar layout="row" class="md-primary">
                 <div class="md-toolbar-tools">
-                    <span flex>Recommended Schedule</span>
-                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding" ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()"></i>
+                    <span flex>Scheduled Posts</span>
+                    <i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding" ng-click="addPost()"></i>
                 </div>
             </md-toolbar>
 
-            <md-content layout-padding class="text-center">
-                <p>Please post more often to gain insights.</p>
-                <md-button class="md-primary md-raised md-padding" ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()">Create a post</md-button>
-            </md-content>
-        </md-whiteframe>
-    </div>
+            <span layout-padding class="text-center" ng-if="scheduledPosts.length == 0 || scheduledPosts == null">
+                <h3>You currently have no scheduled posts.</h3>
+                <md-button class="md-primary md-raised md-padding" ng-click="addPost()">Create a post</md-button>
+            </span>
+            <md-list layout-align="stretch">
+                <md-list-item class="md-2-line" layout="row" layout-align="center center"
+                              ng-repeat="post in scheduledPosts" ng-click="addPost(post._id)">
+                    <md-button disabled aria-label="image">
+                        <i class="zmdi zmdi-image zmdi-hc-lg" ng-if="post.tags.indexOf('Image')"></i>
+                    </md-button>
+
+                    <span class="md-list-item-text" layout-align="stretch" layout="column">
+                                <h3 layout="row">
+                                        Scheduled {{post.post_time | amTimeAgo}} at {{post.post_time | amDateFormat:'LT'}}
+                                </h3>
+                                <span layout="row">
+                                    <p ng-bind="post.content"></p>
+                                </span>
+                            </span>
+                </md-list-item>
+            </md-list>
+        </md-card>
+    </span>
+
+
 </div>

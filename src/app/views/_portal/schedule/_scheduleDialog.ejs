@@ -1,125 +1,190 @@
-<md-dialog aria-label="Social Stack Editing" md-theme="{{theme}}" flex="70">
+<md-dialog aria-label="Social Post Editing" md-theme="{{theme}}" flex="70">
     <md-toolbar>
         <div class="md-toolbar-tools">
-
             <h1 flex>Post Details</h1>
-            <md-chips>
-                <md-chip>Beta</md-chip>
-            </md-chips>
             <md-button class="md-icon-button" ng-click="cancel()">
                 <i class="zmdi zmdi-close zmdi-hc-2x"></i>
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content layout="column" class="md-padding">
+    <notification-card ng-show="instagramWarning" type="info" can-dismiss="false">
+        <p>When your Instagram is scheduled to post, we will email you details to post.</p>
+    </notification-card>
 
-        <div>
-            <div layout="row" layout-padding layout-wrap>
-                <div ng-repeat="stackInfo in allStacks" ng-click="chooseStack(stackInfo._id); nextStep();"
-                     layout-align="space-around"
-                     class="md-whiteframe-1dp ui-social ui-other page-select text-center"
-                     flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20"
-                     ng-class="currentSocialPost.stacks.indexOf(stackInfo._id) != -1 ? 'ui-social-active' : ''"
-                     layout="column">
-                    <i class="zmdi zmdi-group"></i>
-                    <small ng-bind="stackInfo.name"></small>
+
+    <md-dialog-content class="md-padding">
+        <div layout="column">
+            <md-card ng-init="filterName = {}" flex="30" layout="column" class="md-whiteframe-3dp md-padding tutorial_step_6"
+                     ng-intro-autorefresh="true">
+                <!--Pages Listed here-->
+                <span layout="column">
+                <span ng-if="allPages.length > 4" layout-align="stretch" layout="row">
+                        <md-input-container  md-no-float flex class="md-block">
+                            <!-- Use floating label instead of placeholder -->
+                            <md-icon class="zmdi zmdi-search zmdi-hc-lg"></md-icon>
+                            <input ng-model="filterName.name" placeholder="Search accounts by name" type="text">
+                        </md-input-container>
+                </span>
+                <md-list layout="column" flex style="max-height: 200px; overflow-y: auto;">
+                    <md-list-item ng-repeat="stackInfo in allStacks | filter: filterName"
+                                  ng-click="chooseStack(stackInfo._id); nextStep();">
+                        <md-button
+                                class="md-fab md-mini ui-social ui-other"
+                                aria-label=platform>
+                            <i class="zmdi zmdi-group"></i>
+                        </md-button>
+                        <small flex> {{ stackInfo.name }}</small>
+                        <md-checkbox class="md-primary"
+                                     ng-checked="currentSocialPost.stacks.indexOf(stackInfo._id) != -1"></md-checkbox>
+                    </md-list-item>
+                    <md-list-item ng-repeat="pageInfo in filteredPages = (allPages | filter: filterName) "
+                                  ng-click="choosePage(pageInfo._id, pageInfo.platform); nextStep();">
+                        <md-button
+                                class="md-fab md-mini ui-social ui-{{platforms[pageInfo.platform].id}}"
+                                aria-label=platform>
+                            <md-tooltip md-direction="top" ng-bind="platforms[pageInfo.platform].id"></md-tooltip>
+                            <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
+                        </md-button>
+                        <small flex> {{ pageInfo.name }}</small>
+                        <md-checkbox class="md-primary"
+                                     ng-checked="currentSocialPost.pages.indexOf(pageInfo._id) != -1"></md-checkbox>
+                    </md-list-item>
+                    <md-list-item ng-if="filteredPages.length == 0">
+                        <span>
+                            No pages were found.
+                        </span>
+                    </md-list-item>
+                </md-list>
+            </span>
+            </md-card>
+
+            <md-card class="md-whiteframe-3dp md-padding">
+                <div layout-align="noshrink" class="md-padding tutorial_step_7" layout="row" layout-wrap
+                     ng-init="selectedImage = {}">
+                    <div emoji-picker="currentSocialPost.content" output-format="unicode" placement="right-relative"
+                         title="Emoji Selector" recent-limit="12"></div>
+                    <span layout="column" layout-gt-sm="row" flex>
+                        <span layout="column" flex>
+                            <md-input-container flex class="md-block">
+                                <label>Post Content</label>
+                                <textarea md-maxlength="700" required ng-model="currentSocialPost.content"></textarea>
+                            </md-input-container>
+                            <span ng-if="currentSocialPost.images.length > 0">
+                                <h3>Attached Images</h3>
+                                <span style="overflow-x: auto;" layout="row" class="md-padding">
+                                        <!--Attached Images-->
+                                        <img class="img-responsive"
+                                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
+                                             delayed-image="{{image.url}}" ng-repeat="image in currentSocialPost.images"
+                                             ng-click="chooseImage(image)" style="height: 75px; padding: 5px;">
+                                </span>
+                            </span>
+                            <span ng-if="availableImages.length > 0">
+                                <h3>Images Library</h3>
+                                <span style="overflow-x: auto;" layout="row" class="md-padding">
+                                        <!--Available Images-->
+                                        <img class="img-responsive"
+                                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
+                                             delayed-image="{{image.url}}" ng-repeat="image in availableImages"
+                                             ng-click="chooseImage(image)" style="height: 75px; padding: 5px;">
+                                </span>
+                            </span>
+                        </span>
+                        <span layout-align="center center" class="text-center">
+                            <img class="md-padding" src="{{selectedImage.url}}" style="height: auto;">
+                        </span>
+                    </span>
+
+
+                    <!--ImageView-->
+
+                    <!--<md-button layout="column" ng-click="attachImage()"-->
+                    <!--class="md-secondary layout-padding" layout-align="space-around">-->
+                    <!--<i class="zmdi zmdi-attachment-alt zmdi-hc-3x"></i>-->
+                    <!--Attach Images-->
+                    <!--</md-button>-->
                 </div>
 
-                <!--<md-tooltip md-direction="down"></md-tooltip>-->
-                <div layout="column" ng-repeat="pageInfo in allPages"
-                     ng-click="choosePage(pageInfo._id); nextStep();" layout-align="space-around"
-                     flex-sm="100" flex-xs="100" flex-gt-sm="25" flex-gt-md="20"
-                     class="md-whiteframe-1dp text-center ui-social ui-{{pageInfo.platform != null ? platforms[pageInfo.platform].id : 'other'}} page-select"
-                     ng-class="currentSocialPost.pages.indexOf(pageInfo._id) != -1 ? 'ui-social-active' : ''">
-                    <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
-                    <small ng-bind="pageInfo.name"></small>
-                </div>
-            </div>
-        </div>
-        <div>
-            <md-input-container layout="row">
-                <md-input-container flex class="md-block">
-                    <label>Post Content</label>
-                    <textarea ng-model="currentSocialPost.content" rows="3"
-                              md-select-on-focus></textarea>
-                </md-input-container>
-                <md-button layout="column" ng-click="attachImage()"
-                           class="md-secondary layout-padding" layout-align="space-around">
-                    <i class="zmdi zmdi-attachment-alt zmdi-hc-3x"></i>
-                    Attach Images
-                </md-button>
-            </md-input-container>
-
-            <span layout="column" class="md-block" layout-align="stretch">
-                <small ng-if="hashtags != null" class="text-center">Tip: You can click on the hashtags to add them automatically.</small>
-                <span ng-if="hashtags != null" layout="row" class="md-block" layout-align="stretch">
-                    <p>Recommended:</p>
-                    <span layout="row" flex>
-                        <md-button ng-repeat="hashtag in hashtags" ng-if="hashtagUsed(hashtag.hashtag) == false" ng-click="addHashtag(hashtag.hashtag)" class="md-primary" ng-class="hashtag.priority == true ? 'md-raised' : ''">
-                            #{{hashtag.hashtag}}
+                <div layout="column" class="md-block tutorial_step_8 tutorial_step_9" layout-align="stretch">
+                    <small ng-if="hashtags != null" class="text-center">Tip: You can click on the hashtags to add them
+                        automatically.
+                    </small>
+                    <span ng-if="hashtags != null" layout="row" class="md-block" layout-align="stretch">
+                        <p>Recommended:</p>
+                        <span layout="row" flex>
+                            <md-button ng-repeat="hashtag in hashtags" ng-if="hashtagUsed(hashtag.hashtag) == false"
+                                       ng-click="addHashtag(hashtag.hashtag)" class="md-primary"
+                                       ng-class="hashtag.priority == true ? 'md-raised' : ''">
+                                #{{hashtag.hashtag}}
+                            </md-button>
+                        </span>
+                        <!--<md-chips  ng-model="hashtags" ng-click="addHashtag($chip.hashtag)">-->
+                        <!--<md-chip-template>-->
+                        <!--{{ $chip.hashtag }}-->
+                        <!--</md-chip-template>-->
+                        <!--</md-chips>-->
+                    </span>
+                    <span layout="column" layout-gt-md="row">
+                        <md-button
+                                ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtags != null || hashtagsLoading == true"
+                                ng-click="getHashtags(currentSocialPost.content, false);nextStep();" flex
+                                class="md-primary md-raised">
+                            + Suggest Hashtags
+                        </md-button>
+                        <md-button
+                                ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtagsLoading == true"
+                                ng-click="getHashtags(currentSocialPost.content, true);" flex="20"
+                                ng-if="hashtags != null" class="md-primary">
+                            Force Refresh ({{hashtag_lookups}}/{{limits.hashtag_lookups}})
                         </md-button>
                     </span>
-                     <!--<md-chips  ng-model="hashtags" ng-click="addHashtag($chip.hashtag)">-->
-                        <!--<md-chip-template>-->
-                          <!--{{ $chip.hashtag }}-->
-                        <!--</md-chip-template>-->
-                    <!--</md-chips>-->
-                </span>
-                <span class="md-padding" layout="column" layout-gt-md="row">
-                    <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtags != null"
-                               ng-click="getHashtags(currentSocialPost.content, false);" flex
-                               class="md-primary md-raised">
-                        + Suggest Hashtags
+                    <span layout="column"
+                          ng-if="hashtag_lookups >= limits.hashtag_lookups && limits.hashtag_lookups != -1">
+                        <md-button flex href="/billing" ng-click="cancel()"
+                                   class="md-secondary md-raised">
+                            Upgrade for more lookups
+                        </md-button>
+                    </span>
+                </div>
+
+                <!--<div ng-show="attachImages == true">-->
+                <!--&lt;!&ndash;<image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="manage2"&ndash;&gt;-->
+                <!--&lt;!&ndash;post_id="postId" uploading="uploading"&ndash;&gt;-->
+                <!--&lt;!&ndash;images="currentSocialPost.images"></image-uploader>&ndash;&gt;-->
+                <!--</div>-->
+            </md-card>
+
+            <md-card class="md-whiteframe-3dp md-padding">
+
+                <div class="md-padding tutorial_step_10">
+                    <div
+                            moment-picker="currentSocialPost.dateString"
+                            min-date="currentTime"
+                            start-date="currentTime"
+                            ng-model="currentSocialPost.date"
+                            format="LT"
+                            min-view="month"
+                            start-view="month"
+                            today="true"
+                            keyboard="true"
+                            inline="true"
+                            set-on-select="true">
+                    </div>
+                </div>
+                <div class="tutorial_step_11" layout="row" flex="noshrink" layout-align="stretch" layout-sm="column"
+                     layout-xs="column">
+                    <md-button flex-gt-md="20" flex-xs="100" flex-sm="100" flex-md="100" type="submit"
+                               ng-if="(currentSocialPost.state == 'DRAFT' || currentSocialPost.state == 'ACTIVE') && postId != null"
+                               class="md-warn"
+                               ng-click="secondaryAction()">
+                        {{currentSocialPost.state == 'DRAFT' ? 'Delete' : 'Delete'}}
                     </md-button>
-                    <md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups"
-                               ng-click="getHashtags(currentSocialPost.content, true);" flex="20"
-                               ng-if="hashtags != null" class="md-primary">
-                        Force Refresh ({{hashtag_lookups}}/{{limits.hashtag_lookups}})
+                    <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
+                               ng-click="submitPost(false); nextStep();">
+                        Post {{ currentSocialPost.dateString != null ? '@ ' + currentSocialPost.dateString : 'Now' }}
                     </md-button>
-                </span>
-                <span class="md-padding" layout="column" ng-if="hashtag_lookups >= limits.hashtag_lookups && limits.hashtag_lookups != -1">
-                    <md-button flex href="/billing" ng-click="cancel()"
-                               class="md-secondary md-raised">
-                        Upgrade for more lookups
-                    </md-button>
-                </span>
-            </span>
-        </div>
-        <div ng-show="attachImages == true">
-            <image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="manage2"
-                            post_id="postId" uploading="uploading"
-                            images="currentSocialPost.images"></image-uploader>
-        </div>
-        <div class="md-padding" ng-if="scheduleShowing">
-            <div
-                    moment-picker="currentSocialPost.dateString"
-                    min-date="currentTime"
-                    start-date="currentTime"
-                    ng-model="currentSocialPost.date"
-                    format="LT"
-                    min-view="month"
-                    start-view="month"
-                    today="true"
-                    keyboard="true"
-                    inline="true"
-                    set-on-select="true">
-            </div>
-        </div>
-        <div layout="row" class="md-padding" layout-align="stretch" layout-sm="column" layout-xs="column">
-            <md-button  flex-gt-md="20" flex-xs="100" flex-sm="100" flex-md="100" type="submit"
-                       ng-if="(currentSocialPost.state == 'DRAFT' || currentSocialPost.state == 'ACTIVE') && postId != null"
-                       class="md-warn"
-                       ng-click="secondaryAction()">
-                {{currentSocialPost.state == 'DRAFT' ? 'Delete' : 'Draft'}}
-            </md-button>
-            <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
-                       ng-click="submitPost(false)">
-                Post {{ currentSocialPost.dateString != null ? '@ ' + currentSocialPost.dateString : 'Now' }}
-            </md-button>
-            <md-button flex="20" flex-xs="100" flex-sm="100" flex-md="100" class="md-primary md-raised" ng-hide="scheduleShowing"
-                       ng-click="scheduleShow()">
-                Schedule
-            </md-button>
+                </div>
+            </md-card>
         </div>
     </md-dialog-content>
 

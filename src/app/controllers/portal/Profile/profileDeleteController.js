@@ -9,7 +9,7 @@ define(['../../module'], function (controllers) {
                 Alert.success("Account has been deleted.");
                 Profile.deleteUserComplete($scope.code, function (message) {
                     Auth.logout(function () {
-                        $state.go('public.feedback.view', {}, {reload: true})
+                        $state.go('public.login', {}, {reload: true})
                     }, function (status, message) {
                         Alert.error(message);
                     });

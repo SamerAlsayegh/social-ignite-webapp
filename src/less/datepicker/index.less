@@ -120,6 +120,10 @@
       width: 2em;
     }
   }
+
+
+
+
   th, td {
     padding: 0;
     text-align: center;
@@ -130,14 +134,19 @@
     border-radius: 4px;
     &:hover {
     }
-
     &.disabled, &.disabled:hover {
+      height: 0 !important;
+      padding: 0  !important;
+      border: 0  !important;
       color: transparent;
     }
     &.disabled.highlighted, &.disabled.highlighted:hover {
-      color: transparent;
+      padding: 0  !important;
+      border: 0 !important;
+      height: 0 !important;
     }
   }
+
   td {
     border: 1px solid transparent;
     &.today {

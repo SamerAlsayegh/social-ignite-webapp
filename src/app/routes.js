@@ -1,7 +1,11 @@
-import SocialIgnite from "./SocialIgnite";
+import SocialIgnite from "SocialIgnite";
 
 SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider',
     function ($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
+
+        var data = {
+            "__ASSETS__": __ASSETS__
+        };
 
         $urlMatcherFactoryProvider.strictMode(false);
         $urlRouterProvider.otherwise(function ($injector, $location) {
@@ -10,40 +14,56 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             return $location.path();
         });
 
+
         $locationProvider.html5Mode(true);
         $stateProvider
             .state('public', {
-                templateUrl: __ASSETS__ + '/_public/index.html',
+                template: require("ejs-compiled-loader!views/_public/index.ejs")(data),//PublicIndex(data) ,
                 controller: 'publicHomeController',
             })
             .state('public.login', {
                 url: "/login",
-                templateUrl: __ASSETS__ + '/_public/auth/login/view.html'
+                template: require("ejs-compiled-loader!views/_public/auth/login/view.ejs")(data),//PublicIndex(data),
             })
             .state('public.register', {
                 url: "/register",
-                templateUrl: __ASSETS__ + '/_public/auth/register/view.html'
+                template: require("ejs-compiled-loader!views/_public/auth/register/view.ejs")(data)
             })
             .state('public.forgotten_password', {
                 url: "/forgotten_password?secure",
-                templateUrl: __ASSETS__ + '/_public/auth/forgotten_password/view.html'
+                template: require("ejs-compiled-loader!views/_public/auth/forgotten_password/view.ejs")(data)
             })
 
 
             .state('public.feedback', {
-                templateUrl: __ASSETS__ + '/_public/feedback/index.html'
+                template: require("ejs-compiled-loader!views/_public/feedback/index.ejs")(data)
             })
             .state('public.feedback.view', {
                 url: "/feedback",
                 controller: 'feedbackController',
-                templateUrl: __ASSETS__ + '/_public/feedback/_view.html'
+                template: require("ejs-compiled-loader!views/_public/feedback/_view.ejs")(data)
             })
+
+
+
+
+
 
             .state('public.email_verify', {
                 url: "/email_verify?email&code",
-                templateUrl: __ASSETS__ + '/_public/auth/emailVerify/view.html',
+                template: require("ejs-compiled-loader!views/_public/auth/emailVerify/view.ejs")(data),
             })
 
+            .state('public.tools', {
+                url: "/free_tools",
+                controller: 'publicToolsController',
+                template: require("ejs-compiled-loader!views/_public/tools/index.ejs")(data)
+            })
+            .state('public.tools.lookup', {
+                url: "/free_tools/lookup",
+                controller: 'publicStatisticsController',
+                template: require("ejs-compiled-loader!views/_public/tools/_lookup.ejs")(data)
+            })
 
 
 
@@ -54,40 +74,49 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
 
             .state('portal', {
-                templateUrl: __ASSETS__ + '/_portal/index.html',
+                template: require("ejs-compiled-loader!views/_portal/index.ejs")(data),
                 controller: 'portalHomeController',
             })
             .state('portal.home', {
+                preload: true,
                 url: "/",
                 controller: 'dashboardController',
-                templateUrl: __ASSETS__ + '/_portal/dashboard/index.html'
+                template: require("ejs-compiled-loader!views/_portal/dashboard/index.ejs")(data)
+            })
+            .state('portal.post_now', {
+                url: "/post?id",
+                controller: 'editController',
+                template: require("ejs-compiled-loader!views/_portal/schedule/_schedule.ejs")(data)
             })
 
-
             .state('portal.profile', {
-                templateUrl: __ASSETS__ + '/_portal/profile/index.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/profile/index.ejs")(data),
             })
             .state('portal.profile.delete', {
                 url: "/delete?code",
                 controller: 'profileDeleteController',
-                templateUrl: __ASSETS__ + '/_portal/profile/_delete.html'
+                template: require("ejs-compiled-loader!views/_portal/profile/_view.ejs")(data)
             })
             .state('portal.profile.view', {
+                preload: true,
                 url: "/profile?tab",
                 controller: 'profileController',
-                templateUrl: __ASSETS__ + '/_portal/profile/_view.html'
+                template: require("ejs-compiled-loader!views/_portal/profile/_view.ejs")(data)
             })
             .state('portal.profile.view.advanced', {
-                templateUrl: __ASSETS__ + '/_portal/profile/_advanced.html'
+                template: require("ejs-compiled-loader!views/_portal/profile/_advanced.ejs")(data)
             })
 
             .state('portal.resources', {
-                templateUrl: __ASSETS__ + '/_portal/resources/index.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/resources/index.ejs")(data),
                 controller: 'resourcesController',
             })
             .state('portal.resources.view', {
+                preload: true,
                 url: "/resources",
-                templateUrl: __ASSETS__ + '/_portal/resources/_view.html',
+                template: require("ejs-compiled-loader!views/_portal/resources/_view.ejs")(data),
                 params: {
                     postId: {dynamic: true},
                     attachedImage: {dynamic: true},
@@ -95,64 +124,81 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 }
             })
             .state('portal.resources.manage', {
+                preload: true,
                 url: "/resources/manage",
-                templateUrl: __ASSETS__ + '/_portal/resources/_manage.html'
+                template: require("ejs-compiled-loader!views/_portal/resources/_manage.ejs")(data)
             })
 
 
             .state('portal.profile.billing', {
+                preload: true,
                 controller: 'billingController',
-                templateUrl: __ASSETS__ + '/_portal/billing/index.html'
+                template: require("ejs-compiled-loader!views/_portal/billing/index.ejs")(data)
             })
 
             .state('portal.profile.billing.home', {
+                preload: true,
                 url: "/billing?package?tab",
-                templateUrl: __ASSETS__ + '/_portal/billing/_view.html'
+                template: require("ejs-compiled-loader!views/_portal/billing/_view.ejs")(data)
             })
 
 
             .state('portal.accounts', {
-                templateUrl: __ASSETS__ + '/_portal/accounts/index.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/accounts/index.ejs")(data),
                 controller: 'accountController',
             })
             .state('portal.accounts.home', {
+                preload: true,
                 url: "/accounts?fail",
-                templateUrl: __ASSETS__ + '/_portal/accounts/_table.html',
+                template: require("ejs-compiled-loader!views/_portal/accounts/_table.ejs")(data),
             })
             .state('portal.accounts.continue', {
                 url: "/accounts/continue/:cache_id",
-                templateUrl: __ASSETS__ + '/_portal/accounts/_continue.html'
+                template: require("ejs-compiled-loader!views/_portal/accounts/_continue.ejs")(data)
+            })
+            .state('portal.tools', {
+                url: "/tools",
+                controller: 'portalToolsController',
+                template: require("ejs-compiled-loader!views/_portal/tools/_view.ejs")(data)
+            })
+            .state('portal.tools.lookup', {
+                url: "/tools/lookup",
+                controller: 'portalStatisticsController',
+                template: require("ejs-compiled-loader!views/_portal/tools/_lookup.ejs")(data)
             })
 
-            .state('portal.support', {
-                controller: 'supportController',
-                templateUrl: __ASSETS__ + '/_portal/support/index.html'
-            })
-
-            .state('portal.support.home', {
-                url: "/support",
-                templateUrl: __ASSETS__ + '/_portal/support/_view.html'
-            })
-            .state('portal.support.ticket', {})
-            .state('portal.support.ticket.new', {
-                url: "/support/new",
-                controller: 'supportSubController',
-                templateUrl: __ASSETS__ + '/_portal/support/_newTicket.html',
-            })
-            .state('portal.support.ticket.view', {
-                controller: 'supportSubController',
-                url: "/support/{ticketId}",
-                templateUrl: __ASSETS__ + '/_portal/support/_ticket.html',
-            })
+            // .state('portal.support', {
+            //     controller: 'supportController',
+            //     template: require("ejs-compiled-loader!views/_portal/support/index.ejs")(data)
+            // })
+            //
+            // .state('portal.support.home', {
+            //     url: "/support",
+            //     template: require("ejs-compiled-loader!views/_portal/support/_view.ejs")(data)
+            // })
+            // .state('portal.support.ticket', {})
+            // .state('portal.support.ticket.new', {
+            //     url: "/support/new",
+            //     controller: 'supportSubController',
+            //     template: require("ejs-compiled-loader!views/_portal/support/_newTicket.ejs")(data),
+            // })
+            // .state('portal.support.ticket.view', {
+            //     controller: 'supportSubController',
+            //     url: "/support/{ticketId}",
+            //     template: require("ejs-compiled-loader!views/_portal/support/_ticket.ejs")(data),
+            // })
 
 
             .state('portal.schedule', {
-                templateUrl: __ASSETS__ + '/_portal/schedule/index.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/schedule/index.ejs")(data),
                 controller: 'scheduleController'
             })
             .state('portal.schedule.table', {
+                preload: true,
                 url: "/schedule?tab",
-                templateUrl: __ASSETS__ + '/_portal/schedule/_table.html',
+                template: require("ejs-compiled-loader!views/_portal/schedule/_table.ejs")(data),
                 params: {
                     updateId: {dynamic: true},
                     updateState: {dynamic: true},
@@ -162,28 +208,28 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
             // .state('portal.setup', {
             //     controller: 'setupController',
-            //     templateUrl: __ASSETS__ + '/_portal/setup/index.html',
+            //     template: require("ejs-compiled-loader!views/_portal/setup/index.ejs")(data),
             // })
             // .state('portal.setup.intro', {
             //     url: "/setup/intro",
-            //     templateUrl: __ASSETS__ + '/_portal/setup/_intro.html',
+            //     template: require("ejs-compiled-loader!views/_portal/setup/_intro.ejs")(data),
             // })
             // .state('portal.setup.add_page', {
             //     url: "/setup/add_page",
-            //     templateUrl: __ASSETS__ + '/_portal/setup/_add_page.html',
+            //     template: require("ejs-compiled-loader!views/_portal/setup/_add_page.ejs")(data),
             // })
             // .state('portal.setup.schedule_post', {
             //     url: "/setup/schedule_post",
-            //     templateUrl: __ASSETS__ + '/_portal/setup/_schedule_post.html',
+            //     template: require("ejs-compiled-loader!views/_portal/setup/_schedule_post.ejs")(data),
             // })
             // .state('portal.setup.finish', {
             //     url: "/setup/finish",
-            //     templateUrl: __ASSETS__ + '/_portal/setup/_finish.html',
+            //     template: require("ejs-compiled-loader!views/_portal/setup/_finish.ejs")(data),
             // })
             // .state('portal.schedule.edit', {
             //     controller: 'editController',
             //     url: "/schedule/edit/:postId",
-            //     templateUrl: __ASSETS__ + '/_portal/schedule/_schedule.html',
+            //     template: require("ejs-compiled-loader!views/_portal/schedule/_schedule.ejs")(data),
             //     params: {
             //         postId: null,
             //         attachedImage: null,
@@ -192,17 +238,19 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             // })
 
 
-
             .state('portal.statistics', {
-                templateUrl: __ASSETS__ + '/_portal/statistics/index.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/statistics/index.ejs")(data),
             })
             .state('portal.statistics.page_list', {
-                templateUrl: __ASSETS__ + '/_portal/statistics/page/_view.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/statistics/page/_view.ejs")(data),
                 controller: 'pageStatisticsController',
                 url: "/statistics"
             })
             .state('portal.statistics.page_detail', {
-                templateUrl: __ASSETS__ + '/_portal/statistics/page/_detail.html',
+                preload: true,
+                template: require("ejs-compiled-loader!views/_portal/statistics/page/_detail.ejs")(data),
                 controller: 'pageStatisticsDetailController',
                 url: "/statistics/:pageId",
                 params: {
@@ -211,18 +259,20 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             })
 
             .state('portal.statistics.post_list', {
+                preload: true,
                 controller: 'postStatisticsController',
                 url: "/statistics/post/:postId",
-                templateUrl: __ASSETS__ + '/_portal/statistics/post/_view.html',
+                template: require("ejs-compiled-loader!views/_portal/statistics/post/_view.ejs")(data),
                 params: {
                     postId: null,
                     redirect: null
                 }
             })
             .state('portal.statistics.post_detail', {
+                preload: true,
                 controller: 'postStatisticsDetailController',
                 url: "/statistics/post/:postId/:socialPostId",
-                templateUrl: __ASSETS__ + '/_portal/statistics/post/_detail.html',
+                template: require("ejs-compiled-loader!views/_portal/statistics/post/_detail.ejs")(data),
                 params: {
                     postId: null,
                     socialPostId: null
@@ -236,27 +286,32 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
             // Admin related routes
             .state('admin', {
-                templateUrl: __ASSETS__ + '/_admin/index.html',
+                template: require("ejs-compiled-loader!views/_admin/index.ejs")(data),
                 controller: 'adminHomeController',
+                preload: false
             })
             .state('admin.home', {
                 url: "/admin",
                 // controller: 'adminHomeController',
-                templateUrl: __ASSETS__ + '/_admin/_view.html'
+                template: require("ejs-compiled-loader!views/_admin/_view.ejs")(data),
+                preload: false
             })
-            .state('admin.support', {
-                controller: 'adminSupportController',
-                templateUrl: __ASSETS__ + '/_admin/support/index.html'
-            })
-            .state('admin.support.home', {
-                url: "/admin/support",
-                templateUrl: __ASSETS__ + '/_admin/support/_view.html'
-            })
-            .state('admin.support.ticket', {
-                templateUrl: __ASSETS__ + '/_admin/support/_ticket.html',
-                url: "/admin/support/{ticketId}",
-                controller: 'adminSupportSubController',
-            })
+            // .state('admin.support', {
+            //     controller: 'adminSupportController',
+            //     template: require("ejs-compiled-loader!views/_admin/support/index.ejs")(data),
+            //     preload: false
+            // })
+            // .state('admin.support.home', {
+            //     url: "/admin/support",
+            //     template: require("ejs-compiled-loader!views/_admin/support/_view.ejs")(data),
+            //     preload: false
+            // })
+            // .state('admin.support.ticket', {
+            //     template: require("ejs-compiled-loader!views/_admin/support/_ticket.ejs")(data),
+            //     url: "/admin/support/{ticketId}",
+            //     controller: 'adminSupportSubController',
+            //     preload: false
+            // })
             // .state('admin.support.ticket.control', {
             //     // url: "/admin/support/{ticketId}",
             // })
@@ -267,26 +322,29 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
             .state('admin.user_management', {
                 controller: 'adminUsersController',
-                templateUrl: __ASSETS__ + '/_admin/accounts/index.html'
+                template: require("ejs-compiled-loader!views/_admin/accounts/index.ejs")(data),
+                preload: false
             })
 
             .state('admin.user_management.home', {
                 url: "/admin/accounts",
-                templateUrl: __ASSETS__ + '/_admin/accounts/_view.html'
+                template: require("ejs-compiled-loader!views/_admin/accounts/_view.ejs")(data),
+                preload: false
             })
             .state('admin.user_management.user', {
                 controller: 'adminUsersSubController',
                 url: "/admin/accounts/{accountId}",
-                templateUrl: __ASSETS__ + '/_admin/accounts/_account.html',
+                template: require("ejs-compiled-loader!views/_admin/accounts/_account.ejs")(data),
+                preload: false
             })
 
 
             .state('error', {
-                templateUrl: __ASSETS__ + '/error/index.html',
-                controller: 'errorController'
+                template: require("ejs-compiled-loader!views/_error/index.ejs")(data),
+                controller: 'errorController',
             })
             .state('error.not_found', {
                 url: "*path",
-                templateUrl: __ASSETS__ + '/error/not_found.html'
+                template: require("ejs-compiled-loader!views/_error/not_found.ejs")(data)
             });
     }]);

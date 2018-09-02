@@ -1,8 +1,51 @@
 <div>
     <md-button ng-click="return()" class="md-primary page-link"> < Back to list</md-button>
-    <md-tabs flex md-autoselect="true" md-stretch-tabs="always" md-dynamic-height="true">
+    <md-tabs flex md-autoselect="true" md-stretch-tabs="always" md-dynamic-height="true" ng-if="supportedStatistics.length > 0">
+        <md-tab  label="Overview" md-on-select="openStat = 'overview';">
+            <span class="md-padding" layout="column" layout-fill>
+                <div layout="row">
+                    <h1 class="md-display-1" flex>Overview</h1>
+                    <md-chips>
+                        <md-chip>Beta</md-chip>
+                    </md-chips>
+                </div>
+                <md-card layout-padding>
+                    <span>
+                        <md-list class="md-dense">
+                            <span class="md-no-sticky" layout="column">
+                            <span class="dashboard-feed-entry">
+                                <div layout="row" class="dashboard-feed-header">
+                                    <span class="md-calendar-social-post-content-quote">&#10077;</span>
+                                    <div flex></div>
+                                    <small><span class="gray_text" am-time-ago="socialPost.post_time"></span></small>
+                                </div>
+                                <div layout="row" layout-align="stretch" class="dashboard-feed-content">
+                                    <span class="text" ng-bind-html='toTrustedHTML( socialPostMain.content )'></span>
+                                </div>
+                            </span>
+                                <div style="display: block;" class="text-right">
+                                    <md-button class="md-warn md-raised" ng-click="deletePost(socialPost._id)" aria-label="Delete across all pages">
+                                        Delete Post on {{socialPost.page_id.name}}
+                                    </md-button>
+                                </div>
+                            </span>
+                            <!--<div ng-if="socialPost.remaining > 0" layout="column"-->
+                            <!--layout-align="stretch">-->
+                            <!--<md-button-->
+                            <!--ng-click="loadReplies(socialPost, socialPost._id, null, socialPost.replies[0].posted)"-->
+                            <!--md-no-ink class="md-primary">Load previous...-->
+                            <!--</md-button>-->
+                            <!--</div>-->
+                            <!--<md-list-item class="md-2-line"-->
+                            <!--ng-repeat="socialComment in socialPost.replies"-->
+                            <!--ng-include="'commentChildrenTree'">-->
+                            <!--</md-list-item>-->
+                        </md-list>
+                    </span>
+                </md-card>
 
-
+            </span>
+        </md-tab>
         <md-tab ng-disabled="supportedStatistics.indexOf('likes.total') == -1" label="Likes" md-on-select="openStat = 'likes';">
             <md-content class="md-padding" layout="column" layout-fill>
                 <div layout="row">
@@ -30,5 +73,9 @@
             </md-content>
         </md-tab>
     </md-tabs>
+    <md-content layout-fill ng-if="supportedStatistics.length == 0" layout-align="center center" class="text-center">
+        <h2>No statistics available right now</h2>
+        <h2>Please wait a few minutes as we collect them...</h2>
+    </md-content>
 
 </div>

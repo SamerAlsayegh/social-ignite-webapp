@@ -1,12 +1,9 @@
-<tutorial-step active-div="activeDiv" active-description="activeDescription" ng-if="tutorialMode"></tutorial-step>
-
-<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex class="tutorial_step_7">
-
+<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
     <md-content hide-gt-sm>
         <md-toolbar class="md-primary">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
-                    <i layout-align="start start" layout="stretch" class="white zmdi zmdi-menu zmdi-hc-2x"></i>
+                    <i layout-align="start start" layout="stretch" class="zmdi zmdi-menu zmdi-hc-2x"></i>
                 </md-button>
 
                 <h2 flex md-truncate>Menu</h2>
@@ -18,44 +15,49 @@
         <md-sidenav
                 layout-fill
                 layout="column"
-                class="md-sidenav-left"
+                class="md-sidenav-left md-whiteframe-3dp"
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
             <header class="nav-header">
-                <img flex class="menu_logo" ng-src="__ASSETS__{{theme == 'dark' ? '/img/thumbnail/w400/light_logo.png' : '/img/thumbnail/w400/dark_logo.png'}}">
+                <img flex class="menu_logo" style="max-height: 100px;"
+                     ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/thumbnail/w400/light_logo_simple.png' : '/img/thumbnail/w400/dark_logo_simple.png'}}">
             </header>
             <md-list flex>
                 <md-list-item class="home" flex href="/" ng-click="toggleMenu();">
                     <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
-                    <span flex>Home</span>
+                    <span flex>Dashboard</span>
+                </md-list-item>
+                <md-list-item class="home tutorial_step_5" flex ng-click="addPost(); toggleMenu(); nextStep();">
+                    <i class="zmdi zmdi-plus-circle-o md-padding zmdi-hc-lg"></i>
+                    <span flex> Post</span>
                 </md-list-item>
 
-                <md-list-item class="tutorial-step-schedule-menu tutorial_step_5" flex href="/schedule"
-                              ng-click="toggleMenu(); nextStep();">
+                <md-list-item flex href="/schedule" ng-click="toggleMenu();">
                     <i class="zmdi zmdi-calendar md-padding zmdi-hc-lg"></i>
-                    <span flex>Schedule</span>
-                </md-list-item>
-                <md-list-item class="tutorial-step-pages-menu tutorial_step_1" flex href="/accounts" ng-click="toggleMenu(); nextStep();">
-                    <i class="zmdi zmdi-share md-padding zmdi-hc-lg"></i>
-                    <span flex>Socials</span>
+                    <span flex>Calendar</span>
                 </md-list-item>
 
                 <md-divider></md-divider>
-                <md-subheader class="md-no-sticky">Misc.</md-subheader>
+                <!--<md-subheader class="md-no-sticky">Social Media</md-subheader>-->
+                <md-list-item class="tutorial_step_1" flex href="/accounts" ng-click="toggleMenu(); nextStep();">
+                    <i class="zmdi zmdi-pin-account md-padding zmdi-hc-lg"></i>
+                    <span flex>Accounts</span>
+                </md-list-item>
+                <!--<md-list-item flex href="/statistics" ng-click="toggleMenu()">-->
+                    <!--<i class="zmdi zmdi-chart md-padding zmdi-hc-lg"></i>-->
+                    <!--<span flex>Statistics</span>-->
+                <!--</md-list-item>-->
+                <!--<md-list-item flex href="/resources" ng-click="toggleMenu()">-->
+                    <!--<i class="zmdi zmdi-collection-folder-image md-padding zmdi-hc-lg"></i>-->
+                    <!--<span flex>Images</span>-->
+                <!--</md-list-item>-->
 
-                <md-list-item flex href="/statistics" ng-click="toggleMenu()">
-                    <i class="zmdi zmdi-chart md-padding zmdi-hc-lg"></i>
-                    <span flex>Statistics</span>
+                <md-list-item flex href="/tools" ng-click="toggleMenu()">
+                    <i class="zmdi zmdi-more md-padding zmdi-hc-lg"></i>
+                    <span flex>Tools</span>
                 </md-list-item>
-                <md-list-item flex href="/resources" ng-click="toggleMenu()">
-                    <i class="zmdi zmdi-collection-folder-image md-padding zmdi-hc-lg"></i>
-                    <span flex>Images</span>
-                </md-list-item>
-                <md-content flex layout="column">
-                    <md-content flex></md-content>
-                </md-content>
-                <md-subheader class="md-no-sticky">{{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)
-                </md-subheader>
+                <!--<md-subheader class="md-no-sticky">{{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)-->
+                <!--</md-subheader>-->
                 <md-list-item href="/admin" ng-if="user.scope == 'admin' || user.scope == 'support'"
                               ng-click="toggleMenu()">
                     <i class="zmdi zmdi-accounts-list-alt md-padding zmdi-hc-lg"></i>
@@ -66,9 +68,9 @@
                     <span flex ng-bind="user.scope == 'user' ? 'Upgrade' : 'Billing'"></span>
                 </md-list-item>
 
-                <md-list-item flex href="/support" ng-click="toggleMenu()">
+                <md-list-item class="drift-open-chat" flex ng-click="toggleMenu()">
                     <i class="zmdi zmdi-pin-help md-padding zmdi-hc-lg"></i>
-                    <span flex>Support {{ notifications.support_tickets > 0 ? '(' + notifications.support_tickets + ')' : ''}}</span>
+                    <span flex>Support</span>
                 </md-list-item>
                 <md-list-item href="/profile" ng-click="toggleMenu()">
                     <i class="zmdi zmdi-account md-padding zmdi-hc-lg"></i>
@@ -78,18 +80,21 @@
         </md-sidenav>
         <md-content layout="column" flex>
             <md-content ng-if="user.notices.length > 0">
-                <notification-card ng-repeat="notice in user.notices" type="{{notice.type}}" can-dismiss="{{notice.can_dismiss}}">
+                <notification-card ng-repeat="notice in user.notices" type="{{notice.type}}"
+                                   can-dismiss="{{notice.can_dismiss}}">
                     <p layout-fill ng-if="notice.reason == errorCodes.AccountLogonDeniedVerifiedEmailRequired.id">
-                    Account requires verification for full access to features. Please check {{user.email}} or <b class="pointer underline-link" ng-click="resendEmail()">resend email</b>.
+                        Account requires verification for full access to features. Please check {{user.email}} or <b
+                                class="pointer underline-link" ng-click="resendEmail()">resend email</b>.
                     </p>
-
                 </notification-card>
+            </md-content>
+
+            <md-content class="md-padding main-view" flex ui-view>
 
             </md-content>
-            <md-content class="md-padding" flex ui-view>
-            </md-content>
-            <md-content >
-                <%- include('../_footer'); %>
+
+            <md-content>
+                <%- include /src/app/views/_footer.ejs %>
             </md-content>
         </md-content>
     </md-content>

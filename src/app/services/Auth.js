@@ -98,6 +98,14 @@ define(['./module'], function (services) {
                             function (message) {
                                 // $rootScope.user = message.data;
                                 $rootScope.user = message.data;
+                                if ($rootScope.drift){
+                                    drift.identify($rootScope.user.email, {
+                                        _id: $rootScope.user._id,
+                                        scope: $rootScope.user.scope,
+                                        mailing_list: $rootScope.user.mailing_list,
+                                        verified: $rootScope.user.verified
+                                    });
+                                }
                                 $rootScope.loggedIn = true;
                                 return callback(true);
                             }, function (status, message) {

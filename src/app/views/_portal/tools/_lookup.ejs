@@ -1,0 +1,27 @@
+<h1 class="page-header">Lookup Statistics</h1>
+Interested in knowing the statistics for a famous account? Look up the details we have. If your page is here, you can claim it quickly and easily.
+<br>
+
+<md-autocomplete
+        nd-init="searchAutocomplete = {text: ''}"
+        md-items="user in searchPublicAccounts(searchAutocomplete.text)"
+        md-selected-item="searchAutocomplete.selectedItem"
+        md-selected-item-change="selectPublicAccounts(user)"
+        md-item-text="user.name"
+        md-search-text="searchAutocomplete.text"
+        md-min-length="0"
+        placeholder="Search by page name">
+    <md-item-template>
+        <span md-highlight-text="searchAutocomplete.text" md-highlight-flags="^i" flex>{{user.email}}</span><i class="zmdi zmdi-instagram zmdi-hc-lg"></i>
+    </md-item-template>
+    <md-not-found>
+        No page matching "{{searchAutocomplete.text}}" were found. How about creating a public tracker?
+    </md-not-found>
+</md-autocomplete>
+
+
+<span layout="row" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column" layout-xs="column">
+        <md-button ng-click="submitFeedback()" flex class="md-primary md-raised">
+            Submit
+        </md-button>
+    </span>

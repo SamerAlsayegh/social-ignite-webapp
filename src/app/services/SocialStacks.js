@@ -3,13 +3,12 @@ define(['./module'], function (services) {
     services.factory('SocialStacks', ['Request',
         function (Request) {
             return {
-                addSocialStack: function (name, description, socialPages, cbSuccess, cbFail) {
-                    if (!name || !description)
+                addSocialStack: function (name, socialPages, cbSuccess, cbFail) {
+                    if (!name)
                         return cbFail(400, "Invalid parameters.");
                     return Request.post('portal/social_stacks',
                         {
                             name: name,
-                            description: description,
                             social_pages: socialPages
                         }, function (message) {
                             return cbSuccess(message);
@@ -17,14 +16,13 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
-                updateSocialStack: function (stackId, name, description, socialPages, cbSuccess, cbFail) {
-                    if (!stackId || !name || !description)
+                updateSocialStack: function (stackId, name, socialPages, cbSuccess, cbFail) {
+                    if (!stackId || !name)
                         return cbFail(400, "Invalid parameters.");
 
                     return Request.post('portal/social_stacks/' + stackId,
                         {
                             name: name,
-                            description: description,
                             social_pages: socialPages
                         },
                         function (message, data) {

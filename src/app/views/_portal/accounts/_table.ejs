@@ -1,34 +1,35 @@
 <md-tabs layout-fill md-stretch-tabs="always">
     <md-tab label="Social Profiles" md-on-select="addPageActive = true" md-on-deselect="addPageActive = false">
-        <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill>
-            <div class="md-padding">
-                <%- include _socialPages.ejs %>
+        <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill >
+            <div>
+                <%- include /src/app/views/_portal/accounts/_socialPages.ejs %>
             </div>
-            <md-content layout="row" class="tutorial-step-add-pages">
-                <md-fab-speed-dial md-direction="up" class="md-scale page-button">
-                    <md-fab-trigger>
-                        <md-button aria-label="menu" class="md-fab md-primary tutorial_step_2" ng-click="nextStep();">
+            <span layout="row">
+                <span flex></span>
+                <md-fab-speed-dial class="tutorial_step_3 md-fab-bottom-right md-scale" md-open="isOpen" ng-click="clickedSpeedDial()" md-direction="up">
+                    <md-fab-trigger class="tutorial_step_2" >
+                        <md-button aria-label="menu" class="md-fab md-primary">
                             <md-tooltip md-direction="left">Add new profile</md-tooltip>
                             <i class="zmdi zmdi-accounts-add zmdi-hc-2x"></i>
                         </md-button>
                     </md-fab-trigger>
 
-                    <md-fab-actions class="tutorial_step_3">
-                        <md-button ng-click="addSocialAccount(platformDetails.id); nextStep();"
+                    <md-fab-actions>
+                        <md-button ng-click="addSocialAccount(platformDetails.id);"
                                    ng-repeat="platformDetails in socialPlatformDetails"
-                                   class="md-fab md-raised md-mini ui-social ui-{{platformDetails.shortname}}"
+                                   class="md-fab md-raised md-padding md-mini ui-social ui-{{platformDetails.shortname}}"
                                    aria-label=platform>
                             <i class="zmdi zmdi-{{platformDetails.shortname}}"></i>
                         </md-button>
                     </md-fab-actions>
                 </md-fab-speed-dial>
-            </md-content>
+            </span>
         </md-content>
     </md-tab>
     <md-tab label="Social Stacks" md-on-select="addStackActive = true" md-on-deselect="addStackActive = false">
         <md-content layout="column" ng-controller="socialStackController" layout-fill>
             <div class="md-padding">
-                <%- include _socialStacks.ejs %>
+                <%- include /src/app/views/_portal/accounts/_socialStacks.ejs %>
             </div>
             <md-button ng-click="editSocialStack();"
                        class="md-fab md-primary page-button"

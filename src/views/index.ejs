@@ -2,17 +2,20 @@
 <html>
 <head>
     <title>Social Ignite</title>
-    <meta name="description" content="Your #1 tool for social media engagement analytics and management for businesses and online personalities.">
+    <meta name="description"
+          content="Your #1 tool for social media engagement analytics and management for businesses and online personalities.">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta property="og:url" content="https://socialignite.media">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Social Ignite - Social Media Engagement Tool">
-    <meta property="og:description" content="Your #1 tool for social media engagement analytics and management for businesses and online personalities.">
+    <meta property="og:description"
+          content="Your #1 tool for social media engagement analytics and management for businesses and online personalities.">
     <meta property="og:image" content="__ASSETS__/img/boxed/512/dark_logo_simple.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="https://socialignite.media">
     <meta name="twitter:title" content="Social Ignite - Social Media Engagement Tool">
-    <meta name="twitter:description" content="Your #1 tool for social media engagement analytics and management for businesses and online personalities.">
+    <meta name="twitter:description"
+          content="Your #1 tool for social media engagement analytics and management for businesses and online personalities.">
     <!--<link href="/css/please-wait.css" rel="stylesheet">-->
     <meta name="twitter:image" content="__ASSETS__/img/boxed/512/dark_logo_simple.png">
     <meta name="twitter:site" content="SocialIgniteApp">
@@ -42,16 +45,34 @@
     <link rel="manifest" href="/manifest.json">
     <base href="/">
 </head>
+<!--["Prettifying UI...", "Bootstrapping servers...", "Preparing extinguishers...", "Adding more sticks...", "Pouring lighter fluid...", "Using coal...", "Adding fuel to the flames..."]-->
 <body>
-<md-content class="dark_scroll wide" id="pageContent"  layout-fill>
-    <md-content id="appPage" ui-view ng-cloak layout-fill>
+<div class="wdt-loading-screen">
+    <div class="wdt-loading-phrases">
+        <div class="wdt-loading-phrase-category" data-category="default">
+            <div class="wdt-loading-phrase">Prettifying UI...</div>
+            <div class="wdt-loading-phrase">Preparing Cat Pictures...</div>
+            <div class="wdt-loading-phrase">Testing your patience...</div>
+            <div class="wdt-loading-phrase">Coffee machine broken...</div>
+            <div class="wdt-loading-phrase">Spinning up the hamster...</div>
+            <div class="wdt-loading-phrase">Shovelling coal into server...</div>
+            <div class="wdt-loading-phrase">Programming flux capacitor...</div>
+            <div class="wdt-loading-phrase">Painting office walls...</div>
+            <div class="wdt-loading-phrase">Coffee break...</div>
+            <div class="wdt-loading-phrase">Health check...</div>
+            <div class="wdt-loading-phrase">Storage check...</div>
+            <div class="wdt-loading-phrase">Programming backend...</div>
+            <div class="wdt-loading-phrase">Smashing website bugs...</div>
+            <div class="wdt-loading-phrase">Improving your experience...</div>
+            <div class="wdt-loading-phrase">Baking cookies for page...</div>
+        </div>
+    </div>
+</div>
+    <md-content class="dark_scroll wide" id="pageContent" layout-fill ui-view ng-cloak>
+
     </md-content>
-</md-content>
 </body>
-<!--Locally host theses style sheets.-->
-<!--<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">-->
-<!--<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">-->
+
 <link rel="stylesheet" href="/css/main.css">
-<!--<script src="/custom/please-wait.js" charset="utf-8"></script>-->
-<script async src="/app.js" charset="utf-8"></script>
+<script src="/app.js" charset="utf-8"></script>
 </html>

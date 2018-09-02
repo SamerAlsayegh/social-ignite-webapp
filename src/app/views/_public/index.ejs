@@ -18,13 +18,21 @@
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
             <header class="nav-header">
-                <img flex class="menu_logo" ng-src="__ASSETS__{{theme == 'dark' ? '/img/thumbnail/w400/light_logo.png' : '/img/thumbnail/w400/dark_logo.png'}}">
+                <img flex class="menu_logo" style="max-height: 100px;" ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/thumbnail/w400/light_logo_simple.png' : '/img/thumbnail/w400/dark_logo_simple.png'}}">
             </header>
             <md-content>
                 <md-list flex>
                     <md-list-item class="home" flex href="/" ng-click="toggleMenu()">
                         <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
                         <span flex>Home</span>
+                    </md-list-item>
+                    <md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">
+                        <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
+                        <span flex>Keywords</span>
+                    </md-list-item>
+                    <md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">
+                        <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
+                        <span flex>Lookup</span>
                     </md-list-item>
                     <md-list-item class="home" flex href="/" ng-click="switchTheme()">
                         <i class="zmdi zmdi-brightness-6 md-padding zmdi-hc-lg"></i>
@@ -36,7 +44,7 @@
         <md-content  layout="column" layout-fill>
             <md-content flex class="md-padding" ui-view>
             </md-content>
-                <%- include('../_footer'); %>
+                <%- include /src/app/views/_footer.ejs %>
         </md-content>
 
     </md-content>

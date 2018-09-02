@@ -5,12 +5,12 @@ define(['../../module'], function (controllers) {
             $scope.postId = $stateParams.postId;
             $scope.socialPostId = $stateParams.socialPostId;
 
-            $scope.activeSocialPost = null;
+            $scope.socialPost = null;
             $scope.openStat = null;
-            $scope.supportedStatistics = [];
+            $scope.supportedStatistics = ['overview'];
 
             $scope.loadNewState = function(newVar){
-                if ($scope.activeSocialPost != null) {
+                if ($scope.socialPost != null) {
                     switch (newVar) {
                         case 'likes':
                             $scope.loadLikes();
@@ -40,8 +40,7 @@ define(['../../module'], function (controllers) {
                     $scope.chartElementVisitors = document.getElementById("visitorsChart").getContext('2d');
                     $scope.chartObjectVisitors = new Chart($scope.chartElementVisitors, Statistics.getStatisticsConfig("Post Statistics", "Time", "Value"));
                 }
-
-                Statistics.getPostStatistics($scope.activeSocialPost._id, ["views.total"], function (data) {
+                Statistics.getPostStatistics($scope.socialPost._id, ["views.total"], function (data) {
 
                     $scope.chartObjectVisitors.data.datasets = [
                         {
@@ -70,7 +69,7 @@ define(['../../module'], function (controllers) {
                     $scope.chartObjectLikes = new Chart($scope.chartElementLikes, Statistics.getStatisticsConfig("Post Statistics", "Time", "Value"));
                 }
 
-                Statistics.getPostStatistics($scope.activeSocialPost._id, ["likes.total"], function (data) {
+                Statistics.getPostStatistics($scope.socialPost._id, ["likes.total"], function (data) {
                     $scope.chartObjectLikes.data.datasets = [
                         {
                             label: 'Likes (Total)',
@@ -91,18 +90,33 @@ define(['../../module'], function (controllers) {
                 });
             };
 
-            SocialPosts.getSocialPost($scope.postId, $scope.socialPostId, function (message) {
-                $scope.activeSocialPost = message;
-                if ($scope.activeSocialPost.statistic.likes != null && $scope.activeSocialPost.statistic.likes.total != null)
-                    $scope.supportedStatistics.push("likes.total");
-                if ($scope.activeSocialPost.statistic.likes != null && $scope.activeSocialPost.statistic.likes.new != null)
-                    $scope.supportedStatistics.push("likes.new");
-                if ($scope.activeSocialPost.statistic.views != null && $scope.activeSocialPost.statistic.views.total != null)
-                    $scope.supportedStatistics.push("views.total");
-                $scope.loadNewState(null);
+            SocialPosts.getDetails($scope.postId, function (message) {
+                $scope.socialPostMain = message;
+                SocialPosts.getSocialPost($scope.postId, $scope.socialPostId, function (message) {
+                    $scope.socialPost = message;
+                    if ($scope.socialPost.statistic.likes != null && $scope.socialPost.statistic.likes.total != null)
+                        $scope.supportedStatistics.push("likes.total");
+                    if ($scope.socialPost.statistic.likes != null && $scope.socialPost.statistic.likes.new != null)
+                        $scope.supportedStatistics.push("likes.new");
+                    if ($scope.socialPost.statistic.views != null && $scope.socialPost.statistic.views.total != null)
+                        $scope.supportedStatistics.push("views.total");
+                    $scope.loadNewState('overview');
+                }, function (status, message) {
+                    Alert.error(message);
+                });
             }, function (status, message) {
                 Alert.error(message);
             });
+
+
+            $scope.deletePost = function (socialPostId) {
+                SocialPosts.deletePostedSocialPost(socialPostId, function (success) {
+                    Alert.success("Deleted social post on " + $scope.socialPost.page_id.name);
+                }, function (status, message) {
+                    Alert.error(message);
+                })
+            };
+
 
             $scope.return = function () {
                 $state.go('portal.statistics.post_list', {postId: $scope.postId, redirect: false})

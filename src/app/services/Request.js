@@ -1,7 +1,7 @@
 define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
     'use strict';
-    services.factory('Request', ['$http',
-        function ($http) {
+    services.factory('Request', ['$http', '$rootScope',
+        function ($http, $rootScope) {
             return {
                 post: function (endpoint, parameters, cbSuccess, cbFail, customTimeout) {
                     return $http({
@@ -24,6 +24,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         if (status != -1){
                             switch (status){
                                 case 401:
+                                    $rootScope.user = null;
+                                    $rootScope.loggedIn = false;
                                     cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
@@ -62,6 +64,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         if (status != -1){
                             switch (status){
                                 case 401:
+                                    $rootScope.user = null;
+                                    $rootScope.loggedIn = false;
                                     cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
@@ -105,6 +109,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                             if (status != -1){
                                 switch (status){
                                     case 401:
+                                        $rootScope.user = null;
+                                        $rootScope.loggedIn = false;
                                         cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                         break;
                                     case 429:

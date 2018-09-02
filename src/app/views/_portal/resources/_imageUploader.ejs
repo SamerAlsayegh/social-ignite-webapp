@@ -35,7 +35,7 @@
     <div layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
                 ng-repeat="imageContent in images" ng-hide="imageContent.hide">
 
-        <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading"
+        <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading" ng-hide="image.hide"
                  class="resource-card resource-select" layout="column" layout-align="center center">
 
             <img class="img-responsive"
@@ -64,14 +64,22 @@
         </md-card>
 
 
-        <md-card ng-if="imageContent.loading" class="resource-card resource-select" layout="column"
-                 layout-align="center center">
-            <img class="img-responsive"
-                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="/>
-            <span style="position: absolute; top: 0px; z-index: 3;" layout-fill layout="column">
-                <div flex>
-                </div>
-                <md-progress-circular md-mode="determinate" value="{{imageContent.progress}}"></md-progress-circular>
+
+
+        <md-card style="position: relative; z-index: 1;" flex ng-if="imageContent.loading"
+                 class="resource-card resource-select" layout="column" layout-align="center center">
+
+            <img class="img-responsive" src="/img/empty_300x300.png"/>
+
+            <span style="position: absolute; top: 0px; z-index: 3;" layout-fill layout="column" class="md-padding" >
+                <span flex>
+                </span>
+                <span flex>
+                    <h2 class="text-center">Uploading</h2>
+                    <md-progress-linear md-mode="determinate" value="{{imageContent.progress}}"></md-progress-linear>
+                </span>
+                <span flex>
+                </span>
             </span>
         </md-card>
 </div>

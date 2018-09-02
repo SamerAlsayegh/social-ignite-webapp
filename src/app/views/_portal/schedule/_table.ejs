@@ -1,63 +1,24 @@
-<md-button ng-click="addPost($event); nextStep();" class="md-fab md-primary page-button tutorial_step_6" aria-label="New Social Post">
+<md-button ng-click="addPost();" class="md-fab md-primary page-button" aria-label="New Social Post">
     <i class="zmdi zmdi-plus zmdi-hc-2x"></i>
 </md-button>
+<h2>Calendar</h2>
+<hr class="hr"/>
 
-
-<md-content layout-fill layout="column">
-    <md-tabs layout-fill md-selected="defaultTab" md-stretch-tabs="always">
-        <md-tab label="Schedule">
-            <md-content class="md-padding" layout="column">
-                <div layout="row" layout-align="start center">
-                    <h1 class="md-display-1" flex>Your Agenda</h1>
-                    <md-chips>
-                        <md-chip>Beta</md-chip>
-                    </md-chips>
-                </div>
-                <calendar-md layout="column"
-                             on-prev-month="prevMonth"
-                             on-next-month="nextMonth"
-                             on-day-click="dayClick"
-                             template-url="'/_portal/schedule/template.html'"
-                             title-format="'MMMM y'"
-                             ng-social-posts="allActivePosts"
-                             ng-model='selectedDate'
-                             week-starts-on="monday"
-                             tooltips="true"
-                             ng-platforms="platforms"
-                             day-format="dayFormat"
-                             day-label-format="'EEE'"
-                             day-label-tooltip-format="'EEEE'"
-                             day-tooltip-format="'fullDate'"
-                             day-content="setDayContent"
-                             disable-future-selection="false"></calendar-md>
-            </md-content>
-        </md-tab>
-        <md-tab label="Drafts" ng-show="allDraftedPosts.length > 0">
-            <md-content class="md-padding" layout="column">
-                <div layout="row" flex="noshrink" layout-align="start center">
-                    <h1 class="md-display-1" flex>Drafts Planned</h1>
-                    <md-chips>
-                        <md-chip>Beta</md-chip>
-                    </md-chips>
-                </div>
-                <notification-card type="info" can-dismiss="false">
-                    <p>Please note, draft edits older than 14 days will be deleted.</p>
-                </notification-card>
-                <md-list layout-padding flex>
-                    <md-list-item ng-repeat="draft in allDraftedPosts" ng-click="addPost($event, draft._id)"  class="md-2-line">
-                        <i class="zmdi zmdi-edit zmdi-hc-lg md-padding"></i>
-                        <div flex class="md-list-item-text">
-                            <p ng-bind="draft.content"></p>
-                            <small>Planned for {{draft.post_time | amCalendar}}</small>
-                        </div>
-                        <md-button disabled md-no-ink md-no-bar class="md-list-item-text md-secondary">
-                            <p ng-bind="draft.state">
-                            <p am-time-ago="draft.updated_at"></p>
-                        </md-button>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-    </md-content>
-</md-tab>
-</md-tabs>
-</md-content>
+<span class="md-padding" layout="column">
+    <calendar-md layout="column"
+                 on-prev-month="prevMonth"
+                 on-next-month="nextMonth"
+                 on-day-click="dayClick"
+                 title-format="'MMMM y'"
+                 ng-social-posts="allActivePosts"
+                 ng-model='selectedDate'
+                 week-starts-on="monday"
+                 tooltips="true"
+                 ng-platforms="platforms"
+                 day-format="dayFormat"
+                 day-label-format="'EEE'"
+                 day-label-tooltip-format="'EEEE'"
+                 day-tooltip-format="'fullDate'"
+                 day-content="setDayContent"
+                 disable-future-selection="false"></calendar-md>
+</span>

@@ -1,24 +1,35 @@
-<md-dialog aria-label="Social Stack Editing" md-theme="{{theme}}" flex="70">
-
-<md-card>
-    <div layout="row">
+<md-dialog aria-label="Conversation Details" md-theme="{{theme}}" flex="70">
+    <md-toolbar>
         <div class="md-toolbar-tools">
-            <md-button
-                    disabled
-                    class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
-                    aria-label="platform name">
-                <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
+
+            <h1 flex>Conversation Details</h1>
+            <md-chips>
+                <md-chip>Beta</md-chip>
+            </md-chips>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="zmdi zmdi-close zmdi-hc-2x"></i>
             </md-button>
-            <span ng-bind="'Replying as ' + socialPage.name" flex></span>
         </div>
-    </div>
-    <md-content>
-        <md-list class="md-dense">
-            <md-list-item class="md-2-line"
-                          ng-repeat="socialComment in socialComments"
-                          ng-include="'commentChildrenTree'">
-            </md-list-item>
-        </md-list>
-    </md-content>
-</md-card>
+    </md-toolbar>
+    <md-card>
+        <div layout="row">
+            <div class="md-toolbar-tools">
+                <md-button
+                        disabled
+                        class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
+                        aria-label="platform name">
+                    <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
+                </md-button>
+                <span ng-bind="'Replying as ' + socialPage.name" flex></span>
+            </div>
+        </div>
+        <md-content>
+            <md-list class="md-dense">
+                <md-list-item class="md-2-line"
+                              ng-repeat="socialComment in socialComments"
+                              ng-include="'commentChildrenTree'">
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-card>
 </md-dialog>

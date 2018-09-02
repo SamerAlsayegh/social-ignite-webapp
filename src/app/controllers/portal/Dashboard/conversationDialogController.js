@@ -65,6 +65,11 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         Alert.error(message, 600);
                     });
                 };
+
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+
             }]);
 });
 

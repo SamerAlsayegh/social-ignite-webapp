@@ -15,8 +15,8 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
              */
             $rootScope.user = null;
 
-            $scope.email_verify_email = $stateParams.email;
-            $scope.email_verify_code = $stateParams.code;
+            $scope.email = $stateParams.email || '';
+            $scope.email_code = $stateParams.code;
 
             /**
              * Login using the form on the login page.
@@ -106,58 +106,39 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
                 }
             }
 
-            $scope.attemptVerify = function (user) {
+            $scope.attemptVerify = function (email, code) {
                 Auth.verify({
-                    email: user.email,
-                    code: user.code
+                    email: email,
+                    code: code
                 }, function (data) {
                     Alert.success("Verified email. You may now login.");
                     $state.go('public.login', {}, {reload: 'public.login'});
                 }, function (status, message, messageCode) {
                     if (messageCode == errorCodes.InvalidParam.id)
                         Alert.error("This code is invalid.");
+                    if (messageCode == errorCodes.EmailAlreadyVerified.id) {
+                        Alert.error("Email already verified");
+                        $state.go('public.login', {}, {reload: 'public.login'});
+                    }
                     else
                         Alert.error("Error: " + message);
                 });
             };
 
-            $scope.requestResend = function (email_verify) {
+            $scope.requestResend = function () {
                 if ($scope.email.length == 0) {
                     Alert.error("Your email field is missing.");
                     return;
                 }
-                if (email_verify.$valid) {
-                    Auth.requestEmailResend($scope.email, function (data) {
-                        Alert.success("An email should be on the way.");
-                    }, function (status, message) {
-                        Alert.error(message);
-                    });
-                }
+                Auth.requestEmailResend($scope.email, function (data) {
+                    Alert.success("An email should be on the way.");
+                }, function (status, message) {
+                    Alert.error(message);
+                });
 
             };
 
 
-            /**
-             * Register using the form on the login page.
-             * @param user
-             */
-            $scope.emailVerifyForm = function (email_verify) {
-                if (email_verify.code.$modelValue.length == 0) {
-                    Alert.error("Your code field is missing.");
-                    return;
-                }
-
-                $scope.attemptVerify({
-                    email: email_verify.email.$modelValue,
-                    code: email_verify.code.$modelValue
-                });
-            };
-
-            if ($scope.email_verify_email && $scope.email_verify_code)
-                $scope.attemptVerify({
-                    code: $scope.email_verify_code,
-                    email: $scope.email_verify_email
-                });
 
 
             $scope.toggleMenu = function () {
@@ -169,6 +150,12 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
                 else $scope.theme = "dark";
                 $cookies.put("theme", $scope.theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
             };
+
+
+
+            if ($scope.email && $scope.email_code)
+                $scope.attemptVerify($scope.email, $scope.email_code);
+
         }]);
 
 

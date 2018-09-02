@@ -3,6 +3,7 @@ define([
     './portal/Dashboard/dashboardController',
     './portal/Schedule/scheduleController',
     './portal/Schedule/editControllerDialog',
+    './portal/Schedule/editController',
     './portal/Statistics/postStatisticsController',
     './portal/Statistics/postStatisticsDetailController',
     './portal/Billing/billingController',
@@ -19,6 +20,9 @@ define([
     './portal/Statistics/pageStatisticsController',
     './portal/Statistics/pageStatisticsDetailController',
     './portal/Dashboard/conversationDialogController',
+    './portal/Tools/portalStatisticsController',
+    './portal/Tools/portalToolsController',
+
 
     './admin/adminHomeController',
     './admin/adminSupportController',
@@ -28,7 +32,8 @@ define([
 
     './public/publicHomeController',
     './public/Feedback/feedbackController',
-
+    './public/Tools/publicStatisticsController',
+    './public/Tools/publicToolsController',
 
     './errorController'
 ], function () {

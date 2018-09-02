@@ -1,6 +1,4 @@
-<md-content layout="column">
-    <h1 class="md-display-1">Transactions</h1>
-    <!--<span><h</span>-->
+<span layout="column">
     <md-table-container>
         <table md-table md-row-select ng-model="transactionModel.selected">
             <thead md-head md-order="transactionModel.order" md-on-reorder="loadTransactions">
@@ -28,4 +26,4 @@
     <md-table-pagination md-limit="transactionModel.limit" md-limit-options="[5, 10, 15]"
                          md-page="transactionModel.page" md-total="{{transactions.count}}"
                          md-on-paginate="paginateTransactions" md-page-select></md-table-pagination>
-</md-content>
+</span>

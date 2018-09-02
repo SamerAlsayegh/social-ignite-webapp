@@ -1,15 +1,46 @@
-<div layout="row" layout-wrap>
-    <md-card class="pointer" layout="column" ng-repeat="socialStack in socialStacks"
-             ng-click="editSocialStack($event, socialStack._id)">
-        <div layout="row" class="md-padding" layout-align="center center">
-            <span flex ng-bind="socialStack.name"></span>
-            <md-button
-                    ng-repeat="socialPage in socialStack.pages.pages"
-                    class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
-                    aria-label=platform>
-                <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
-                <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
-            </md-button>
-        </div>
-    </md-card>
+<div layout="column" layout-gt-sm="row">
+    <span flex></span>
+    <span layout-align="center center" layout="row">
+        <md-input-container ng-init="filterName = {}" md-no-float class=" md-block">
+            <!-- Use floating label instead of placeholder -->
+            <md-icon class="zmdi zmdi-search zmdi-hc-lg"></md-icon>
+            <input ng-model="filterName.name" placeholder="Search stacks by name" type="text">
+        </md-input-container>
+    </span>
 </div>
+
+<md-card class="md-whiteframe-3dp">
+    <md-table-container>
+        <table md-table md-row-select ng-model="stacksModel.selected">
+            <thead md-head md-order="stacksModel.order">
+            <tr md-row>
+                <th md-column>Name</th>
+                <th md-column>Pages</th>
+                <th md-column>Management</th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row ng-repeat="socialStack in socialStacks | filter: filterName" ng-click="editSocialStack(socialStack._id)">
+                <td md-cell>{{socialStack.name}}</td>
+                <td md-cell>
+                    <md-button
+                            ng-repeat="socialPage in socialStack.pages.pages"
+                            class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
+                            aria-label=platform>
+                        <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
+                        <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
+                    </md-button>
+                </td>
+                <td md-cell>
+                    <span flex></span>
+                    <md-button flex="30" class="md-primary" ng-click="null">Edit
+                    </md-button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <!--<md-card class="pointer" flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()" layout-align="center center">-->
+        <!--<h3>Load more...</h3>-->
+    <!--</md-card>-->
+</md-card>

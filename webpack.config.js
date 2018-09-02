@@ -1,9 +1,6 @@
 const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
-// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
 
 module.exports = {
     context: __dirname + "/src/app",
@@ -22,11 +19,20 @@ module.exports = {
             "__ASSETS__": JSON.stringify("https://assets.socialignite.media"),
             "__SOCKETS__": JSON.stringify("https://portal.socialignite.media"),
         }),
-        // new UglifyJsPlugin({
-        //     parallel: 4,
-        //     sourceMap: true
-        // })
+        new webpack.ProvidePlugin({
+            _: "underscore"
+        })
     ],
+    optimization: {
+        namedModules: true, // NamedModulesPlugin()
+        splitChunks: { // CommonsChunkPlugin()
+            name: 'vendor',
+            minChunks: 5,
+            chunks: 'all'
+        },
+        noEmitOnErrors: true, // NoEmitOnErrorsPlugin
+        concatenateModules: true //ModuleConcatenationPlugin
+    },
     resolve: {
         extensions: [".json", ".js"],
         modules: [

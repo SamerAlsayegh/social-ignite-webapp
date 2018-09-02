@@ -23,7 +23,8 @@ define(['../../module'], function (controllers) {
                 $scope.loadReplies = function (reply, parent_post, parent_reply, cursor) {
                     if (reply.remaining == 0) return;
                     reply.hide = false;
-                    var data = {parent_post: parent_post};
+                    var data = {};
+                    if (parent_post) data.parent_post = parent_post;
                     if (parent_reply) data.parent_reply = parent_reply;
                     if (cursor) data.cursor = cursor;
                     PostComment.getReplies(data, function (data) {
@@ -66,7 +67,7 @@ define(['../../module'], function (controllers) {
                     $mdDialog.show({
                         locals:{ 'socialComment': socialComment, 'socialPage': socialComment.page_id, 'permissions': $scope.permissions, 'theme': $scope.theme},
                         controller: 'conversationDialogController',
-                        templateUrl: __ASSETS__ + '/_portal/dashboard/_conversation.html',
+                        template: require("ejs-compiled-loader!views/_portal/dashboard/_conversation.ejs")(),
                         parent: angular.element(document.body),
                         clickOutsideToClose: true,
                         fullscreen: true // Only for -xs, -sm breakpoints.
@@ -90,6 +91,11 @@ define(['../../module'], function (controllers) {
                 }, function (status, message) {
                     Alert.error(message, 600);
                 });
+
+                $scope.commentsModel = {replies: []};
+
+                $scope.loadReplies($scope.commentsModel, null, null, null);
+
 
 
             }]);

@@ -11,6 +11,13 @@ define(['../../module'], function (controllers) {
             $scope.connectedAccounts = [];
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
+            $scope.pagesModel = {
+                order: null,
+                selected: [],
+            };
+
+
+
 
             $scope.past5Minutes = new Date(new Date().getTime() - (1000 * 60 * 5));
 
@@ -74,13 +81,18 @@ define(['../../module'], function (controllers) {
             };
 
             $scope.loadMoreSocialPages = function () {
-                SocialAccounts.getSocialAccounts(($scope.connectedAccounts.length > 0 ? ($scope.connectedAccounts[$scope.connectedAccounts.length - 1]._id) : null), $scope.filteredPlatforms, function (data) {
-                    $scope.connectedAccounts = $scope.connectedAccounts.concat(data.pages);
-                    $scope.remaining = data.remaining;
+                SocialAccounts.getSocialAccounts(($scope.connectedAccounts.length > 0 ? ($scope.connectedAccounts[$scope.connectedAccounts.length - 1]._id) : null), $scope.filteredPlatforms, function (message) {
+                    $scope.connectedAccounts = $scope.connectedAccounts.concat(message.pages);
+                    $scope.remaining = message.remaining;
                 }, function (status, message) {
                     Alert.error(message);
                 });
             };
+
+            $scope.reorderPages = function(sortOrder){
+
+            };
+
             $scope.loadMoreSocialPages();
 
 
@@ -89,13 +101,11 @@ define(['../../module'], function (controllers) {
                 $scope.connectedAccounts = [];
                 $scope.loadMoreSocialPages();
             };
-
-
-
-            $scope.platformFiltered = function () {
-                $scope.connectedAccounts = [];
-                $scope.loadMoreSocialPages();
-            };
+            
+            // $scope.platformFiltered = function () {
+            //     $scope.connectedAccounts = [];
+            //     $scope.loadMoreSocialPages($scope.mod);
+            // };
 
 
 

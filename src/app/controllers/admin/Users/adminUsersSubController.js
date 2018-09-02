@@ -25,7 +25,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
 
                 $scope.checkForm = function(profile){
-                    return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (
+                    return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.tutorial.$dirty) && (
                         !(profile.new_password.$dirty &&
                             profile.confirm_password.$dirty)
                     )) || !profile.$valid;
@@ -42,6 +42,13 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         if (profile.mailing_list.$dirty) {
                             changed.mailing_list = $scope.account.mailing_list;
                         }
+
+                        if (profile.tutorial.$dirty) {
+                            changed.tutorial_step = $scope.tutorialBool ? 999 : 0;
+                            $scope.account.information.tutorial_step = changed.tutorial_step;
+                        }
+
+
                         if (profile.new_password.$dirty && profile.confirm_password.$dirty) {
                             if ($scope.new_password == $scope.confirm_password
                                 && $scope.new_password.length > 0

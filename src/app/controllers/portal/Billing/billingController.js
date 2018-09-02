@@ -5,6 +5,7 @@ define(['../../module'], function (controllers) {
             $scope.packages = [];
             $scope.transactions = [];
             $scope.chosenPackage = $stateParams.package;
+            console.log($stateParams.package);
             $scope.transactionModel = {
                 selected: [],
                 order: null,

@@ -37,7 +37,7 @@ gulp.task('manifest', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
+    // gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
     gulp.watch(__dirname + '/src/views/index.ejs', ['index']);
 
 });
@@ -45,7 +45,7 @@ gulp.task('watch', function() {
 gulp.task('watch-dev', function() {
     gulp.watch(__dirname + '/src/app/**/*.js', ['webpack']);
     gulp.watch(__dirname + '/src/less/**/*.less', ['less']);
-    gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
+    // gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
     gulp.watch(__dirname + '/src/manifest.json', ['manifest']);
     gulp.watch(__dirname + '/src/custom/*.js', ['custom']);
     gulp.watch(__dirname + '/src/img/*.*', ['img']);
@@ -54,12 +54,12 @@ gulp.task('watch-dev', function() {
 
 });
 
-gulp.task('views', function() {
-    return gulp.src(__dirname + '/src/app/views/**/*.ejs')
-        .pipe(gulpEjs({},{}, {ext:'.html'}))
-        .pipe(replace(/__ASSETS__/igm, ASSETS))
-        .pipe(gulp.dest(__dirname + '/dist/'))
-});
+// gulp.task('views', function() {
+//     return gulp.src(__dirname + '/src/app/views/**/*.ejs')
+//         .pipe(gulpEjs({},{}, {ext:'.html'}))
+//         .pipe(replace(/__ASSETS__/igm, ASSETS))
+        // .pipe(gulp.dest(__dirname + '/dist/'))
+// });
 
 gulp.task('custom', function() {
     return gulp.src(__dirname + '/src/custom/*.js')
@@ -169,10 +169,10 @@ gulp.task('cluster', function() {
 
 gulp.task('main', ['cluster']);
 
-let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less','views', 'custom', 'index', 'img', 'fonts', 'webpack'];
+let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less', 'custom', 'index', 'img', 'fonts', 'webpack'];
 if (!devBuild){
     listOfProcesses.push('webserver');
-    listOfProcesses.push('watch-dev');
+    listOfProcesses.push('watch');
     gulp.task('default', listOfProcesses);//habits die hard
 } else {
     listOfProcesses.push('webpack-dev-server');

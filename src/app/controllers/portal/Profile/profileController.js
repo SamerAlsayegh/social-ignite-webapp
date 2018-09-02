@@ -4,6 +4,8 @@ define(['../../module'], function (controllers) {
         function ($rootScope, $scope, Alert, Profile, $stateParams, Billing) {
 
             $scope.themeBool = $scope.theme == "dark" ? true : false;
+            $scope.tutorialBool = $scope.user.information.tutorial_step == 999 ? true : false;
+
             $scope.defaultTab = 0;
 
             if ($stateParams.tab != null){
@@ -18,7 +20,7 @@ define(['../../module'], function (controllers) {
 
 
             $scope.checkForm = function (profile) {
-                return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (
+                return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (!profile.tutorial.$dirty) && (
                     !(profile.current_password.$dirty &&
                         profile.new_password.$dirty &&
                         profile.confirm_password.$dirty)
@@ -36,6 +38,13 @@ define(['../../module'], function (controllers) {
                         $scope.user.options.theme = changed.theme;
                         $scope.setTheme(changed.theme);
                     }
+
+                    if (profile.tutorial.$dirty) {
+                        changed.tutorial_step = $scope.tutorialBool ? 999 : 0;
+                        $scope.user.information.tutorial_step = changed.tutorial_step;
+                    }
+
+
                     if (profile.mailing_list.$dirty) {
                         changed.mailing_list = $scope.user.mailing_list;
                     }

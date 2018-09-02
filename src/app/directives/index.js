@@ -4,6 +4,5 @@ define([
     './onScrollToBottom',
     './delayedImage',
     './notificationCard',
-    './tutorialStep'
 ], function () {
 });

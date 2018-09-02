@@ -12,7 +12,7 @@ define(['./module'], function (directives) {
                 postInformation: "=",
                 control: "@",
             },
-            templateUrl: __ASSETS__ + '/_portal/resources/_imageUploader.html',
+            template: require("ejs-compiled-loader!views/_portal/resources/_imageUploader.ejs")(),
             link: function($scope, element, attrs) {
                 $scope.uploading = false;
                 $scope.isOpen = false;
@@ -37,12 +37,12 @@ define(['./module'], function (directives) {
 
                 $scope.deleteImage = function (image) {
                     if ($scope.control == 'manage' || $scope.control == 'manage2') {
-                        $scope.images.hide = true;
+                        image.hide = true;
                         Image.deleteImage(image._id, function (data) {
                             $scope.images.splice($scope.images.indexOf(image), 1);
                             // Alert.success('Successfully deleted image.');
                         }, function (status, message) {
-                            $scope.images.hide = false;
+                            image.hide = false;
                             Alert.error('Failed to delete image.');
                         });
                     }
@@ -94,6 +94,7 @@ define(['./module'], function (directives) {
                             Alert.error('Failed to upload image.');
                             $scope.uploadImages(imagesList, callback);
                         }, function (loaded, total) {
+                            console.log((loaded / total) * 100, loaded, total)
                             $scope.images[0].progress = (loaded / total) * 100;
                         });
                     } else {

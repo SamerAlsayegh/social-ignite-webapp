@@ -1,12 +1,21 @@
 <!--<div class="parent_step">-->
 
 <!--</div>-->
+<span layout="column" class="darken_text">
+    <span layout="row">
+        <span flex></span>
+        <h2 layout-align="center center">{{activeDescription}}</h2>
+        <span flex></span>
+    </span>
+    <span layout="row" >
+        <span flex></span>
+        <md-button layout-align="center center" class="pointer" ng-click="finishTutorial()">
+            Skip tutorial? Click here
+        </md-button>
+        <span flex></span>
+    </span>
+</span>
 
-<md-content layout="row" class="obscure darken_text" >
-    <span flex></span>
-    <h2 layout-align="center center">{{activeDescription}}</h2>
-    <span flex></span>
-</md-content>
 
 
 <div class="obscure darken_top"></div>

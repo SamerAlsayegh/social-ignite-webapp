@@ -12,7 +12,46 @@ define(['../../module'], function (controllers) {
                 Alert.error("Failed to get all social posts.");
             });
 
-
+            Chart.plugins.register({
+                afterDraw : function(chart) {
+                    if (chart.data.datasets.length == 0) {
+                        // No data is present
+                        var ctx = chart.chart.ctx;
+                        var width = chart.chart.width;
+                        var height = chart.chart.height;
+                        chart.clear();
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'grey';
+                        ctx.font = "72px Arial";
+                        ctx.fillText('Loading data', width / 2, (height / 2) - 50);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'grey';
+                        ctx.font = "24px Arial";
+                        ctx.fillText('Please wait...', width / 2, (height / 2) + 50);
+                        ctx.restore();
+                    } else if (chart.data.datasets[0].data.length < 2) {
+                        var ctx = chart.chart.ctx;
+                        var width = chart.chart.width;
+                        var height = chart.chart.height;
+                        chart.clear();
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'grey';
+                        ctx.font = "72px Arial";
+                        ctx.fillText('No data to display', width / 2, (height / 2) - 50);
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'grey';
+                        ctx.font = "24px Arial";
+                        ctx.fillText('Please wait a couple of hours as we collect some.', width / 2, (height / 2) + 50);
+                        ctx.restore();
+                    }
+                }
+            });
 
             $scope.loadVisitors = function(page){
                 $scope.activePage = page;
@@ -96,50 +135,12 @@ define(['../../module'], function (controllers) {
                 });
             };
 
-            $scope.editPost = function (postId) {
-                $mdDialog.show({
-                    locals: {'postId': postId, 'postInformation': postId == null ? {pages: [$stateParams.pageId]} : null, 'theme': $scope.theme, 'socket': $scope.socket},
-                    controller: 'editControllerDialog',
-                    templateUrl: './_portal/schedule/_scheduleDialog.html',
-                    parent: angular.element(document.body),
-                    clickOutsideToClose: true,
-                    fullscreen: true // Only for -xs, -sm breakpoints.
-                })
-                    .then(function (message) {
-                        if (message.updateId && message.updateContent && message.updateState == "ADD") {
-                            $scope.scheduledPosts.push(message.updateContent);
-                        } else if (message.updateContent  && message.updateState == "ADD") {
-                            for (let x in $scope.scheduledPosts){
-                                if ($scope.scheduledPosts[x]._id == postId){
-                                    $scope.scheduledPosts[x] = message.updateContent;
-                                    break;
-                                }
-                            }
-                            $scope.scheduledPosts.push(message.updateContent);
-
-                        } else if (message.updateId && message.updateState == "DELETE"){
-                            for (let x in $scope.scheduledPosts){
-                                if ($scope.scheduledPosts[x]._id == postId){
-                                    $scope.scheduledPosts.splice(x, 1);
-                                    break;
-                                }
-                            }
-                        } else if (message.updateId && message.updateContent && message.updateState == "DRAFT"){
-                            for (let x in $scope.scheduledPosts){
-                                if ($scope.scheduledPosts[x]._id == postId){
-                                    $scope.scheduledPosts[x] = message.updateContent;
-                                    break;
-                                }
-                            }
-                        }
-                    }, function () {
-
-                    });
-            };
-
 
             SocialAccounts.getSocialAccount($stateParams.pageId, function (data) {
                 $scope.loadVisitors(data);
+                require('./Charts/AudienceGender').loadChart(data);
+                require('./Charts/AudienceAge').loadChart(data);
+                // require('./Charts/ActivityHeatmap').loadChart(data);
             }, function (status, message) {
                 Alert.error(message);
             });

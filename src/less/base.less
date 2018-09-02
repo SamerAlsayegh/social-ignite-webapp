@@ -5,6 +5,10 @@
 @import 'datepicker/material-ui';
 @import 'material-angular/angular-material';
 @import 'material-table/md-table';
+@import 'components/emoji-picker';
+@import 'components/calendar';
+@import 'components/introjs';
+@import 'components/wdtLoading';
 
 @mdb-input-placeholder-color: #000;
 
@@ -13,14 +17,6 @@
 
 .text_shadow(@color, @radius) {
   text-shadow: 0 0 @radius @color;
-}
-
-/*
-    Horizontal Rule
-*/
-div > .hr {
-  height: 1px;
-  width: 80%;
 }
 
 .nolink, .nolink:hover, .nolink:active {
@@ -250,8 +246,19 @@ div > .ng-hide-remove {
   color: white;
 }
 
-.md-success {
+.md-success-override {
   background-color: #4CAF50 !important;
+  color: white;
+}
+
+.md-warn-override {
+  background-color: #FF5722 !important;
+  color: white !important;
+}
+
+.md-info-override {
+  background-color: @gray-light !important;
+  color: white;
 }
 
 .text-success {
@@ -293,87 +300,7 @@ body.pg-loaded > .inner {
   display: block;
 }
 
-.sk-cube-grid {
-  width: 80px;
-  height: 80px;
-  margin: 100px auto;
-}
 
-.sk-cube-grid .sk-cube {
-  width: 33%;
-  height: 33%;
-  background-color: #3FA9F5;
-  float: left;
-  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-  animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-}
-
-.sk-cube-grid .sk-cube1 {
-  -webkit-animation-delay: 0.2s;
-  animation-delay: 0.2s;
-}
-
-.sk-cube-grid .sk-cube2 {
-  -webkit-animation-delay: 0.3s;
-  animation-delay: 0.3s;
-}
-
-.sk-cube-grid .sk-cube3 {
-  -webkit-animation-delay: 0.4s;
-  animation-delay: 0.4s;
-}
-
-.sk-cube-grid .sk-cube4 {
-  -webkit-animation-delay: 0.1s;
-  animation-delay: 0.1s;
-}
-
-.sk-cube-grid .sk-cube5 {
-  -webkit-animation-delay: 0.2s;
-  animation-delay: 0.2s;
-}
-
-.sk-cube-grid .sk-cube6 {
-  -webkit-animation-delay: 0.3s;
-  animation-delay: 0.3s;
-}
-
-.sk-cube-grid .sk-cube7 {
-  -webkit-animation-delay: 0s;
-  animation-delay: 0s;
-}
-
-.sk-cube-grid .sk-cube8 {
-  -webkit-animation-delay: 0.1s;
-  animation-delay: 0.1s;
-}
-
-.sk-cube-grid .sk-cube9 {
-  -webkit-animation-delay: 0.2s;
-  animation-delay: 0.2s;
-}
-
-@-webkit-keyframes sk-cubeGridScaleDelay {
-  0%, 70%, 100% {
-    -webkit-transform: scale3D(1, 1, 1);
-    transform: scale3D(1, 1, 1);
-  }
-  35% {
-    -webkit-transform: scale3D(0, 0, 1);
-    transform: scale3D(0, 0, 1);
-  }
-}
-
-@keyframes sk-cubeGridScaleDelay {
-  0%, 70%, 100% {
-    -webkit-transform: scale3D(1, 1, 1);
-    transform: scale3D(1, 1, 1);
-  }
-  35% {
-    -webkit-transform: scale3D(0, 0, 1);
-    transform: scale3D(0, 0, 1);
-  }
-}
 
 .mini-dot {
   width: 7px;
@@ -383,15 +310,6 @@ body.pg-loaded > .inner {
   margin: 2px;
   display: block;
   border-radius: 50%;
-}
-
-.logo-icon {
-  display: block;
-  text-indent: -9999px;
-  width: 100px;
-  height: 82px;
-  background: url(icons/flame.svg);
-  background-size: 100px 82px;
 }
 
 .md-calendar-social-post {
@@ -432,93 +350,20 @@ body.pg-loaded > .inner {
 }
 
 .hr {
-  margin: 3px;
-  .horizontal-three-colors(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1), 50%, transparent);
+  border: 0;
   height: 1px;
-  width: 80%;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+  width: 100%;
 }
 
-.md-calendar-social-post-content .text {
-  font-size: 16px;
+.hr-both {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  width: 100%;
 }
 
-.md-agenda-time {
-  padding: 10px;
-  font-size: 14px;
 
-}
-
-calendar-md md-content > md-content.agenda > * > * :not(:first-child), calendar-md md-content > md-content.calendar > :not(:first-child) > * :last-child {
-  overflow: hidden;
-  text-overflow: ellipsis
-}
-
-calendar-md {
-  display: block;
-  max-height: 100%;
-  cursor: pointer !important;
-
-
-}
-
-calendar-md .md-toolbar-tools h2 {
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap
-}
-
-calendar-md md-content > md-content {
-  border: 1px solid rgba(0, 0, 0, .12)
-}
-
-calendar-md md-content > md-content.agenda > * > * {
-  border-bottom: 1px solid rgba(0, 0, 0, .12)
-}
-
-calendar-md md-content > md-content.agenda > * > .disabled {
-  color: rgba(0, 0, 0, .3);
-  pointer-events: none;
-}
-
-calendar-md md-content > md-content.agenda > * > * {
-  padding: 12px;
-  text-align: right;
-  font-weight: 100;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap
-}
-
-calendar-md md-content > md-content > * > * {
-  min-width: 48px
-}
-
-calendar-md md-content > md-content.calendar > :first-child {
-  background: rgba(0, 0, 0, .02);
-  border-bottom: 1px solid rgba(0, 0, 0, .12);
-  margin-right: 0;
-  min-height: 36px;
-}
-
-calendar-md md-content > md-content.calendar > :not(:first-child) > * {
-  border-bottom: 1px solid rgba(0, 0, 0, .12);
-  border-right: 1px solid rgba(0, 0, 0, .12);
-}
-
-calendar-md md-content > md-content.calendar > :not(:first-child) > :hover {
-  background: rgba(0, 0, 0, .02);
-
-}
-
-calendar-md md-content > md-content.calendar > :not(:first-child) > .disabled {
-  color: rgba(0, 0, 0, .3);
-  pointer-events: none;
-}
-
-calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
-  //box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
-  background: rgba(0, 0, 0, .02);
-}
 
 .ScheduleStepByStep {
   color: @gray-dark;
@@ -534,7 +379,7 @@ calendar-md md-content > md-content.calendar > :not(:first-child) > .active {
 }
 
 .dashboard-feed-header {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .dashboard_comment {
@@ -608,6 +453,7 @@ md-icon:focus {
 .underline-link {
   text-decoration: underline;
 }
+
 .resource-card {
   height: 100%;
   width: 100%;
@@ -710,7 +556,7 @@ HotFix for Icon Sizing
 
 .obscure {
   position: absolute;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(0,0,0,.65);
   margin: 0; padding: 0;
 }
 
@@ -734,8 +580,7 @@ HotFix for Icon Sizing
   top: 0;
 }
 .darken_text {
-  background-color: rgba(0,0,0,0);
-  z-index: 1000 !important;
+  z-index: -1 !important;
   position: fixed;
   left: 0;
   right: 0;
@@ -757,12 +602,12 @@ HotFix for Icon Sizing
   object-fit: contain;
 }
 
-.page-button{
+.page-button {
   position: fixed;
+  z-index: 10;
   bottom: 20px;
   right: 20px;
 }
-
 
 .process-circular-center{
   margin: 0;
@@ -925,3 +770,35 @@ HotFix for Icon Sizing
   }
 }
 
+md-sidenav{
+  transition: 0.3s ease all .1s;
+  min-width: 175px !important;
+  max-width: 175px !important;
+  white-space: nowrap !important;
+  overflow-x: hidden !important;
+
+}
+/* start 'enter' transition on main view */
+.main-view.ng-enter {
+  /* transition on enter for .5s */
+  transition: .5s;
+
+  /* start with opacity 0 (invisible) */
+  opacity: 0;
+}
+
+/* end 'enter' transition on main view */
+.main-view.ng-enter-active {
+  /* end with opacity 1 (fade in) */
+  opacity: 1;
+}
+
+
+.ng-hide {
+  opacity: 0;
+}
+
+.ng-hide-add,
+.ng-hide-remove {
+  transition: all linear 0.5s;
+}

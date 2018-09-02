@@ -3,19 +3,23 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
     return controllers.controller('socialStackController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog',
         function ($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog) {
             $scope.socialStacks = [];
+            $scope.stacksModel = {
+                order: null,
+                selected: [],
+            };
+
             $scope.data = {
                 socialPages: []
             };
             $scope.$on('addStack', function () {
                 $scope.addStack();
             });
-            $scope.editSocialStack = function (ev, stackId) {
+            $scope.editSocialStack = function (stackId) {
                 $mdDialog.show({
-                    locals:{stackId: stackId},
+                    locals:{stackId: stackId, platforms: $scope.platforms},
                     controller: 'socialStackDialogController',
-                    templateUrl: __ASSETS__ + '/_portal/accounts/_socialStacksDialog.html',
+                    template: require("ejs-compiled-loader!views/_portal/accounts/_socialStacksDialog.ejs")(),
                     parent: angular.element(document.body),
-                    targetEvent: ev,
                     clickOutsideToClose: true,
                     fullscreen: true // Only for -xs, -sm breakpoints.
                 })

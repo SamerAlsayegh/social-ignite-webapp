@@ -1,35 +1,38 @@
-<md-content layout-padding layout="row">
-    <md-content flex>
+<md-card layout-padding layout="row">
+    <span flex>
         <h1 class="page-header">Support</h1>
-        Below is a list of active tickets.
-    </md-content>
-    <md-content>
+        <hr class="hr">
+        Have a question and need answers? Open a ticket and our support team will get back to you as soon as possible.
+    </span>
+    <span>
         <md-button href="/support/new" class="md-fab md-primary page-button" aria-label="New Ticket">
             <i class="zmdi zmdi-plus md-padding zmdi-hc-lg"></i>
         </md-button>
-    </md-content>
-</md-content>
+    </span>
+</md-card>
 
 
+<md-card>
+    <h3 ng-if="tickets.length == 0">No tickets were found...</h3>
+    <md-list layout-padding flex>
+        <md-list-item href="/support/{{ticket._id}}" ng-repeat="ticket in tickets" class="md-2-line">
+            <i class="zmdi zmdi-comment-more md-padding zmdi-hc-lg"></i>
 
-<h3 ng-if="tickets.length == 0">No tickets were found...</h3>
-<md-list layout-padding flex>
-    <md-list-item href="/support/{{ticket._id}}" ng-repeat="ticket in tickets" class="md-2-line">
-        <i class="zmdi zmdi-comment-more md-padding zmdi-hc-lg"></i>
-
-        <div flex class="md-list-item-text">
-            <h3 ng-bind="ticket.user"></h3>
-            <p ng-bind="ticket.title"></p>
-        </div>
-        <md-button ng-if="ticket.status != 'Closed'" ng-click="closeTicket(ticket)" class="md-secondary"  aria-label="close">
-            <i class="zmdi zmdi-close md-padding zmdi-hc-lg"></i>
-        </md-button>
-        <md-button class="md-list-item-text md-secondary">
-            <p ng-bind="ticket.status">
-            <p am-time-ago="ticket.last_response"></p>
-        </md-button>
-    </md-list-item>
-</md-list>
-<md-button ng-click="loadTickets()" ng-if="remaining > 0">
-    Load more tickets...
-</md-button>
+            <div flex class="md-list-item-text">
+                <h3 ng-bind="ticket.user"></h3>
+                <p ng-bind="ticket.title"></p>
+            </div>
+            <md-button ng-if="ticket.status != 'Closed'" ng-click="closeTicket(ticket)" class="md-secondary"
+                       aria-label="close">
+                <i class="zmdi zmdi-close md-padding zmdi-hc-lg"></i>
+            </md-button>
+            <md-button class="md-list-item-text md-secondary">
+                <p ng-bind="ticket.status">
+                <p am-time-ago="ticket.last_response"></p>
+            </md-button>
+        </md-list-item>
+    </md-list>
+    <md-button ng-click="loadTickets()" ng-if="remaining > 0">
+        Load more tickets...
+    </md-button>
+</md-card>
