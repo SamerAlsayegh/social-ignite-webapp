@@ -3,13 +3,12 @@
         <md-content layout="column">
             <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block md-padding" flex>
                 <md-card class="md-whiteframe-3dp md-padding">
-                    <h2>Profile</h2>
                     <div layout="row">
-                        <md-input-container class="md-block">
-                            <i class="zmdi zmdi-email zmdi-hc-lg"></i>
-                        </md-input-container>
-
-                        <md-input-container flex="75" class="md-block">
+                        <i class="zmdi zmdi-face zmdi-hc-2x md-padding"></i>
+                        <h2>Profile</h2>
+                    </div>
+                    <div layout="row" class="md-padding">
+                        <md-input-container flex class="md-block">
                             <!-- Use floating label instead of placeholder -->
                             <label>Email</label>
                             <input name="email" ng-model="user.email" type="email">
@@ -17,25 +16,18 @@
                                 <div ng-message="email">The email must be in valid format.</div>
                             </div>
                         </md-input-container>
-                        <md-input-container flex class="md-block">
+                        <md-input-container class="md-block">
                             <label>Role</label>
                             <input disabled ng-value="user.scope + (user.verified ? '' : ' (Unverified)')">
                         </md-input-container>
                     </div>
-                    <h3>Change Password</h3>
-                    <div layout="row">
-                        <md-input-container class="md-block">
-                            <i class="zmdi zmdi-shield-security zmdi-hc-lg"></i>
-                        </md-input-container>
+                    <div layout="row" class="md-padding">
                         <md-input-container flex class="md-block">
                             <label>Current Password</label>
                             <input name="current_password" type="password" ng-model="current_password">
                         </md-input-container>
                     </div>
-                    <div layout="row">
-                        <md-input-container class="md-block">
-                            <i class="zmdi zmdi-shield-security zmdi-hc-lg"></i>
-                        </md-input-container>
+                    <div layout="row" class="md-padding">
                         <md-input-container flex class="md-block">
                             <label>New Password</label>
                             <input name="new_password" type="password" ng-pattern="confirm_password"
@@ -56,7 +48,9 @@
                 </md-card>
 
                 <md-card class="md-whiteframe-3dp md-padding">
-                    <h2>Misc.</h2>
+                    <div layout="row">
+                        <h2>Misc.</h2>
+                    </div>
                     <md-input-container class="md-block">
                         <md-checkbox ng-model="user.mailing_list" class="md-primary" name="mailing_list">
                             Subscribe to our Mailing List (Tips & Tricks)

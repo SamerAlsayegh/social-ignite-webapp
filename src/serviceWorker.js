@@ -4,12 +4,66 @@ var CACHE_VERSION = 0;
 var CACHE_NAME = 'SocialIgnite-Web' + "-" + CACHE_VERSION;
 
 var urlsToCache = [
-    // '/',
     '/app.js',
-    '/0.js',
+    '/1.js',
     '/css/main.css',
-    // '/app.js'
 ];
+
+function send_message_to_sw(msg){
+    return new Promise(function(resolve, reject){
+    // Create a Message Channel
+    var msg_chan = new MessageChannel();
+
+    // Handler for recieving message reply from service worker
+    msg_chan.port1.onmessage = function(event){
+        if(event.data.error){
+            reject(event.data.error);
+        }else{
+            resolve(event.data);
+        }
+    };
+
+    // Send message to service worker along with port for reply
+    navigator.serviceWorker.controller.postMessage("Client 1 says '"+msg+"'", [msg_chan.port2]);
+});
+}
+
+function messageToClient(client, data) {
+    return new Promise(function(resolve, reject) {
+        const channel = new MessageChannel();
+
+        channel.port1.onmessage = function(event){
+            if (event.data.error) {
+                reject(event.data.error);
+            } else {
+                resolve(event.data);
+            }
+        };
+
+        client.postMessage(JSON.stringify(data), [channel.port2]);
+    });
+}
+
+self.addEventListener('push', function (event) {
+    if (event && event.data) {
+        self.pushData = event.data.json();
+        if (self.pushData) {
+            event.waitUntil(self.registration.showNotification(self.pushData.title, {
+                body: self.pushData.body,
+                icon: self.pushData.data ? self.pushData.data.icon : null
+            }).then(function() {
+                clients.matchAll({type: 'window'}).then(function (clientList) {
+                    if (clientList.length > 0) {
+                        messageToClient(clientList[0], {
+                            message: self.pushData.body // suppose it is: "Hello World !"
+                        });
+                    }
+                });
+            }));
+        }
+    }
+});
+
 
 self.addEventListener('install', function(event) {
     // Perform install steps

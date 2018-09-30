@@ -101,7 +101,7 @@ define(['../../module'], function (controllers) {
                 $scope.connectedAccounts = [];
                 $scope.loadMoreSocialPages();
             };
-            
+
             // $scope.platformFiltered = function () {
             //     $scope.connectedAccounts = [];
             //     $scope.loadMoreSocialPages($scope.mod);

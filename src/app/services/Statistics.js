@@ -1,8 +1,7 @@
 define(['./module'], function (services) {
     'use strict';
-    services.factory('Statistics', ['Request',
-        function (Request) {
-
+    services.factory('Statistics', ['Request', '$rootScope',
+        function (Request, $rootScope) {
             return {
                 getPostStatistics: function (postId, filter, cbSuccess, cbFail) {
                     if (postId == null) {
@@ -40,7 +39,7 @@ define(['./module'], function (services) {
                         });
                 },
                 getStatisticsConfig: function (graphTitle, xLabelTitle, yLabelTitle){
-
+                    Chart.defaults.global.defaultFontColor = $rootScope.theme == 'dark' ? '#FFFFFF' : '#666666';
 
                     return JSON.parse(JSON.stringify({
                         type: 'line',

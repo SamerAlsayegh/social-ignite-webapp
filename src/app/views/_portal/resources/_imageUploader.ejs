@@ -36,7 +36,7 @@
                 ng-repeat="imageContent in images" ng-hide="imageContent.hide">
 
         <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading" ng-hide="image.hide"
-                 class="resource-card resource-select" layout="column" layout-align="center center">
+                 class="resource-card resource-select md-whiteframe-3dp">
 
             <img class="img-responsive"
                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
@@ -45,7 +45,7 @@
 
             <span style="position: absolute; top: 0px; z-index: 3;"
                   ng-style="imageContent.used ? {background: 'rgba(0, 0, 0, 0.5)'} : {}" layout-fill layout="column">
-                <h1 class="white text-center" layout-align="stretch">{{imageContent.used ? 'Used' : ''}}</h1>
+                <span ng-if="imageContent.used" style="width: 100%; height: 4px; background: #b71c1c; opacity: 0.7;" layout-align="stretch"></span>
                 <div flex>
                 </div>
             <md-content class="transparent-hover" layout="row" layout-align="center center">

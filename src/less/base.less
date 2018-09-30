@@ -490,11 +490,10 @@ md-icon:focus {
 
 .resource-select {
   cursor: pointer;
-  margin: 3px;
+  margin: 0px;
   height: 100%;
   width: 100%;
-  padding: 10px 10px 10px 10px;
-  border-radius: 10px;
+  //padding: 10px 10px 10px 10px;
   white-space: nowrap;
   //overflow: hidden;
   text-overflow: ellipsis;
@@ -503,8 +502,6 @@ md-icon:focus {
     //background: rgba(0, 0, 0, 0.5);
     opacity: 0.7;
     animation: 0.5s transparentOut ease;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
   }
 
 }
@@ -554,45 +551,7 @@ HotFix for Icon Sizing
 .material-icons.md-36 { font-size: 36px; height: 36px; width: 36px; }
 .material-icons.md-48 { font-size: 48px; height: 48px; width: 48px; }
 
-.obscure {
-  position: absolute;
-  background-color: rgba(0,0,0,.65);
-  margin: 0; padding: 0;
-}
 
-.darken_left{
-  z-index: 999;
-  position: fixed;
-  left:0;
-  top: 0;
-  bottom: 0;
-}
-.darken_right{
-  z-index: 999;
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-.darken_top{
-  z-index: 999;
-  position: fixed;
-  top: 0;
-}
-.darken_text {
-  z-index: -1 !important;
-  position: fixed;
-  left: 0;
-  right: 0;
-  padding: 0;
-  color: white !important;
-}
-
-.darken_bottom{
-  z-index: 999;
-  position: fixed;
-  bottom: 0;
-}
 .menu_logo {
   padding-top: 15px;
   padding-left: 30px;

@@ -60,38 +60,43 @@
 
             <md-card class="md-whiteframe-3dp md-padding">
                 <div layout-align="noshrink" class="md-padding tutorial_step_7" layout="row" layout-wrap
-                     ng-init="selectedImage = {}">
+                     ng-init="selectedImage = {url: '/img/empty_300x300.png'}">
                     <div emoji-picker="currentSocialPost.content" output-format="unicode" placement="right-relative"
                          title="Emoji Selector" recent-limit="12"></div>
                     <span layout="column" layout-gt-sm="row" flex>
+
                         <span layout="column" flex>
                             <md-input-container flex class="md-block">
                                 <label>Post Content</label>
                                 <textarea md-maxlength="700" required ng-model="currentSocialPost.content"></textarea>
                             </md-input-container>
-                            <span ng-if="currentSocialPost.images.length > 0">
-                                <h3>Attached Images</h3>
-                                <span style="overflow-x: auto;" layout="row" class="md-padding">
-                                        <!--Attached Images-->
-                                        <img class="img-responsive"
-                                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
-                                             delayed-image="{{image.url}}" ng-repeat="image in currentSocialPost.images"
-                                             ng-click="chooseImage(image)" style="height: 75px; padding: 5px;">
+                            <span layout="row" ng-if="availableImages.length > 0">
+                                <span flex="50">
+                                    <span ng-if="currentSocialPost.images.length > 0" style="overflow-x: auto;" layout="row" class="md-padding">
+                                            <!--Attached Images-->
+                                            <img class="img-responsive"
+                                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
+                                                 delayed-image="{{image.url}}" ng-repeat="image in currentSocialPost.images"
+                                                 ng-click="chooseImage(image)" style="height: 75px; margin: 3px; padding: 3px; border: 0.5px solid gray;">
+                                    </span>
+                                    <span ng-if="currentSocialPost.images.length == 0" layout="row" class="md-padding">
+                                            <h2 flex class="text-center" style="opacity: 0.4"> No Images Attached To Post</h2>
+                                    </span>
                                 </span>
-                            </span>
-                            <span ng-if="availableImages.length > 0">
-                                <h3>Images Library</h3>
-                                <span style="overflow-x: auto;" layout="row" class="md-padding">
-                                        <!--Available Images-->
-                                        <img class="img-responsive"
-                                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
-                                             delayed-image="{{image.url}}" ng-repeat="image in availableImages"
-                                             ng-click="chooseImage(image)" style="height: 75px; padding: 5px;">
+                                <md-divider></md-divider>
+                                <span ng-if="availableImages.length > 0" flex="50">
+                                    <span style="overflow-x: auto;" layout="row" class="md-padding">
+                                            <!--Available Images-->
+                                            <img class="img-responsive"
+                                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
+                                                 delayed-image="{{image.url}}" ng-repeat="image in availableImages"
+                                                 ng-click="chooseImage(image)" style="height: 75px; margin: 3px; border: 0.5px solid gray;">
+                                    </span>
                                 </span>
                             </span>
                         </span>
-                        <span layout-align="center center" class="text-center">
-                            <img class="md-padding" src="{{selectedImage.url}}" style="height: auto;">
+                        <span ng-if="availableImages.length > 0" layout-align="center center" class="text-center">
+                            <img class="md-padding" src="{{selectedImage.url}}" style="width: auto; height:200px;">
                         </span>
                     </span>
 

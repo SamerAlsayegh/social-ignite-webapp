@@ -1,7 +1,7 @@
 define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
     'use strict';
-    services.factory('Request', ['$http', '$rootScope',
-        function ($http, $rootScope) {
+    services.factory('Request', ['$http', '$rootScope', '$state', '$cookies',
+        function ($http, $rootScope, $state, $cookies) {
             return {
                 post: function (endpoint, parameters, cbSuccess, cbFail, customTimeout) {
                     return $http({
@@ -26,6 +26,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                 case 401:
                                     $rootScope.user = null;
                                     $rootScope.loggedIn = false;
+                                    $cookies.put("redirect_on_login", $state.current.name);
+                                    $state.go('public.login', {});
                                     cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
@@ -66,6 +68,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                 case 401:
                                     $rootScope.user = null;
                                     $rootScope.loggedIn = false;
+                                    $cookies.put("redirect_on_login", $state.current.name);
+                                    $state.go('public.login', {});
                                     cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
@@ -111,6 +115,8 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                                     case 401:
                                         $rootScope.user = null;
                                         $rootScope.loggedIn = false;
+                                        $cookies.put("redirect_on_login", $state.current.name);
+                                        $state.go('public.login', {});
                                         cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
                                         break;
                                     case 429:

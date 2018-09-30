@@ -32,8 +32,7 @@
         </md-card>
     </md-tab>
     <md-tab label="Plans">
-        <md-card class="md-whiteframe-3dp md-padding">
-            <h2>Plans</h2>
+        <span class="md-padding">
             <notification-card type="info" ng-if="subscription">
                 <p>Subscribing to any new package will automatically cancel current package (if current package is cheaper) and charge only the difference for the initial month.</p>
             </notification-card>
@@ -68,6 +67,7 @@
                                     <i>Pay</i><i>Pal</i>
                                 </span>
                             </button>
+                            <small class="text-center">* Renews every 30 days, until cancelled.</small>
                         </div>
                     </md-card-actions>
                 </md-card>
@@ -80,7 +80,7 @@
                     <h2>You will be redirected to PayPal shortly... please wait.</h2>
                 </div>
             </span>
-        </md-card>
+        </span>
     </md-tab>
     <md-tab label="Transactions" ng-if="transactions.count > 0">
         <md-card class="md-whiteframe-3dp md-padding">

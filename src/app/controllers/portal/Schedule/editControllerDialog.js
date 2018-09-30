@@ -116,15 +116,18 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             };
             $scope.platforms = platforms;
 
+
+
             $scope.chooseImage = function(image){
-                if (image == $scope.selectedImage){
+                if (image == $scope.selectedImage && $scope.lastChoose > (new Date().getTime() - 500)){
                     // Double click
                     if ($scope.currentSocialPost.images.indexOf(image) == -1){
                         $scope.currentSocialPost.images.push(image)
                     } else {
-                        for (var i = 0; i > $scope.currentSocialPost.images.length; i++){
+                        for (var i = 0; i < $scope.currentSocialPost.images.length; i++){
                             if ($scope.currentSocialPost.images[i]._id == image._id){
-                                $scope.currentSocialPost.images.slice(i, 1);
+                                console.log("Deleting image?")
+                                $scope.currentSocialPost.images.splice(i, 1);
                             }
                         }
                     }
@@ -132,6 +135,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     $scope.selectedImage = image;
                     console.log(image);
                 }
+                $scope.lastChoose = new Date();
             }
 
 
@@ -462,8 +466,12 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         } else {
                             // $scope.applyDraft();
                         }
-                        Image.getImages(null, function(images){
-                            $scope.availableImages = images.data.images;
+                        Image.getImages(null, function(images1){
+                            Image.getImages(null, function(images2){
+                                $scope.availableImages = [].concat(images1.data.images).concat(images2.data.images);
+                            }, function(status, message){
+
+                            })
                         }, function(status, message){
 
                         })

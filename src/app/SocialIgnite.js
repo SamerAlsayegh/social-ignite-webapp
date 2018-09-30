@@ -183,6 +183,13 @@ export default angular.module('SocialIgnite', [
                 }).catch(function(error) {
                     console.log('Service worker registration failed:', error);
                 });
+
+                navigator.serviceWorker.addEventListener('message', function(event) {
+                    // console.log(event.data.message); // Hello World !
+                    console.log("SW Received Message: " + event.data);
+                    event.ports[0].postMessage("SW Says 'Hello back!'");
+                });
+
             } else {
                 console.log('Service workers are not supported.');
             }

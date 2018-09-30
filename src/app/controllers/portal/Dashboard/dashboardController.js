@@ -31,7 +31,7 @@ define(['../../module'], function (controllers) {
                         if (!reply.replies) reply.replies = [];
 
                         for (var index = 0; index < data.data.replies.length; index++) {
-                            reply.replies.unshift(data.data.replies[index]);
+                            reply.replies.push(data.data.replies[index]);
                         }
                         reply.remaining = data.data.remaining;
                     }, function (err, data) {

@@ -14,7 +14,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 $scope.platformErrors = platformErrors;
                 $scope.permissions = {};
                 $scope.notifications = [];
-                $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
+                $rootScope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
                 if ($scope.user)
                 $scope.tutorialMode = $scope.user.information.tutorial_step == 999 ? false : true;
                 $scope.socket = io(__SOCKETS__);
@@ -307,7 +307,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
 
 
                 $scope.setTheme = function (theme) {
-                    $scope.theme = theme;
+                    $rootScope.theme = theme;
                     $cookies.put("theme", theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
                 }
 
