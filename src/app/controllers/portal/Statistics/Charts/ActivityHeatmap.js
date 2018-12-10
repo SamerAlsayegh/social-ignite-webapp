@@ -64,6 +64,5 @@ module.exports = {
             });
         }
         chartObject.update();
-        console.log("logggg")
     }
 };

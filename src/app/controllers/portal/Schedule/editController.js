@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('editController', ['$scope', '$rootScope',
         'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$window', '$stateParams',
@@ -338,7 +338,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                         Image.getDetails($scope.attachedImage, function (data) {
                                             $scope.currentSocialPost.images.push(data.data);
                                         }, function (status, message) {
-                                            console.log("Failed?", status, message)
+                                            console.log("Failed - ", status, message)
                                         })
                                     }
 
@@ -346,7 +346,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     $scope.currentSocialPost.date = moment(socialPostDetails.post_time);
                                 }, function (status, message) {
                                     // Failed to get details...
-                                    console.log(message);
                                     $scope.postId = null;
                                     Alert.error("Failed to get details of this post. Creating new post.");
 

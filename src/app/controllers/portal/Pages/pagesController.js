@@ -5,10 +5,13 @@ define(['../../module'], function (controllers) {
         function ($rootScope, $scope,
                   $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
 
-            if ($stateParams.fail != null)
-                Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail);
+            if ($stateParams.fail != null) {
+                Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail, 4000);
+                $state.go($state.current.name, {fail: null}, {reload: true});
+            }
 
-            $scope.connectedAccounts = [];
+
+            $rootScope.allPages = [];
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
             $scope.pagesModel = {
@@ -16,14 +19,11 @@ define(['../../module'], function (controllers) {
                 selected: [],
             };
 
-
-
-
             $scope.past5Minutes = new Date(new Date().getTime() - (1000 * 60 * 5));
 
 
             $scope.updatedRecently = function (itemUpdated) {
-               return new Date(itemUpdated).getTime() < $scope.past5Minutes.getTime();
+                return new Date(itemUpdated).getTime() < $scope.past5Minutes.getTime();
             };
             for (var platformKey in $scope.platforms) {
                 if (parseInt(platformKey) == platformKey) {
@@ -36,9 +36,9 @@ define(['../../module'], function (controllers) {
             }
             $scope.socket.on('updatedPageStatistics', function (pageInfo) {
                 SocialAccounts.getSocialAccount(pageInfo._id, function (message) {
-                    for (var i = 0; i < $scope.connectedAccounts.length; i++) {
-                        if ($scope.connectedAccounts[i]._id == pageInfo._id) {
-                            $scope.connectedAccounts[i] = message;
+                    for (var i = 0; i < $rootScope.allPages.length; i++) {
+                        if ($rootScope.allPages[i]._id == pageInfo._id) {
+                            $rootScope.allPages[i] = message;
                             break;
                         }
                     }
@@ -48,19 +48,17 @@ define(['../../module'], function (controllers) {
             });
 
 
-
             $scope.socialAccounts = {};
 
             $scope.filteredPlatforms = [];
-
-
 
 
             $scope.isPlatformFiltered = function (platform) {
                 return $scope.filteredPlatforms.indexOf(platform) != -1;
             };
 
-            $scope.refreshSocialAccount = function (_id) {
+            $scope.refreshSocialAccount = function (_id, $event) {
+                if ($event) $event.stopPropagation();
                 SocialAccounts.refreshSocialAccount(_id, 'page_statistics', function (message) {
                     Alert.success("Successfully queued page for update.");
                 }, function (status, message) {
@@ -68,28 +66,30 @@ define(['../../module'], function (controllers) {
                 })
             };
 
-            $scope.removeSocialAccount = function (_id) {
+            $scope.removeSocialAccount = function (_id, $event) {
+                if ($event) $event.stopPropagation();
+
                 SocialAccounts.removeSocialAccount(_id, function (message) {
                     Alert.success("Successfully deleted social page.");
                     var lookup = {};
-                    for (var index in $scope.connectedAccounts)
-                        lookup[$scope.connectedAccounts[index]._id] = $scope.connectedAccounts[index];
-                    delete $scope.connectedAccounts.splice($scope.connectedAccounts.indexOf(lookup[_id]), 1);
+                    for (var index in $rootScope.allPages)
+                        lookup[$rootScope.allPages[index]._id] = $rootScope.allPages[index];
+                    delete $rootScope.allPages.splice($rootScope.allPages.indexOf(lookup[_id]), 1);
                 }, function (status, message) {
                     Alert.error(message);
                 })
             };
 
             $scope.loadMoreSocialPages = function () {
-                SocialAccounts.getSocialAccounts(($scope.connectedAccounts.length > 0 ? ($scope.connectedAccounts[$scope.connectedAccounts.length - 1]._id) : null), $scope.filteredPlatforms, function (message) {
-                    $scope.connectedAccounts = $scope.connectedAccounts.concat(message.pages);
+                SocialAccounts.getSocialAccounts(($rootScope.allPages.length > 0 ? ($rootScope.allPages[$rootScope.allPages.length - 1]._id) : null), $scope.filteredPlatforms, function (message) {
+                    $rootScope.allPages = $rootScope.allPages.concat(message.pages);
                     $scope.remaining = message.remaining;
                 }, function (status, message) {
                     Alert.error(message);
                 });
             };
 
-            $scope.reorderPages = function(sortOrder){
+            $scope.reorderPages = function (sortOrder) {
 
             };
 
@@ -97,16 +97,15 @@ define(['../../module'], function (controllers) {
 
 
             $scope.togglePlatformFilter = function (platform) {
-                $scope.filteredPlatforms.indexOf(platform) == -1 ? $scope.filteredPlatforms.push(platform) :  $scope.filteredPlatforms.splice($scope.filteredPlatforms.indexOf(platform), 1);
-                $scope.connectedAccounts = [];
+                $scope.filteredPlatforms.indexOf(platform) == -1 ? $scope.filteredPlatforms.push(platform) : $scope.filteredPlatforms.splice($scope.filteredPlatforms.indexOf(platform), 1);
+                $rootScope.allPages = [];
                 $scope.loadMoreSocialPages();
             };
 
             // $scope.platformFiltered = function () {
-            //     $scope.connectedAccounts = [];
+            //     $rootScope.allPages = [];
             //     $scope.loadMoreSocialPages($scope.mod);
             // };
-
 
 
         }]);

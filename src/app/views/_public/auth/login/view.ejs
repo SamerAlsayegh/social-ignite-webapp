@@ -1,9 +1,21 @@
 <div layout="row">
     <div flex flex-offset-sm="0" flex-offset-gt-sm="30">
-        <h1>Login
-            <small>to get access to all features!</small>
-        </h1>
-        <form name="login" ng-submit="loginForm(login)" method="post" id="login">
+        <md-card ng-if="loginLoading" flex="100" flex-gt-md="50" flex-offset-gt-md="25" class="md-whiteframe-3dp md-padding text-center">
+            <h1>Logging in... Please wait.</h1>
+            <hr class="hr-both"/>
+            <md-button disabled flex>
+                <i class="zmdi continious_rotation zmdi-refresh-sync md-padding zmdi-hc-5x"></i>
+            </md-button>
+            <br>
+            <div>
+                Is it taking a while? Click here to cancel.
+            </div>
+        </md-card>
+        <md-card ng-if="!loginLoading" class="md-whiteframe-3dp md-padding">
+            <h1>Login
+                <small>to get access to all features!</small>
+            </h1>
+        <form name="login" ng-submit="loginForm(login)"  method="post" id="login">
             <div class="text-center">
                 Don't have an account? <strong><a href="/register"  class="label md-primary">Click here.</a></strong>
             </div>
@@ -11,12 +23,12 @@
                 Forgot password? <a href="/" ng-click="requestResetPassword(email)"  class="label md-primary">Click here to reset..</a>
             </div>
             <span class="md-padding"></span>
-            <md-content layout="row" layout-align="center center">
+            <span layout="row" layout-align="center center">
                 <md-button ng-click="loginWithFacebook()" class="ui-social-button ui-facebook md-padding" flex>
                     <i class="zmdi zmdi-facebook md-padding zmdi-hc-lg"></i>
                     <span class="md-padding">Login with Facebook</span>
                 </md-button>
-            </md-content>
+            </span>
             <span class="md-padding"></span>
 
             <md-input-container class="md-block">
@@ -42,7 +54,7 @@
                 <md-button type="submit" class="md-primary md-raised">Login</md-button>
             </div>
         </form>
-
+        </md-card>
     </div>
     <div flex-gt-sm="30"></div>
 </div>

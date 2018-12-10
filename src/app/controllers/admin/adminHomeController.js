@@ -1,11 +1,11 @@
 require("expose-loader?io!socket.io-client");
 
-define(['./../module', '../../enums/platforms'], function (controllers, platforms) {
+define(['./../module'], function (controllers) {
     'use strict';
     return controllers.controller('adminHomeController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
         '$state', '$stateParams', 'moment', '$timeout', 'Alert', '$mdSidenav', 'Auth', 'AdminGeneral',
         function ($rootScope, $scope, $http, $cookies, $location,
-                  $state, $stateParams, moment, $timeout, Alert, $mdSidenav ,Auth, AdminGeneral) {
+                  $state, $stateParams, moment, $timeout, Alert, $mdSidenav, Auth, AdminGeneral) {
 
             $scope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
 
@@ -15,21 +15,11 @@ define(['./../module', '../../enums/platforms'], function (controllers, platform
             $scope.socket = io(__SOCKETS__);
 
             $scope.socket.on('online', function (onlineCount) {
-                console.log(onlineCount);
                 $scope.onlineCount = onlineCount;
                 $scope.$apply();
             });
 
 
-
-            $scope.socket.on('ticket_new_admin', function (ticket_reply) {
-                Alert.info("A new ticket was created.")
-                console.log(ticket_reply);
-            });
-            $scope.socket.on('ticket_reply_admin', function (ticket_reply) {
-                Alert.info("A ticket has been replied to")
-                console.log(ticket_reply);
-            });
 
             $scope.socket.on('changedScope', function () {
                 Auth.logout(function () {

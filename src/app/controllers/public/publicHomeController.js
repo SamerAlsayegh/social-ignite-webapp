@@ -1,9 +1,11 @@
-define(['../module', '../../enums/errorCodes'], function (controllers, errorCodes) {
+define(['../module'], function (controllers) {
     'use strict';
     return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$cookies', '$location',
         '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window',
         function ($rootScope, $scope, $cookies, $location,
                   $state, $stateParams, Auth, Alert, $mdSidenav, $window) {
+
+
             /**
              * Any module declarations here
              */
@@ -24,23 +26,27 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
              */
             $scope.loginForm = function (login) {
                 if (login.$valid) {
+                    $scope.loginLoading = true;
                     Auth.login({
                         email: login.email.$modelValue,
                         password: login.password.$modelValue,
-                        remember: login.remember ? login.remember.$modelValue : false
+                        remember: true
                     }, function (data) {
-                        // $rootScope.user = data;
+                        $rootScope.user = data;
                         var redirect = $cookies.get("redirect_on_login");
-                        if (redirect != null){
+                        $scope.loginLoading = false;
+                        console.log(redirect);
+                        if (redirect != null && redirect.length > 0){
                             $cookies.remove("redirect_on_login");
                             $state.go(redirect, {}, {reload: redirect});
                         } else {
                             $state.go('portal.home', {}, {reload: 'portal.home'});
                         }
                     }, function (status, message) {
+                        $scope.loginLoading = false;
                         if (status == 404) {
                             $scope.forgotPassword =  true;
-                            Alert.error("You entered an invalid email/password.?");
+                            Alert.error("You entered an invalid email/password.");
                         }
                         else
                             Alert.error("Error: " + message);
@@ -54,6 +60,7 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
              */
             $scope.registerForm = function (register) {
                 if (register.$valid) {
+                    $scope.registerLoading = true;
                     // Backup code that was previouslky coded but technically not needed.
                     if (!register || register.email.$modelValue.length == 0 || register.password.$modelValue.length == 0) {
                         Alert.error("Your email or password field is missing.");
@@ -62,21 +69,24 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
                         Alert.error("Please tick the Terms and Conditions box so you won't set our servers on fire");
                         return;
                     }
+                    var email = register.email.$modelValue;
 
                     Auth.register({
-                        email: register.email.$modelValue,
+                        email: email,
                         password: register.password.$modelValue,
                         mailing_list: register.mailing_list.$modelValue,
                         toc: register.toc.$modelValue
                     }, function (data) {
-                        $state.go('public.email_verify', {email: register.email.$modelValue}, {reload: 'public.email_verify'});//If the session is invalid, take to login page.
+                        $state.go('public.email_verify', {email: email}, {reload: 'public.email_verify'});//If the session is invalid, take to login page.
                     }, function (status, message) {
+                        $scope.registerLoading = false;
                         Alert.error(message);
                     });
                 }
             };
 
             $scope.loginWithFacebook = function() {
+                $scope.loginLoading = true;
                 $window.open(__API__ + '/api/v1/oauth/facebook/', '_self');
             };
 
@@ -89,7 +99,6 @@ define(['../module', '../../enums/errorCodes'], function (controllers, errorCode
             };
 
             $scope.resetPassword = function (forgot_password) {
-                console.log($stateParams.secure, forgot_password.$valid, forgot_password)
                 if (forgot_password.$valid && $stateParams.secure != null) {
                     // Backup code that was previouslky coded but technically not needed.
                     if (!forgot_password || forgot_password.password.$modelValue.length == 0) {

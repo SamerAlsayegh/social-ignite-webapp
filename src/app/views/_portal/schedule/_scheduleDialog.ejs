@@ -7,7 +7,7 @@
             </md-button>
         </div>
     </md-toolbar>
-    <notification-card ng-show="instagramWarning" type="info" can-dismiss="false">
+    <notification-card ng-if="instagramWarning" type="info" can-dismiss="false">
         <p>When your Instagram is scheduled to post, we will email you details to post.</p>
     </notification-card>
 
@@ -57,7 +57,6 @@
                 </md-list>
             </span>
             </md-card>
-
             <md-card class="md-whiteframe-3dp md-padding">
                 <div layout-align="noshrink" class="md-padding tutorial_step_7" layout="row" layout-wrap
                      ng-init="selectedImage = {url: '/img/empty_300x300.png'}">
@@ -160,8 +159,15 @@
             </md-card>
 
             <md-card class="md-whiteframe-3dp md-padding">
-
-                <div class="md-padding tutorial_step_10">
+                <div layout="column" class="md-block tutorial_step_8 tutorial_step_9" layout-align="stretch">
+                    <span layout="column" ng-if="!currentSocialPost.advancedShow">
+                        <md-button flex ng-click="currentSocialPost.advancedShow = true"
+                                   class="md-secondary md-raised">
+                            Advanced Scheduling
+                        </md-button>
+                    </span>
+                </div>
+                <div ng-if="currentSocialPost.advancedShow" class="md-padding tutorial_step_10">
                     <div
                             moment-picker="currentSocialPost.dateString"
                             min-date="currentTime"
@@ -186,7 +192,7 @@
                     </md-button>
                     <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
                                ng-click="submitPost(false); nextStep();">
-                        Post {{ currentSocialPost.dateString != null ? '@ ' + currentSocialPost.dateString : 'Now' }}
+                        Post {{ currentSocialPost.dateString != null ?  (currentSocialPost.date | amTimeAgo) : 'Now' }}
                     </md-button>
                 </div>
             </md-card>

@@ -1,8 +1,8 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('editControllerDialog', ['$scope', '$rootScope',
-        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$mdDialog', 'postId', 'postInformation', 'theme', 'socket', '$window', 'ngIntroService', '$cookies', 'socialPages', 'socialStacks',
-        function ($scope, $rootScope, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks, $mdDialog, postId, postInformation, theme, socket, $window, ngIntroService, $cookies, socialPages, socialStacks) {
+        'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$mdDialog', 'postId', 'postInformation', 'theme', 'socket', '$window', 'ngIntroService', '$cookies', 'socialPages', 'socialStacks', '$state',
+        function ($scope, $rootScope, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks, $mdDialog, postId, postInformation, theme, socket, $window, ngIntroService, $cookies, socialPages, socialStacks, $state) {
             $scope.postId = postId;
             $scope.attachImages = false;
             $scope.postInformation = postInformation;
@@ -14,6 +14,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.socket = socket;
             $scope.dirtyForm = false;
             $scope.scheduleShowing = false;
+            $scope.platforms = $rootScope.platforms;
             $scope.allPages = socialPages;
             $scope.allStacks = socialStacks;
             $scope.availableImages = [];
@@ -114,9 +115,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 date: $scope.currentTime,
                 maxLength: 280//Lim = false;it for Twitter. We wil adjust dynamically
             };
-            $scope.platforms = platforms;
-
-
 
             $scope.chooseImage = function(image){
                 if (image == $scope.selectedImage && $scope.lastChoose > (new Date().getTime() - 500)){
@@ -126,14 +124,12 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     } else {
                         for (var i = 0; i < $scope.currentSocialPost.images.length; i++){
                             if ($scope.currentSocialPost.images[i]._id == image._id){
-                                console.log("Deleting image?")
                                 $scope.currentSocialPost.images.splice(i, 1);
                             }
                         }
                     }
                 } else {
                     $scope.selectedImage = image;
-                    console.log(image);
                 }
                 $scope.lastChoose = new Date();
             }
@@ -165,6 +161,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                             // $state.go('portal.schedule.table', {});
                             $scope.currentSocialPost.post_time = $scope.currentSocialPost.date;
                             $scope.currentSocialPost._id = $scope.postId;
+                            $scope.dirtyForm = false;
                             $mdDialog.hide({
                                 'updateId': $scope.postId,
                                 'updateState': 'DRAFT',
@@ -185,6 +182,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     case 'DRAFT':
                         // Delete the post.
                         SocialPosts.deletePost($scope.postId, function (message) {
+                            $scope.dirtyForm = false;
                             $mdDialog.hide({
                                 'updateId': $scope.postId,
                                 'updateState': 'DELETE',
@@ -246,16 +244,26 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                 if (newValue.images.length > 0) $scope.attachImages = true;
                 else $scope.attachImages = false;
-
                 $scope.dirtyForm = true;
-                if ($scope.currentSocialPost.content.length > 0) {
+                console.log("Setting time?", newValue.date, oldValue.date, newValue.pages, oldValue.pages)
+                if ( (oldValue == null && newValue != null) || (newValue.pages != oldValue.pages && newValue.date.getTime() == oldValue.date.getTime())){
+                    console.log("Setting time?")
+                    SocialAccounts.getSuggestedPostTime(newValue.pages, new Date().getTimezoneOffset(), function (message) {
+                        $scope.currentSocialPost.date = message;
+                    }, function (status, message) {
+                       Alert.error(message);
+                    });
+                }
+
+
+                if (newValue.content.length > 0) {
                     if ($scope.draftUpdater != null)
                         clearTimeout($scope.draftUpdater);
                     if ($scope.contentUpdater != null)
                         clearTimeout($scope.contentUpdater);
                     try {
                         $scope.draftUpdater = setTimeout(function () {
-                            if ($scope.currentSocialPost.state != "ACTIVE") {
+                            if (newValue.state != "ACTIVE") {
                                 $scope.applyDraft();
                             }
                         }, 2000);
@@ -271,7 +279,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                     if (oldValue.dateString != newValue.dateString) {
                         $scope.nextStep();
                     }
-
                 }
             }, true);
 
@@ -344,6 +351,8 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         //     'updateState': 'ADD',
                         //     'updateContent': postDetails
                         // });
+                        $scope.dirtyForm = false;
+
                         $mdDialog.hide({
                             'updateId': null,
                             'updateState': 'ADD',
@@ -371,7 +380,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                         //     $scope.step();
                         // }, 0);
                         $scope.nextStep = function () {};
-                        if ($cookies.get("tutorial") != null) {
+                        if ($rootScope.tutorialMode != null) {
                             // ngIntroService.clear();
                             ngIntroService.onExit(function(){
                                 $rootScope.finishTutorial(true);
@@ -379,13 +388,13 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                             ngIntroService.setOptions($scope.IntroOptions);
 
-                            if ($cookies.get("tutorial") >= 10)
-                                $cookies.remove("tutorial");
-
-                            $scope.$step = $cookies.get("tutorial") || 6;
+                            // if ($cookies.get("tutorial") >= 10)
+                            //     $cookies.remove("tutorial");
+                            //
+                            // $scope.$step = $cookies.get("tutorial") || 6;
                             setTimeout(function () {
                                 ngIntroService.start();
-                            }, 500)
+                            }, 500);
 
 
                             $scope.nextStep = function () {
@@ -445,7 +454,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                                     $scope.currentSocialPost.date = moment(socialPostDetails.post_time);
                                 }, function (status, message) {
                                     // Failed to get details...
-                                    console.log(message);
                                     $scope.postId = null;
                                     Alert.error("Failed to get details of this post. Creating new post.");
 

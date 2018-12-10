@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('adminUsersSubController', ['$scope', '$stateParams', 'Alert', '$state', 'AdminAccount',
         function ($scope, $stateParams, Alert, $state, AdminAccount) {
@@ -73,7 +73,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
 
                 $scope.updateRole = function (role_form) {
                     if (role_form.$valid) {
-                        console.log($scope.role);
                         AdminAccount.updateRole($scope.accountId, $scope.account.role, $scope.account.expiry, function (message) {
                             Alert.success("This user's role has been updated.");
                             role_form.$setPristine();

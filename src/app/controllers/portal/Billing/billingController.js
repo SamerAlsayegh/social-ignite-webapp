@@ -5,7 +5,8 @@ define(['../../module'], function (controllers) {
             $scope.packages = [];
             $scope.transactions = [];
             $scope.chosenPackage = $stateParams.package;
-            console.log($stateParams.package);
+            $scope.isPending = $stateParams.pending;
+
             $scope.transactionModel = {
                 selected: [],
                 order: null,
@@ -22,11 +23,6 @@ define(['../../module'], function (controllers) {
                 else if ($stateParams.tab == 'transactions')
                     $scope.defaultTab = 2;
             }
-            console.log($stateParams.tab, $scope.defaultTab);
-
-
-
-
 
             Billing.getPlans(false, function (plans) {
                 $scope.packages = plans;
@@ -48,12 +44,10 @@ define(['../../module'], function (controllers) {
             };
 
 
-            console.log("Subscription1: ",$scope.subscription)
 
 
             Billing.getSubscription(function (subscriptionData) {
                 $scope.subscription = subscriptionData.data;
-                console.log("Subscription: ",$scope.subscription)
             }, function (status, message) {
                 Alert.error(message)
             });

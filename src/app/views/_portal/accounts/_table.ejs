@@ -2,7 +2,7 @@
     <md-tab label="Social Profiles" md-on-select="addPageActive = true" md-on-deselect="addPageActive = false">
         <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill >
             <div>
-                <%- include /src/app/views/_portal/accounts/_socialPages.ejs %>
+                <%- include ./_socialPages.ejs %>
             </div>
             <span layout="row">
                 <span flex></span>
@@ -29,7 +29,7 @@
     <md-tab label="Social Stacks" md-on-select="addStackActive = true" md-on-deselect="addStackActive = false">
         <md-content layout="column" ng-controller="socialStackController" layout-fill>
             <div class="md-padding">
-                <%- include /src/app/views/_portal/accounts/_socialStacks.ejs %>
+                <%- include ./_socialStacks.ejs %>
             </div>
             <md-button ng-click="editSocialStack();"
                        class="md-fab md-primary page-button"

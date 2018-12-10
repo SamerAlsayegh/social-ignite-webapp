@@ -53,7 +53,7 @@ angular.module("materialCalendar").service("materialCalendar.Calendar", [functio
         };
 
         // Month should be the javascript indexed month, 0 is January, etc.
-        this.init = function (year, month) {
+        this.init = function (year, month,) {
 
             var now = new Date();
             this.year = angular.isDefined(year) ? year : now.getFullYear();

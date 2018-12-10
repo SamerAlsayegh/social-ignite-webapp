@@ -38,6 +38,17 @@ define(['./module'], function (services) {
                             return cbFail(status, message);
                         });
                 },
+                getPageRecommendations: function (pageId, cbSuccess, cbFail){
+                    if (pageId == null) {
+                        return cbFail(400, "Missing pageId");
+                    }
+                    return Request.get('portal/page_analysis/' + pageId + '/suggestions',
+                        function (message) {
+                            return cbSuccess(message.data);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
+                },
                 getStatisticsConfig: function (graphTitle, xLabelTitle, yLabelTitle){
                     Chart.defaults.global.defaultFontColor = $rootScope.theme == 'dark' ? '#FFFFFF' : '#666666';
 

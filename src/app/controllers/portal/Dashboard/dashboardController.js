@@ -67,16 +67,14 @@ define(['../../module'], function (controllers) {
                     $mdDialog.show({
                         locals:{ 'socialComment': socialComment, 'socialPage': socialComment.page_id, 'permissions': $scope.permissions, 'theme': $scope.theme},
                         controller: 'conversationDialogController',
-                        template: require("ejs-compiled-loader!views/_portal/dashboard/_conversation.ejs")(),
+                        template: require("compile-ejs-loader!views/_portal/dashboard/_conversation.ejs")(),
                         parent: angular.element(document.body),
                         clickOutsideToClose: true,
                         fullscreen: true // Only for -xs, -sm breakpoints.
                     })
                         .then(function (message) {
-                            console.log(message);
 
                         }, function () {
-
 
                         });
                 };
@@ -87,7 +85,7 @@ define(['../../module'], function (controllers) {
                     Alert.error(message, 600);
                 });
                 Dashboard.getPagesWithStandAlones(null, function (data) {
-                    $scope.socialReplies = data.replies;
+                    $scope.mentions = data.replies;
                 }, function (status, message) {
                     Alert.error(message, 600);
                 });

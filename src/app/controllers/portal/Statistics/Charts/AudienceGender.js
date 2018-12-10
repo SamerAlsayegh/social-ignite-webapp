@@ -2,42 +2,40 @@ var chartObject = null;
 var chartElement = null;
 
 module.exports = {
-    loadChart: function (socialPage) {
+    loadChart: function (genderData) {
         if (!chartObject) {
             chartElement = document.getElementById("audienceGenderChart").getContext('2d');
+            var dataFormatted = [];
+            var dataLabels = [];
+            var dataColors = [];
+            angular.forEach(genderData, function (dataEntry) {
+                dataFormatted.push(dataEntry.value);
+                dataLabels.push(dataEntry.label);
+                dataColors.push(dataEntry.color);
+            });
+
+
 
             chartObject = new Chart(chartElement, {
                 type: 'pie',
                 data: {
                     datasets: [{
-                        data: [
-                            socialPage.statistic.audience.gender[0].value,
-                            socialPage.statistic.audience.gender[1].value,
-                            socialPage.statistic.audience.gender[2].value
-                        ],
-                        backgroundColor: [
-                            "#E91E63",
-                            "#55A4DA",
-                            "#9E9E9E"
-                        ],
+                        data: dataFormatted,
+                        backgroundColor: dataColors,
                         datalabels: {
                             display: true,
                             color: "#fff",
                         }
                     }],
                     // These labels appear in the legend and in the tooltips when hovering different arcs
-                    labels: [
-                        'Female',
-                        'Male',
-                        'Unknown'
-                    ]
+                    labels: dataLabels
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                 }
             });
+            chartObject.update();
         }
-        chartObject.update();
     }
 };

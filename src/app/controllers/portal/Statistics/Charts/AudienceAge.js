@@ -2,12 +2,12 @@ var chartObject = null;
 var chartElement = null;
 
 module.exports = {
-    loadChart: function (socialPage) {
+    loadChart: function (ageData) {
         if (!chartObject) {
             chartElement = document.getElementById("audienceAgeChart").getContext('2d');
             let agesData = [];
             let agesLabel = [];
-            angular.forEach(socialPage.statistic.audience.age, function (ageData) {
+            angular.forEach(ageData, function (ageData) {
                 agesData.push(ageData.value);
                 agesLabel.push(ageData.name);
             });

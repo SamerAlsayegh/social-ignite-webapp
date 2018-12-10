@@ -2,27 +2,25 @@ require("expose-loader?io!socket.io-client");
 
 // require("expose-loader?moment!moment");
 
-define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../enums/platformErrors'], function (controllers, platforms, errorCodes, platformErrors) {
+define(['../module'], function (controllers) {
     'use strict';
     return controllers.controller('portalHomeController',
         ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
-            'Profile', 'General','$state', '$mdDialog', 'ngIntroService', '$http', "SocialStacks", "SocialAccounts", "$transitions", "$sce",
+            'Profile', 'General', '$state', '$mdDialog', 'ngIntroService', '$http', "SocialStacks", "SocialAccounts", "$transitions", "$sce", "SocialPosts",
             function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav,
-                      $cookies, Profile, General, $state, $mdDialog, ngIntroService, $http, SocialStacks, SocialAccounts, $transitions, $sce) {
-                $scope.errorCodes = errorCodes;
-                $scope.platforms = platforms;
-                $scope.platformErrors = platformErrors;
+                      $cookies, Profile, General, $state, $mdDialog, ngIntroService, $http, SocialStacks, SocialAccounts, $transitions, $sce, SocialPosts) {
                 $scope.permissions = {};
+                $scope.platforms = $rootScope.platforms;
                 $scope.notifications = [];
-                $rootScope.theme = $scope.user && $scope.user.options ? $scope.user.options.theme : "default";
-                if ($scope.user)
-                $scope.tutorialMode = $scope.user.information.tutorial_step == 999 ? false : true;
+                $rootScope.theme = $rootScope.user && $rootScope.user.options ? $rootScope.user.options.theme : "default";
+                if ($rootScope.user != null)
+                    $rootScope.tutorialMode = false;//($rootScope.user != null && $rootScope.user.information != null) ? ($rootScope.user.information.tutorial_step == 999 ? false : true) : false;
                 $scope.socket = io(__SOCKETS__);
 
                 $scope.socket.on('connect', function () {
                     console.log("Connected to Sockets");
                     $scope.socket.emit('getOnline');
-                    if ($scope.disconnected){
+                    if ($scope.disconnected) {
                         delete $scope.disconnected;
                         Alert.success("Reconnected.")
                     }
@@ -33,15 +31,6 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 $scope.openMenu = function () {
                     $mdSidenav('left').open();
                 };
-
-                // $scope.socket.on('ticket_new_user', function (ticket_reply) {
-                //     Alert.info("A new ticket was created.");
-                //     $scope.notifications.support_tickets++;
-                // });
-                // $scope.socket.on('ticket_reply_user', function (ticket_reply) {
-                //     Alert.info("A ticket has been replied to");
-                //     $scope.notifications.support_tickets++;
-                // });
 
 
                 $scope.socket.on('changedScope', function () {
@@ -82,13 +71,14 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 $scope.allowedActions = [];
                 Action.getAllowedActions(function (data) {
                     $scope.allowedActions = data;
+                    console.log($scope.allowedActions);
                 }, function (status, message) {
                     // Alert.error(message, 600);
                 });
                 SocialStacks.getSocialStacks(true, false, 1, function (socialStacks) {
                     $scope.allStacks = socialStacks.social_stacks;
                     SocialAccounts.getSocialAccounts(null, null, function (socialAccounts) {
-                        $scope.allPages = socialAccounts.pages;
+                        $rootScope.allPages = socialAccounts.pages;
                     }, function (status, error) {
                         $scope.platforms = [];
                         Alert.error(error.code + ": Failed to get social accounts. ")
@@ -99,9 +89,9 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 });
 
 
-                General.getNotifications(function(data){
+                General.getNotifications(function (data) {
                     $scope.notifications = data.data;
-                }, function(status, message){
+                }, function (status, message) {
 
                 });
 
@@ -148,7 +138,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                     hideNext: true,
                     hidePrev: true,
                     disableInteraction: false,
-                    steps:[
+                    steps: [
                         {
                             element: ".tutorial_step_1",
                             intro: "Let's go to account management."
@@ -162,7 +152,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 // ngIntroService.clear();
                 ngIntroService.setOptions($scope.IntroOptions);
                 if ($scope.tutorialMode) {
-                    $scope.$step = $cookies.get("tutorial") || 1 ;
+                    $scope.$step = $cookies.get("tutorial") || 1;
                     if ($scope.$step == 1) {
                         setTimeout(function () {
                             $scope.openMenu();
@@ -177,7 +167,6 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                         $cookies.remove("tutorial");
 
                     $scope.nextStep = function () {
-                        console.log("Nexted...");
                         $scope.$step++;
                         $cookies.put("tutorial", $scope.$step)
                         ngIntroService.next();
@@ -185,17 +174,17 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 }
 
                 $rootScope.finishTutorial = function (skipped) {
-                    if ($scope.tutorialMode){
+                    if ($scope.tutorialMode) {
                         $scope.tutorialMode = false;
                         Profile.updateUser({
                             tutorial_step: 999,
                         }, function (result) {
-                            if (skipped){
+                            if (skipped) {
                                 Alert.success("Skipping tutorial. To restart tutorial, access 'Profile'.", 4000);
                             } else {
                                 Alert.success("Successfully finished tutorial. If you need help, contact support.", 4000);
                             }
-                        }, function (status, message){
+                        }, function (status, message) {
                             Alert.error(message);
                         })
                     }
@@ -226,19 +215,17 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                 };
 
 
-                $scope.addPost = function (previousId, postInformation) {
+                $rootScope.addPost = function (previousId, postInformation) {
                     $mdDialog.show({
-                        locals:{
+                        locals: {
                             'postId': previousId,
                             'postInformation': postInformation,
                             'theme': $scope.theme,
                             'socket': $scope.socket,
                             'socialStacks': $scope.allStacks,
-                            'socialPages': $scope.allPages,
+                            'socialPages': $rootScope.allPages,
                         },
-                        // template: __ASSETS__ + '/_portal/schedule/_scheduleDialog.html',
-                        // contentElement: '#scheduleDialog',
-                        template: require("ejs-compiled-loader!views/_portal/schedule/_scheduleDialog.ejs")(),
+                        template: require("compile-ejs-loader!../../views/_portal/schedule/_scheduleDialog.ejs")(),
                         controller: 'editControllerDialog',
                         parent: angular.element(document.body),
                         clickOutsideToClose: true,
@@ -250,7 +237,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                                 if ($scope.updateSocialPost != null) {
                                     $scope.updateSocialPost(message.updateId, message.updateContent);
                                 }
-                            } else if (message.updateContent  && message.updateState == "ADD") {
+                            } else if (message.updateContent && message.updateState == "ADD") {
                                 // Adding a post
                                 if ($scope.allDraftedPosts != null) {
                                     for (let index = 0; index < $scope.allDraftedPosts.length; index++) {
@@ -264,7 +251,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                                     $scope.allActivePosts.push(message.updateContent);
                                 }
                                 if ($scope.tutorialMode) $scope.nextStep();
-                            } else if (message.updateId && message.updateState == "DELETE"){
+                            } else if (message.updateId && message.updateState == "DELETE") {
                                 // Deleting a draft
                                 if ($scope.allDraftedPosts != null) {
                                     for (let index = 0; index < $scope.allDraftedPosts.length; index++) {
@@ -275,7 +262,7 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                                     }
                                 }
 
-                            } else if (message.updateId && message.updateContent && message.updateState == "DRAFT"){
+                            } else if (message.updateId && message.updateContent && message.updateState == "DRAFT") {
                                 // Drafting a post.
                                 if ($scope.updateSocialPost != null) {
                                     $scope.updateSocialPost(message.updateId, null);
@@ -297,11 +284,39 @@ define(['../module', '../../enums/platforms', '../../enums/errorCodes', '../../e
                     // $state.go('portal.schedule.edit', {postId: previousId});
                 };
 
-                $scope.toTrustedHTML = function( html ){
-                    return $sce.trustAsHtml( html );
+
+                $rootScope.deletePost = function (socialPostId) {
+                    var confirm = $mdDialog.confirm()
+                        .title('Would you like to delete this post?')
+                        .textContent('Posts will be deleted across all supported platforms. You will be prompted if they need manual intervention.')
+                        .ok('Confirm delete')
+                        .cancel('Cancel');
+
+                    $mdDialog.show(confirm).then(function () {
+                        SocialPosts.deletePostedSocialPostMain(socialPostId, function (message) {
+                            if (message.deleted_all) {
+                                Alert.success("Deleted social post across all platforms");
+                                $state.go('portal.schedule.table', {}, {reload: true});
+                            } else {
+                                Alert.info("Some posts can't be deleted. Pages shows need manual post deletion.");
+                                angular.forEach($scope.socialPages, function (socialPage) {
+                                    if (message.deleted.indexOf(socialPage._id) !== -1)
+                                        socialPage.deleted = true;
+                                });
+                            }
+                        }, function (status, message) {
+                            Alert.error(message);
+                        })
+                    }, function () {
+
+                    });
                 };
 
-                ngIntroService.onExit(function(){
+                $scope.toTrustedHTML = function (html) {
+                    return $sce.trustAsHtml(html);
+                };
+
+                ngIntroService.onExit(function () {
                     $rootScope.finishTutorial(true);
                 });
 

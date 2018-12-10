@@ -2,11 +2,14 @@ const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
 
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
 module.exports = {
     context: __dirname + "/src/app",
     entry: {
-        app: ['babel-polyfill', './bootstrap.js'],
-    },
+        app: ['./bootstrap.js'],
+    }, 
     mode: 'production',
     output: {
         path: __dirname + "/dist/",
@@ -24,14 +27,26 @@ module.exports = {
         })
     ],
     optimization: {
-        namedModules: true, // NamedModulesPlugin()
-        splitChunks: { // CommonsChunkPlugin()
-            name: 'vendor',
-            minChunks: 5,
-            chunks: 'all'
-        },
-        noEmitOnErrors: true, // NoEmitOnErrorsPlugin
-        concatenateModules: true //ModuleConcatenationPlugin
+        // namedModules: true, // NamedModulesPlugin()
+        // splitChunks: { // CommonsChunkPlugin()
+        //     name: 'vendor',
+        //     minChunks: 5,
+        //     chunks: 'all'
+        // },
+        // minimizer: [new UglifyJsPlugin({
+        //     cache: true,
+        //     parallel: true,
+        //     extractComments: true
+
+        // })],
+        minimizer: [new TerserPlugin({
+            cache: true,
+            extractComments: 'all',
+            parallel: true
+        })]
+
+        // noEmitOnErrors: true, // NoEmitOnErrorsPlugin
+        // concatenateModules: true //ModuleConcatenationPlugin
     },
     resolve: {
         extensions: [".json", ".js"],

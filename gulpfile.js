@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
-const webpackConfig = require('./webpack.config.js');
 const webpackConfigDev = require('./webpack.config.dev.js');
 
 const webserver = require('gulp-webserver');
@@ -12,10 +11,11 @@ const less = require("gulp-less");
 const concat = require('gulp-concat');
 const cleanCSS = require('gulp-clean-css');
 const WebpackDevServer = require('webpack-dev-server');
-const pack = webpackStream(webpackConfig);
+
 const cluster = require('cluster');
 const os = require('os');
 const fs = require('fs');
+const babel = require("gulp-babel");
 const imageResize = require('gulp-image-resize');
 const compression = require('compression');
 const devBuild = ((process.env.NODE_ENV || 'development').trim().toLowerCase() === 'development');
@@ -27,7 +27,8 @@ if (devBuild){
 
 gulp.task('webpack', function() {
     return gulp.src(__dirname + '/src/app/**/*.js')
-        .pipe(pack, webpack)
+        .pipe(babel())
+        .pipe(webpackStream(require('./webpack.config.js')), webpack)
         .pipe(gulp.dest(__dirname + '/dist/'))
 });
 
@@ -45,7 +46,7 @@ gulp.task('watch', function() {
 gulp.task('watch-dev', function() {
     gulp.watch(__dirname + '/src/app/**/*.js', ['webpack']);
     gulp.watch(__dirname + '/src/less/**/*.less', ['less']);
-    // gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
+    gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['webpack']);
     gulp.watch(__dirname + '/src/manifest.json', ['manifest']);
     gulp.watch(__dirname + '/src/custom/*.js', ['custom']);
     gulp.watch(__dirname + '/src/img/*.*', ['img']);
@@ -169,8 +170,9 @@ gulp.task('cluster', function() {
 
 gulp.task('main', ['cluster']);
 
-let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less', 'custom', 'index', 'img', 'fonts', 'webpack'];
+let listOfProcesses = ['favicon', 'manifest', 'serviceWorker', 'less', 'custom', 'index', 'img', 'fonts'];
 if (!devBuild){
+    listOfProcesses.push('webpack');
     listOfProcesses.push('webserver');
     listOfProcesses.push('watch');
     gulp.task('default', listOfProcesses);//habits die hard

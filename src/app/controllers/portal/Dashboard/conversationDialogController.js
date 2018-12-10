@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('conversationDialogController',
         ['$rootScope', '$scope', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdDialog', 'socialComment', 'socialPage', 'permissions', 'theme',
@@ -8,8 +8,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 $scope.permissions = permissions;
                 $scope.theme = theme;
 
-                console.log(socialPage, $scope.permissions);
-                $scope.platforms = platforms;
                 $scope.postComment = function (reply) {
                     if (!reply.comment || !reply._id) return;
                     Action.postComment({reply_id: reply._id, reply: reply.comment},

@@ -12,16 +12,9 @@
         </div>
     </md-toolbar>
     <md-card>
-        <div layout="row">
-            <div class="md-toolbar-tools">
-                <md-button
-                        disabled
-                        class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
-                        aria-label="platform name">
-                    <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
-                </md-button>
-                <span ng-bind="'Replying as ' + socialPage.name" flex></span>
-            </div>
+        <div layout="row" layout-align="center center">
+            <img ng-src="{{socialPage.profile_src}}" class="mini-profile-image"/>
+            <span class="md-padding" ng-bind="'Replying as ' + socialPage.name" flex></span>
         </div>
         <md-content>
             <md-list class="md-dense">

@@ -21,7 +21,6 @@
         </md-input-container>
     </span>
 </div>
-
 <md-card class="md-whiteframe-3dp">
     <md-table-container>
         <table md-table md-row-select ng-model="pagesModel.selected">
@@ -40,46 +39,54 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="socialPage in connectedAccounts | filter: filterName">
-                <td md-cell>
-                    <md-button class="md-icon-button" ng-if="socialPage.state == 'ERROR'" aria-label="Posts">
-                        <md-tooltip md-direction="top">Last Updated</md-tooltip>
-                        <md-tooltip md-direction="top">{{platformErrors[socialPage.state_details.code].detail}}</md-tooltip>
-                        <i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>
-                    </md-button>
-                    <br>
-                </td>
+            <tr md-row ng-repeat="socialPage in allPages | filter: filterName" ng-click="openStatistic(socialPage._id)" class="pointer">
+                    <td md-cell>
+                        <md-button class="md-icon-button" ng-if="socialPage.state == 'ERROR'" aria-label="Posts">
+                            <md-tooltip md-direction="top">Last Updated</md-tooltip>
+                            <md-tooltip md-direction="top">{{platformErrors[socialPage.state_details.code].detail}}
+                            </md-tooltip>
+                            <i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>
+                        </md-button>
+                        <br>
+                    </td>
 
-                <td md-cell>
-                    <md-button
-                    class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
-                    aria-label=platform>
-                    <md-tooltip md-direction="top" ng-bind="platforms[socialPage.platform].id"></md-tooltip>
-                    <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
-                    </md-button>
-                </td>
-                <td md-cell>{{socialPage.name}}</td>
-                <td md-cell>{{socialPage.posts || 'N/A'}}</td>
-                <td md-cell>{{socialPage.statistic.views.total == null ? 'NA' : socialPage.statistic.views.total}}</td>
-                <td md-cell>{{socialPage.statistic.views.unique == null ? 'NA' : socialPage.statistic.views.unique}}</td>
-                <td md-cell>{{socialPage.statistic.likes.total == null ? 'NA' : socialPage.statistic.likes.total}}</td>
-                <td md-cell am-time-ago="socialPage.lastStatisticUpdate"></td>
-                <td md-cell>
-                    <md-button ng-if="socialPage.state_details.code != platformErrors.AUTH_FAIL.id && updatedRecently(socialPage.lastStatisticUpdate)" flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id)">Refresh
-                    </md-button>
-                    <md-button ng-if="socialPage.state_details.code == platformErrors.AUTH_FAIL.id" flex="30" class="md-primary" ng-click="addSocialAccount(socialPage.platform);">Fix Issue
-                    </md-button>
-                    <span flex></span>
-                    <md-button flex="30" class="md-warn" ng-click="removeSocialAccount(socialPage._id)">
-                        Remove
-                    </md-button>
+                    <td md-cell>
+                        <md-button
+                                class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
+                                aria-label=platform>
+                            <md-tooltip md-direction="top" ng-bind="platforms[socialPage.platform].id"></md-tooltip>
+                            <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
+                        </md-button>
+                    </td>
+                    <td md-cell>{{socialPage.name}}</td>
+                    <td md-cell>{{socialPage.posts || 'N/A'}}</td>
+                    <td md-cell>{{socialPage.statistic.views.total == null ? 'NA' : socialPage.statistic.views.total}}
+                    </td>
+                    <td md-cell>{{socialPage.statistic.views.unique == null ? 'NA' : socialPage.statistic.views.unique}}
+                    </td>
+                    <td md-cell>{{socialPage.statistic.likes.total == null ? 'NA' : socialPage.statistic.likes.total}}
+                    </td>
+                    <td md-cell am-time-ago="socialPage.lastStatisticUpdate"></td>
+                    <td md-cell>
+                        <md-button
+                                ng-if="socialPage.state_details.code != platformErrors.AUTH_FAIL.id && updatedRecently(socialPage.lastStatisticUpdate)"
+                                flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id, $event)">Refresh
+                        </md-button>
+                        <md-button ng-if="socialPage.state_details.code == platformErrors.AUTH_FAIL.id" flex="30"
+                                   class="md-primary" ng-click="addSocialAccount(socialPage.platform, $event);">Fix Issue
+                        </md-button>
+                        <span flex></span>
+                        <md-button flex="30" class="md-warn" ng-click="removeSocialAccount(socialPage._id, $event)">
+                            Remove
+                        </md-button>
 
-                </td>
+                    </td>
             </tr>
             </tbody>
         </table>
     </md-table-container>
-    <md-card class="pointer" flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()" layout-align="center center">
-    <h3>Load more...</h3>
+    <md-card class="pointer" flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()"
+             layout-align="center center">
+        <h3>Load more...</h3>
     </md-card>
 </md-card>

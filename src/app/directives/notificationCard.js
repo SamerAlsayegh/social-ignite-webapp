@@ -10,7 +10,7 @@ define(['./module'], function (directives) {
                 canDismiss: "@"
             },
             transclude: true,
-            template: require("ejs-compiled-loader!views/_portal/directives/_notificationCard.ejs")(),
+            template: require("compile-ejs-loader!views/_portal/directives/_notificationCard.ejs")(),
             link: function ($scope, element, attrs) {
                 $scope.dismissed = false;
                 if ($scope.type.toLowerCase() == "error") {

@@ -13,7 +13,7 @@ define([
     './Image',
     './Billing',
     './Tutorial',
-    './Support',
+    './Metadata',
     './SocialStacks',
     './General',
     './PublicStatistics',

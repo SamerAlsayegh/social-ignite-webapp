@@ -1,4 +1,4 @@
-define(['../../module', '../../../enums/platforms'], function (controllers, platforms) {
+define(['../../module'], function (controllers) {
     'use strict';
     return controllers.controller('socialStackController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog',
         function ($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog) {
@@ -18,7 +18,7 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
                 $mdDialog.show({
                     locals:{stackId: stackId, platforms: $scope.platforms},
                     controller: 'socialStackDialogController',
-                    template: require("ejs-compiled-loader!views/_portal/accounts/_socialStacksDialog.ejs")(),
+                    template: require("compile-ejs-loader!views/_portal/accounts/_socialStacksDialog.ejs")(),
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
                     fullscreen: true // Only for -xs, -sm breakpoints.
@@ -51,7 +51,6 @@ define(['../../module', '../../../enums/platforms'], function (controllers, plat
             $scope.loadSocialStacks = function () {
                 SocialStacks.getSocialStacks(true, true, 1, function (data) {
                     $scope.socialStacks = data;
-                    console.log($scope.socialStacks);
                 }, function (status, message) {
                     Alert.error(message);
                 })

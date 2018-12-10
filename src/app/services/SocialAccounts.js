@@ -62,6 +62,17 @@ define(['./module'], function (services) {
                         }, function (status, message) {
                             return cbFail(status, message);
                         });
+                },
+                getSuggestedPostTime: function (socialPages, timezoneOffset, cbSuccess, cbFail) {
+                    return Request.get('portal/page_analysis/post_time', {
+                            pages: socialPages,
+                            timezone: timezoneOffset,
+                        },
+                        function (message) {
+                            return cbSuccess(message.data);
+                        }, function (status, message) {
+                            return cbFail(status, message);
+                        });
                 }
             };
         }]);

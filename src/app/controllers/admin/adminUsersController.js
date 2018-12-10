@@ -1,4 +1,4 @@
-define(['./../module', '../../enums/platforms'], function (controllers, platforms) {
+define(['./../module'], function (controllers) {
     'use strict';
     return controllers.controller('adminUsersController', ['$rootScope', '$scope', '$http', '$cookies', '$location',
         '$state', '$stateParams', 'moment', '$timeout', 'Alert', 'AdminAccount', '$q',

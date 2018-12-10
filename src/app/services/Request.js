@@ -1,7 +1,14 @@
-define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
+define(['./module'], function (services) {
     'use strict';
     services.factory('Request', ['$http', '$rootScope', '$state', '$cookies',
         function ($http, $rootScope, $state, $cookies) {
+
+            // Backup error codes incase the error codes are not fetched from metadata and backend.
+            $rootScope.errorCodes = $rootScope.errorCodes == null ? {
+                NotLoggedOn: {id: 14, detail: 'You are no-longer logged on.'},
+                RateLimitExceeded: {id: 30, detail: 'You have been rate-limited, please wait %s.'},
+            } : $rootScope.errorCodes;
+
             return {
                 post: function (endpoint, parameters, cbSuccess, cbFail, customTimeout) {
                     return $http({
@@ -14,28 +21,29 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         var status = data.status;
                         if (message.data != null)
                             cbSuccess(message.data, message);
-                        else if (status == 200){
+                        else if (status == 200) {
                             cbSuccess(message.message, message);
                         }
                         else
                             cbFail(status, message.message, message);
                     }, function (data) {
                         var status = data.status;
-                        if (status != -1){
-                            switch (status){
+                        if (status != -1) {
+                            switch (status) {
                                 case 401:
                                     $rootScope.user = null;
                                     $rootScope.loggedIn = false;
                                     $cookies.put("redirect_on_login", $state.current.name);
                                     $state.go('public.login', {});
-                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                    cbFail(status, $rootScope.errorCodes.NotLoggedOn.detail, $rootScope.errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
-                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail.replace("%s", ((data.headers('x-ratelimit-pathreset') - new Date().getTime())/1000).toFixed(0) + ' seconds'), errorCodes.RateLimitExceeded.id);
+                                    cbFail(status, $rootScope.errorCodes.RateLimitExceeded.detail.replace("%s", ((data.headers('x-ratelimit-pathreset') - new Date().getTime()) / 1000).toFixed(0) + ' seconds'), $rootScope.errorCodes.RateLimitExceeded.id);
                                     break;
                                 default:
                                     var message = data.data.message;
-                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
+                                    console.log(message);
+                                    cbFail(status, isNaN(message) ? message : $rootScope.errorCodes[message].detail, message);
                             }
                         } else
                             cbFail(status, 'Failed to connect to API.');
@@ -50,8 +58,6 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                     }
 
 
-
-
                     return $http({
                         method: 'GET',
                         url: __API__ + '/api/v1/' + endpoint,
@@ -63,27 +69,27 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                         cbSuccess(message, data);
                     }, function (data) {
                         var status = data.status;
-                        if (status != -1){
-                            switch (status){
+                        if (status != -1) {
+                            switch (status) {
                                 case 401:
                                     $rootScope.user = null;
                                     $rootScope.loggedIn = false;
                                     $cookies.put("redirect_on_login", $state.current.name);
                                     $state.go('public.login', {});
-                                    cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                    cbFail(status, $rootScope.errorCodes.NotLoggedOn.detail, $rootScope.errorCodes.NotLoggedOn.id);
                                     break;
                                 case 429:
-                                    cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                    cbFail(status, $rootScope.errorCodes.RateLimitExceeded.detail, $rootScope.errorCodes.RateLimitExceeded.id);
                                     break;
                                 default:
                                     var message = data.data.message;
-                                    cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
+                                    cbFail(status, isNaN(message) ? message : $rootScope.errorCodes[message].detail, message);
                             }
                         } else
                             cbFail(status, 'Failed to connect to API.');
                     });
                 },
-                formPost: function(endpoint, parameters, cbSuccess, cbFail, cbProgress){
+                formPost: function (endpoint, parameters, cbSuccess, cbFail, cbProgress) {
 
                     var formData = new FormData();
                     for (var paramKey in parameters) {
@@ -110,21 +116,21 @@ define(['./module', '../enums/errorCodes'], function (services, errorCodes) {
                             cbSuccess(message.data, message);
                         }, function (data) {
                             var status = data.status;
-                            if (status != -1){
-                                switch (status){
+                            if (status != -1) {
+                                switch (status) {
                                     case 401:
                                         $rootScope.user = null;
                                         $rootScope.loggedIn = false;
                                         $cookies.put("redirect_on_login", $state.current.name);
                                         $state.go('public.login', {});
-                                        cbFail(status, errorCodes[errorCodes.NotLoggedOn.id].detail, errorCodes.NotLoggedOn.id);
+                                        cbFail(status, $rootScope.errorCodes.NotLoggedOn.detail, $rootScope.errorCodes.NotLoggedOn.id);
                                         break;
                                     case 429:
-                                        cbFail(status, errorCodes[errorCodes.RateLimitExceeded.id].detail, errorCodes.RateLimitExceeded.id);
+                                        cbFail(status, $rootScope.errorCodes.RateLimitExceeded.detail, $rootScope.errorCodes.RateLimitExceeded.id);
                                         break;
                                     default:
                                         var message = data.data.message;
-                                        cbFail(status, isNaN(message) ? message : errorCodes[message].detail, message);
+                                        cbFail(status, isNaN(message) ? message : $rootScope.errorCodes[message].detail, message);
                                 }
                             } else
                                 cbFail(status, 'Failed to connect to API.');

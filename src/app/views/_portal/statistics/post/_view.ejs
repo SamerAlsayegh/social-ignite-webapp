@@ -1,55 +1,86 @@
 <md-button ng-click="return()" class="md-primary page-link"> < Back to schedule</md-button>
 
-<md-card layout="column" class="md-padding">
-    <h2>Management</h2>
-    <span class="hr"></span>
-    <div>
-        <md-list class="md-dense md-padding">
-            <span class="md-no-sticky" layout="column">
-                <div layout="row" class="dashboard-feed-header">
-                    <span class="md-calendar-social-post-content-quote">&#10077;</span>
-                    <div flex></div>
-                    <small><span class="gray_text" am-time-ago="socialPost.post_time"></span></small>
-                </div>
-                <div layout="row" layout-align="stretch" class="dashboard-feed-content">
-                    <span class="md-primary" layout-align="center center" ng-bind-html='toTrustedHTML( socialPost.content )'></span>
-                </div>
-                <div style="display: block;" class="text-right">
-                    <md-button class="md-warn md-raised" ng-click="deletePost(socialPost._id)" aria-label="Delete across all pages">
-                        Delete Post Across All Pages
+<span layout="column" layout-gt-md="row" flex>
+    <span flex-lt-sm="100" flex-lt-md="60" flex="40">
+        <md-card class="md-padding" layout="row">
+            <md-list ng-if="socialPages.length > 1" class="md-dense expand-on-hover-page-list" style="max-height: 100%; overflow-y: auto;">
+                <md-list-item ng-repeat="socialPage in socialPages" ng-click="loadStats(socialPage.social_post)"
+                              ng-if="!socialPage.deleted">
+                    <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"
+                       style="top: 10px !important; left: 0px; position: absolute;"></i>
+                    <img ng-src="{{socialPage.profile_src}}" class="mini-profile-image"/>
+                    <p class="md-padding"
+                       style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPage.name }}</p>
+                </md-list-item>
+                <!--<md-list-item class="md-2-line">-->
+                <!--<img  ng-repeat="socialPage in socialPages"-->
+                <!--ng-click="loadStats(socialPage.social_post)"-->
+                <!--ng-if="!socialPage.deleted" ng-src="{{socialPage.profile_src}}" class="mini-profile-image"/>-->
+                <!--</md-list-item>-->
+            </md-list>
+            <div flex>
+                <span layout="row" style="overflow-x: auto;" layout-align="center center">
+                    <!--All images from post.-->
+                    <img ng-src="{{image.url}}" ng-repeat="image in mainSocialPost.images" class="md-card-image"
+                         alt="Social media image">
+                </span>
+                <md-card-title>
+                    <md-card-title-text layout="row">
+                        <span class="md-padding">
+                        <img ng-src="{{socialPost.page_id.profile_src}}" class="mini-profile-image"/>
+                        </span>
+                        <span layout="column" layout-align="center start">
+                   <span class="md-title" ng-bind="socialPost.page_id.name"></span>
+                            <small><span class="md-subhead gray_text" am-time-ago="mainSocialPost.post_time"></span> on {{platforms[socialPost.page_id.platform].id}}</small>
+                        </span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-content>
+                    <p><span ng-bind-html="toTrustedHTML( mainSocialPost.showAll ? mainSocialPost.content : mainSocialPost.content.length > 180 ? (mainSocialPost.content.substring(0, 180 + mainSocialPost.content.substring(180, 1000).indexOf(' ')) ) : mainSocialPost.content)"></span><a class="pointer" ng-show="!mainSocialPost.showAll" ng-click="mainSocialPost.showAll = true;"> ...more</a></p>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="center center">
+            <md-button
+                    class="md-warn md-raised"
+                    ng-click="deletePost(mainSocialPost._id)"
+                    layout-align="center center"
+                    aria-label="delete">
+            <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
+            </md-button>
+                    <span flex></span>
+                    <md-button disabled
+                               aria-label="{{(socialPost.statistic.likes.total != null ?  socialPost.statistic.likes.total : 0)}}">
+                        <span ng-bind="socialPost.statistic.likes.total || 0"></span>
+                        Likes
                     </md-button>
-                </div>
-            </span>
-            <!--<div ng-if="socialPost.remaining > 0" layout="column"-->
-            <!--layout-align="stretch">-->
-            <!--<md-button-->
-            <!--ng-click="loadReplies(socialPost, socialPost._id, null, socialPost.replies[0].posted)"-->
-            <!--md-no-ink class="md-primary">Load previous...-->
-            <!--</md-button>-->
-            <!--</div>-->
-            <!--<md-list-item class="md-2-line"-->
-            <!--ng-repeat="socialComment in socialPost.replies"-->
-            <!--ng-include="'commentChildrenTree'">-->
-            <!--</md-list-item>-->
-        </md-list>
-    </div>
-</md-card>
-<md-card class="md-padding" layout="column">
-    <h2>Statistics</h2>
-    <span class="hr"></span>
-    <h3>Choose a page to view statistics for:</h3>
-    <div layout="row" layout-padding layout-wrap layout-align="center center">
-        <a
-                ng-repeat="socialPage in socialPages" href="/statistics/post/{{postId}}/{{socialPage.social_post}}"
-                ng-if="!socialPage.deleted"
-                class="md-whiteframe-1dp ui-social ui-{{platforms[socialPage.platform].id}} page_card"
-                flex-sm="100" flex-xs="100" flex-gt-sm="20" flex-gt-md="20" layout layout-align="space-around center">
-            <!--<md-tooltip md-direction="down"></md-tooltip>-->
-            <div class="text-center" layout="column">
-                <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
 
-                <small ng-bind="socialPage.name"></small>
+                    <md-button
+                            disabled
+                            ng-bind="(socialPost.replies != null ? socialPost.replies.length  : 0) + ' Comments'"
+                            aria-label="{{(socialPost.replies != null ? socialPost.replies.length  : 0)}}">
+
+                    </md-button>
+                </md-card-actions>
             </div>
-        </a>
-    </div>
-</md-card>
+        </md-card>
+    </span>
+    <span flex layout="column" class="md-padding">
+        <span layout-fill ng-if="supportedStatistics.length == 0" layout-align="center center" layout="column" class="text-center">
+            <h2>No statistics available right now</h2>
+            <h2>Please wait a few minutes as we collect them...</h2>
+        </span>
+        <md-card layout-padding layout="row" style="height: 400px"
+                 ng-show="supportedStatistics.indexOf('likes.total') != -1" flex="noshrink"
+                 layout-align="center center">
+            <canvas id="likesChart" flex="100" flex-gt-lg="60"
+                    layout="column" height="400"></canvas>
+
+        </md-card>
+        <md-card layout-padding layout="row" style="height: 400px"
+                 ng-show="supportedStatistics.indexOf('views.total') != -1" flex="noshrink"
+                 layout-align="center center">
+            <canvas id="visitorsChart" flex="100" flex-gt-lg="60"
+                    layout="column" height="400"></canvas>
+        </md-card>
+    </span>
+
+    </span>

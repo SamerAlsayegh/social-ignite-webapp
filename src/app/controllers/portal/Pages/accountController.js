@@ -8,6 +8,12 @@ define(['../../module'], function (controllers) {
 
             $scope.nextStep = function () {};
 
+
+            $scope.openStatistic = function (pageId){
+                $state.go('portal.statistics.page_detail', {pageId: pageId}, {reload: 'portal.statistics.page_detail'})
+            };
+
+
             if ($scope.tutorialMode) {
                 ngIntroService.onExit(function(){
                     $rootScope.finishTutorial(true);
@@ -79,8 +85,7 @@ define(['../../module'], function (controllers) {
             $scope.addStack = function () {
                 $scope.$emit('addStack', {});
             };
-            $scope.addSocialAccount = function (platformId) {
-                console.log($scope.platforms, platformId);
+            $scope.addSocialAccount = function (platformId, $event) {
                 if (!$scope.platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
                 platformId = parseInt(platformId);
@@ -91,6 +96,7 @@ define(['../../module'], function (controllers) {
                 }
 
                 $window.open(__API__ + '/api/v1/oauth/' + $scope.platforms[platformId].id + '/', '_self');
+                if ($event) $event.stopPropagation();
             };
 
             $scope.clickedSpeedDial = function () {
@@ -109,7 +115,7 @@ define(['../../module'], function (controllers) {
                 };
                 $scope.pendingPages = [];
 
-                $scope.linkAccount = function (socialPage) {
+                $scope.linkAccount = function (socialPage) { 
                     if (!socialPage.linked) {
                         socialPage.linking = true;
                         SocialAccounts.updateSocialAccount({
@@ -119,6 +125,13 @@ define(['../../module'], function (controllers) {
                             socialPage.linking = false;
                             socialPage.linked = true;
                             $scope.pendingPages = $scope.pendingPages.concat(pages);
+                            SocialAccounts.getSocialAccounts(null, null, function (socialAccounts) {
+                                $rootScope.allPages = socialAccounts.pages;
+                            }, function (status, error) {
+                                $scope.platforms = [];
+                                Alert.error(error.code + ": Failed to get social accounts. ")
+                            });
+
                             $scope.nextStep();
                             // $state.go('portal.accounts.home', {appendPages: pages});//If the session is invalid, take to login page.
                         }, function (status, message) {

@@ -11,7 +11,8 @@
                         <md-input-container flex class="md-block">
                             <!-- Use floating label instead of placeholder -->
                             <label>Email</label>
-                            <input name="email" ng-model="user.email" type="email">
+                            <input name="email" ng-model="user.email" ng-disabled="user.other_auth != null"
+                                   type="email">
                             <div ng-messages="profile.email.$error">
                                 <div ng-message="email">The email must be in valid format.</div>
                             </div>
@@ -21,13 +22,13 @@
                             <input disabled ng-value="user.scope + (user.verified ? '' : ' (Unverified)')">
                         </md-input-container>
                     </div>
-                    <div layout="row" class="md-padding">
+                    <div layout="row" class="md-padding" ng-if="user.other_auth == null">
                         <md-input-container flex class="md-block">
                             <label>Current Password</label>
                             <input name="current_password" type="password" ng-model="current_password">
                         </md-input-container>
                     </div>
-                    <div layout="row" class="md-padding">
+                    <div layout="row" class="md-padding" ng-if="user.other_auth == null">
                         <md-input-container flex class="md-block">
                             <label>New Password</label>
                             <input name="new_password" type="password" ng-pattern="confirm_password"
@@ -45,8 +46,13 @@
                             </div>
                         </md-input-container>
                     </div>
+                    <span ng-if="user.other_auth != null" layout="column" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                          layout-xs="column">
+                        <md-button disabled flex class="md-primary">
+                        Currently connected using {{platforms[user.other_auth].detail}}
+                        </md-button>
+                    </span>
                 </md-card>
-
                 <md-card class="md-whiteframe-3dp md-padding">
                     <div layout="row">
                         <h2>Misc.</h2>
@@ -88,9 +94,9 @@
         </md-content>
     </md-tab>
     <md-tab label="Usages">
-        <%- include /src/app/views/_portal/profile/_usages.ejs %>
+        <%- include ./_usages.ejs %>
     </md-tab>
     <md-tab label="Advanced">
-        <%- include /src/app/views/_portal/profile/_advanced.ejs %>
+        <%- include ./_advanced.ejs %>
     </md-tab>
 </md-tabs>

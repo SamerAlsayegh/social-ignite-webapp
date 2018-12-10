@@ -48,7 +48,8 @@
   color: #fff !important;
   font-size: 30px;
 }
-.ui-social > small{
+
+.ui-social > small {
   color: #fff !important;
   font-size: 15px;
 }
@@ -57,7 +58,8 @@
   color: #fff !important;
   //font-size: 16px;
 }
-.ui-social-button > small{
+
+.ui-social-button > small {
   color: #fff !important;
   //font-size: 15px;
 }
@@ -65,6 +67,11 @@
 .md-mini {
   font-size: 20px;
 }
+//.md-mini-extra{
+  //font-size: 10px;
+  //width: 10px;
+  //height: 10px;
+//}
 
 .ui-facebook {
   background: #3b5998 !important;
@@ -127,12 +134,10 @@
 //  background: @primary;
 //}
 
-
-
-
 .white {
   color: @white;
 }
+
 .red {
   color: @red-500;
 }
@@ -186,8 +191,6 @@
 
 }
 
-
-
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
   font-family: @font-family-sans-serif;
   font-weight: 300;
@@ -222,7 +225,6 @@ div > .ng-hide-remove {
   animation: 0.5s lightSpeedIn ease;
 }
 
-
 .md-toast-animating {
   overflow: initial !important;
 }
@@ -248,7 +250,7 @@ div > .ng-hide-remove {
 
 .md-success-override {
   background-color: #4CAF50 !important;
-  color: white;
+  color: white !important;
 }
 
 .md-warn-override {
@@ -258,17 +260,35 @@ div > .ng-hide-remove {
 
 .md-info-override {
   background-color: @gray-light !important;
-  color: white;
+  color: white !important;
 }
 
 .text-success {
   color: #4CAF50 !important;
 }
+
 .text-warn {
   color: #FF5722 !important;
 }
 
+.rotate {
 
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+
+  /* Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
 
 /* light speed out */
 @keyframes lightSpeedOut {
@@ -299,8 +319,6 @@ body > .inner {
 body.pg-loaded > .inner {
   display: block;
 }
-
-
 
 .mini-dot {
   width: 7px;
@@ -363,8 +381,6 @@ body.pg-loaded > .inner {
   width: 100%;
 }
 
-
-
 .ScheduleStepByStep {
   color: @gray-dark;
   padding: 10px;
@@ -386,7 +402,6 @@ body.pg-loaded > .inner {
   text-align: left;
 }
 
-
 .sub_comment {
   padding-left: 5px;
   border-left: 3px solid @gray-light;
@@ -403,10 +418,10 @@ body.pg-loaded > .inner {
 .pointer {
   cursor: pointer;
 }
+
 .pointer:hover {
   cursor: pointer;
 }
-
 
 .page-select {
   cursor: pointer;
@@ -419,9 +434,11 @@ body.pg-loaded > .inner {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .page-select:focus {
-  outline:none
+  outline: none
 }
+
 .page_card {
   cursor: pointer;
   margin: 3px;
@@ -435,11 +452,11 @@ body.pg-loaded > .inner {
 }
 
 .page-select:focus {
-  outline:none
+  outline: none
 }
 
 md-icon:focus {
-  outline:none
+  outline: none
 }
 
 .page-select > div > small {
@@ -450,6 +467,7 @@ md-icon:focus {
   margin-left: -30px;
   text-decoration: underline;
 }
+
 .underline-link {
   text-decoration: underline;
 }
@@ -458,12 +476,10 @@ md-icon:focus {
   height: 100%;
   width: 100%;
 }
+
 .md-card-image {
 
 }
-
-
-
 
 /* light speed out */
 @keyframes transparentOut {
@@ -486,7 +502,6 @@ md-icon:focus {
     opacity: 0.9;
   }
 }
-
 
 .resource-select {
   cursor: pointer;
@@ -522,11 +537,9 @@ md-icon:focus {
   padding: 20px;
 }
 
-
-.package-card, .package-card:hover{
+.package-card, .package-card:hover {
   cursor: pointer;
 }
-
 
 .image-used {
   filter: brightness(0.6);
@@ -539,18 +552,34 @@ md-icon:focus {
   background-color: transparent !important;
 }
 
-
-
 /**
 HotFix for Icon Sizing
  */
 
 /* Rules for sizing the icon. */
-.material-icons.md-18 { font-size: 18px; height: 18px; width: 18px; }
-.material-icons.md-24 { font-size: 24px; height: 24px; width: 24px; }
-.material-icons.md-36 { font-size: 36px; height: 36px; width: 36px; }
-.material-icons.md-48 { font-size: 48px; height: 48px; width: 48px; }
+.material-icons.md-18 {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
 
+.material-icons.md-24 {
+  font-size: 24px;
+  height: 24px;
+  width: 24px;
+}
+
+.material-icons.md-36 {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+}
 
 .menu_logo {
   padding-top: 15px;
@@ -568,7 +597,7 @@ HotFix for Icon Sizing
   right: 20px;
 }
 
-.process-circular-center{
+.process-circular-center {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -577,16 +606,18 @@ HotFix for Icon Sizing
   transform: translate(-50%, -50%)
 }
 
-
 .continious_rotation {
   -webkit-animation: rotation 2s infinite linear;
 }
 
 @-webkit-keyframes rotation {
-  from {-webkit-transform: rotate(359deg);}
-  to   {-webkit-transform: rotate(0deg);}
+  from {
+    -webkit-transform: rotate(359deg);
+  }
+  to {
+    -webkit-transform: rotate(0deg);
+  }
 }
-
 
 /* roboto-300 - latin */
 @font-face {
@@ -595,12 +626,9 @@ HotFix for Icon Sizing
   font-weight: 300;
   src: url('../fonts/roboto-v18-latin-300.eot'); /* IE9 Compat Modes */
   src: local('Roboto Light'), local('Roboto-Light'),
-  url('../fonts/roboto-v18-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../fonts/roboto-v18-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
-  url('../fonts/roboto-v18-latin-300.woff') format('woff'), /* Modern Browsers */
-  url('../fonts/roboto-v18-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('../fonts/roboto-v18-latin-300.svg#Roboto') format('svg'); /* Legacy iOS */
+  url('../fonts/roboto-v18-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/roboto-v18-latin-300.woff2') format('woff2'), /* Super Modern Browsers */ url('../fonts/roboto-v18-latin-300.woff') format('woff'), /* Modern Browsers */ url('../fonts/roboto-v18-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */ url('../fonts/roboto-v18-latin-300.svg#Roboto') format('svg'); /* Legacy iOS */
 }
+
 /* roboto-regular - latin */
 @font-face {
   font-family: 'Roboto';
@@ -608,12 +636,9 @@ HotFix for Icon Sizing
   font-weight: 400;
   src: url('../fonts/roboto-v18-latin-regular.eot'); /* IE9 Compat Modes */
   src: local('Roboto'), local('Roboto-Regular'),
-  url('../fonts/roboto-v18-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../fonts/roboto-v18-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-  url('../fonts/roboto-v18-latin-regular.woff') format('woff'), /* Modern Browsers */
-  url('../fonts/roboto-v18-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('../fonts/roboto-v18-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
+  url('../fonts/roboto-v18-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/roboto-v18-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */ url('../fonts/roboto-v18-latin-regular.woff') format('woff'), /* Modern Browsers */ url('../fonts/roboto-v18-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */ url('../fonts/roboto-v18-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
 }
+
 /* roboto-500 - latin */
 @font-face {
   font-family: 'Roboto';
@@ -621,12 +646,9 @@ HotFix for Icon Sizing
   font-weight: 500;
   src: url('../fonts/roboto-v18-latin-500.eot'); /* IE9 Compat Modes */
   src: local('Roboto Medium'), local('Roboto-Medium'),
-  url('../fonts/roboto-v18-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../fonts/roboto-v18-latin-500.woff2') format('woff2'), /* Super Modern Browsers */
-  url('../fonts/roboto-v18-latin-500.woff') format('woff'), /* Modern Browsers */
-  url('../fonts/roboto-v18-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('../fonts/roboto-v18-latin-500.svg#Roboto') format('svg'); /* Legacy iOS */
+  url('../fonts/roboto-v18-latin-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/roboto-v18-latin-500.woff2') format('woff2'), /* Super Modern Browsers */ url('../fonts/roboto-v18-latin-500.woff') format('woff'), /* Modern Browsers */ url('../fonts/roboto-v18-latin-500.ttf') format('truetype'), /* Safari, Android, iOS */ url('../fonts/roboto-v18-latin-500.svg#Roboto') format('svg'); /* Legacy iOS */
 }
+
 /* roboto-700 - latin */
 @font-face {
   font-family: 'Roboto';
@@ -634,11 +656,7 @@ HotFix for Icon Sizing
   font-weight: 700;
   src: url('../fonts/roboto-v18-latin-700.eot'); /* IE9 Compat Modes */
   src: local('Roboto Bold'), local('Roboto-Bold'),
-  url('../fonts/roboto-v18-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../fonts/roboto-v18-latin-700.woff2') format('woff2'), /* Super Modern Browsers */
-  url('../fonts/roboto-v18-latin-700.woff') format('woff'), /* Modern Browsers */
-  url('../fonts/roboto-v18-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
-  url('../fonts/roboto-v18-latin-700.svg#Roboto') format('svg'); /* Legacy iOS */
+  url('../fonts/roboto-v18-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/roboto-v18-latin-700.woff2') format('woff2'), /* Super Modern Browsers */ url('../fonts/roboto-v18-latin-700.woff') format('woff'), /* Modern Browsers */ url('../fonts/roboto-v18-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */ url('../fonts/roboto-v18-latin-700.svg#Roboto') format('svg'); /* Legacy iOS */
 }
 
 .md-fab > .zmdi {
@@ -649,7 +667,6 @@ HotFix for Icon Sizing
   top: 0;
   right: 0;
 }
-
 
 //md-content {
 //  //-webkit-transition: -webkit-opacity .1s ease-in-out;
@@ -674,11 +691,10 @@ HotFix for Icon Sizing
 .button-small-hint {
   font-size: 0.6em;
 }
+
 //.left-side-white-seperator{
 //  margin-left: ;
 //}
-
-
 
 .paypal {
   &-logo {
@@ -720,7 +736,6 @@ HotFix for Icon Sizing
   }
 }
 
-
 .statistics-card-container {
   padding: 10px;
   md-whiteframe {
@@ -729,7 +744,7 @@ HotFix for Icon Sizing
   }
 }
 
-md-sidenav{
+md-sidenav {
   transition: 0.3s ease all .1s;
   min-width: 175px !important;
   max-width: 175px !important;
@@ -737,6 +752,7 @@ md-sidenav{
   overflow-x: hidden !important;
 
 }
+
 /* start 'enter' transition on main view */
 .main-view.ng-enter {
   /* transition on enter for .5s */
@@ -752,7 +768,6 @@ md-sidenav{
   opacity: 1;
 }
 
-
 .ng-hide {
   opacity: 0;
 }
@@ -760,4 +775,21 @@ md-sidenav{
 .ng-hide-add,
 .ng-hide-remove {
   transition: all linear 0.5s;
+}
+
+.mini-profile-image {
+  width: auto;
+
+  height: 40px;
+}
+
+.expand-on-hover-page-list:hover,.expand-on-hover-page-list:active {
+  width: 100%;
+  transition: all linear 0.2s;
+}
+
+.expand-on-hover-page-list {
+  width: 120px;
+  transition: all linear 0.2s;
+  overflow-x: hidden;
 }

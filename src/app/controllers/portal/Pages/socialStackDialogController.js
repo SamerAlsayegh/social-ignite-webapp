@@ -46,7 +46,6 @@ define(['../../module'], function (controllers) {
                     SocialStacks.addSocialStack($scope.data.name,
                         $scope.data.socialPages,
                         function (message) {
-                            console.log(message)
                             Alert.success("Successfully triggered update.");
                             $mdDialog.hide({state: "ADD", data: message});
                         }, function (status, message) {
@@ -57,7 +56,6 @@ define(['../../module'], function (controllers) {
                         $scope.data.name,
                         $scope.data.socialPages,
                         function (message) {
-                            console.log(message)
                             Alert.success("Successfully triggered update.");
                             $mdDialog.hide({state: "EDIT", data: message});
                         }, function (status, message) {

@@ -3,12 +3,10 @@ define([
     './portal/Dashboard/dashboardController',
     './portal/Schedule/scheduleController',
     './portal/Schedule/editControllerDialog',
-    './portal/Schedule/editController',
+    // './portal/Schedule/editController',
     './portal/Statistics/postStatisticsController',
     './portal/Statistics/postStatisticsDetailController',
     './portal/Billing/billingController',
-    './portal/Support/supportController',
-    './portal/Support/supportSubController',
     './portal/Pages/accountController',
     './portal/Pages/socialStackController',
     './portal/Pages/socialStackDialogController',
@@ -25,9 +23,7 @@ define([
 
 
     './admin/adminHomeController',
-    './admin/adminSupportController',
     './admin/adminUsersController',
-    './admin/Support/adminSupportSubController',
     './admin/Users/adminUsersSubController',
 
     './public/publicHomeController',

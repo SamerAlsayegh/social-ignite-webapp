@@ -12,7 +12,7 @@ define(['./module'], function (directives) {
                 postInformation: "=",
                 control: "@",
             },
-            template: require("ejs-compiled-loader!views/_portal/resources/_imageUploader.ejs")(),
+            template: require("compile-ejs-loader!views/_portal/resources/_imageUploader.ejs")(),
             link: function($scope, element, attrs) {
                 $scope.uploading = false;
                 $scope.isOpen = false;
@@ -63,19 +63,20 @@ define(['./module'], function (directives) {
                 };
 
                 $scope.useImage = function (image) {
-                    $mdDialog.show({
-                        locals: {'postId': null, 'postInformation': {attachedImages: [image._id]}, 'theme': $scope.$parent.theme, 'socket': $scope.$parent.socket},
-                        controller: 'editControllerDialog',
-                        templateUrl: './_portal/schedule/_scheduleDialog.html',
-                        parent: angular.element(document.body),
-                        clickOutsideToClose: true,
-                        fullscreen: true // Only for -xs, -sm breakpoints.
-                    })
-                        .then(function (message) {
-
-                        }, function () {
-
-                        });
+                    // $mdDialog.show({
+                    //     locals: {'postId': null, 'postInformation': {attachedImages: [image._id]}, 'theme': $scope.$parent.theme, 'socket': $scope.$parent.socket},
+                    //     controller: 'editControllerDialog',
+                    //     template: require("compile-ejs-loader!views/_portal/schedule/_scheduleDialog.ejs")(),
+                    //     parent: angular.element(document.body),
+                    //     clickOutsideToClose: true,
+                    //     fullscreen: true // Only for -xs, -sm breakpoints.
+                    // })
+                    //     .then(function (message) {
+                    //
+                    //     }, function () {
+                    //
+                    //     });
+                    $rootScope.addPost(null, {attachedImages: [image._id]})
                 };
 
                 $scope.uploadImages = function (imagesList, callback) {
