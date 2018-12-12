@@ -22,7 +22,8 @@
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
             <header class="nav-header">
-                <img flex class="menu_logo" style="max-height: 100px;" ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
+                <img flex class="menu_logo" style="max-height: 100px;"
+                     ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
             </header>
             <md-list flex>
                 <md-list-item class="home" flex href="/" ng-click="toggleMenu()">
@@ -40,10 +41,11 @@
             </md-list>
 
             <md-list layout-align="end end">
-                <md-subheader class="md-no-sticky">{{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)</md-subheader>
+                <md-subheader class="md-no-sticky">{{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)
+                </md-subheader>
                 <!--<md-list-item flex href="/admin/support" ng-click="toggleMenu()">-->
-                    <!--<i class="zmdi zmdi-pin-help md-padding zmdi-hc-lg"></i>-->
-                    <!--<span flex>Support{{ support_tickets > 0 ? '(' + support_tickets + ')' : ''}}</span>-->
+                <!--<i class="zmdi zmdi-pin-help md-padding zmdi-hc-lg"></i>-->
+                <!--<span flex>Support{{ support_tickets > 0 ? '(' + support_tickets + ')' : ''}}</span>-->
                 <!--</md-list-item>-->
                 <md-list-item href="/admin/accounts" ng-click="toggleMenu()">
                     <i class="zmdi zmdi-accounts md-padding zmdi-hc-lg"></i>

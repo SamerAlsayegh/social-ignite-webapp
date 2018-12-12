@@ -1,19 +1,18 @@
-var chartObject = null;
-var chartElement = null;
+let chartObject = null;
+let chartElement = null;
 
 module.exports = {
-    loadChart: function (genderData) {
+    loadChart(genderData) {
         if (!chartObject) {
             chartElement = document.getElementById("audienceGenderChart").getContext('2d');
-            var dataFormatted = [];
-            var dataLabels = [];
-            var dataColors = [];
-            angular.forEach(genderData, function (dataEntry) {
+            let dataFormatted = [];
+            let dataLabels = [];
+            let dataColors = [];
+            angular.forEach(genderData, dataEntry => {
                 dataFormatted.push(dataEntry.value);
                 dataLabels.push(dataEntry.label);
                 dataColors.push(dataEntry.color);
             });
-
 
 
             chartObject = new Chart(chartElement, {

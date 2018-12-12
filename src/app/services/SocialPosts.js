@@ -1,137 +1,95 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('SocialPosts', ['Request',
-        function (Request) {
+        Request => ({
+            getSocialPosts(mainSocialPost, pagination, cbSuccess, cbFail) {
+                if (!mainSocialPost || parseInt(mainSocialPost) == null)
+                    return cbFail(400, "Invalid parameters.");
 
-            return {
-                getSocialPosts: function (mainSocialPost, pagination, cbSuccess, cbFail) {
-                    if (!mainSocialPost || parseInt(mainSocialPost) == null)
-                        return cbFail(400, "Invalid parameters.");
+                return Request.get('portal/social_posts/' + mainSocialPost, {pagination},
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.get('portal/social_posts/' + mainSocialPost, {pagination: pagination},
-                         function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getSocialPost: function (social_post_main, social_post, cbSuccess, cbFail) {
-                    if (social_post_main == null || social_post == null)
-                        return cbFail(400, "Invalid parameters.");
+            getSocialPost(social_post_main, social_post, cbSuccess, cbFail) {
+                if (social_post_main == null || social_post == null)
+                    return cbFail(400, "Invalid parameters.");
 
-                    return Request.get('portal/social_posts/' + social_post_main + "/" + social_post,
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getDetails: function (postId, cbSuccess, cbFail) {
-                    if (!postId || parseInt(postId) == null)
-                        return cbFail(400, message);
+                return Request.get('portal/social_posts/' + social_post_main + "/" + social_post,
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.get('portal/schedule/post/' + postId,
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getPostedPosts: function (cbSuccess, cbFail) {
-                    return Request.get('portal/schedule/posted',
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getSchedulePosts: function (cbSuccess, cbFail) {
-                    return Request.get('portal/schedule/scheduled',
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getAllPosts: function (parameters, cbSuccess, cbFail) {
-                    var funcName = "getAllPosts"+(parameters != null && parameters.hasOwnProperty("start") ? parameters.start : null);
-                    if (cbFail == null && cbSuccess != null) {
-                        cbFail = cbSuccess;
-                        cbSuccess = parameters;
-                        parameters = null;
-                    }
-                    return Request.get('portal/schedule' + Request.ArrayToURL(parameters),
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getSelectivePosts: function (type, parameters, cbSuccess, cbFail) {
-                    return Request.get('portal/schedule/' + type, parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
+            getDetails(postId, cbSuccess, cbFail) {
+                if (!postId || parseInt(postId) == null)
+                    return cbFail(400, message);
 
-                },
-                ///api/v1/portal/actions/delete_post/
-                deletePostedSocialPost: function(postId, cbSuccess, cbFail) {
-                    if (!postId)
-                        return;
+                return Request.get('portal/schedule/post/' + postId,
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.post('portal/actions/delete_post/' + postId, {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                deletePostedSocialPostMain: function(postMainId, cbSuccess, cbFail) {
-                    if (!postMainId)
-                        return;
+            getPostedPosts(cbSuccess, cbFail) {
+                return Request.get('portal/schedule/posted',
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.post('portal/actions/delete_main_post/' + postMainId, {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                deletePost: function(postId, cbSuccess, cbFail) {
-                    if (!postId)
-                        return;
+            getSchedulePosts(cbSuccess, cbFail) {
+                return Request.get('portal/schedule/scheduled',
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.post('portal/schedule/' + postId + '/delete', {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                submitScheduledPost: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters)
-                        return;
+            getAllPosts(parameters, cbSuccess, cbFail) {
+                if (cbFail == null && cbSuccess != null) {
+                    cbFail = cbSuccess;
+                    cbSuccess = parameters;
+                    parameters = null;
+                }
+                return Request.get('portal/schedule' + Request.ArrayToURL(parameters),
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.formPost('portal/schedule/', parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                draftScheduledPost: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters)
-                        return;
+            getSelectivePosts(type, parameters, cbSuccess, cbFail) {
+                return Request.get('portal/schedule/' + type, parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
 
-                    return Request.formPost('portal/schedule/draft', parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+            },
+
+            ///api/v1/portal/actions/delete_post/
+            deletePostedSocialPost(postId, cbSuccess, cbFail) {
+                if (!postId)
+                    return;
+
+                return Request.post('portal/actions/delete_post/' + postId, {},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            deletePostedSocialPostMain(postMainId, cbSuccess, cbFail) {
+                if (!postMainId)
+                    return;
+
+                return Request.post('portal/actions/delete_main_post/' + postMainId, {},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            deletePost(postId, cbSuccess, cbFail) {
+                if (!postId)
+                    return;
+
+                return Request.post('portal/schedule/' + postId + '/delete', {},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            submitScheduledPost(parameters, cbSuccess, cbFail) {
+                if (!parameters)
+                    return;
+
+                return Request.formPost('portal/schedule/', parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            draftScheduledPost(parameters, cbSuccess, cbFail) {
+                if (!parameters)
+                    return;
+
+                return Request.formPost('portal/schedule/draft', parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

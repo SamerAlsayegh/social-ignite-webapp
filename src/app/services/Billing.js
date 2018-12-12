@@ -1,57 +1,34 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('Billing', ['Request',
-        function (Request) {
+        Request => ({
+            subscribePlan(plan, service, cbSuccess, cbFail) {
+                return Request.post('payment/subscription/' + plan + '/' + service, {},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message), 20000);
+            },
 
-            return {
-                subscribePlan: function (plan, service, cbSuccess, cbFail) {
-                    return Request.post('payment/subscription/' + plan + '/' + service, {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        }, 20000);
-                },
-                getSubscription: function (cbSuccess, cbFail) {
-                    return Request.get('payment/subscription',
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getPlans: function (includeFree, cbSuccess, cbFail) {
-                    return Request.get('payment/plans', {free: includeFree},
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getPlan: function (plan, cbSuccess, cbFail) {
-                    return Request.get('payment/plans/' + plan,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                cancelSubscription: function (cbSuccess, cbFail) {
-                    return Request.post('payment/subscription/cancel', {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getTransactions: function (sortOrder, page, limit, cbSuccess, cbFail) {
-                    return Request.get('payment/transactions', {sort: sortOrder, page: page, limit: limit},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+            getSubscription(cbSuccess, cbFail) {
+                return Request.get('payment/subscription',
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            getPlans(includeFree, cbSuccess, cbFail) {
+                return Request.get('payment/plans', {free: includeFree},
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
+
+            getPlan(plan, cbSuccess, cbFail) {
+                return Request.get('payment/plans/' + plan,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            cancelSubscription(cbSuccess, cbFail) {
+                return Request.post('payment/subscription/cancel', {},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            getTransactions(sortOrder, page, limit, cbSuccess, cbFail) {
+                return Request.get('payment/transactions', {sort: sortOrder, page, limit},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

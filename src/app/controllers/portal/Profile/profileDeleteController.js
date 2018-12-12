@@ -1,19 +1,18 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('profileDeleteController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'Alert', 'Profile', 'Auth',
         function ($rootScope, $scope, $state, $stateParams, Alert, Profile, Auth) {
             $scope.code = $stateParams.code;
 
-            $scope.confirmDelete = function () {
+            $scope.confirmDelete = () => {
                 Alert.success("Account has been deleted.");
-                Profile.deleteUserComplete($scope.code, function (message) {
-                    Auth.logout(function () {
+                Profile.deleteUserComplete($scope.code, message => {
+                    Auth.logout(() => {
                         $state.go('public.login', {}, {reload: true})
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error(message);
                     });
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
 

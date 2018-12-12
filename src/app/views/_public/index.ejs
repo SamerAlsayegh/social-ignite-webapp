@@ -1,4 +1,3 @@
-
 <section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
     <md-content hide-gt-sm>
         <md-toolbar class="md-primary">
@@ -18,7 +17,8 @@
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
             <header class="nav-header">
-                <img flex class="menu_logo" style="max-height: 100px;" ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
+                <img flex class="menu_logo" style="max-height: 100px;"
+                     ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
             </header>
             <md-content>
                 <md-list flex>
@@ -27,12 +27,12 @@
                         <span flex>Home</span>
                     </md-list-item>
                     <!--<md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">-->
-                        <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
-                        <!--<span flex>Keywords</span>-->
+                    <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
+                    <!--<span flex>Keywords</span>-->
                     <!--</md-list-item>-->
                     <!--<md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">-->
-                        <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
-                        <!--<span flex>Lookup</span>-->
+                    <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
+                    <!--<span flex>Lookup</span>-->
                     <!--</md-list-item>-->
                     <md-list-item class="home" flex href="/" ng-click="switchTheme()">
                         <i class="zmdi zmdi-brightness-6 md-padding zmdi-hc-lg"></i>
@@ -41,7 +41,7 @@
                 </md-list>
             </md-content>
         </md-sidenav>
-        <md-content  layout="column" layout-fill>
+        <md-content layout="column" layout-fill>
             <md-content flex class="md-padding" ui-view>
             </md-content>
             <%- include ../_footer.ejs %>

@@ -1,25 +1,20 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('FileReader', ['$q', '$log', 'Alert',
-        function ($q, $log, Alert) {
+        ($q, $log, Alert) => {
 
-            var onLoad = function(reader, deferred, scope) {
-                return function () {
-                    scope.$apply(function () {
-                        deferred.resolve(reader.result);
-                    });
-                };
+            let onLoad = (reader, deferred, scope) => () => {
+                scope.$apply(() => {
+                    deferred.resolve(reader.result);
+                });
             };
 
-            var onError = function(reader, deferred, scope) {
-                return function () {
-                    deferred.resolve(null);
-                    Alert.error("Failed to render image.");
-                };
+            let onError = (reader, deferred, scope) => () => {
+                deferred.resolve(null);
+                Alert.error("Failed to render image.");
             };
 
-            var getReader = function(deferred, scope) {
-                var reader = new FileReader();
+            let getReader = (deferred, scope) => {
+                let reader = new FileReader();
                 reader.onerror = onError(reader, deferred, scope);
                 reader.onload = onLoad(reader, deferred, scope);
                 // reader.onloadstart = function(){
@@ -28,10 +23,10 @@ define(['./module'], function (services) {
                 return reader;
             };
 
-            var readAsDataURL = function (file, scope) {
-                var deferred = $q.defer();
+            let readAsDataURL = (file, scope) => {
+                let deferred = $q.defer();
 
-                var reader = getReader(deferred, scope);
+                let reader = getReader(deferred, scope);
                 reader.readAsDataURL(file);
 
                 return deferred.promise;
@@ -40,5 +35,5 @@ define(['./module'], function (services) {
             return {
                 readAsDataUrl: readAsDataURL
             };
-    }]);
+        }]);
 });

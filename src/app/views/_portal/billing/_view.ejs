@@ -29,7 +29,7 @@
                 </md-input-container>
             </span>
             <span ng-if="subscription.status == 'active' && !cancellingSubscription" layout="column"
-                        layout-align="stretch">
+                  layout-align="stretch">
                 <md-button ng-click="cancelSubscription()" class="md-warn">Cancel Subscription</md-button>
             </span>
             <span ng-if="cancellingSubscription == true">
@@ -43,7 +43,7 @@
                 <p>Subscribing to any new package will automatically upgrade current package and charge only the difference for the initial month.</p>
             </notification-card>
             <span ng-if="!loading || chosenPackage != null" layout-padding
-                        layout="{{chosenPackage != null ? 'column' : 'row'}}">
+                  layout="{{chosenPackage != null ? 'column' : 'row'}}">
                 <md-card ng-repeat="package in packages"
                          ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package"
                          ng-click="subscribePackage(package.internal_name)"

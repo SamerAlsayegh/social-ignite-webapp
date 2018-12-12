@@ -1,22 +1,21 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('Alert', ['$rootScope', '$timeout', '$mdToast',
-        function ($rootScope, $timeout, $mdToast) {
+        ($rootScope, $timeout, $mdToast) => {
             $rootScope.messages = [];
             $rootScope.active = false;
 
-            var processQueue = function(){
+            let processQueue = () => {
 
                 $mdToast.hide();
 
-                if ($rootScope.messages.length > 0 && $rootScope.active == false) {
+                if ($rootScope.messages.length > 0 && $rootScope.active === false) {
                     $rootScope.active = true;
 
                     $mdToast.show(
                         $mdToast.simple()
                             .textContent($rootScope.messages[0].message)
                             .hideDelay($rootScope.messages[0].duration || 2000).toastClass($rootScope.messages[0].type)
-                    ).then(function () {
+                    ).then(() => {
                         $rootScope.messages.splice(0, 1);
                         $rootScope.active = false;
                         processQueue();
@@ -25,27 +24,27 @@ define(['./module'], function (services) {
             };
 
             return {
-                success: function (message, duration) {
+                success(message, duration) {
                     $rootScope.messages.push({
-                        message: message,
-                        duration: duration,
+                        message,
+                        duration,
                         type: 'success'
                     });
                     processQueue();
                 },
-                info: function (message, duration) {
+                info(message, duration) {
                     $rootScope.messages.push({
-                        message: message,
-                        duration: duration,
+                        message,
+                        duration,
                         type: 'info'
                     });
                     processQueue();
 
                 },
-                error: function (message, duration) {
+                error(message, duration) {
                     $rootScope.messages.push({
-                        message: message,
-                        duration: duration,
+                        message,
+                        duration,
                         type: 'warn'
                     });
                     processQueue();

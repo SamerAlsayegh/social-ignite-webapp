@@ -1,7 +1,14 @@
-define(['../../module'], function (controllers) {
-    'use strict';
-    return controllers.controller('pageStatisticsDetailController', ['$scope', '$state','$stateParams', 'Alert', 'SocialAccounts', 'Statistics', 'SocialPosts',
-        function ($scope, $state, $stateParams, Alert, SocialAccounts, Statistics, SocialPosts) {
+define(['../../module'], controllers => {
+    return controllers.controller('pageStatisticsDetailController', ['$scope', '$state', '$stateParams', 'Alert', 'SocialAccounts', 'Statistics', 'SocialPosts',
+        function (
+            $scope,
+            $state,
+            $stateParams,
+            Alert,
+            SocialAccounts,
+            Statistics,
+            SocialPosts
+        ) {
             $scope.socialPages = [];
             $scope.activePage = null;
 
@@ -19,32 +26,32 @@ define(['../../module'], function (controllers) {
                 analysis: false,
             };
 
-            $scope.commitRecommendation = function (recommendation){
-              if (recommendation.type == 'SUGGESTED_TIME'){
-                  $scope.addPost(null, {date: recommendation.value})
-              } else if (recommendation.type == 'LAST_POST_OLD'){
-                  $scope.addPost(null, {date: recommendation.value})
-              } else if (recommendation.type == 'SUGGESTED_POST_TYPE_VIEWS'){
-                  $state.go('portal.resources.view', {}, {reload: 'portal.resources.view'});
-              } else
-                  return null;
+            $scope.commitRecommendation = recommendation => {
+                if (recommendation.type === 'SUGGESTED_TIME') {
+                    $scope.addPost(null, {date: recommendation.value})
+                } else if (recommendation.type === 'LAST_POST_OLD') {
+                    $scope.addPost(null, {date: recommendation.value})
+                } else if (recommendation.type === 'SUGGESTED_POST_TYPE_VIEWS') {
+                    $state.go('portal.resources.view', {}, {reload: 'portal.resources.view'});
+                } else
+                    return null;
 
             };
 
-            SocialPosts.getSelectivePosts('active', {pages: [$stateParams.pageId]}, function (data) {
+            SocialPosts.getSelectivePosts('active', {pages: [$stateParams.pageId]}, data => {
                 $scope.scheduledPosts = data.data;
-            }, function (status, error) {
+            }, (status, error) => {
                 $scope.scheduledPosts = [];
                 Alert.error("Failed to get all social posts.");
             });
 
             Chart.plugins.register({
-                afterDraw: function (chart) {
-                    if (chart.data.datasets.length == 0) {
+                afterDraw(chart) {
+                    if (chart.data.datasets.length === 0) {
                         // No data is present
-                        var ctx = chart.chart.ctx;
-                        var width = chart.chart.width;
-                        var height = chart.chart.height;
+                        let ctx = chart.chart.ctx;
+                        let width = chart.chart.width;
+                        let height = chart.chart.height;
                         chart.clear();
                         ctx.save();
                         ctx.textAlign = 'center';
@@ -59,9 +66,9 @@ define(['../../module'], function (controllers) {
                         ctx.fillText('Please wait...', width / 2, (height / 2) + 50);
                         ctx.restore();
                     } else if (chart.data.datasets[0].data.length < 2) {
-                        var ctx = chart.chart.ctx;
-                        var width = chart.chart.width;
-                        var height = chart.chart.height;
+                        let ctx = chart.chart.ctx;
+                        let width = chart.chart.width;
+                        let height = chart.chart.height;
                         chart.clear();
                         ctx.save();
                         ctx.textAlign = 'center';
@@ -79,7 +86,7 @@ define(['../../module'], function (controllers) {
                 }
             });
 
-            $scope.loadVisitors = function (page) {
+            $scope.loadVisitors = page => {
                 $scope.activePage = page;
                 if (!$scope.chartObjectVisitors) {
                     $scope.chartElementVisitors = document.getElementById("fansChart").getContext('2d');
@@ -87,23 +94,23 @@ define(['../../module'], function (controllers) {
                 }
                 console.log(page);
 
-                Statistics.getPageGeneralStatistics(page._id, function (data) {
+                Statistics.getPageGeneralStatistics(page._id, data => {
                     console.log(data);
-                    var fixedDataTotal = [];
-                    var projectedTotal = [];
+                    let fixedDataTotal = [];
+                    let projectedTotal = [];
                     $scope.currentTrend = data.trend;
                     $scope.recent_change_7 = data.recent_change_7;
                     $scope.recent_change_1 = data.recent_change_1;
 
-                    angular.forEach(data.dataset, function (data) {
+                    angular.forEach(data.dataset, data => {
                         if (data.p) projectedTotal.push(data);
                         else fixedDataTotal.push(data);
                     });
 
 
                     //
-                    // var TESTER = document.getElementById('tester');
-                    // var defaultPlotlyConfiguration = {responsive: true, modeBarButtonsToRemove: ['sendDataToCloud', 'autoScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian', 'lasso2d', 'select2d'], displaylogo: false, showTips: true };
+                    // let TESTER = document.getElementById('tester');
+                    // let defaultPlotlyConfiguration = {responsive: true, modeBarButtonsToRemove: ['sendDataToCloud', 'autoScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian', 'lasso2d', 'select2d'], displaylogo: false, showTips: true };
                     //
                     // Plotly.plot( TESTER, [
                     //     {
@@ -165,25 +172,25 @@ define(['../../module'], function (controllers) {
                                 padding: 5,
                                 rotation: 0,
                                 borderRadius: 5,
-                                formatter: function (value, context) {
+                                formatter(value, context) {
                                     return value.posts && value.posts.length > 0 ? value.posts.length + " New Posts" : null;
                                 },
-                                opacity: function (context) {
+                                opacity(context) {
                                     // Change the label text color based on our new `hovered` context value.
                                     return context.hovered ? 1 : 0.5;
                                 },
                                 listeners: {
-                                    enter: function (context) {
+                                    enter(context) {
                                         context.hovered = true;
                                         return true;
                                     },
-                                    leave: function (context) {
+                                    leave(context) {
                                         context.hovered = false;
                                         return true;
                                     }
                                 },
-                                font: function (context) {
-                                    var w = context.chart.width;
+                                font(context) {
+                                    let w = context.chart.width;
                                     return {
                                         size: w < 512 ? 12 : 14
                                     }
@@ -209,37 +216,37 @@ define(['../../module'], function (controllers) {
                     ];
                     $scope.chartObjectVisitors.update();
                     $scope.loadedCard.audience_change = true;
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error("Failed to load statistics");
                 });
             };
 
 
-            SocialAccounts.getSocialAccount($stateParams.pageId, function (data) {
+            SocialAccounts.getSocialAccount($stateParams.pageId, data => {
                 $scope.page_data = data;
                 $scope.enabledCard = {
                     f_analysis_age: data.statistic.audience.age != null && data.statistic.audience.age.length > 0,
                     f_analysis_gender: data.statistic.audience.gender != null && data.statistic.audience.gender.length > 0,
                 };
 
-                Statistics.getPageRecommendations($stateParams.pageId, function (data) {
+                Statistics.getPageRecommendations($stateParams.pageId, data => {
                     $scope.recommendations = [];
 
 
-                    angular.forEach(data, function (recommendation) {
-                        if (recommendation.type != "SUGGESTED_KEYWORDS" && recommendation.type != "SUGGESTED_HASHTAGS") {
+                    angular.forEach(data, recommendation => {
+                        if (recommendation.type !== "SUGGESTED_KEYWORDS" && recommendation.type !== "SUGGESTED_HASHTAGS") {
                             $scope.recommendations.push(recommendation);
                         }
-                        else if (recommendation.type == "SUGGESTED_KEYWORDS") {
+                        else if (recommendation.type === "SUGGESTED_KEYWORDS") {
                             $scope.enabledCard.analysis_keywords = true;
-                            setTimeout(function () {
+                            setTimeout(() => {
                                 $scope.recommended_content = recommendation.value;
                                 require('./Charts/Keywords').loadChart(recommendation.value);
                                 $scope.loadedCard.analysis_keywords = true;
                             }, 0);
                         }
                     });
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
 
@@ -261,7 +268,7 @@ define(['../../module'], function (controllers) {
                 }
 
                 // require('./Charts/ActivityHeatmap').loadChart(data);
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error(message);
             });
 

@@ -20,7 +20,8 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="socialStack in socialStacks | filter: filterName" ng-click="editSocialStack(socialStack._id)">
+            <tr md-row ng-repeat="socialStack in socialStacks | filter: filterName"
+                ng-click="editSocialStack(socialStack._id)">
                 <td md-cell>{{socialStack.name}}</td>
                 <td md-cell>
                     <md-button
@@ -41,6 +42,6 @@
         </table>
     </md-table-container>
     <!--<md-card class="pointer" flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()" layout-align="center center">-->
-        <!--<h3>Load more...</h3>-->
+    <!--<h3>Load more...</h3>-->
     <!--</md-card>-->
 </md-card>

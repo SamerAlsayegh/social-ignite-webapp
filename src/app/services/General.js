@@ -1,17 +1,9 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('General', ['Request',
-        function (Request) {
-
-            return {
-                getNotifications: function (cbSuccess, cbFail) {
-                    return Request.get('notifications',
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+        Request => ({
+            getNotifications(cbSuccess, cbFail) {
+                return Request.get('notifications',
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

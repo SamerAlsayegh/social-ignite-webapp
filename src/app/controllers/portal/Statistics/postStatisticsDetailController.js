@@ -1,5 +1,4 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('postStatisticsDetailController', ['$scope', '$stateParams', 'Alert', 'SocialPosts', 'Statistics', '$state',
         function ($scope, $stateParams, Alert, SocialPosts, Statistics, $state) {
             $scope.postId = $stateParams.postId;
@@ -9,7 +8,7 @@ define(['../../module'], function (controllers) {
             $scope.openStat = null;
             $scope.supportedStatistics = ['overview'];
 
-            $scope.loadNewState = function(newVar){
+            $scope.loadNewState = newVar => {
                 if ($scope.socialPost != null) {
                     switch (newVar) {
                         case 'likes':
@@ -25,22 +24,19 @@ define(['../../module'], function (controllers) {
                 }
             };
 
-            $scope.$watch('openStat', function (newVar, oldVar) {
+            $scope.$watch('openStat', (newVar, oldVar) => {
                 if (newVar != null) {
                     $scope.loadNewState(newVar);
                 }
             }, true);
 
 
-
-
-
-            $scope.loadVisitors = function () {
+            $scope.loadVisitors = () => {
                 if (!$scope.chartObjectVisitors) {
                     $scope.chartElementVisitors = document.getElementById("visitorsChart").getContext('2d');
                     $scope.chartObjectVisitors = new Chart($scope.chartElementVisitors, Statistics.getStatisticsConfig("Post Statistics", "Time", "Value"));
                 }
-                Statistics.getPostStatistics($scope.socialPost._id, ["views.total"], function (data) {
+                Statistics.getPostStatistics($scope.socialPost._id, ["views.total"], data => {
 
                     $scope.chartObjectVisitors.data.datasets = [
                         {
@@ -52,24 +48,24 @@ define(['../../module'], function (controllers) {
                                 display: false,
                             },
                             lineTension: 0.3,
-                            data: data,
+                            data,
                         },
                     ];
                     $scope.chartObjectVisitors.update();
-                }, function (status, message, rawMessage) {
+                }, (status, message, rawMessage) => {
                     Alert.error(message);
 
                 });
             };
 
-            $scope.loadLikes = function () {
+            $scope.loadLikes = () => {
 
                 if (!$scope.chartObjectLikes) {
                     $scope.chartElementLikes = document.getElementById("likesChart").getContext('2d');
                     $scope.chartObjectLikes = new Chart($scope.chartElementLikes, Statistics.getStatisticsConfig("Post Statistics", "Time", "Value"));
                 }
 
-                Statistics.getPostStatistics($scope.socialPost._id, ["likes.total"], function (data) {
+                Statistics.getPostStatistics($scope.socialPost._id, ["likes.total"], data => {
                     $scope.chartObjectLikes.data.datasets = [
                         {
                             label: 'Likes (Total)',
@@ -80,19 +76,19 @@ define(['../../module'], function (controllers) {
                                 display: false,
                             },
                             lineTension: 0.3,
-                            data: data,
+                            data,
                         }
                     ];
 
                     $scope.chartObjectLikes.update();
-                }, function (status, message, rawMessage) {
+                }, (status, message, rawMessage) => {
                     Alert.error(message);
                 });
             };
 
-            SocialPosts.getDetails($scope.postId, function (message) {
+            SocialPosts.getDetails($scope.postId, message => {
                 $scope.socialPostMain = message;
-                SocialPosts.getSocialPost($scope.postId, $scope.socialPostId, function (message) {
+                SocialPosts.getSocialPost($scope.postId, $scope.socialPostId, message => {
                     $scope.socialPost = message;
                     if ($scope.socialPost.statistic.likes != null && $scope.socialPost.statistic.likes.total != null)
                         $scope.supportedStatistics.push("likes.total");
@@ -101,24 +97,24 @@ define(['../../module'], function (controllers) {
                     if ($scope.socialPost.statistic.views != null && $scope.socialPost.statistic.views.total != null)
                         $scope.supportedStatistics.push("views.total");
                     $scope.loadNewState('overview');
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error(message);
             });
 
 
-            $scope.deletePost = function (socialPostId) {
-                SocialPosts.deletePostedSocialPost(socialPostId, function (success) {
+            $scope.deletePost = socialPostId => {
+                SocialPosts.deletePostedSocialPost(socialPostId, success => {
                     Alert.success("Deleted social post on " + $scope.socialPost.page_id.name);
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 })
             };
 
 
-            $scope.return = function () {
+            $scope.return = () => {
                 $state.go('portal.statistics.post_list', {postId: $scope.postId, redirect: false})
             };
 

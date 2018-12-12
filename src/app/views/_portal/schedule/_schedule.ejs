@@ -1,169 +1,169 @@
 <!--<div layout="row">-->
-    <!--<div layout="column" flex="100" flex-gt-md="70" flex-offset-gt-md="15">-->
-        <!--<notification-card ng-show="instagramWarning" hide type="info" can-dismiss="false">-->
-            <!--<p>When your Instagram is scheduled to post, we will email you details to post.</p>-->
-        <!--</notification-card>-->
+<!--<div layout="column" flex="100" flex-gt-md="70" flex-offset-gt-md="15">-->
+<!--<notification-card ng-show="instagramWarning" hide type="info" can-dismiss="false">-->
+<!--<p>When your Instagram is scheduled to post, we will email you details to post.</p>-->
+<!--</notification-card>-->
 
-        <!--<div layout="row">-->
-            <!--<md-card flex="30" layout="column" class="md-whiteframe-2dp md-padding">-->
-                <!--&lt;!&ndash;Pages Listed here&ndash;&gt;-->
-                <!--<i class="text-center zmdi zmdi-pin-account md-padding zmdi-hc-2x"></i>-->
-                <!--<h2 class="text-center">Accounts</h2>-->
-                <!--<hr class="hr-both">-->
-                <!--<md-list-item flex>-->
-                    <!--<md-input-container ng-init="filterName = {}" md-no-float flex class=" md-block">-->
-                        <!--&lt;!&ndash; Use floating label instead of placeholder &ndash;&gt;-->
-                        <!--<md-icon class="zmdi zmdi-search zmdi-hc-lg"></md-icon>-->
-                        <!--<input ng-model="filterName.name" placeholder="Search pages by name" type="text">-->
-                    <!--</md-input-container>-->
-                <!--</md-list-item>-->
-                <!--<md-list flex="100" layout="column" style="height: 400px; overflow-y: auto;">-->
+<!--<div layout="row">-->
+<!--<md-card flex="30" layout="column" class="md-whiteframe-2dp md-padding">-->
+<!--&lt;!&ndash;Pages Listed here&ndash;&gt;-->
+<!--<i class="text-center zmdi zmdi-pin-account md-padding zmdi-hc-2x"></i>-->
+<!--<h2 class="text-center">Accounts</h2>-->
+<!--<hr class="hr-both">-->
+<!--<md-list-item flex>-->
+<!--<md-input-container ng-init="filterName = {}" md-no-float flex class=" md-block">-->
+<!--&lt;!&ndash; Use floating label instead of placeholder &ndash;&gt;-->
+<!--<md-icon class="zmdi zmdi-search zmdi-hc-lg"></md-icon>-->
+<!--<input ng-model="filterName.name" placeholder="Search pages by name" type="text">-->
+<!--</md-input-container>-->
+<!--</md-list-item>-->
+<!--<md-list flex="100" layout="column" style="height: 400px; overflow-y: auto;">-->
 
-                    <!--<md-subheader ng-if="allStacks.length > 0" class="md-no-sticky">Stacks</md-subheader>-->
-                    <!--<md-list-item ng-repeat="stackInfo in allStacks | filter: filterName"-->
-                                  <!--ng-click="chooseStack(stackInfo._id); nextStep();">-->
-                        <!--<md-button-->
-                                <!--class="md-fab md-mini ui-social ui-other"-->
-                                <!--aria-label=platform>-->
-                            <!--<i class="zmdi zmdi-group"></i>-->
-                        <!--</md-button>-->
-                        <!--<small flex> {{ stackInfo.name }}</small>-->
-                        <!--<md-checkbox class="md-primary"-->
-                                     <!--ng-checked="currentSocialPost.stacks.indexOf(stackInfo._id) != -1"></md-checkbox>-->
-                    <!--</md-list-item>-->
-                    <!--<md-divider ng-if="allStacks.length > 0"></md-divider>-->
-                    <!--<md-subheader ng-if="allPages.length > 0" class="md-no-sticky">Pages</md-subheader>-->
+<!--<md-subheader ng-if="allStacks.length > 0" class="md-no-sticky">Stacks</md-subheader>-->
+<!--<md-list-item ng-repeat="stackInfo in allStacks | filter: filterName"-->
+<!--ng-click="chooseStack(stackInfo._id); nextStep();">-->
+<!--<md-button-->
+<!--class="md-fab md-mini ui-social ui-other"-->
+<!--aria-label=platform>-->
+<!--<i class="zmdi zmdi-group"></i>-->
+<!--</md-button>-->
+<!--<small flex> {{ stackInfo.name }}</small>-->
+<!--<md-checkbox class="md-primary"-->
+<!--ng-checked="currentSocialPost.stacks.indexOf(stackInfo._id) != -1"></md-checkbox>-->
+<!--</md-list-item>-->
+<!--<md-divider ng-if="allStacks.length > 0"></md-divider>-->
+<!--<md-subheader ng-if="allPages.length > 0" class="md-no-sticky">Pages</md-subheader>-->
 
-                    <!--<md-list-item ng-repeat="pageInfo in allPages | filter: filterName"-->
-                                  <!--ng-click="choosePage(pageInfo._id, pageInfo.platform); nextStep();">-->
-                        <!--<md-button-->
-                                <!--class="md-fab md-mini ui-social ui-{{platforms[pageInfo.platform].id}}"-->
-                                <!--aria-label=platform>-->
-                            <!--<md-tooltip md-direction="top" ng-bind="platforms[pageInfo.platform].id"></md-tooltip>-->
-                            <!--<i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>-->
-                        <!--</md-button>-->
-                        <!--<small flex> {{ pageInfo.name }}</small>-->
-                        <!--<md-checkbox class="md-primary"-->
-                                     <!--ng-checked="currentSocialPost.pages.indexOf(pageInfo._id) != -1"></md-checkbox>-->
-                    <!--</md-list-item>-->
-                <!--</md-list>-->
-            <!--</md-card>-->
-            <!--<span flex="3"></span>-->
-            <!--<md-card flex="40" layout="column" class="md-whiteframe-2dp md-padding">-->
-                <!--&lt;!&ndash;Content Creation here&ndash;&gt;-->
-                <!--<i class="text-center zmdi zmdi-comment-edit md-padding zmdi-hc-2x"></i>-->
-                <!--<h2 class="text-center">Content</h2>-->
-                <!--<hr class="hr-both">-->
-                <!--<image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="view"-->
-                                <!--post_id="postId" uploading="uploading"-->
-                                <!--images="currentSocialPost.images"></image-uploader>-->
+<!--<md-list-item ng-repeat="pageInfo in allPages | filter: filterName"-->
+<!--ng-click="choosePage(pageInfo._id, pageInfo.platform); nextStep();">-->
+<!--<md-button-->
+<!--class="md-fab md-mini ui-social ui-{{platforms[pageInfo.platform].id}}"-->
+<!--aria-label=platform>-->
+<!--<md-tooltip md-direction="top" ng-bind="platforms[pageInfo.platform].id"></md-tooltip>-->
+<!--<i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>-->
+<!--</md-button>-->
+<!--<small flex> {{ pageInfo.name }}</small>-->
+<!--<md-checkbox class="md-primary"-->
+<!--ng-checked="currentSocialPost.pages.indexOf(pageInfo._id) != -1"></md-checkbox>-->
+<!--</md-list-item>-->
+<!--</md-list>-->
+<!--</md-card>-->
+<!--<span flex="3"></span>-->
+<!--<md-card flex="40" layout="column" class="md-whiteframe-2dp md-padding">-->
+<!--&lt;!&ndash;Content Creation here&ndash;&gt;-->
+<!--<i class="text-center zmdi zmdi-comment-edit md-padding zmdi-hc-2x"></i>-->
+<!--<h2 class="text-center">Content</h2>-->
+<!--<hr class="hr-both">-->
+<!--<image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="view"-->
+<!--post_id="postId" uploading="uploading"-->
+<!--images="currentSocialPost.images"></image-uploader>-->
 
-                <!--<md-input-container layout="row">-->
-                    <!--<span emoji-picker="currentSocialPost.content" output-format="unicode" placement="right-relative" title="Emoji"-->
-                        <!--recent-limit="12"></span>-->
-                    <!--<md-input-container flex>-->
-                        <!--<label>Post Content</label>-->
-                        <!--<textarea md-maxlength="280" required ng-model="currentSocialPost.content" rows="3"-->
-                                  <!--columns="1"></textarea>-->
-                    <!--</md-input-container>-->
-                    <!--&lt;!&ndash;<md-button layout="column" ng-click="attachImage()"&ndash;&gt;-->
-                    <!--&lt;!&ndash;class="md-secondary layout-padding" layout-align="space-around">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="zmdi zmdi-attachment-alt zmdi-hc-3x"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;Attach Images&ndash;&gt;-->
-                    <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
-                <!--</md-input-container>-->
+<!--<md-input-container layout="row">-->
+<!--<span emoji-picker="currentSocialPost.content" output-format="unicode" placement="right-relative" title="Emoji"-->
+<!--recent-limit="12"></span>-->
+<!--<md-input-container flex>-->
+<!--<label>Post Content</label>-->
+<!--<textarea md-maxlength="280" required ng-model="currentSocialPost.content" rows="3"-->
+<!--columns="1"></textarea>-->
+<!--</md-input-container>-->
+<!--&lt;!&ndash;<md-button layout="column" ng-click="attachImage()"&ndash;&gt;-->
+<!--&lt;!&ndash;class="md-secondary layout-padding" layout-align="space-around">&ndash;&gt;-->
+<!--&lt;!&ndash;<i class="zmdi zmdi-attachment-alt zmdi-hc-3x"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;Attach Images&ndash;&gt;-->
+<!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+<!--</md-input-container>-->
 
-                <!--<span layout="column"  layout-align="stretch">-->
-                <!--<small ng-if="hashtags != null" class="text-center">Tip: You can click on the hashtags to add them automatically.</small>-->
-                <!--<span ng-if="hashtags != null" layout="row" class="md-block" layout-align="stretch">-->
-                    <!--<p>Recommended:</p>-->
-                    <!--<span layout="row" flex>-->
-                        <!--<md-button ng-repeat="hashtag in hashtags" ng-if="hashtagUsed(hashtag.hashtag) == false"-->
-                                   <!--ng-click="addHashtag(hashtag.hashtag)" class="md-primary"-->
-                                   <!--ng-class="hashtag.priority == true ? 'md-raised' : ''">-->
-                            <!--#{{hashtag.hashtag}}-->
-                        <!--</md-button>-->
-                    <!--</span>-->
-                    <!--&lt;!&ndash;<md-chips  ng-model="hashtags" ng-click="addHashtag($chip.hashtag)">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<md-chip-template>&ndash;&gt;-->
-                    <!--&lt;!&ndash;{{ $chip.hashtag }}&ndash;&gt;-->
-                    <!--&lt;!&ndash;</md-chip-template>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</md-chips>&ndash;&gt;-->
-                <!--</span>-->
-                <!--<span class="md-padding" layout="column" layout-gt-md="row">-->
-                    <!--<md-button-->
-                            <!--ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtags != null || hashtagsLoading == true"-->
-                            <!--ng-click="getHashtags(currentSocialPost.content, false);" flex-->
-                            <!--class="md-primary md-raised">-->
-                        <!--+ Suggest Hashtags-->
-                    <!--</md-button>-->
-                    <!--<md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtagsLoading == true"-->
-                               <!--ng-click="getHashtags(currentSocialPost.content, true);" flex="20"-->
-                               <!--ng-if="hashtags != null" class="md-primary">-->
-                        <!--Force Refresh ({{hashtag_lookups}}/{{limits.hashtag_lookups}})-->
-                    <!--</md-button>-->
-                <!--</span>-->
-                <!--<span class="md-padding" layout="column"-->
-                      <!--ng-if="hashtag_lookups >= limits.hashtag_lookups && limits.hashtag_lookups != -1">-->
-                    <!--<md-button flex href="/billing" ng-click="cancel()"-->
-                               <!--class="md-secondary md-raised">-->
-                        <!--Upgrade for more lookups-->
-                    <!--</md-button>-->
-                <!--</span>-->
-            <!--</span>-->
-                <!--<div-->
-                        <!--moment-picker="currentSocialPost.dateString"-->
-                        <!--min-date="currentTime"-->
-                        <!--start-date="currentTime"-->
-                        <!--ng-model="currentSocialPost.date"-->
-                        <!--format="LT"-->
-                        <!--min-view="month"-->
-                        <!--start-view="month"-->
-                        <!--today="true"-->
-                        <!--keyboard="true"-->
-                        <!--inline="true"-->
-                        <!--set-on-select="true">-->
-                <!--</div>-->
-            <!--</md-card>-->
-            <!--<span flex="3"></span>-->
-            <!--<md-card flex="25" layout="column" class="md-whiteframe-2dp md-padding">-->
-                <!--&lt;!&ndash;Images Listed here&ndash;&gt;-->
-                <!--<i class="text-center zmdi zmdi-collection-image md-padding zmdi-hc-2x"></i>-->
-                <!--<h2 class="text-center">Images</h2>-->
-                <!--<hr class="hr-both">-->
-                <!--<image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="manage"-->
-                                <!--images="images"-->
-                                <!--post_id="postId" uploading="uploading"></image-uploader>-->
-            <!--</md-card>-->
+<!--<span layout="column"  layout-align="stretch">-->
+<!--<small ng-if="hashtags != null" class="text-center">Tip: You can click on the hashtags to add them automatically.</small>-->
+<!--<span ng-if="hashtags != null" layout="row" class="md-block" layout-align="stretch">-->
+<!--<p>Recommended:</p>-->
+<!--<span layout="row" flex>-->
+<!--<md-button ng-repeat="hashtag in hashtags" ng-if="hashtagUsed(hashtag.hashtag) == false"-->
+<!--ng-click="addHashtag(hashtag.hashtag)" class="md-primary"-->
+<!--ng-class="hashtag.priority == true ? 'md-raised' : ''">-->
+<!--#{{hashtag.hashtag}}-->
+<!--</md-button>-->
+<!--</span>-->
+<!--&lt;!&ndash;<md-chips  ng-model="hashtags" ng-click="addHashtag($chip.hashtag)">&ndash;&gt;-->
+<!--&lt;!&ndash;<md-chip-template>&ndash;&gt;-->
+<!--&lt;!&ndash;{{ $chip.hashtag }}&ndash;&gt;-->
+<!--&lt;!&ndash;</md-chip-template>&ndash;&gt;-->
+<!--&lt;!&ndash;</md-chips>&ndash;&gt;-->
+<!--</span>-->
+<!--<span class="md-padding" layout="column" layout-gt-md="row">-->
+<!--<md-button-->
+<!--ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtags != null || hashtagsLoading == true"-->
+<!--ng-click="getHashtags(currentSocialPost.content, false);" flex-->
+<!--class="md-primary md-raised">-->
+<!--+ Suggest Hashtags-->
+<!--</md-button>-->
+<!--<md-button ng-disabled="hashtag_lookups >= permissions.hashtag_lookups || hashtagsLoading == true"-->
+<!--ng-click="getHashtags(currentSocialPost.content, true);" flex="20"-->
+<!--ng-if="hashtags != null" class="md-primary">-->
+<!--Force Refresh ({{hashtag_lookups}}/{{limits.hashtag_lookups}})-->
+<!--</md-button>-->
+<!--</span>-->
+<!--<span class="md-padding" layout="column"-->
+<!--ng-if="hashtag_lookups >= limits.hashtag_lookups && limits.hashtag_lookups != -1">-->
+<!--<md-button flex href="/billing" ng-click="cancel()"-->
+<!--class="md-secondary md-raised">-->
+<!--Upgrade for more lookups-->
+<!--</md-button>-->
+<!--</span>-->
+<!--</span>-->
+<!--<div-->
+<!--moment-picker="currentSocialPost.dateString"-->
+<!--min-date="currentTime"-->
+<!--start-date="currentTime"-->
+<!--ng-model="currentSocialPost.date"-->
+<!--format="LT"-->
+<!--min-view="month"-->
+<!--start-view="month"-->
+<!--today="true"-->
+<!--keyboard="true"-->
+<!--inline="true"-->
+<!--set-on-select="true">-->
+<!--</div>-->
+<!--</md-card>-->
+<!--<span flex="3"></span>-->
+<!--<md-card flex="25" layout="column" class="md-whiteframe-2dp md-padding">-->
+<!--&lt;!&ndash;Images Listed here&ndash;&gt;-->
+<!--<i class="text-center zmdi zmdi-collection-image md-padding zmdi-hc-2x"></i>-->
+<!--<h2 class="text-center">Images</h2>-->
+<!--<hr class="hr-both">-->
+<!--<image-uploader post_information="currentSocialPost" pending_image="attachedImage" control="manage"-->
+<!--images="images"-->
+<!--post_id="postId" uploading="uploading"></image-uploader>-->
+<!--</md-card>-->
 
-        <!--</div>-->
+<!--</div>-->
 
 
-        <!--&lt;!&ndash;<div ng-show="attachImages == true">&ndash;&gt;-->
+<!--&lt;!&ndash;<div ng-show="attachImages == true">&ndash;&gt;-->
 
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="md-padding" ng-if="scheduleShowing">&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="md-padding" ng-if="scheduleShowing">&ndash;&gt;-->
 
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--<div layout="row" class="md-padding" flex="noshrink" layout-align="stretch" layout-sm="column"-->
-             <!--layout-xs="column">-->
-            <!--<md-button flex-gt-md="20" flex-xs="100" flex-sm="100" flex-md="100" type="submit"-->
-                       <!--ng-if="(currentSocialPost.state == 'DRAFT' || currentSocialPost.state == 'ACTIVE') && postId != null"-->
-                       <!--class="md-warn"-->
-                       <!--ng-click="secondaryAction()">-->
-                <!--{{currentSocialPost.state == 'DRAFT' ? 'Delete' : 'Draft'}}-->
-            <!--</md-button>-->
-            <!--<md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"-->
-                       <!--ng-click="submitPost(false)">-->
-                <!--Post {{ currentSocialPost.dateString != null ? '@ ' + currentSocialPost.dateString : 'Now' }}-->
-            <!--</md-button>-->
-            <!--<md-button flex="20" flex-xs="100" flex-sm="100" flex-md="100" class="md-primary" ng-hide="scheduleShowing"-->
-                       <!--ng-click="scheduleShow()">-->
-                <!--Schedule-->
-            <!--</md-button>-->
-        <!--</div>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div layout="row" class="md-padding" flex="noshrink" layout-align="stretch" layout-sm="column"-->
+<!--layout-xs="column">-->
+<!--<md-button flex-gt-md="20" flex-xs="100" flex-sm="100" flex-md="100" type="submit"-->
+<!--ng-if="(currentSocialPost.state == 'DRAFT' || currentSocialPost.state == 'ACTIVE') && postId != null"-->
+<!--class="md-warn"-->
+<!--ng-click="secondaryAction()">-->
+<!--{{currentSocialPost.state == 'DRAFT' ? 'Delete' : 'Draft'}}-->
+<!--</md-button>-->
+<!--<md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"-->
+<!--ng-click="submitPost(false)">-->
+<!--Post {{ currentSocialPost.dateString != null ? '@ ' + currentSocialPost.dateString : 'Now' }}-->
+<!--</md-button>-->
+<!--<md-button flex="20" flex-xs="100" flex-sm="100" flex-md="100" class="md-primary" ng-hide="scheduleShowing"-->
+<!--ng-click="scheduleShow()">-->
+<!--Schedule-->
+<!--</md-button>-->
+<!--</div>-->
 
-    <!--</div>-->
+<!--</div>-->
 
 <!--</div>-->
 

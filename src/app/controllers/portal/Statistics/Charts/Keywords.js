@@ -1,21 +1,21 @@
-var chartObject = null;
-var chartElement = null;
+let chartObject = null;
+let chartElement = null;
 
 module.exports = {
-    loadChart: function (keywordData) {
+    loadChart(keywordData) {
         if (!chartObject) {
             chartElement = document.getElementById("keywordChart").getContext('2d');
             let keywordValues = [];
             let keywordLabel = [];
             let colors = [];
-            var dynamicColors = function() {
-                var r = Math.floor(Math.random() * 255);
-                var g = Math.floor(Math.random() * 255);
-                var b = Math.floor(Math.random() * 255);
+            let dynamicColors = () => {
+                let r = Math.floor(Math.random() * 255);
+                let g = Math.floor(Math.random() * 255);
+                let b = Math.floor(Math.random() * 255);
                 return "rgb(" + r + "," + g + "," + b + ")";
             };
 
-            for (let keyword in keywordData){
+            for (let keyword in keywordData) {
                 keywordValues.push(keywordData[keyword][1]);
                 keywordLabel.push(keywordData[keyword][0]);
                 colors.push(dynamicColors());

@@ -1,118 +1,89 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('Auth', ['Request', '$cookies', '$rootScope',
-        function (Request, $cookies, $rootScope) {
-            return {
-                login: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters)
-                        return cbFail(400, "Invalid parameters.");
+        (Request, $cookies, $rootScope) => ({
+            login(parameters, cbSuccess, cbFail) {
+                if (!parameters)
+                    return cbFail(400, "Invalid parameters.");
 
-                    return Request.post('auth/login', parameters,
-                        function (message, res) {
-                            return Request.get('user',
-                                function (message) {
-                                    $rootScope.user = message.data;
-                                    $rootScope.loggedIn = true;
-                                    return cbSuccess(message);
-                                }, function (status, message) {
-                                    return cbFail(status, message);
+                return Request.post('auth/login', parameters,
+                    (message, res) => Request.get('user',
+                        message => {
+                            $rootScope.user = message.data;
+                            $rootScope.loggedIn = true;
+                            return cbSuccess(message);
+                        }, (status, message) => cbFail(status, message)), (status, message) => cbFail(status, message));
+            },
+
+            logout(cbSuccess, cbFail) {
+                return Request.post('auth/logout', {},
+                    message => {
+                        $rootScope.user = null;
+                        $rootScope.loggedIn = false;
+                        return cbSuccess(message);
+                    }, (status, message) => cbFail(status, message));
+            },
+
+            register(parameters, cbSuccess, cbFail) {
+                if (!parameters)
+                    return;
+
+                return Request.post('auth/register', parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            checkEmail(email, cbSuccess, cbFail) {
+                if (!email)
+                    return;
+
+                return Request.get('auth/valid', {email},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            verify(parameters, cbSuccess, cbFail) {
+                if (!parameters)
+                    return;
+                return Request.post('auth/verify_email', parameters,
+                    message => cbSuccess(message), (status, message, messageCode) => cbFail(status, message, messageCode));
+            },
+
+            requestPasswordReset(email, cbSuccess, cbFail) {
+                return Request.post('auth/forgotten_password', {
+                    email
+                }, message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            submitPasswordReset(code, password, cbSuccess, cbFail) {
+                return Request.post('auth/forgotten_password', {
+                    code,
+                    password
+                }, message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            requestEmailResend(email, cbSuccess, cbFail) {
+                return Request.post('auth/request_email', {
+                    email
+                }, message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            sessionValidate(callback) {
+                if ($rootScope.loggedIn != null) return callback($rootScope.loggedIn);
+                else {
+                    return Request.get('user',
+                        message => {
+                            // $rootScope.user = message.data;
+                            $rootScope.user = message.data;
+                            if ($rootScope.drift) {
+                                drift.identify($rootScope.user.email, {
+                                    _id: $rootScope.user._id,
+                                    scope: $rootScope.user.scope,
+                                    mailing_list: $rootScope.user.mailing_list,
+                                    verified: $rootScope.user.verified
                                 });
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                logout: function (cbSuccess, cbFail) {
-                    return Request.post('auth/logout', {},
-                        function (message) {
-                            $rootScope.user = null;
-                            $rootScope.loggedIn = false;
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                register: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters)
-                        return;
-
-                    return Request.post('auth/register', parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                checkEmail: function (email, cbSuccess, cbFail) {
-                    if (!email)
-                        return;
-
-                    return Request.get('auth/valid', {email: email},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                verify: function (parameters, cbSuccess, cbFail) {
-                    if (!parameters)
-                        return;
-                    return Request.post('auth/verify_email', parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message, messageCode) {
-                            return cbFail(status, message, messageCode);
-                        });
-                },
-                requestPasswordReset: function (email, cbSuccess, cbFail) {
-                    return Request.post('auth/forgotten_password', {
-                        email: email
-                    }, function (message) {
-                        return cbSuccess(message);
-                    }, function (status, message) {
-                        return cbFail(status, message);
-                    });
-                },
-                submitPasswordReset: function (code, password, cbSuccess, cbFail) {
-                    return Request.post('auth/forgotten_password', {
-                        code: code,
-                        password: password
-                    }, function (message) {
-                        return cbSuccess(message);
-                    }, function (status, message) {
-                        return cbFail(status, message);
-                    });
-                },
-                requestEmailResend: function (email, cbSuccess, cbFail) {
-                    return Request.post('auth/request_email', {
-                        email: email
-                    }, function (message) {
-                        return cbSuccess(message);
-                    }, function (status, message) {
-                        return cbFail(status, message);
-                    });
-                },
-                sessionValidate: function (callback) {
-                    if ($rootScope.loggedIn != null) return callback($rootScope.loggedIn);
-                    else {
-                        return Request.get('user',
-                            function (message) {
-                                // $rootScope.user = message.data;
-                                $rootScope.user = message.data;
-                                if ($rootScope.drift){
-                                    drift.identify($rootScope.user.email, {
-                                        _id: $rootScope.user._id,
-                                        scope: $rootScope.user.scope,
-                                        mailing_list: $rootScope.user.mailing_list,
-                                        verified: $rootScope.user.verified
-                                    });
-                                }
-                                $rootScope.loggedIn = true;
-                                return callback(true);
-                            }, function (status, message) {
-                                return callback(false);
-                            });
-                    }
-                },
-            };
-        }]);
+                            }
+                            $rootScope.loggedIn = true;
+                            return callback(true);
+                        }, (status, message) => callback(false));
+                }
+            }
+        })]);
 });

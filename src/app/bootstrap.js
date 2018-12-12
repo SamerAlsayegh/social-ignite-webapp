@@ -1,4 +1,5 @@
 import wdtLoading from "wdt-loading"
+
 console.time("delay1");
 
 
@@ -19,15 +20,9 @@ window.wdtLoading = wdtLoading.start({
 });
 
 
-
 require([
     'angular',
-    // 'please-wait',
     './routes'
-], function (angular) {
-    'use strict';
+], angular => {
     angular.bootstrap(document, ['SocialIgnite']);
-    // console.log(loading_screen);
-    // loading_screen.finish();
-    // console.log(loading_screen);
 });

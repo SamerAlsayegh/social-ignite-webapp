@@ -1,7 +1,6 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('portalToolsController', ['$scope', 'Alert', '$window', 'PublicStatistics',
-        function ($scope, Alert, $window, PublicStatistics) {
+        ($scope, Alert, $window, PublicStatistics) => {
 
 
         }]);

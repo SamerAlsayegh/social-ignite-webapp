@@ -1,20 +1,17 @@
-define(['./module'], function (controllers) {
-    'use strict';
+define(['./module'], controllers => {
     return controllers.controller('errorController', ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
-        $scope.goBack = function(){
+        $scope.goBack = () => {
             window.history.back();
         };
         $scope.location = $location;
 
-        $scope.reportBroken = function(){
+        $scope.reportBroken = () => {
             alert("Feature not added yet.");
         };
-        $scope.reportBroken = function(){
+        $scope.reportBroken = () => {
             alert("Feature not added yet.");
         };
 
     }]);
-
-
 });
 

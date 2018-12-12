@@ -1,8 +1,28 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('editControllerDialog', ['$scope', '$rootScope',
         'SocialPosts', 'Alert', 'SocialAccounts', '$filter', 'Image', 'Action', 'SocialStacks', '$mdDialog', 'postId', 'postInformation', 'theme', 'socket', '$window', 'ngIntroService', '$cookies', 'socialPages', 'socialStacks', '$state',
-        function ($scope, $rootScope, SocialPosts, Alert, SocialAccounts, $filter, Image, Action, SocialStacks, $mdDialog, postId, postInformation, theme, socket, $window, ngIntroService, $cookies, socialPages, socialStacks, $state) {
+        function (
+            $scope,
+            $rootScope,
+            SocialPosts,
+            Alert,
+            SocialAccounts,
+            $filter,
+            Image,
+            Action,
+            SocialStacks,
+            $mdDialog,
+            postId,
+            postInformation,
+            theme,
+            socket,
+            $window,
+            ngIntroService,
+            $cookies,
+            socialPages,
+            socialStacks,
+            $state
+        ){
             $scope.postId = postId;
             $scope.attachImages = false;
             $scope.postInformation = postInformation;
@@ -19,7 +39,6 @@ define(['../../module'], function (controllers) {
             $scope.allStacks = socialStacks;
             $scope.availableImages = [];
             $scope.usedImages = [];
-
 
 
             $scope.IntroOptions = {
@@ -60,7 +79,7 @@ define(['../../module'], function (controllers) {
                         intro: "That's it! Click to schedule the post."
                     },
                 ],
-            }
+            };
             // ngIntroService.refresh();
 
 
@@ -71,7 +90,7 @@ define(['../../module'], function (controllers) {
 
             function confirmLeavePage(e) {
                 if ($scope.dirtyForm) {
-                    var confirmed;
+                    let confirmed;
                     confirmed = $window.confirm("You have unsaved edits. Do you wish to leave?");
                     if (e && !confirmed) {
                         e.returnValue = "You have unsaved edits.";
@@ -89,21 +108,21 @@ define(['../../module'], function (controllers) {
                 $window.attachEvent("onbeforeunload", confirmLeavePage); //For IE
             }
 
-            $scope.attachImage = function () {
-                setTimeout(function () {
+            $scope.attachImage = () => {
+                setTimeout(() => {
                     angular.element(document.querySelectorAll('.imageSelector')).triggerHandler('click');
                 }, 0);
             };
-            $scope.scheduleShow = function () {
+            $scope.scheduleShow = () => {
                 $scope.scheduleShowing = true;
-            }
+            };
 
-            $scope.cancel = function () {
+            $scope.cancel = () => {
                 $mdDialog.cancel();
             };
 
 
-            setTimeout(function () {
+            setTimeout(() => {
                 if ($scope.permissions_used != null)
                     $scope.hashtag_lookups = $scope.permissions_used.hashtag_lookups;
             }, 0);
@@ -116,14 +135,14 @@ define(['../../module'], function (controllers) {
                 maxLength: 280//Lim = false;it for Twitter. We wil adjust dynamically
             };
 
-            $scope.chooseImage = function(image){
-                if (image == $scope.selectedImage && $scope.lastChoose > (new Date().getTime() - 500)){
+            $scope.chooseImage = image => {
+                if (image === $scope.selectedImage && $scope.lastChoose > (new Date().getTime() - 500)) {
                     // Double click
-                    if ($scope.currentSocialPost.images.indexOf(image) == -1){
+                    if ($scope.currentSocialPost.images.indexOf(image) === -1) {
                         $scope.currentSocialPost.images.push(image)
                     } else {
-                        for (var i = 0; i < $scope.currentSocialPost.images.length; i++){
-                            if ($scope.currentSocialPost.images[i]._id == image._id){
+                        for (var i = 0; i < $scope.currentSocialPost.images.length; i++) {
+                            if ($scope.currentSocialPost.images[i]._id === image._id) {
                                 $scope.currentSocialPost.images.splice(i, 1);
                             }
                         }
@@ -132,32 +151,32 @@ define(['../../module'], function (controllers) {
                     $scope.selectedImage = image;
                 }
                 $scope.lastChoose = new Date();
-            }
+            };
 
 
-            $scope.choosePage = function (page_id, platform) {
+            $scope.choosePage = (page_id, platform) => {
                 $scope.currentSocialPost.pages = $scope.currentSocialPost.pages || [];
-                if (platform == 4) $scope.instagramWarning = true;
+                if (platform === 4) $scope.instagramWarning = true;
 
-                if ($scope.currentSocialPost.pages.indexOf(page_id) != -1)
+                if ($scope.currentSocialPost.pages.indexOf(page_id) !== -1)
                     $scope.currentSocialPost.pages.splice($scope.currentSocialPost.pages.indexOf(page_id), 1);
                 else
                     $scope.currentSocialPost.pages.push(page_id);
             };
-            $scope.chooseStack = function (stack_id) {
+            $scope.chooseStack = stack_id => {
                 $scope.currentSocialPost.stacks = $scope.currentSocialPost.stacks || [];
-                if ($scope.currentSocialPost.stacks.indexOf(stack_id) != -1)
+                if ($scope.currentSocialPost.stacks.indexOf(stack_id) !== -1)
                     $scope.currentSocialPost.stacks.splice($scope.currentSocialPost.stacks.indexOf(stack_id), 1);
                 else
                     $scope.currentSocialPost.stacks.push(stack_id);
             };
 
-            $scope.secondaryAction = function () {
+            $scope.secondaryAction = () => {
 
                 switch ($scope.currentSocialPost.state) {
                     case 'ACTIVE':
                         // Make it a draft now
-                        SocialPosts.draftScheduledPost({id: $scope.postId}, function (message) {
+                        SocialPosts.draftScheduledPost({id: $scope.postId}, message => {
                             // $state.go('portal.schedule.table', {});
                             $scope.currentSocialPost.post_time = $scope.currentSocialPost.date;
                             $scope.currentSocialPost._id = $scope.postId;
@@ -174,14 +193,14 @@ define(['../../module'], function (controllers) {
                             //     'updateContent': $scope.currentSocialPost
                             // });
 
-                        }, function (status, message) {
+                        }, (status, message) => {
                             Alert.error(message);
                         });
 
                         break;
                     case 'DRAFT':
                         // Delete the post.
-                        SocialPosts.deletePost($scope.postId, function (message) {
+                        SocialPosts.deletePost($scope.postId, message => {
                             $scope.dirtyForm = false;
                             $mdDialog.hide({
                                 'updateId': $scope.postId,
@@ -195,7 +214,7 @@ define(['../../module'], function (controllers) {
                             //     'updateState': 'DELETE',
                             //     'updateContent': null
                             // });
-                        }, function (status, message) {
+                        }, (status, message) => {
                             Alert.error(message);
                         });
                         break;
@@ -203,21 +222,21 @@ define(['../../module'], function (controllers) {
                 }
             };
 
-            $scope.changedForm = function () {
+            $scope.changedForm = () => {
                 SocialPosts.draftScheduledPost()
             };
 
-            $scope.getHashtags = function (content, forceRefresh) {
+            $scope.getHashtags = (content, forceRefresh) => {
                 if (content.length > 0 && $scope.postId != null) {
                     $scope.hashtagsLoading = true;
-                    Action.fetchHashtags(content, forceRefresh, $scope.postId, function (message, used) {
-                        $scope.hashtags = message
+                    Action.fetchHashtags(content, forceRefresh, $scope.postId, (message, used) => {
+                        $scope.hashtags = message;
                         $scope.hashtag_lookups = used;
-                        if ($scope.hashtags.length == 0) {
+                        if ($scope.hashtags.length === 0) {
                             $scope.nextStep();
                         }
                         $scope.hashtagsLoading = false;
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error(message);
                         $scope.hashtagsLoading = false;
                     })
@@ -226,32 +245,30 @@ define(['../../module'], function (controllers) {
                 }
             };
 
-            $scope.addHashtag = function (hashtag) {
+            $scope.addHashtag = hashtag => {
                 if (!$scope.hashtagUsed(hashtag)) {
                     // Add the hashtag
                     if (!$scope.currentSocialPost.content.endsWith(" ")) $scope.currentSocialPost.content += " ";
                     $scope.currentSocialPost.content += "#" + hashtag + " ";
                 }
             };
-            $scope.hashtagUsed = function (hashtag) {
-                return $scope.currentSocialPost.content.indexOf("#" + hashtag + " ") != -1;
-            };
+            $scope.hashtagUsed = hashtag => $scope.currentSocialPost.content.indexOf("#" + hashtag + " ") !== -1;
 
 
-            $scope.$watch("currentSocialPost", function (newValue, oldValue) {
-                if (newValue == oldValue || newValue == null) return;
+            $scope.$watch("currentSocialPost", (newValue, oldValue) => {
+                if (newValue === oldValue || newValue == null) return;
 
 
                 if (newValue.images.length > 0) $scope.attachImages = true;
                 else $scope.attachImages = false;
                 $scope.dirtyForm = true;
-                console.log("Setting time?", newValue.date, oldValue.date, newValue.pages, oldValue.pages)
-                if ( (oldValue == null && newValue != null) || (newValue.pages != oldValue.pages && newValue.date.getTime() == oldValue.date.getTime())){
-                    console.log("Setting time?")
-                    SocialAccounts.getSuggestedPostTime(newValue.pages, new Date().getTimezoneOffset(), function (message) {
+                console.log("Setting time?", newValue.date, oldValue.date, newValue.pages, oldValue.pages);
+                if ((oldValue == null && newValue != null) || (newValue.pages !== oldValue.pages && newValue.date.getTime() === oldValue.date.getTime())) {
+                    console.log("Setting time?");
+                    SocialAccounts.getSuggestedPostTime(newValue.pages, new Date().getTimezoneOffset(), message => {
                         $scope.currentSocialPost.date = message;
-                    }, function (status, message) {
-                       Alert.error(message);
+                    }, (status, message) => {
+                        Alert.error(message);
                     });
                 }
 
@@ -262,33 +279,33 @@ define(['../../module'], function (controllers) {
                     if ($scope.contentUpdater != null)
                         clearTimeout($scope.contentUpdater);
                     try {
-                        $scope.draftUpdater = setTimeout(function () {
-                            if (newValue.state != "ACTIVE") {
+                        $scope.draftUpdater = setTimeout(() => {
+                            if (newValue.state !== "ACTIVE") {
                                 $scope.applyDraft();
                             }
                         }, 2000);
                     } catch (e) {
                         console.log(e)
                     }
-                    if (newValue.content != oldValue.content) {
-                        $scope.contentUpdater = setTimeout(function () {
+                    if (newValue.content !== oldValue.content) {
+                        $scope.contentUpdater = setTimeout(() => {
                             $scope.nextStep();
                         }, 2000);
                     }
 
-                    if (oldValue.dateString != newValue.dateString) {
+                    if (oldValue.dateString !== newValue.dateString) {
                         $scope.nextStep();
                     }
                 }
             }, true);
 
-            $scope.applyDraft = function () {
-                var image_ids = [];
-                angular.forEach($scope.currentSocialPost.images, function (image) {
+            $scope.applyDraft = () => {
+                let image_ids = [];
+                angular.forEach($scope.currentSocialPost.images, image => {
                     image_ids.push(image._id);
                 });
 
-                var params = {
+                let params = {
                     pages: $scope.currentSocialPost.pages,
                     stacks: $scope.currentSocialPost.stacks,
                     content: $scope.currentSocialPost.content.length > 0 ? $scope.currentSocialPost.content : '',
@@ -303,32 +320,32 @@ define(['../../module'], function (controllers) {
                     $scope.socket.emit('updateDraft', params);
                     $scope.dirtyForm = false;
                 } else {
-                    SocialPosts.draftScheduledPost(params, function (data) {
+                    SocialPosts.draftScheduledPost(params, data => {
                         $scope.postId = data._id;
                         // if ($stateParams.postId != $scope.postId) {
                         //     $state.go('portal.schedule.edit', {postId: $scope.postId}, {reload: false})
                         //
                         // }
                         $scope.dirtyForm = false;
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error("Failed to save draft")
                     });
                 }
             };
 
 
-            $scope.submitPost = function () {
-                if ($scope.currentSocialPost.pages.length == 0)
-                    return Alert.error("You must choose at least one platform.")
-                else if ($scope.currentSocialPost.content.length == 0)
+            $scope.submitPost = () => {
+                if ($scope.currentSocialPost.pages.length === 0)
+                    return Alert.error("You must choose at least one platform.");
+                else if ($scope.currentSocialPost.content.length === 0)
                     return Alert.error("You must have some content.");
 
-                var image_ids = [];
-                angular.forEach($scope.currentSocialPost.images, function (image) {
+                let image_ids = [];
+                angular.forEach($scope.currentSocialPost.images, image => {
                     image_ids.push(image._id);
                 });
 
-                var params = {
+                let params = {
                     pages: $scope.currentSocialPost.pages,
                     stacks: $scope.currentSocialPost.stacks,
                     content: $scope.currentSocialPost.content,
@@ -343,7 +360,7 @@ define(['../../module'], function (controllers) {
 
                 if (!$scope.pending) {
                     $scope.pending = true;
-                    SocialPosts.submitScheduledPost(params, function (postDetails) {
+                    SocialPosts.submitScheduledPost(params, postDetails => {
                         $scope.pending = false;
                         Alert.success("Scheduled post on " + $filter('date')(postDetails.post_time, 'short'));
                         // $state.transitionTo('portal.schedule.table', {
@@ -359,7 +376,7 @@ define(['../../module'], function (controllers) {
                             'updateContent': postDetails
                         });
 
-                    }, function (status, message) {
+                    }, (status, message) => {
                         $scope.pending = false;
                         Alert.error("Failed to submit: " + message)
                     });
@@ -370,121 +387,121 @@ define(['../../module'], function (controllers) {
             // Get the simple list which basically is the grouped up version?
 
 
-                    if ($scope.allPages.length == 0) {
-                        Alert.error("You must add a social account first.");
-                        $mdDialog.cancel();
-                        $state.go('portal.accounts.home');
-                    }
-                    else {
-                        // setTimeout(function () {
-                        //     $scope.step();
-                        // }, 0);
-                        $scope.nextStep = function () {};
-                        if ($rootScope.tutorialMode != null) {
-                            // ngIntroService.clear();
-                            ngIntroService.onExit(function(){
-                                $rootScope.finishTutorial(true);
-                            });
+            if ($scope.allPages.length === 0) {
+                Alert.error("You must add a social account first.");
+                $mdDialog.cancel();
+                $state.go('portal.accounts.home');
+            }
+            else {
+                // setTimeout(function () {
+                //     $scope.step();
+                // }, 0);
+                $scope.nextStep = () => {
+                };
+                if ($rootScope.tutorialMode != null) {
+                    // ngIntroService.clear();
+                    ngIntroService.onExit(() => {
+                        $rootScope.finishTutorial(true);
+                    });
 
-                            ngIntroService.setOptions($scope.IntroOptions);
+                    ngIntroService.setOptions($scope.IntroOptions);
 
-                            // if ($cookies.get("tutorial") >= 10)
-                            //     $cookies.remove("tutorial");
-                            //
-                            // $scope.$step = $cookies.get("tutorial") || 6;
-                            setTimeout(function () {
-                                ngIntroService.start();
-                            }, 500);
-
-
-                            $scope.nextStep = function () {
-                                $scope.$step++;
-                                $cookies.put("tutorial", $scope.$step);
-                                ngIntroService.next();
-                            };
-                        }
-
-                        if ($scope.postId && !$scope.postInformation) {
-                            // Editing social post
-                            SocialPosts.getDetails($scope.postId,
-                                function (socialPostDetails) {
-                                    if (socialPostDetails != null && new Date(socialPostDetails.post_time).getTime() < new Date() && socialPostDetails.state != "DRAFT") {
-                                        // Already posted
-                                        Alert.info("You are unable to edit a posted social post.");
-                                        // $state.go('portal.schedule.table');
-                                    }
-
-                                    var chosenPlatforms = [];
-                                    for (var socialPageIndex in socialPostDetails.pages) {
-                                        var socialPage = socialPostDetails.pages[socialPageIndex];
-                                        chosenPlatforms.push(socialPage);
-                                    }
-                                    $scope.currentSocialPost.stacks = socialPostDetails.stacks;
-                                    $scope.currentSocialPost.state = socialPostDetails.state;
-                                    $scope.currentSocialPost.pages = chosenPlatforms;
-                                    $scope.currentSocialPost.images = socialPostDetails.images;
-                                    $scope.currentSocialPost.content = socialPostDetails.content;
-
-                                    if (socialPostDetails.images.length > 0) {
-                                        socialPostDetails.images.forEach(function(image){
-                                            Image.getDetails(image._id, function (data) {
-                                                $scope.usedImages.push(data.data);
-                                            }, function (status, message) {
-                                                console.log("Failed?", status, message)
-                                            })
-                                        });
-                                        Image.getDetails($scope.attachedImage, function (data) {
-                                            $scope.currentSocialPost.images.push(data.data);
-                                        }, function (status, message) {
-                                            console.log("Failed?", status, message)
-                                        })
-
-                                    }
-
-                                    // var time = new Date(socialPostDetails.post_time);
-                                    if ($scope.attachedImage) {
-                                        Image.getDetails($scope.attachedImage, function (data) {
-                                            $scope.currentSocialPost.images.push(data.data);
-                                        }, function (status, message) {
-                                            console.log("Failed?", status, message)
-                                        })
-                                    }
+                    // if ($cookies.get("tutorial") >= 10)
+                    //     $cookies.remove("tutorial");
+                    //
+                    // $scope.$step = $cookies.get("tutorial") || 6;
+                    setTimeout(() => {
+                        ngIntroService.start();
+                    }, 500);
 
 
-                                    $scope.currentSocialPost.date = moment(socialPostDetails.post_time);
-                                }, function (status, message) {
-                                    // Failed to get details...
-                                    $scope.postId = null;
-                                    Alert.error("Failed to get details of this post. Creating new post.");
+                    $scope.nextStep = () => {
+                        $scope.$step++;
+                        $cookies.put("tutorial", $scope.$step);
+                        ngIntroService.next();
+                    };
+                }
 
-                                })
-                        } else if ($scope.postInformation) {
-                            $scope.currentSocialPost = Object.assign($scope.currentSocialPost, $scope.postInformation);
-                            $scope.currentSocialPost.date = moment($scope.currentSocialPost.date);
-                            if ($scope.postInformation.attachedImages != null && $scope.postInformation.attachedImages.length > 0) {
-                                $scope.attachImages = true;
-                                for (var index = 0; index < $scope.postInformation.attachedImages.length; index++) {
-                                    Image.getDetails($scope.postInformation.attachedImages[index], function (data) {
-                                        $scope.currentSocialPost.images.push(data.data);
-                                    }, function (status, message) {
-                                        Alert.error("Failed to get images");
-                                    })
-                                }
+                if ($scope.postId && !$scope.postInformation) {
+                    // Editing social post
+                    SocialPosts.getDetails($scope.postId,
+                        socialPostDetails => {
+                            if (socialPostDetails != null && new Date(socialPostDetails.post_time).getTime() < new Date() && socialPostDetails.state !== "DRAFT") {
+                                // Already posted
+                                Alert.info("You are unable to edit a posted social post.");
+                                // $state.go('portal.schedule.table');
                             }
-                        } else {
-                            // $scope.applyDraft();
-                        }
-                        Image.getImages(null, function(images1){
-                            Image.getImages(null, function(images2){
-                                $scope.availableImages = [].concat(images1.data.images).concat(images2.data.images);
-                            }, function(status, message){
 
-                            })
-                        }, function(status, message){
+                            let chosenPlatforms = [];
+                            for (let socialPageIndex in socialPostDetails.pages) {
+                                let socialPage = socialPostDetails.pages[socialPageIndex];
+                                chosenPlatforms.push(socialPage);
+                            }
+                            $scope.currentSocialPost.stacks = socialPostDetails.stacks;
+                            $scope.currentSocialPost.state = socialPostDetails.state;
+                            $scope.currentSocialPost.pages = chosenPlatforms;
+                            $scope.currentSocialPost.images = socialPostDetails.images;
+                            $scope.currentSocialPost.content = socialPostDetails.content;
+
+                            if (socialPostDetails.images.length > 0) {
+                                socialPostDetails.images.forEach(image => {
+                                    Image.getDetails(image._id, data => {
+                                        $scope.usedImages.push(data.data);
+                                    }, (status, message) => {
+                                        console.log("Failed?", status, message)
+                                    })
+                                });
+                                Image.getDetails($scope.attachedImage, data => {
+                                    $scope.currentSocialPost.images.push(data.data);
+                                }, (status, message) => {
+                                    console.log("Failed?", status, message)
+                                })
+
+                            }
+
+                            // let time = new Date(socialPostDetails.post_time);
+                            if ($scope.attachedImage) {
+                                Image.getDetails($scope.attachedImage, data => {
+                                    $scope.currentSocialPost.images.push(data.data);
+                                }, (status, message) => {
+                                    console.log("Failed?", status, message)
+                                })
+                            }
+
+
+                            $scope.currentSocialPost.date = moment(socialPostDetails.post_time);
+                        }, (status, message) => {
+                            // Failed to get details...
+                            $scope.postId = null;
+                            Alert.error("Failed to get details of this post. Creating new post.");
 
                         })
+                } else if ($scope.postInformation) {
+                    $scope.currentSocialPost = Object.assign($scope.currentSocialPost, $scope.postInformation);
+                    $scope.currentSocialPost.date = moment($scope.currentSocialPost.date);
+                    if ($scope.postInformation.attachedImages != null && $scope.postInformation.attachedImages.length > 0) {
+                        $scope.attachImages = true;
+                        for (let index = 0; index < $scope.postInformation.attachedImages.length; index++) {
+                            Image.getDetails($scope.postInformation.attachedImages[index], data => {
+                                $scope.currentSocialPost.images.push(data.data);
+                            }, (status, message) => {
+                                Alert.error("Failed to get images");
+                            })
+                        }
                     }
+                } else {
+                    // $scope.applyDraft();
+                }
+                Image.getImages(null, images1 => {
+                    Image.getImages(null, images2 => {
+                        $scope.availableImages = [].concat(images1.data.images).concat(images2.data.images);
+                    }, (status, message) => {
 
+                    })
+                }, (status, message) => {
+
+                })
+            }
 
 
         }]);

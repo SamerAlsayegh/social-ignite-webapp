@@ -1,9 +1,17 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('pagesController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'SocialAccounts', '$mdDialog', 'moment', '$window', 'Alert',
-        function ($rootScope, $scope,
-                  $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert) {
+        function (
+            $rootScope,
+            $scope,
+            $state,
+            $stateParams,
+            SocialAccounts,
+            $mdDialog,
+            moment,
+            $window,
+            Alert
+        ) {
 
             if ($stateParams.fail != null) {
                 Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail, 4000);
@@ -22,11 +30,9 @@ define(['../../module'], function (controllers) {
             $scope.past5Minutes = new Date(new Date().getTime() - (1000 * 60 * 5));
 
 
-            $scope.updatedRecently = function (itemUpdated) {
-                return new Date(itemUpdated).getTime() < $scope.past5Minutes.getTime();
-            };
-            for (var platformKey in $scope.platforms) {
-                if (parseInt(platformKey) == platformKey) {
+            $scope.updatedRecently = itemUpdated => new Date(itemUpdated).getTime() < $scope.past5Minutes.getTime();
+            for (let platformKey in $scope.platforms) {
+                if (parseInt(platformKey) === platformKey) {
                     $scope.socialPlatformDetails.push({
                         id: platformKey,
                         shortname: $scope.platforms[platformKey].id,
@@ -34,15 +40,15 @@ define(['../../module'], function (controllers) {
                     });
                 }
             }
-            $scope.socket.on('updatedPageStatistics', function (pageInfo) {
-                SocialAccounts.getSocialAccount(pageInfo._id, function (message) {
-                    for (var i = 0; i < $rootScope.allPages.length; i++) {
-                        if ($rootScope.allPages[i]._id == pageInfo._id) {
+            $scope.socket.on('updatedPageStatistics', pageInfo => {
+                SocialAccounts.getSocialAccount(pageInfo._id, message => {
+                    for (let i = 0; i < $rootScope.allPages.length; i++) {
+                        if ($rootScope.allPages[i]._id === pageInfo._id) {
                             $rootScope.allPages[i] = message;
                             break;
                         }
                     }
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 })
             });
@@ -53,51 +59,49 @@ define(['../../module'], function (controllers) {
             $scope.filteredPlatforms = [];
 
 
-            $scope.isPlatformFiltered = function (platform) {
-                return $scope.filteredPlatforms.indexOf(platform) != -1;
-            };
+            $scope.isPlatformFiltered = platform => $scope.filteredPlatforms.indexOf(platform) !== -1;
 
-            $scope.refreshSocialAccount = function (_id, $event) {
+            $scope.refreshSocialAccount = (_id, $event) => {
                 if ($event) $event.stopPropagation();
-                SocialAccounts.refreshSocialAccount(_id, 'page_statistics', function (message) {
+                SocialAccounts.refreshSocialAccount(_id, 'page_statistics', message => {
                     Alert.success("Successfully queued page for update.");
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 })
             };
 
-            $scope.removeSocialAccount = function (_id, $event) {
+            $scope.removeSocialAccount = (_id, $event) => {
                 if ($event) $event.stopPropagation();
 
-                SocialAccounts.removeSocialAccount(_id, function (message) {
+                SocialAccounts.removeSocialAccount(_id, message => {
                     Alert.success("Successfully deleted social page.");
-                    var lookup = {};
-                    for (var index in $rootScope.allPages)
+                    let lookup = {};
+                    for (let index in $rootScope.allPages)
                         lookup[$rootScope.allPages[index]._id] = $rootScope.allPages[index];
                     delete $rootScope.allPages.splice($rootScope.allPages.indexOf(lookup[_id]), 1);
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 })
             };
 
-            $scope.loadMoreSocialPages = function () {
-                SocialAccounts.getSocialAccounts(($rootScope.allPages.length > 0 ? ($rootScope.allPages[$rootScope.allPages.length - 1]._id) : null), $scope.filteredPlatforms, function (message) {
+            $scope.loadMoreSocialPages = () => {
+                SocialAccounts.getSocialAccounts(($rootScope.allPages.length > 0 ? ($rootScope.allPages[$rootScope.allPages.length - 1]._id) : null), $scope.filteredPlatforms, message => {
                     $rootScope.allPages = $rootScope.allPages.concat(message.pages);
                     $scope.remaining = message.remaining;
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
             };
 
-            $scope.reorderPages = function (sortOrder) {
+            $scope.reorderPages = sortOrder => {
 
             };
 
             $scope.loadMoreSocialPages();
 
 
-            $scope.togglePlatformFilter = function (platform) {
-                $scope.filteredPlatforms.indexOf(platform) == -1 ? $scope.filteredPlatforms.push(platform) : $scope.filteredPlatforms.splice($scope.filteredPlatforms.indexOf(platform), 1);
+            $scope.togglePlatformFilter = platform => {
+                $scope.filteredPlatforms.indexOf(platform) === -1 ? $scope.filteredPlatforms.push(platform) : $scope.filteredPlatforms.splice($scope.filteredPlatforms.indexOf(platform), 1);
                 $rootScope.allPages = [];
                 $scope.loadMoreSocialPages();
             };

@@ -1,13 +1,13 @@
 <md-content layout-fill layout="column">
     <md-content layout="row" class="md-block">
         <h3 flex>Ticket: {{ticket.title}}</h3>
-        <md-button ng-bind="ticket.status" class="md-secondary" disabled  aria-label="status"></md-button>
+        <md-button ng-bind="ticket.status" class="md-secondary" disabled aria-label="status"></md-button>
     </md-content>
     <md-list id="ticketResponses" flex style="overflow-y: auto;">
         <md-list-item class="md-2-line" ng-repeat="reply in ticket.responses.responses">
             <md-button class=" md-mini md-padding" disabled layout="row" layout-align="center center">
                 <i ng-if="!reply.admin" class="zmdi zmdi-account zmdi-hc-lg"></i>
-                <i  ng-if="reply.admin" class="zmdi zmdi-assignment-account zmdi-hc-lg"></i>
+                <i ng-if="reply.admin" class="zmdi zmdi-assignment-account zmdi-hc-lg"></i>
             </md-button>
             <div class="md-list-item-text">
                 <span layout="row">

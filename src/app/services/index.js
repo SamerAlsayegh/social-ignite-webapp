@@ -12,7 +12,6 @@ define([
     './PostComment',
     './Image',
     './Billing',
-    './Tutorial',
     './Metadata',
     './SocialStacks',
     './General',
@@ -20,6 +19,6 @@ define([
     './Admin/AdminSupport',
     './Admin/AdminAccount',
     './Admin/AdminGeneral'
-], function () {
+], () => {
 });
 

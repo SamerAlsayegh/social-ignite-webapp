@@ -32,5 +32,5 @@ define([
     './public/Tools/publicToolsController',
 
     './errorController'
-], function () {
+], () => {
 });

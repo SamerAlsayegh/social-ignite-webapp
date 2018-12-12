@@ -1,7 +1,6 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('feedbackController', ['$scope', 'Alert', '$window',
-        function ($scope, Alert, $window) {
+        ($scope, Alert, $window) => {
 
 
         }]);

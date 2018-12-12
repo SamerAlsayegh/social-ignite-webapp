@@ -10,7 +10,8 @@
      ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"
      layout-padding layout="row" layout-align="start start" layout-wrap layout-fill>
 
-    <md-card ng-if="control == 'manage' || control == 'manage2'" ng-hide="control == 'manage2'" ngf-select="uploadFiles($files)" class="resource-card image-dragdropzone imageSelector"
+    <md-card ng-if="control == 'manage' || control == 'manage2'" ng-hide="control == 'manage2'"
+             ngf-select="uploadFiles($files)" class="resource-card image-dragdropzone imageSelector"
              layout="column"
              ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">
 
@@ -33,7 +34,7 @@
 
 
     <div layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
-                ng-repeat="imageContent in images" ng-hide="imageContent.hide">
+         ng-repeat="imageContent in images" ng-hide="imageContent.hide">
 
         <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading" ng-hide="image.hide"
                  class="resource-card resource-select md-whiteframe-3dp">
@@ -45,7 +46,8 @@
 
             <span style="position: absolute; top: 0px; z-index: 3;"
                   ng-style="imageContent.used ? {background: 'rgba(0, 0, 0, 0.5)'} : {}" layout-fill layout="column">
-                <span ng-if="imageContent.used" style="width: 100%; height: 4px; background: #b71c1c; opacity: 0.7;" layout-align="stretch"></span>
+                <span ng-if="imageContent.used" style="width: 100%; height: 4px; background: #b71c1c; opacity: 0.7;"
+                      layout-align="stretch"></span>
                 <div flex>
                 </div>
             <md-content class="transparent-hover" layout="row" layout-align="center center">
@@ -64,14 +66,12 @@
         </md-card>
 
 
-
-
         <md-card style="position: relative; z-index: 1;" flex ng-if="imageContent.loading"
                  class="resource-card resource-select" layout="column" layout-align="center center">
 
             <img class="img-responsive" src="/img/empty_300x300.png"/>
 
-            <span style="position: absolute; top: 0px; z-index: 3;" layout-fill layout="column" class="md-padding" >
+            <span style="position: absolute; top: 0px; z-index: 3;" layout-fill layout="column" class="md-padding">
                 <span flex>
                 </span>
                 <span flex>
@@ -82,6 +82,6 @@
                 </span>
             </span>
         </md-card>
-</div>
+    </div>
 </div>
 

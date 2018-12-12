@@ -1,12 +1,11 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('pageStatisticsController', ['$scope', '$stateParams', 'Alert', 'SocialAccounts',
         function ($scope, $stateParams, Alert, SocialAccounts) {
             $scope.socialPages = [];
 
-            SocialAccounts.getSocialAccounts(null, null, function (data) {
+            SocialAccounts.getSocialAccounts(null, null, data => {
                 $scope.socialPages = data.pages;
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error(message);
             });
 

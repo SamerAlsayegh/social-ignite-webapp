@@ -3,7 +3,7 @@
 <div layout="column" flex>
     <md-content layout="row" layout-wrap layout-align="center center" class="tutorial_step_4">
         <md-card layout="column" class="pointer md-padding" ng-repeat="socialPage in newPage.pages"
-                  ng-click="linkAccount(socialPage)" flex="100" flex-gt-md="30">
+                 ng-click="linkAccount(socialPage)" flex="100" flex-gt-md="30">
             <md-tooltip md-direction="top">Click to link</md-tooltip>
 
             <div layout="row">
@@ -27,7 +27,8 @@
                         <span flex class="text-center">
                             <md-button class="md-icon-button" aria-label="Linked status">
                                 <md-tooltip md-direction="top">Status</md-tooltip>
-                                <i class="zmdi zmdi-hc-2x" ng-class="socialPage.linking ? 'continious_rotation zmdi-refresh-sync' : (socialPage.linked ? 'text-success zmdi-check-circle' : 'text-warn zmdi-close-circle')"></i>
+                                <i class="zmdi zmdi-hc-2x"
+                                   ng-class="socialPage.linking ? 'continious_rotation zmdi-refresh-sync' : (socialPage.linked ? 'text-success zmdi-check-circle' : 'text-warn zmdi-close-circle')"></i>
                             </md-button>
                                 <br>
                                 <p ng-bind="socialPage.linked ? 'Linked' : 'Unlinked'"></p>

@@ -1,67 +1,47 @@
-define(['../module'], function (services) {
-    'use strict';
+define(['../module'], services => {
     services.factory('AdminSupport', ['Request',
-        function (Request) {
+        Request => ({
+            getSupportTickets(last_response, cbSuccess, cbFail) {
+                let params = "";
+                if (last_response) params = Request.ArrayToURL({last_response});
+                return Request.get('admin/support/tickets' + params,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-            return {
-                getSupportTickets: function (last_response, cbSuccess, cbFail) {
-                    var params = "";
-                    if (last_response) params = Request.ArrayToURL({last_response: last_response});
-                    return Request.get('admin/support/tickets' + params,
-                         function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getSupportTicket: function (ticketId, cbSuccess, cbFail) {
-                    if (ticketId == null) {
-                        return cbFail(400, "Missing ticketId");
-                    }
+            getSupportTicket(ticketId, cbSuccess, cbFail) {
+                if (ticketId == null) {
+                    return cbFail(400, "Missing ticketId");
+                }
 
-                    return Request.get('admin/support/tickets/' + ticketId,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                postSupportTicketReply: function (ticketId, content, cbSuccess, cbFail) {
-                    if (ticketId == null || content == null) {
-                        return cbFail(400, "Missing required parameters");
-                    }
+                return Request.get('admin/support/tickets/' + ticketId,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.post('admin/support/tickets/' + ticketId, {content: content},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                closeSupportTicket: function (ticketId, cbSuccess, cbFail) {
-                    if (ticketId == null) {
-                        return cbFail(400, "Missing required parameters");
-                    }
+            postSupportTicketReply(ticketId, content, cbSuccess, cbFail) {
+                if (ticketId == null || content == null) {
+                    return cbFail(400, "Missing required parameters");
+                }
 
-                    return Request.post('admin/support/tickets/' + ticketId + '/close', {},
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getSupportTicketReplies: function (ticketId, cursor, cbSuccess, cbFail) {
-                    if (ticketId == null) {
-                        return cbFail(400, "Missing ticketId");
-                    }
+                return Request.post('admin/support/tickets/' + ticketId, {content},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-                    return Request.get('admin/support/tickets/' + ticketId + '/responses?cursor=' + cursor,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+            closeSupportTicket(ticketId, cbSuccess, cbFail) {
+                if (ticketId == null) {
+                    return cbFail(400, "Missing required parameters");
+                }
+
+                return Request.post('admin/support/tickets/' + ticketId + '/close', {},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            getSupportTicketReplies(ticketId, cursor, cbSuccess, cbFail) {
+                if (ticketId == null) {
+                    return cbFail(400, "Missing ticketId");
+                }
+
+                return Request.get('admin/support/tickets/' + ticketId + '/responses?cursor=' + cursor,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

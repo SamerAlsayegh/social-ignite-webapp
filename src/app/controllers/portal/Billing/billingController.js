@@ -1,5 +1,4 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('billingController', ['$scope', 'Alert', '$mdDialog', 'Billing', '$window', '$stateParams', 'Analytics',
         function ($scope, Alert, $mdDialog, Billing, $window, $stateParams, Analytics) {
             $scope.packages = [];
@@ -15,40 +14,38 @@ define(['../../module'], function (controllers) {
             };
             $scope.defaultTab = 0;
 
-            if ($stateParams.tab != null){
-                if ($stateParams.tab == 'active')
+            if ($stateParams.tab != null) {
+                if ($stateParams.tab === 'active')
                     $scope.defaultTab = 0;
-                else if ($stateParams.tab == 'packages')
+                else if ($stateParams.tab === 'packages')
                     $scope.defaultTab = 1;
-                else if ($stateParams.tab == 'transactions')
+                else if ($stateParams.tab === 'transactions')
                     $scope.defaultTab = 2;
             }
 
-            Billing.getPlans(false, function (plans) {
+            Billing.getPlans(false, plans => {
                 $scope.packages = plans;
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error(message)
             });
 
 
-            $scope.loadTransactions = function (sortOrder, page, limit) {
-                Billing.getTransactions(sortOrder, page, limit, function (message) {
+            $scope.loadTransactions = (sortOrder, page, limit) => {
+                Billing.getTransactions(sortOrder, page, limit, message => {
                     $scope.transactions = message.data;
                     $scope.transactionModel.page = $scope.transactions.page;
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
             };
-            $scope.paginateTransactions = function(page, limit) {
+            $scope.paginateTransactions = (page, limit) => {
                 $scope.loadTransactions($scope.transactionModel.sort, page, limit);
             };
 
 
-
-
-            Billing.getSubscription(function (subscriptionData) {
+            Billing.getSubscription(subscriptionData => {
                 $scope.subscription = subscriptionData.data;
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error(message)
             });
 
@@ -56,33 +53,33 @@ define(['../../module'], function (controllers) {
 
             $scope.loading = false;
 
-            $scope.subscribePackage = function (packageName) {
-                if ($scope.loading == false) {
+            $scope.subscribePackage = packageName => {
+                if ($scope.loading === false) {
                     $scope.loading = true;
                     Analytics.trackEvent('billing', 'start_plan', packageName);
                     $window.open(__API__ + '/api/v1/payment/subscription/' + packageName + '/paypal', '_self');
                 }
             };
 
-            $scope.cancelSubscription = function () {
+            $scope.cancelSubscription = () => {
                 $scope.cancellingSubscription = true;
-                Billing.cancelSubscription(function (message) {
+                Billing.cancelSubscription(message => {
                     $scope.cancellingSubscription = false;
                     Alert.success("Subscription has been cancelled on the next billing cycle.");
-                    Billing.getSubscription(function (subscriptionData) {
+                    Billing.getSubscription(subscriptionData => {
                         $scope.subscription = subscriptionData.data;
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error(message)
                     });
                     Analytics.trackEvent('billing', 'cancel_plan', $scope.subscription.package);
-                }, function (status, message) {
+                }, (status, message) => {
                     $scope.cancellingSubscription = false;
                     Alert.error(message)
                 })
-            }
+            };
 
 
-            if ($scope.chosenPackage != null){
+            if ($scope.chosenPackage != null) {
                 $scope.subscribePackage($scope.chosenPackage);
             }
         }]);

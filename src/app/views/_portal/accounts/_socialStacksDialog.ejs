@@ -24,14 +24,15 @@
                         </h2>
                     </label>
 
-                    <md-card flex="30" layout="column" class="md-whiteframe-2dp md-padding" ng-init="filterName = {}" >
+                    <md-card flex="30" layout="column" class="md-whiteframe-2dp md-padding" ng-init="filterName = {}">
                         <!--Pages Listed here-->
                         <span layout="column">
                             <span ng-if="allPages.length > 4" layout-align="stretch" layout="row">
                                     <md-input-container md-no-float flex class=" md-block">
                                         <!-- Use floating label instead of placeholder -->
                                         <md-icon class="zmdi zmdi-search zmdi-hc-lg"></md-icon>
-                                        <input ng-model="filterName.name" placeholder="Search accounts by name" type="text">
+                                        <input ng-model="filterName.name" placeholder="Search accounts by name"
+                                               type="text">
                                     </md-input-container>
                             </span>
                             <md-list layout="column" flex style="max-height: 200px; overflow-y: auto;">
@@ -40,7 +41,8 @@
                                     <md-button
                                             class="md-fab md-mini ui-social ui-{{platforms[pageInfo.platform].id}}"
                                             aria-label=platform>
-                                        <md-tooltip md-direction="top" ng-bind="platforms[pageInfo.platform].id"></md-tooltip>
+                                        <md-tooltip md-direction="top"
+                                                    ng-bind="platforms[pageInfo.platform].id"></md-tooltip>
                                         <i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>
                                     </md-button>
                                     <small flex> {{ pageInfo.name }}</small>

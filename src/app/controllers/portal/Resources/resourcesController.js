@@ -1,5 +1,4 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('resourcesController', ['$rootScope', '$scope',
         '$state', '$stateParams', 'Image', 'Alert',
         function ($rootScope, $scope, $state, $stateParams, Image, Alert) {
@@ -11,29 +10,29 @@ define(['../../module'], function (controllers) {
             $scope.loadingImages = true;
 
             // $scope.image_ids = [];
-            Image.getImages(null, function (images) {
+            Image.getImages(null, images => {
                 $scope.images = images.data.images;
                 $scope.remaining = images.data.remaining;
                 $scope.loadingImages = false;
 
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error("Failed to load images");
             });
-            $scope.finishedScroll = function () {
+            $scope.finishedScroll = () => {
                 if ($scope.remaining > 0) {
                     $scope.loadMore($scope.images[$scope.images.length - 1]._id)
                 }
             };
 
-            $scope.loadMore = function (cursor) {
-                if ($scope.loadingImages == false) {
+            $scope.loadMore = cursor => {
+                if ($scope.loadingImages === false) {
                     $scope.loadingImages = true;
-                    Image.getImages(cursor, function (images) {
+                    Image.getImages(cursor, images => {
                         $scope.images = $scope.images.concat(images.data.images);
                         $scope.remaining = images.data.remaining;
                         $scope.loadingImages = false;
 
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error("Failed to load images");
                         $scope.loadingImages = false;
                     });

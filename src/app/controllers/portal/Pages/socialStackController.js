@@ -1,7 +1,6 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('socialStackController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog',
-        function ($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog) {
+        function($rootScope, $scope, SocialStacks, Alert, SocialAccounts, $mdDialog) {
             $scope.socialStacks = [];
             $scope.stacksModel = {
                 order: null,
@@ -11,20 +10,20 @@ define(['../../module'], function (controllers) {
             $scope.data = {
                 socialPages: []
             };
-            $scope.$on('addStack', function () {
+            $scope.$on('addStack', () => {
                 $scope.addStack();
             });
-            $scope.editSocialStack = function (stackId) {
+            $scope.editSocialStack = stackId => {
                 $mdDialog.show({
-                    locals:{stackId: stackId, platforms: $scope.platforms},
+                    locals: {stackId, platforms: $scope.platforms},
                     controller: 'socialStackDialogController',
                     template: require("compile-ejs-loader!views/_portal/accounts/_socialStacksDialog.ejs")(),
                     parent: angular.element(document.body),
                     clickOutsideToClose: true,
                     fullscreen: true // Only for -xs, -sm breakpoints.
                 })
-                    .then(function (message) {
-                        switch (message.state){
+                    .then(message => {
+                        switch (message.state) {
                             case 'ADD':
                                 $scope.loadSocialStacks();
                                 break;
@@ -32,8 +31,8 @@ define(['../../module'], function (controllers) {
                                 $scope.loadSocialStacks();
                                 break;
                             case 'DELETE':
-                                for (var i = 0; i < $scope.socialStacks.length; i++){
-                                    if ($scope.socialStacks[i]._id == stackId){
+                                for (let i = 0; i < $scope.socialStacks.length; i++) {
+                                    if ($scope.socialStacks[i]._id === stackId) {
                                         $scope.socialStacks.splice(i, 1);
                                     }
                                 }
@@ -41,17 +40,16 @@ define(['../../module'], function (controllers) {
                         }
 
 
-
-                    }, function () {
+                    }, () => {
 
                     });
             };
 
 
-            $scope.loadSocialStacks = function () {
-                SocialStacks.getSocialStacks(true, true, 1, function (data) {
+            $scope.loadSocialStacks = () => {
+                SocialStacks.getSocialStacks(true, true, 1, data => {
                     $scope.socialStacks = data;
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 })
             };

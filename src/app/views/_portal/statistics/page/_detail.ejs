@@ -82,7 +82,8 @@
                              <p style="bottom: -38%; position:relative;" class="rotate">Positive</p>
                         </span>
                         <span layout="row" flex>
-                            <span class="md-success-override" style="height: 70px;" flex="{{::page_data.statistic.analysis.positive}}" layout="row">
+                            <span class="md-success-override" style="height: 70px;"
+                                  flex="{{::page_data.statistic.analysis.positive}}" layout="row">
                                 <div flex></div>
                                 <h4 style="color: #fff;" class="rotate">{{page_data.statistic.analysis.positive}}</h4>
                             </span>
@@ -97,7 +98,8 @@
                              <p style="bottom: -44%; position:relative;" class="rotate">Negative</p>
                         </span>
                         <span layout="row" flex>
-                            <span class="md-warn-override" style="height: 70px;" flex="{{::page_data.statistic.analysis.negative}}" layout="row">
+                            <span class="md-warn-override" style="height: 70px;"
+                                  flex="{{::page_data.statistic.analysis.negative}}" layout="row">
                                 <div flex></div>
                                 <h4 style="color: #fff;" class="rotate">{{page_data.statistic.analysis.negative}}</h4>
                             </span>
@@ -112,7 +114,8 @@
                              <p style="bottom: -35%; position:relative;" class="rotate">Neutral</p>
                         </span>
                         <span layout="row" flex>
-                            <span class="md-info-override" style="height: 70px;" flex="{{::page_data.statistic.analysis.neutral}}" layout="row">
+                            <span class="md-info-override" style="height: 70px;"
+                                  flex="{{::page_data.statistic.analysis.neutral}}" layout="row">
                                 <div flex></div>
                                 <h4 style="color: #fff;" class="rotate">{{page_data.statistic.analysis.neutral}}</h4>
                             </span>
@@ -136,11 +139,13 @@
             </md-toolbar>
             <md-list layout-align="stretch">
                 <md-list-item class="md-2-line" layout="row" layout-align="center center"
-                              ng-repeat="recommendation in recommendations" ng-click="commitRecommendation(recommendation)">
+                              ng-repeat="recommendation in recommendations"
+                              ng-click="commitRecommendation(recommendation)">
                     <span class="md-list-item-text" layout-align="stretch" layout="column">
                                 <span layout="row">
                                     <h3 ng-bind="recommendation.name" flex></h3>
-                                    <p ng-if="recommendation.type == 'SUGGESTED_TIME'" ng-bind="(recommendation.value | amTimeAgo)  + ' at ' + (recommendation.value | amDateFormat:'LT')"></p>
+                                    <p ng-if="recommendation.type == 'SUGGESTED_TIME'"
+                                       ng-bind="(recommendation.value | amTimeAgo)  + ' at ' + (recommendation.value | amDateFormat:'LT')"></p>
                                 </span>
                                 <span layout="row">
                                     <p ng-bind="recommendation.detail"></p>
@@ -154,23 +159,23 @@
         </md-card>
 
         <!--<md-card class="md-whiteframe-3dp">-->
-            <!--<md-toolbar layout="row" class="md-primary">-->
-                <!--<div class="md-toolbar-tools">-->
-                    <!--<span flex>Recommended Schedule</span>-->
-                    <!--<i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding"-->
-                       <!--ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()"></i>-->
-                <!--</div>-->
-            <!--</md-toolbar>-->
+        <!--<md-toolbar layout="row" class="md-primary">-->
+        <!--<div class="md-toolbar-tools">-->
+        <!--<span flex>Recommended Schedule</span>-->
+        <!--<i class="zmdi zmdi-plus zmdi-hc-2x pointer md-padding"-->
+        <!--ng-if="activePage.platform != platforms.instagram.id" ng-click="editPost()"></i>-->
+        <!--</div>-->
+        <!--</md-toolbar>-->
 
-            <!--<span layout-padding class="text-center">-->
-                <!--<p>Please post more often to gain insights.</p>-->
-                <!--<md-button class="md-primary md-raised md-padding" ng-if="activePage.platform != platforms.instagram.id"-->
-                           <!--ng-click="editPost()">Create a post-->
-                <!--</md-button>-->
-                    <!--<canvas flex id="audienceActivityChart" flex-grow style="max-height: 300px !important;"-->
-                            <!--layout="row"></canvas>-->
+        <!--<span layout-padding class="text-center">-->
+        <!--<p>Please post more often to gain insights.</p>-->
+        <!--<md-button class="md-primary md-raised md-padding" ng-if="activePage.platform != platforms.instagram.id"-->
+        <!--ng-click="editPost()">Create a post-->
+        <!--</md-button>-->
+        <!--<canvas flex id="audienceActivityChart" flex-grow style="max-height: 300px !important;"-->
+        <!--layout="row"></canvas>-->
 
-            <!--</span>-->
+        <!--</span>-->
         <!--</md-card>-->
 
     </span>
@@ -194,7 +199,8 @@
                 </md-button>
             </span>
 
-            <canvas flex id="keywordChart" ng-show="loadedCard['analysis_keywords']" flex-grow style="max-height: 300px !important;" layout="row"></canvas>
+            <canvas flex id="keywordChart" ng-show="loadedCard['analysis_keywords']" flex-grow
+                    style="max-height: 300px !important;" layout="row"></canvas>
         </md-card>
 
 

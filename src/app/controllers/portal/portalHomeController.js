@@ -2,13 +2,32 @@ require("expose-loader?io!socket.io-client");
 
 // require("expose-loader?moment!moment");
 
-define(['../module'], function (controllers) {
-    'use strict';
+define(['../module'], controllers => {
     return controllers.controller('portalHomeController',
         ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
             'Profile', 'General', '$state', '$mdDialog', 'ngIntroService', '$http', "SocialStacks", "SocialAccounts", "$transitions", "$sce", "SocialPosts",
-            function ($rootScope, $scope, Auth, Alert, Action, Dashboard, PostComment, $mdSidenav,
-                      $cookies, Profile, General, $state, $mdDialog, ngIntroService, $http, SocialStacks, SocialAccounts, $transitions, $sce, SocialPosts) {
+            function (
+                $rootScope,
+                $scope,
+                Auth,
+                Alert,
+                Action,
+                Dashboard,
+                PostComment,
+                $mdSidenav,
+                $cookies,
+                Profile,
+                General,
+                $state,
+                $mdDialog,
+                ngIntroService,
+                $http,
+                SocialStacks,
+                SocialAccounts,
+                $transitions,
+                $sce,
+                SocialPosts
+            ) {
                 $scope.permissions = {};
                 $scope.platforms = $rootScope.platforms;
                 $scope.notifications = [];
@@ -17,7 +36,7 @@ define(['../module'], function (controllers) {
                     $rootScope.tutorialMode = false;//($rootScope.user != null && $rootScope.user.information != null) ? ($rootScope.user.information.tutorial_step == 999 ? false : true) : false;
                 $scope.socket = io(__SOCKETS__);
 
-                $scope.socket.on('connect', function () {
+                $scope.socket.on('connect', () => {
                     console.log("Connected to Sockets");
                     $scope.socket.emit('getOnline');
                     if ($scope.disconnected) {
@@ -25,73 +44,73 @@ define(['../module'], function (controllers) {
                         Alert.success("Reconnected.")
                     }
                 });
-                $scope.toggleMenu = function () {
+                $scope.toggleMenu = () => {
                     $mdSidenav('left').toggle();
                 };
-                $scope.openMenu = function () {
+                $scope.openMenu = () => {
                     $mdSidenav('left').open();
                 };
 
 
-                $scope.socket.on('changedScope', function () {
-                    Auth.logout(function () {
+                $scope.socket.on('changedScope', () => {
+                    Auth.logout(() => {
                         Alert.error("Your scope has been changed, please relogin...");
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error(message);
                     })
                 });
 
-                $scope.socket.on('updatingPageStatistic', function (progress, pageName) {
+                $scope.socket.on('updatingPageStatistic', (progress, pageName) => {
                     Alert.info(progress + " page statistic updates for " + pageName)
                 });
 
-                $scope.socket.on('updatingPostStatistic', function (progress, pageName) {
+                $scope.socket.on('updatingPostStatistic', (progress, pageName) => {
                     Alert.info(progress + " post statistic updates for " + pageName)
                 });
-                $scope.socket.on('updatingPostInformation', function (progress, pageName) {
+                $scope.socket.on('updatingPostInformation', (progress, pageName) => {
                     Alert.info(progress + " post statistic updates for " + pageName)
                 });
-                $scope.socket.on('postedScheduledPost', function (data, le) {
+                $scope.socket.on('postedScheduledPost', (data, le) => {
                     Alert.success("A scheduled post is now live.")
                 });
 
 
-                $scope.socket.on('disconnect', function () {
+                $scope.socket.on('disconnect', () => {
                     $scope.disconnected = true;
                     Alert.error("Lost connection... Reconnecting.");
                 });
 
-                Profile.getPermissions(function (data) {
+                Profile.getPermissions(data => {
                     $scope.permissions = data.data.permissions;
                     $scope.limits = data.data.limits;
                     $scope.used = data.data.used;
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message, 600);
                 });
                 $scope.allowedActions = [];
-                Action.getAllowedActions(function (data) {
+                Action.getAllowedActions(data => {
                     $scope.allowedActions = data;
                     console.log($scope.allowedActions);
-                }, function (status, message) {
+                }, (status, message) => {
                     // Alert.error(message, 600);
                 });
-                SocialStacks.getSocialStacks(true, false, 1, function (socialStacks) {
+                SocialStacks.getSocialStacks(true, false, 1, socialStacks => {
                     $scope.allStacks = socialStacks.social_stacks;
-                    SocialAccounts.getSocialAccounts(null, null, function (socialAccounts) {
+                    SocialAccounts.getSocialAccounts(null, null, socialAccounts => {
                         $rootScope.allPages = socialAccounts.pages;
-                    }, function (status, error) {
+                    }, (status, error) => {
                         $scope.platforms = [];
                         Alert.error(error.code + ": Failed to get social accounts. ")
                     });
-                }, function (status, error) {
+                }, (status, error) => {
                     $scope.platforms = [];
                     Alert.error(error.code + ": Failed to get social stacks. ")
                 });
 
 
-                General.getNotifications(function (data) {
+                General.getNotifications(data => {
                     $scope.notifications = data.data;
-                }, function (status, message) {
+                }, (status, message) => {
 
                 });
 
@@ -153,11 +172,11 @@ define(['../module'], function (controllers) {
                 ngIntroService.setOptions($scope.IntroOptions);
                 if ($scope.tutorialMode) {
                     $scope.$step = $cookies.get("tutorial") || 1;
-                    if ($scope.$step == 1) {
-                        setTimeout(function () {
+                    if ($scope.$step === 1) {
+                        setTimeout(() => {
                             $scope.openMenu();
                         }, 300);
-                        setTimeout(function () {
+                        setTimeout(() => {
                             ngIntroService.start();
                         }, 750)
                     }
@@ -166,56 +185,54 @@ define(['../module'], function (controllers) {
                     if ($cookies.get("tutorial") > 5)
                         $cookies.remove("tutorial");
 
-                    $scope.nextStep = function () {
+                    $scope.nextStep = () => {
                         $scope.$step++;
-                        $cookies.put("tutorial", $scope.$step)
+                        $cookies.put("tutorial", $scope.$step);
                         ngIntroService.next();
                     };
                 }
 
-                $rootScope.finishTutorial = function (skipped) {
+                $rootScope.finishTutorial = skipped => {
                     if ($scope.tutorialMode) {
                         $scope.tutorialMode = false;
                         Profile.updateUser({
                             tutorial_step: 999,
-                        }, function (result) {
+                        }, result => {
                             if (skipped) {
                                 Alert.success("Skipping tutorial. To restart tutorial, access 'Profile'.", 4000);
                             } else {
                                 Alert.success("Successfully finished tutorial. If you need help, contact support.", 4000);
                             }
-                        }, function (status, message) {
+                        }, (status, message) => {
                             Alert.error(message);
                         })
                     }
                 };
 
-                $scope.platformLookup = function (platformId) {
-                    return platforms[platformId];
-                };
+                $scope.platformLookup = platformId => platforms[platformId];
 
 
                 /**
                  * Logout user
                  */
-                $scope.logout = function () {
-                    Auth.logout(function (data) {
+                $scope.logout = () => {
+                    Auth.logout(data => {
                         Alert.info('Logged out successfully!');
                         $state.go('public.login', {}, {reload: 'public.login'});
-                    }, function (err, data) {
+                    }, (err, data) => {
                         Alert.error('Failed to log out.');
                     });
                 };
-                $scope.resendEmail = function () {
-                    Auth.requestEmailResend($scope.user.email, function (data) {
+                $scope.resendEmail = () => {
+                    Auth.requestEmailResend($scope.user.email, data => {
                         Alert.success("An email should be on the way.");
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error(message);
                     });
                 };
 
 
-                $rootScope.addPost = function (previousId, postInformation) {
+                $rootScope.addPost = (previousId, postInformation) => {
                     $mdDialog.show({
                         locals: {
                             'postId': previousId,
@@ -231,17 +248,17 @@ define(['../module'], function (controllers) {
                         clickOutsideToClose: true,
                         fullscreen: true // Only for -xs, -sm breakpoints.
                     })
-                        .then(function (message) {
-                            if (message.updateId && message.updateContent && message.updateState == "ADD") {
+                        .then(message => {
+                            if (message.updateId && message.updateContent && message.updateState === "ADD") {
                                 // Modifying a post
                                 if ($scope.updateSocialPost != null) {
                                     $scope.updateSocialPost(message.updateId, message.updateContent);
                                 }
-                            } else if (message.updateContent && message.updateState == "ADD") {
+                            } else if (message.updateContent && message.updateState === "ADD") {
                                 // Adding a post
                                 if ($scope.allDraftedPosts != null) {
                                     for (let index = 0; index < $scope.allDraftedPosts.length; index++) {
-                                        if ($scope.allDraftedPosts[index]._id == message.updateContent._id) {
+                                        if ($scope.allDraftedPosts[index]._id === message.updateContent._id) {
                                             $scope.allDraftedPosts.splice(index, 1);
                                             break;
                                         }
@@ -251,18 +268,18 @@ define(['../module'], function (controllers) {
                                     $scope.allActivePosts.push(message.updateContent);
                                 }
                                 if ($scope.tutorialMode) $scope.nextStep();
-                            } else if (message.updateId && message.updateState == "DELETE") {
+                            } else if (message.updateId && message.updateState === "DELETE") {
                                 // Deleting a draft
                                 if ($scope.allDraftedPosts != null) {
                                     for (let index = 0; index < $scope.allDraftedPosts.length; index++) {
-                                        if ($scope.allDraftedPosts[index]._id == message.updateId) {
+                                        if ($scope.allDraftedPosts[index]._id === message.updateId) {
                                             $scope.allDraftedPosts.splice(index, 1);
                                             break;
                                         }
                                     }
                                 }
 
-                            } else if (message.updateId && message.updateContent && message.updateState == "DRAFT") {
+                            } else if (message.updateId && message.updateContent && message.updateState === "DRAFT") {
                                 // Drafting a post.
                                 if ($scope.updateSocialPost != null) {
                                     $scope.updateSocialPost(message.updateId, null);
@@ -277,7 +294,7 @@ define(['../module'], function (controllers) {
                                 $cookies.remove("tutorial");
                                 $scope.finishTutorial();
                             }
-                        }, function () {
+                        }, () => {
 
 
                         });
@@ -285,43 +302,41 @@ define(['../module'], function (controllers) {
                 };
 
 
-                $rootScope.deletePost = function (socialPostId) {
-                    var confirm = $mdDialog.confirm()
+                $rootScope.deletePost = socialPostId => {
+                    let confirm = $mdDialog.confirm()
                         .title('Would you like to delete this post?')
                         .textContent('Posts will be deleted across all supported platforms. You will be prompted if they need manual intervention.')
                         .ok('Confirm delete')
                         .cancel('Cancel');
 
-                    $mdDialog.show(confirm).then(function () {
-                        SocialPosts.deletePostedSocialPostMain(socialPostId, function (message) {
+                    $mdDialog.show(confirm).then(() => {
+                        SocialPosts.deletePostedSocialPostMain(socialPostId, message => {
                             if (message.deleted_all) {
                                 Alert.success("Deleted social post across all platforms");
                                 $state.go('portal.schedule.table', {}, {reload: true});
                             } else {
                                 Alert.info("Some posts can't be deleted. Pages shows need manual post deletion.");
-                                angular.forEach($scope.socialPages, function (socialPage) {
+                                angular.forEach($scope.socialPages, socialPage => {
                                     if (message.deleted.indexOf(socialPage._id) !== -1)
                                         socialPage.deleted = true;
                                 });
                             }
-                        }, function (status, message) {
+                        }, (status, message) => {
                             Alert.error(message);
                         })
-                    }, function () {
+                    }, () => {
 
                     });
                 };
 
-                $scope.toTrustedHTML = function (html) {
-                    return $sce.trustAsHtml(html);
-                };
+                $scope.toTrustedHTML = html => $sce.trustAsHtml(html);
 
-                ngIntroService.onExit(function () {
+                ngIntroService.onExit(() => {
                     $rootScope.finishTutorial(true);
                 });
 
 
-                $scope.setTheme = function (theme) {
+                $scope.setTheme = theme => {
                     $rootScope.theme = theme;
                     $cookies.put("theme", theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
                 }

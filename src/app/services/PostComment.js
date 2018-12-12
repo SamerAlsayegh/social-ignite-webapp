@@ -1,16 +1,9 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('PostComment', ['Request',
-        function (Request) {
-            return {
-                getReplies: function (parameters, cbSuccess, cbFail) {
-                    return Request.get('portal/replies' + Request.ArrayToURL(parameters),
-                         function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+        Request => ({
+            getReplies(parameters, cbSuccess, cbFail) {
+                return Request.get('portal/replies' + Request.ArrayToURL(parameters),
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

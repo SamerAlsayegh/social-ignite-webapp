@@ -1,5 +1,6 @@
 <div layout="row">
-    <md-card ng-if="registerLoading" class="md-whiteframe-3dp md-padding" flex flex-offset-sm="0" flex-offset-gt-sm="30">
+    <md-card ng-if="registerLoading" class="md-whiteframe-3dp md-padding" flex flex-offset-sm="0"
+             flex-offset-gt-sm="30">
         <h1>Registering... Please wait.</h1>
         <hr class="hr-both"/>
         <md-button disabled flex>
@@ -10,7 +11,8 @@
             Is it taking a while? Click here to cancel.
         </div>
     </md-card>
-    <md-card ng-if="!registerLoading" class="md-whiteframe-3dp md-padding" flex flex-offset-sm="0" flex-offset-gt-sm="30">
+    <md-card ng-if="!registerLoading" class="md-whiteframe-3dp md-padding" flex flex-offset-sm="0"
+             flex-offset-gt-sm="30">
         <h1>Register
             <small>to get access to all features!</small>
         </h1>
@@ -37,14 +39,16 @@
                 <md-input-container class="md-block">
                     <md-checkbox class="md-primary" ng-model="toc" required name="toc">
                         I agree to
-                        <a class="md-primary" class="md-caption" href="https://socialignite.media/terms-and-conditions/">Terms & Conditions</a>
+                        <a class="md-primary" class="md-caption"
+                           href="https://socialignite.media/terms-and-conditions/">Terms & Conditions</a>
                     </md-checkbox>
                     <div ng-messages="register.toc.$error">
                         <div ng-message="required">You must accept the terms and conditions to sign up.</div>
                     </div>
                 </md-input-container>
                 <md-input-container class="md-block">
-                    <md-checkbox class="md-primary" ng-model="mailing_list" ng-init="mailing_list = true" name="mailing_list">
+                    <md-checkbox class="md-primary" ng-model="mailing_list" ng-init="mailing_list = true"
+                                 name="mailing_list">
                         Yes, I want social media tips straight to my mailbox
                     </md-checkbox>
                 </md-input-container>

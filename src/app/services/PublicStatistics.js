@@ -1,21 +1,13 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('PublicStatistics', ['Request',
-        function (Request) {
+        Request => ({
+            getPageSearchQuery(pageId, filter, cbSuccess, cbFail) {
+                if (pageId == null) {
+                    return cbFail(400, "Missing pageId");
+                }
 
-            return {
-                getPageSearchQuery: function (pageId, filter, cbSuccess, cbFail) {
-                    if (pageId == null) {
-                        return cbFail(400, "Missing pageId");
-                    }
-
-                    return Request.get('portal/statistic/page/' + pageId ,
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+                return Request.get('portal/statistic/page/' + pageId,
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

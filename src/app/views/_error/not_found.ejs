@@ -1,13 +1,17 @@
-    <md-toolbar class="md-warn">
-        <div class="md-toolbar-tools">
-            <h2 class="md-flex"><strong>Error: </strong><span ng-bind="location.path()"></span> not found.</h2>
-        </div>
-    </md-toolbar>
-    <md-content flex>
-        <h1 class="md-display-4 text-center">404</h1>
-        <h4 class="md-headline text-center">Woops! It seems you may have started a fire at our servers. Let's try to extinguish it...</h4>
-        <div layout="column" layout-align="stretch">
-            <md-button ng-click="reportBroken()" class="md-raised" ng-click="verifyViaForm(verify.user)">Were you expecting something?</md-button>
-            <md-button ng-click="goBack()" class="md-primary md-raised" ng-click="verifyViaForm(verify.user)">Go back</md-button>
-        </div>
-    </md-content>
+<md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+        <h2 class="md-flex"><strong>Error: </strong><span ng-bind="location.path()"></span> not found.</h2>
+    </div>
+</md-toolbar>
+<md-content flex>
+    <h1 class="md-display-4 text-center">404</h1>
+    <h4 class="md-headline text-center">Woops! It seems you may have started a fire at our servers. Let's try to
+        extinguish it...</h4>
+    <div layout="column" layout-align="stretch">
+        <md-button ng-click="reportBroken()" class="md-raised" ng-click="verifyViaForm(verify.user)">Were you expecting
+            something?
+        </md-button>
+        <md-button ng-click="goBack()" class="md-primary md-raised" ng-click="verifyViaForm(verify.user)">Go back
+        </md-button>
+    </div>
+</md-content>

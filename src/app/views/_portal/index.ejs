@@ -19,7 +19,8 @@
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
             <header class="nav-header">
-                <img flex class="menu_logo" style="max-height: 100px;" ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
+                <img flex class="menu_logo" style="max-height: 100px;"
+                     ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
             </header>
             <md-list flex>
                 <md-list-item class="home" flex href="/" ng-click="toggleMenu();">
@@ -43,8 +44,8 @@
                     <span flex>Accounts</span>
                 </md-list-item>
                 <!--<md-list-item flex href="/statistics" ng-click="toggleMenu()">-->
-                    <!--<i class="zmdi zmdi-chart md-padding zmdi-hc-lg"></i>-->
-                    <!--<span flex>Statistics</span>-->
+                <!--<i class="zmdi zmdi-chart md-padding zmdi-hc-lg"></i>-->
+                <!--<span flex>Statistics</span>-->
                 <!--</md-list-item>-->
                 <md-list-item flex href="/resources" ng-click="toggleMenu()">
                     <i class="zmdi zmdi-collection-folder-image md-padding zmdi-hc-lg"></i>
@@ -52,8 +53,8 @@
                 </md-list-item>
 
                 <!--<md-list-item flex href="/tools" ng-click="toggleMenu()">-->
-                    <!--<i class="zmdi zmdi-more md-padding zmdi-hc-lg"></i>-->
-                    <!--<span flex>Tools</span>-->
+                <!--<i class="zmdi zmdi-more md-padding zmdi-hc-lg"></i>-->
+                <!--<span flex>Tools</span>-->
                 <!--</md-list-item>-->
                 <!--<md-subheader class="md-no-sticky">{{user.email}} (<span style="cursor: pointer;" ng-click="logout()">Logout?</span>)-->
                 <!--</md-subheader>-->

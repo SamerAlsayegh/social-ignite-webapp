@@ -1,40 +1,38 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Profile', '$stateParams', 'Billing',
         function ($rootScope, $scope, Alert, Profile, $stateParams, Billing) {
             $scope.updatingProfile = true;
 
-            Profile.getUser(function (message) {
+            Profile.getUser(message => {
                 $scope.updatingProfile = false;
                 $scope.user = message.data;
-            }, function (status, message) {
+            }, (status, message) => {
                 $scope.updatingProfile = false;
                 Alert.error("Failed to fetch latest profile information.");
             });
-            $scope.themeBool = $scope.theme == "dark" ? true : false;
-            $scope.tutorialBool = $scope.user.information.tutorial_step == 999 ? true : false;
+
+            $scope.themeBool = $scope.theme === "dark";
+            $scope.tutorialBool = $scope.user.information.tutorial_step === 999;
 
             $scope.defaultTab = 0;
 
             if ($stateParams.tab != null) {
-                if ($stateParams.tab == 'general')
+                if ($stateParams.tab === 'general')
                     $scope.defaultTab = 0;
-                else if ($stateParams.tab == 'usages')
+                else if ($stateParams.tab === 'usages')
                     $scope.defaultTab = 1;
-                else if ($stateParams.tab == 'advanced')
+                else if ($stateParams.tab === 'advanced')
                     $scope.defaultTab = 2;
             }
 
 
-            $scope.checkForm = function (profile) {
-                return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (!profile.tutorial.$dirty) && (
-                    !(profile.current_password.$dirty &&
-                        profile.new_password.$dirty &&
-                        profile.confirm_password.$dirty)
-                )) || !profile.$valid;
-            };
+            $scope.checkForm = profile => ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (!profile.tutorial.$dirty) && (
+                !(profile.current_password.$dirty &&
+                    profile.new_password.$dirty &&
+                    profile.confirm_password.$dirty)
+            )) || !profile.$valid;
 
-            $scope.updateUser = function (profile) {
+            $scope.updateUser = profile => {
                 if (profile.$valid) {
                     var changed = {};
                     if (profile.email.$dirty && $scope.user.other_auth == null) {
@@ -56,7 +54,7 @@ define(['../../module'], function (controllers) {
                         changed.mailing_list = $scope.user.mailing_list;
                     }
                     if (profile.current_password.$dirty && profile.new_password.$dirty && profile.confirm_password.$dirty && $scope.user.other_auth == null) {
-                        if ($scope.new_password == $scope.confirm_password
+                        if ($scope.new_password === $scope.confirm_password
                             && $scope.new_password.length > 0
                             && $scope.current_password.length > 0
                         ) {
@@ -65,7 +63,7 @@ define(['../../module'], function (controllers) {
                         }
                     }
 
-                    Profile.updateUser(changed, function (message) {
+                    Profile.updateUser(changed, message => {
                         if (message.email) {
                             Alert.success("Please open the link sent to " + changed.email)
                         } else {
@@ -78,29 +76,27 @@ define(['../../module'], function (controllers) {
                             $scope.new_password = "";
                             $scope.confirm_password = "";
                         }
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error("Failed to update user info. " + message);
                     });
                 }
             };
 
-            $scope.deleteAccount = function () {
-                Profile.deleteUser(function (data) {
+            $scope.deleteAccount = () => {
+                Profile.deleteUser(data => {
                     Alert.success("Check your email for instructions.");
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 })
             };
 
 
-            Billing.getPlan($scope.user.scope, function (planDetails) {
+            Billing.getPlan($scope.user.scope, planDetails => {
                 $scope.planFeatures = planDetails.data;
-            }, function (status, message) {
+            }, (status, message) => {
                 Alert.error(message);
             })
 
         }]);
-
-
 });
 

@@ -1,4 +1,3 @@
-define(['angular'], function (angular) {
-  'use strict';
-  return angular.module('SocialIgnite.services', []);
+define(['angular'], angular => {
+    return angular.module('SocialIgnite.services', []);
 });

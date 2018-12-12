@@ -1,15 +1,20 @@
 import SocialIgnite from "SocialIgnite";
 
 SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider',
-    function ($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
+    (
+        $locationProvider,
+        $stateProvider,
+        $urlRouterProvider,
+        $urlMatcherFactoryProvider
+    ) => {
 
-        var data = {
+        let data = {
             "__ASSETS__": __ASSETS__
         };
 
         $urlMatcherFactoryProvider.strictMode(false);
-        $urlRouterProvider.otherwise(function ($injector, $location) {
-            var state = $injector.get('$state');
+        $urlRouterProvider.otherwise(($injector, $location) => {
+            let state = $injector.get('$state');
             state.go("error.not_found", encodeURIComponent($location.path())); // here we get { query: ... }
             return $location.path();
         });
@@ -42,10 +47,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 controller: 'feedbackController',
                 template: require("compile-ejs-loader!./views/_public/feedback/_view.ejs")(data)
             })
-
-
-
-
 
 
             .state('public.email_verify', {

@@ -1,20 +1,21 @@
-var chartObject = null;
-var chartElement = null;
+let chartObject = null;
+let chartElement = null;
 
 module.exports = {
-    loadChart: function (socialPage) {
+    loadChart(socialPage) {
         if (!chartObject) {
             chartElement = document.getElementById("audienceActivityChart").getContext('2d');
 
-            let generateDatasetColors = function(valuesArray, scale) {
-                var colors = [];
-                var rgb = "0, 175, 221"; // You should probably define this elsewhere
+            let generateDatasetColors = (valuesArray, scale) => {
+                let colors = [];
+                let rgb = "0, 175, 221"; // You should probably define this elsewhere
 
-                for (var i in valuesArray) {
-                    var value = valuesArray[i];
-                    var opacity = value / scale;
-                    if (opacity > 1) {opacity = 1};
-
+                for (let i in valuesArray) {
+                    let value = valuesArray[i];
+                    let opacity = value / scale;
+                    if (opacity > 1) {
+                        opacity = 1
+                    }
                     colors.push("rgba(" + rgb + ", " + opacity + ")");
                 }
 
@@ -55,10 +56,10 @@ module.exports = {
                     responsive: true,
                     maintainAspectRatio: false,
                     yColors: [ // colors for each lines
-                        {r: 0,   g: 150, b: 136},
+                        {r: 0, g: 150, b: 136},
                         {r: 255, g: 235, b: 59},
                         {r: 255, g: 152, b: 0},
-                        {r: 244, g: 67,  b: 54}
+                        {r: 244, g: 67, b: 54}
                     ],
                 }
             });

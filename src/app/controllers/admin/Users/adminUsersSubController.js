@@ -1,5 +1,4 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('adminUsersSubController', ['$scope', '$stateParams', 'Alert', '$state', 'AdminAccount',
         function ($scope, $stateParams, Alert, $state, AdminAccount) {
             $scope.accountId = $stateParams.accountId;
@@ -14,28 +13,25 @@ define(['../../module'], function (controllers) {
 
 
             if ($scope.accountId != null) {
-                AdminAccount.getAccount($scope.accountId, function (data) {
+                AdminAccount.getAccount($scope.accountId, data => {
                     $scope.account = data.data.user;
                     $scope.used = data.data.used;
                     $scope.limits = data.data.limits;
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
 
 
-
-                $scope.checkForm = function(profile){
-                    return ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.tutorial.$dirty) && (
-                        !(profile.new_password.$dirty &&
-                            profile.confirm_password.$dirty)
-                    )) || !profile.$valid;
-                };
+                $scope.checkForm = profile => ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.tutorial.$dirty) && (
+                    !(profile.new_password.$dirty &&
+                        profile.confirm_password.$dirty)
+                )) || !profile.$valid;
 
 
-                $scope.updateUser = function (profile) {
+                $scope.updateUser = profile => {
 
                     if (profile.$valid) {
-                        var changed = {};
+                        let changed = {};
                         if (profile.email.$dirty) {
                             changed.email = $scope.account.email;
                         }
@@ -50,14 +46,14 @@ define(['../../module'], function (controllers) {
 
 
                         if (profile.new_password.$dirty && profile.confirm_password.$dirty) {
-                            if ($scope.new_password == $scope.confirm_password
+                            if ($scope.new_password === $scope.confirm_password
                                 && $scope.new_password.length > 0
                             ) {
                                 changed.new_password = profile.new_password.$modelValue;
                             }
                         }
 
-                        AdminAccount.updateAccount($scope.accountId, changed, function (message) {
+                        AdminAccount.updateAccount($scope.accountId, changed, message => {
                             Alert.success("This users settings have been updated.");
                             profile.$setPristine();
                             profile.$setUntouched();
@@ -65,47 +61,45 @@ define(['../../module'], function (controllers) {
                                 $scope.new_password = "";
                                 $scope.confirm_password = "";
                             }
-                        }, function (status, message) {
+                        }, (status, message) => {
                             Alert.error("Failed to update user info. " + message);
                         });
                     }
                 };
 
-                $scope.updateRole = function (role_form) {
+                $scope.updateRole = role_form => {
                     if (role_form.$valid) {
-                        AdminAccount.updateRole($scope.accountId, $scope.account.role, $scope.account.expiry, function (message) {
+                        AdminAccount.updateRole($scope.accountId, $scope.account.role, $scope.account.expiry, message => {
                             Alert.success("This user's role has been updated.");
                             role_form.$setPristine();
                             role_form.$setUntouched();
-                        }, function (status, message) {
+                        }, (status, message) => {
                             Alert.error("Failed to update user role. " + message);
                         });
                     }
                 };
 
-                $scope.deleteAccount = function () {
-                    AdminAccount.deleteAccount($scope.accountId, function (message) {
+                $scope.deleteAccount = () => {
+                    AdminAccount.deleteAccount($scope.accountId, message => {
                         $state.go('admin.user_management.home')
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error("Failed to delete user. " + message);
                     })
                 };
 
-                $scope.loadTransactions = function (sortOrder, page, limit) {
-                    AdminAccount.getTransactions($scope.accountId, sortOrder, page, limit, function (message) {
+                $scope.loadTransactions = (sortOrder, page, limit) => {
+                    AdminAccount.getTransactions($scope.accountId, sortOrder, page, limit, message => {
                         $scope.transactions = message.data;
                         $scope.transactionModel.page = $scope.transactions.page;
-                    }, function (status, message) {
+                    }, (status, message) => {
                         Alert.error(message);
                     });
                 };
-                $scope.paginateTransactions = function(page, limit) {
+                $scope.paginateTransactions = (page, limit) => {
                     $scope.loadTransactions($scope.transactionModel.sort, page, limit);
                 };
                 $scope.loadTransactions();
             }
-
-
 
 
         }]);

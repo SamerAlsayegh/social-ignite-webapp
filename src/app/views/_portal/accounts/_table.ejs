@@ -1,13 +1,14 @@
 <md-tabs layout-fill md-stretch-tabs="always">
     <md-tab label="Social Profiles" md-on-select="addPageActive = true" md-on-deselect="addPageActive = false">
-        <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill >
+        <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill>
             <div>
                 <%- include ./_socialPages.ejs %>
             </div>
             <span layout="row">
                 <span flex></span>
-                <md-fab-speed-dial class="tutorial_step_3 md-fab-bottom-right md-scale" md-open="isOpen" ng-click="clickedSpeedDial()" md-direction="up">
-                    <md-fab-trigger class="tutorial_step_2" >
+                <md-fab-speed-dial class="tutorial_step_3 md-fab-bottom-right md-scale" md-open="isOpen"
+                                   ng-click="clickedSpeedDial()" md-direction="up">
+                    <md-fab-trigger class="tutorial_step_2">
                         <md-button aria-label="menu" class="md-fab md-primary">
                             <md-tooltip md-direction="left">Add new profile</md-tooltip>
                             <i class="zmdi zmdi-accounts-add zmdi-hc-2x"></i>

@@ -1,13 +1,13 @@
-var chartObject = null;
-var chartElement = null;
+let chartObject = null;
+let chartElement = null;
 
 module.exports = {
-    loadChart: function (ageData) {
+    loadChart(ageData) {
         if (!chartObject) {
             chartElement = document.getElementById("audienceAgeChart").getContext('2d');
             let agesData = [];
             let agesLabel = [];
-            angular.forEach(ageData, function (ageData) {
+            angular.forEach(ageData, ageData => {
                 agesData.push(ageData.value);
                 agesLabel.push(ageData.name);
             });

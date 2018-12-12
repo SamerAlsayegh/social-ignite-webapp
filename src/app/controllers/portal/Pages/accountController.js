@@ -1,21 +1,33 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('accountController', [
         '$rootScope', '$scope', '$state', '$stateParams', 'SocialAccounts', '$mdDialog', 'moment', '$window', 'Alert', 'ngIntroService', '$cookies',
-        function ($rootScope, $scope, $state, $stateParams, SocialAccounts, $mdDialog, moment, $window, Alert, ngIntroService, $cookies) {
+        function (
+            $rootScope,
+            $scope,
+            $state,
+            $stateParams,
+            SocialAccounts,
+            $mdDialog,
+            moment,
+            $window,
+            Alert,
+            ngIntroService,
+            $cookies
+        ){
             $scope.isOpen = false;
             $scope.socialPlatformDetails = [];
 
-            $scope.nextStep = function () {};
+            $scope.nextStep = () => {
+            };
 
 
-            $scope.openStatistic = function (pageId){
-                $state.go('portal.statistics.page_detail', {pageId: pageId}, {reload: 'portal.statistics.page_detail'})
+            $scope.openStatistic = pageId => {
+                $state.go('portal.statistics.page_detail', {pageId}, {reload: 'portal.statistics.page_detail'})
             };
 
 
             if ($scope.tutorialMode) {
-                ngIntroService.onExit(function(){
+                ngIntroService.onExit(() => {
                     $rootScope.finishTutorial(true);
                 });
                 $scope.IntroOptions = {
@@ -57,22 +69,20 @@ define(['../../module'], function (controllers) {
                     $cookies.remove("tutorial");
 
                 $scope.$step = $cookies.get("tutorial") || 2;
-                setTimeout(function () {
+                setTimeout(() => {
                     ngIntroService.start();
                     ngIntroService.goToStepNumber($scope.$step - 1);
-                }, 500)
+                }, 500);
 
 
-
-
-                $scope.nextStep = function () {
+                $scope.nextStep = () => {
                     $scope.$step++;
-                    $cookies.put("tutorial", $scope.$step)
-                    if ($scope.$step == 4) {
-                        setTimeout(function () {
+                    $cookies.put("tutorial", $scope.$step);
+                    if ($scope.$step === 4) {
+                        setTimeout(() => {
                             $scope.openMenu();
                         }, 300);
-                        setTimeout(function () {
+                        setTimeout(() => {
                             ngIntroService.next();
                         }, 750)
                     } else {
@@ -82,16 +92,16 @@ define(['../../module'], function (controllers) {
             }
 
 
-            $scope.addStack = function () {
+            $scope.addStack = () => {
                 $scope.$emit('addStack', {});
             };
-            $scope.addSocialAccount = function (platformId, $event) {
+            $scope.addSocialAccount = (platformId, $event) => {
                 if (!$scope.platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
                 platformId = parseInt(platformId);
                 $scope.nextStep();
 
-                if (platformId == 1) {
+                if (platformId === 1) {
                     $scope.nextStep();
                 }
 
@@ -99,8 +109,8 @@ define(['../../module'], function (controllers) {
                 if ($event) $event.stopPropagation();
             };
 
-            $scope.clickedSpeedDial = function () {
-                if ($scope.$step == 2) {
+            $scope.clickedSpeedDial = () => {
+                if ($scope.$step === 2) {
                     $scope.nextStep();
                     $scope.isOpen = true;
                 } else {
@@ -115,45 +125,45 @@ define(['../../module'], function (controllers) {
                 };
                 $scope.pendingPages = [];
 
-                $scope.linkAccount = function (socialPage) { 
+                $scope.linkAccount = socialPage => {
                     if (!socialPage.linked) {
                         socialPage.linking = true;
                         SocialAccounts.updateSocialAccount({
                             pages: [socialPage.id],
                             cache_id: $stateParams.cache_id
-                        }, function (pages) {
+                        }, pages => {
                             socialPage.linking = false;
                             socialPage.linked = true;
                             $scope.pendingPages = $scope.pendingPages.concat(pages);
-                            SocialAccounts.getSocialAccounts(null, null, function (socialAccounts) {
+                            SocialAccounts.getSocialAccounts(null, null, socialAccounts => {
                                 $rootScope.allPages = socialAccounts.pages;
-                            }, function (status, error) {
+                            }, (status, error) => {
                                 $scope.platforms = [];
                                 Alert.error(error.code + ": Failed to get social accounts. ")
                             });
 
                             $scope.nextStep();
                             // $state.go('portal.accounts.home', {appendPages: pages});//If the session is invalid, take to login page.
-                        }, function (status, message) {
+                        }, (status, message) => {
                             socialPage.linking = false;
                             Alert.error(message);
                         });
                     }
                 };
-                $scope.return = function () {
+                $scope.return = () => {
                     $state.go('portal.accounts.home', {});//If the session is invalid, take to login page.
                 };
 
-                SocialAccounts.getPagesOnHold({cacheId: $stateParams.cache_id}, function (response) {
+                SocialAccounts.getPagesOnHold({cacheId: $stateParams.cache_id}, response => {
                     if (response.hasOwnProperty("pages"))
                         $scope.newPage.pages = response.pages;
 
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error(message);
                 });
             } else {
-                for (var platformKey in $scope.platforms) {
-                    if (parseInt(platformKey) == platformKey) {
+                for (let platformKey in $scope.platforms) {
+                    if (parseInt(platformKey) === platformKey) {
                         $scope.socialPlatformDetails.push({
                             id: platformKey,
                             shortname: $scope.platforms[platformKey].id,

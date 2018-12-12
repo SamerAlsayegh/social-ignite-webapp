@@ -1,5 +1,5 @@
 define([
     './unique'
-], function () {
+], () => {
 });
 

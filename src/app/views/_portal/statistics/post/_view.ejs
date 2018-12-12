@@ -3,7 +3,8 @@
 <span layout="column" layout-gt-md="row" flex>
     <span flex-lt-sm="100" flex-lt-md="60" flex="40">
         <md-card class="md-padding" layout="row">
-            <md-list ng-if="socialPages.length > 1" class="md-dense expand-on-hover-page-list" style="max-height: 100%; overflow-y: auto;">
+            <md-list ng-if="socialPages.length > 1" class="md-dense expand-on-hover-page-list"
+                     style="max-height: 100%; overflow-y: auto;">
                 <md-list-item ng-repeat="socialPage in socialPages" ng-click="loadStats(socialPage.social_post)"
                               ng-if="!socialPage.deleted">
                     <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"
@@ -36,7 +37,9 @@
                     </md-card-title-text>
                 </md-card-title>
                 <md-card-content>
-                    <p><span ng-bind-html="toTrustedHTML( mainSocialPost.showAll ? mainSocialPost.content : mainSocialPost.content.length > 180 ? (mainSocialPost.content.substring(0, 180 + mainSocialPost.content.substring(180, 1000).indexOf(' ')) ) : mainSocialPost.content)"></span><a class="pointer" ng-show="!mainSocialPost.showAll" ng-click="mainSocialPost.showAll = true;"> ...more</a></p>
+                    <p><span ng-bind-html="toTrustedHTML( mainSocialPost.showAll ? mainSocialPost.content : mainSocialPost.content.length > 180 ? (mainSocialPost.content.substring(0, 180 + mainSocialPost.content.substring(180, 1000).indexOf(' ')) ) : mainSocialPost.content)"></span><a
+                                class="pointer" ng-show="!mainSocialPost.showAll"
+                                ng-click="mainSocialPost.showAll = true;"> ...more</a></p>
                 </md-card-content>
                 <md-card-actions layout="row" layout-align="center center">
             <md-button
@@ -64,7 +67,8 @@
         </md-card>
     </span>
     <span flex layout="column" class="md-padding">
-        <span layout-fill ng-if="supportedStatistics.length == 0" layout-align="center center" layout="column" class="text-center">
+        <span layout-fill ng-if="supportedStatistics.length == 0" layout-align="center center" layout="column"
+              class="text-center">
             <h2>No statistics available right now</h2>
             <h2>Please wait a few minutes as we collect them...</h2>
         </span>

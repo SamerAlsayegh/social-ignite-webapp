@@ -1,7 +1,8 @@
 <div>
     <md-button ng-click="return()" class="md-primary page-link"> < Back to list</md-button>
-    <md-tabs flex md-autoselect="true" md-stretch-tabs="always" md-dynamic-height="true" ng-if="supportedStatistics.length > 0">
-        <md-tab  label="Overview" md-on-select="openStat = 'overview';">
+    <md-tabs flex md-autoselect="true" md-stretch-tabs="always" md-dynamic-height="true"
+             ng-if="supportedStatistics.length > 0">
+        <md-tab label="Overview" md-on-select="openStat = 'overview';">
             <span class="md-padding" layout="column" layout-fill>
                 <div layout="row">
                     <h1 class="md-display-1" flex>Overview</h1>
@@ -24,7 +25,8 @@
                                 </div>
                             </span>
                                 <div style="display: block;" class="text-right">
-                                    <md-button class="md-warn md-raised" ng-click="deletePost(socialPost._id)" aria-label="Delete across all pages">
+                                    <md-button class="md-warn md-raised" ng-click="deletePost(socialPost._id)"
+                                               aria-label="Delete across all pages">
                                         Delete Post on {{socialPost.page_id.name}}
                                     </md-button>
                                 </div>
@@ -35,7 +37,8 @@
 
             </span>
         </md-tab>
-        <md-tab ng-disabled="supportedStatistics.indexOf('likes.total') == -1" label="Likes" md-on-select="openStat = 'likes';">
+        <md-tab ng-disabled="supportedStatistics.indexOf('likes.total') == -1" label="Likes"
+                md-on-select="openStat = 'likes';">
             <md-content class="md-padding" layout="column" layout-fill>
                 <div layout="row">
                     <h1 class="md-display-1" flex>Likes</h1>
@@ -48,7 +51,8 @@
                 </div>
             </md-content>
         </md-tab>
-        <md-tab ng-disabled="supportedStatistics.indexOf('views.total') == -1" label="Unique Visitors" md-on-select="openStat = 'visitors';">
+        <md-tab ng-disabled="supportedStatistics.indexOf('views.total') == -1" label="Unique Visitors"
+                md-on-select="openStat = 'visitors';">
             <md-content class="md-padding" layout="column" layout-fill>
                 <div layout="row">
                     <h1 class="md-display-1" flex>Unique Visitors</h1>
@@ -57,7 +61,8 @@
                     </md-chips>
                 </div>
                 <div layout-padding layout="row" flex="noshrink" layout-align="center center">
-                    <canvas id="visitorsChart" flex="100" flex-gt-lg="60" style="height: 500px" layout="column"></canvas>
+                    <canvas id="visitorsChart" flex="100" flex-gt-lg="60" style="height: 500px"
+                            layout="column"></canvas>
                 </div>
             </md-content>
         </md-tab>

@@ -1,57 +1,37 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('Action', ['Request',
-        function (Request) {
+        Request => ({
+            toggleLikeComment(parameters, cbSuccess, cbFail) {
+                console.log(parameters);
+                return Request.post('portal/actions/like',
+                    parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
 
-            return {
-                toggleLikeComment: function (parameters, cbSuccess, cbFail) {
-                    console.log(parameters);
-                    return Request.post('portal/actions/like',
-                        parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                postComment: function (parameters, cbSuccess, cbFail) {
-                    return Request.post('portal/actions/reply',
-                        parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                deleteComment: function (parameters, cbSuccess, cbFail) {
-                    return Request.post('portal/actions/delete_comment',
-                        parameters,
-                        function (message) {
-                            return cbSuccess(message);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                fetchHashtags: function (content, forceRefresh, scheduleId, cbSuccess, cbFail) {
-                    return Request.post('portal/actions/twitter_recommendation', {
-                        content: content,
+            postComment(parameters, cbSuccess, cbFail) {
+                return Request.post('portal/actions/reply',
+                    parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            deleteComment(parameters, cbSuccess, cbFail) {
+                return Request.post('portal/actions/delete_comment',
+                    parameters,
+                    message => cbSuccess(message), (status, message) => cbFail(status, message));
+            },
+
+            fetchHashtags(content, forceRefresh, scheduleId, cbSuccess, cbFail) {
+                return Request.post('portal/actions/twitter_recommendation', {
+                        content,
                         force_refresh: forceRefresh,
                         schedule_id: scheduleId
-                        },
-                        function (message, raw) {
-                            return cbSuccess(message, raw.used);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getAllowedActions: function (cbSuccess, cbFail) {
-                    return Request.get('portal/actions/allowed', {},
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-            };
-        }]);
+                    },
+                    (message, raw) => cbSuccess(message, raw.used), (status, message) => cbFail(status, message));
+            },
+
+            getAllowedActions(cbSuccess, cbFail) {
+                return Request.get('portal/actions/allowed', {},
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            }
+        })]);
 });

@@ -4,5 +4,5 @@ define([
     './onScrollToBottom',
     './delayedImage',
     './notificationCard',
-], function () {
+], () => {
 });

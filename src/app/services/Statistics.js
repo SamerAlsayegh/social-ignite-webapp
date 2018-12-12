@@ -1,109 +1,94 @@
-define(['./module'], function (services) {
-    'use strict';
+define(['./module'], services => {
     services.factory('Statistics', ['Request', '$rootScope',
-        function (Request, $rootScope) {
-            return {
-                getPostStatistics: function (postId, filter, cbSuccess, cbFail) {
-                    if (postId == null) {
-                        return cbFail(400, "Missing postId");
-                    }
+        (Request, $rootScope) => ({
+            getPostStatistics(postId, filter, cbSuccess, cbFail) {
+                if (postId == null) {
+                    return cbFail(400, "Missing postId");
+                }
 
-                    return Request.get('portal/statistic/post/' + postId, {filter: filter},
-                         function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message, rawMessage) {
-                            return cbFail(status, message, rawMessage);
-                        });
-                },
-                getPageStatistics: function (pageId, filter, cbSuccess, cbFail) {
-                    if (pageId == null) {
-                        return cbFail(400, "Missing pageId");
-                    }
+                return Request.get('portal/statistic/post/' + postId, {filter},
+                    message => cbSuccess(message.data), (status, message, rawMessage) => cbFail(status, message, rawMessage));
+            },
 
-                    return Request.get('portal/statistic/page/' + pageId ,
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getPageGeneralStatistics: function (pageId, cbSuccess, cbFail) {
-                    if (pageId == null) {
-                        return cbFail(400, "Missing pageId");
-                    }
-                    return Request.get('portal/statistic/general/' + pageId,
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getPageRecommendations: function (pageId, cbSuccess, cbFail){
-                    if (pageId == null) {
-                        return cbFail(400, "Missing pageId");
-                    }
-                    return Request.get('portal/page_analysis/' + pageId + '/suggestions',
-                        function (message) {
-                            return cbSuccess(message.data);
-                        }, function (status, message) {
-                            return cbFail(status, message);
-                        });
-                },
-                getStatisticsConfig: function (graphTitle, xLabelTitle, yLabelTitle){
-                    Chart.defaults.global.defaultFontColor = $rootScope.theme == 'dark' ? '#FFFFFF' : '#666666';
+            getPageStatistics(pageId, filter, cbSuccess, cbFail) {
+                if (pageId == null) {
+                    return cbFail(400, "Missing pageId");
+                }
 
-                    return JSON.parse(JSON.stringify({
-                        type: 'line',
-                        data: {
-                            datasets: [],
+                return Request.get('portal/statistic/page/' + pageId,
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
+
+            getPageGeneralStatistics(pageId, cbSuccess, cbFail) {
+                if (pageId == null) {
+                    return cbFail(400, "Missing pageId");
+                }
+                return Request.get('portal/statistic/general/' + pageId,
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
+
+            getPageRecommendations(pageId, cbSuccess, cbFail) {
+                if (pageId == null) {
+                    return cbFail(400, "Missing pageId");
+                }
+                return Request.get('portal/page_analysis/' + pageId + '/suggestions',
+                    message => cbSuccess(message.data), (status, message) => cbFail(status, message));
+            },
+
+            getStatisticsConfig(graphTitle, xLabelTitle, yLabelTitle) {
+                Chart.defaults.global.defaultFontColor = $rootScope.theme === 'dark' ? '#FFFFFF' : '#666666';
+
+                return JSON.parse(JSON.stringify({
+                    type: 'line',
+                    data: {
+                        datasets: [],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        title: {
+                            display: true,
+                            text: graphTitle
                         },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            title: {
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
                                 display: true,
-                                text: graphTitle
-                            },
-                            scales: {
-                                xAxes: [{
-                                    type: 'time',
+                                scaleLabel: {
                                     display: true,
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: xLabelTitle
-                                    },
-                                    time: {
-                                        tooltipFormat:'h:mm A on MMM DD', // <- HERE
-                                        format: "MMM DD",
-                                        unit: 'day',
-                                        unitStepSize: 1,
-                                    },
-                                }],
-                                yAxes: [{
-                                    type: 'linear',
+                                    labelString: xLabelTitle
+                                },
+                                time: {
+                                    tooltipFormat: 'h:mm A on MMM DD', // <- HERE
+                                    format: "MMM DD",
+                                    unit: 'day',
+                                    unitStepSize: 1,
+                                },
+                            }],
+                            yAxes: [{
+                                type: 'linear',
+                                display: true,
+                                scaleLabel: {
                                     display: true,
-                                    scaleLabel: {
-                                        display: true,
-                                        labelString: yLabelTitle
-                                    },
-                                    ticks: {
-                                        maxTicksLimit: 5,
-                                        callback: function(value, index, values) {
-                                            console.log(value);
-                                            if (Math.floor(value * 10) === value * 10) {
-                                                return value;
-                                            }
+                                    labelString: yLabelTitle
+                                },
+                                ticks: {
+                                    maxTicksLimit: 5,
+                                    callback(value, index, values) {
+                                        console.log(value);
+                                        if (Math.floor(value * 10) === value * 10) {
+                                            return value;
                                         }
-                                    },
-                                    value: {
-                                        tooltipFormat:'h:mm A', // <- HERE
-                                        format: "MMM DD",
                                     }
-                                }]
-                            }
+                                },
+                                value: {
+                                    tooltipFormat: 'h:mm A', // <- HERE
+                                    format: "MMM DD",
+                                }
+                            }]
                         }
-                    }));
-                },
-            };
-        }]);
+                    }
+                }));
+            }
+        })]);
 });

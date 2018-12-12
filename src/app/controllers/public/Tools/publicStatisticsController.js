@@ -1,20 +1,19 @@
-define(['../../module'], function (controllers) {
-    'use strict';
+define(['../../module'], controllers => {
     return controllers.controller('publicStatisticsController', ['$scope', 'Alert', '$window', 'PublicStatistics',
         function ($scope, Alert, $window, PublicStatistics) {
 
-            $scope.searchPublicAccounts = function (queryText) {
+            $scope.searchPublicAccounts = queryText => {
                 let deferred = $q.defer();
-                PublicStatistics.getAccounts(queryText, 1, function (data) {
+                PublicStatistics.getAccounts(queryText, 1, data => {
                     deferred.resolve(data.data.accounts);
-                }, function (status, message) {
+                }, (status, message) => {
                     Alert.error("Failed to get accounts");
                     deferred.reject([]);
                 });
                 return deferred.promise;
             };
 
-            $scope.selectPublicAccounts = function (publicAccount) {
+            $scope.selectPublicAccounts = publicAccount => {
                 // $state.go('admin.user_management.user', {accountId: user._id})
             };
 
