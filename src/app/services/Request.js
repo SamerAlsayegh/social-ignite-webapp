@@ -41,7 +41,6 @@ define(['./module'], services => {
                                     break;
                                 default:
                                     let message = data.data.message;
-                                    console.log(message);
                                     cbFail(status, isNaN(message) ? message : $rootScope.errorCodes[message].detail, message);
                             }
                         } else

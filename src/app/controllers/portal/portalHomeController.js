@@ -90,7 +90,6 @@ define(['../module'], controllers => {
                 $scope.allowedActions = [];
                 Action.getAllowedActions(data => {
                     $scope.allowedActions = data;
-                    console.log($scope.allowedActions);
                 }, (status, message) => {
                     // Alert.error(message, 600);
                 });

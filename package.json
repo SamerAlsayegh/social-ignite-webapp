@@ -9,6 +9,7 @@
     "convert": "node ./enums/converter.js"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "@uirouter/angularjs": "^1.0.15",
     "angular": "^1.6.9",
     "angular-animate": "^1.6.9",
@@ -24,10 +25,6 @@
     "angular-moment": "^1.2.0",
     "angular-moment-picker": "^0.10.2",
     "angular-sanitize": "^1.7.3",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-latest": "^6.24.1",
     "chart.js": "^2.7.2",
     "closure-webpack-plugin": "github:webpack-contrib/closure-webpack-plugin",
     "compile-ejs-loader": "0.0.2",
@@ -77,6 +74,7 @@
     "@babel/core": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
     "gulp-gzip": "^1.4.2",
     "gulp-image-resize": "^0.13.0",
     "preload-webpack-plugin": "^3.0.0-beta.3",

@@ -6,13 +6,14 @@ define(['../../module'], controllers => {
             Profile.getUser(message => {
                 $scope.updatingProfile = false;
                 $scope.user = message.data;
+                $scope.tutorialBool = $scope.user.information.tutorial_step === 999;
+
             }, (status, message) => {
                 $scope.updatingProfile = false;
                 Alert.error("Failed to fetch latest profile information.");
             });
 
             $scope.themeBool = $scope.theme === "dark";
-            $scope.tutorialBool = $scope.user.information.tutorial_step === 999;
 
             $scope.defaultTab = 0;
 

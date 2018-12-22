@@ -4,5 +4,6 @@ define([
     './onScrollToBottom',
     './delayedImage',
     './notificationCard',
+    './socialPageAvatar'
 ], () => {
 });

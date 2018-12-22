@@ -75,7 +75,6 @@ define(['./module'], services => {
                                 ticks: {
                                     maxTicksLimit: 5,
                                     callback(value, index, values) {
-                                        console.log(value);
                                         if (Math.floor(value * 10) === value * 10) {
                                             return value;
                                         }

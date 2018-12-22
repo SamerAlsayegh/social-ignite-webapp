@@ -92,10 +92,8 @@ define(['../../module'], controllers => {
                     $scope.chartElementVisitors = document.getElementById("fansChart").getContext('2d');
                     $scope.chartObjectVisitors = new Chart($scope.chartElementVisitors, Statistics.getStatisticsConfig($scope.activePage.name + "\'s Overview", "Time", "Fans"));
                 }
-                console.log(page);
 
                 Statistics.getPageGeneralStatistics(page._id, data => {
-                    console.log(data);
                     let fixedDataTotal = [];
                     let projectedTotal = [];
                     $scope.currentTrend = data.trend;
@@ -254,7 +252,6 @@ define(['../../module'], controllers => {
                 $scope.loadVisitors(data);
                 if (data.statistic) {
                     if (data.statistic.audience.gender && $scope.enabledCard.f_analysis_gender) {
-                        console.log(data.statistic.audience.gender);
                         require('./Charts/AudienceGender').loadChart(data.statistic.audience.gender);
                         $scope.loadedCard.f_analysis_gender = true;
                     }

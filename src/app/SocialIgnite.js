@@ -1,7 +1,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
 let _angular = require("angular");
 
 let _angular2 = _interopRequireDefault(_angular);
@@ -221,7 +220,6 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     } else {
         console.log('Service workers are not supported.');
     }
-    <!-- Start of Async Drift Code -->
     !function() {
         var t = window.driftt = window.drift = window.driftt || [];
         if (!t.init) {

@@ -27,8 +27,15 @@ if (devBuild){
 
 gulp.task('webpack', function() {
     return gulp.src(__dirname + '/src/app/**/*.js')
-        .pipe(babel())
         .pipe(webpackStream(require('./webpack.config.js')), webpack)
+        // .pipe(babel())
+        .pipe(gulp.dest(__dirname + '/dist/'))
+});
+
+gulp.task('webpack-dev', function() {
+    return gulp.src(__dirname + '/src/app/**/*.js')
+        .pipe(webpackStream(require('./webpack.config.dev.js')), webpack)
+        // .pipe(babel())
         .pipe(gulp.dest(__dirname + '/dist/'))
 });
 
@@ -44,9 +51,9 @@ gulp.task('watch', function() {
 });
 
 gulp.task('watch-dev', function() {
-    gulp.watch(__dirname + '/src/app/**/*.js', ['webpack']);
+    gulp.watch(__dirname + '/src/app/**/*.js', ['webpack-dev']);
     gulp.watch(__dirname + '/src/less/**/*.less', ['less']);
-    gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['webpack']);
+    gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['webpack-dev']);
     gulp.watch(__dirname + '/src/manifest.json', ['manifest']);
     gulp.watch(__dirname + '/src/custom/*.js', ['custom']);
     gulp.watch(__dirname + '/src/img/*.*', ['img']);

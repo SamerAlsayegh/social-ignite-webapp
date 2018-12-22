@@ -99,7 +99,6 @@ define(['./module'], directives => {
                         Alert.error('Failed to upload image.');
                         $scope.uploadImages(imagesList, callback);
                     }, (loaded, total) => {
-                        console.log((loaded / total) * 100, loaded, total);
                         $scope.images[0].progress = (loaded / total) * 100;
                     });
                 } else {

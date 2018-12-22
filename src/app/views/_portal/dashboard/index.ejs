@@ -94,20 +94,7 @@
                 <md-list-item class="md-2-line md-long-text" ng-repeat="mention in mentions" layout="row"
                               flex
                               ng-click="replyConversation(mention)">
-                    <!--<md-button-->
-                    <!--class="md-fab md-mini ui-social ui-{{platforms[socialComment.page_id.platform].id}}"-->
-                    <!--aria-label="platform name">-->
-                    <!--<md-tooltip md-direction="top" ng-bind="socialComment.page_id.name"></md-tooltip>-->
-                    <!--<i class="zmdi zmdi-{{platforms[socialComment.page_id.platform].id}}"></i>-->
-                    <!--</md-button>-->
-
-                <span layout="row" class="md-padding">
-                            <i class="zmdi zmdi-{{platforms[mention.page_id.platform].id}}"
-                               style="top: 10px !important; left: 10px; position: absolute;"></i>
-                            <img ng-src="{{mention.page_id.profile_src}}" class="mini-profile-image"/>
-                    <!--<p class="md-padding"-->
-                    <!--style="text-overflow: ellipsis; white-space: nowrap;">{{ reply.page_id.name }}</p>-->
-                </span>
+                    <social-page-avatar social-page="mention.page_id" platforms="platforms"></social-page-avatar>
                     <md-truncate flex class="md-list-item-text" layout="column">
                         <h3 layout="row" layout-align="stretch">
                                 <md-truncate ng-bind="mention.name" flex></md-truncate>
@@ -173,22 +160,15 @@
                 <!--<md-tooltip md-direction="top" ng-bind="reply.page_id.name"></md-tooltip>-->
                 <!--<i class="zmdi zmdi-{{platforms[reply.page_id.platform].id}}"></i>-->
                 <!--</md-button>-->
-                <span layout="row" class="md-padding">
-                            <i class="zmdi zmdi-{{platforms[reply.page_id.platform].id}}"
-                               style="top: 10px !important; left: 10px; position: absolute;"></i>
-                            <img ng-src="{{reply.page_id.profile_src}}" class="mini-profile-image"/>
-                    <!--<p class="md-padding"-->
-                    <!--style="text-overflow: ellipsis; white-space: nowrap;">{{ reply.page_id.name }}</p>-->
-                </span>
-
+                <social-page-avatar social-page="reply.page_id" platforms="platforms"></social-page-avatar>
                 <md-truncate flex class="md-list-item-text" layout-align="stretch" layout="column">
                     <h3 layout="row" layout-align="stretch">
                         <md-truncate ng-bind="reply.name" flex></md-truncate>
                         <small class="gray_text" am-time-ago="reply.posted"></small>
                     </h3>
                     <span>
-                            <p ng-bind="reply.message"></p>
-                        </span>
+                        <p ng-bind="reply.message"></p>
+                    </span>
                 </md-truncate>
                 <md-button
                         layout-align="stretch" v
@@ -245,9 +225,7 @@
                              style="max-height: 100%; overflow-y: auto;">
                         <md-list-item ng-repeat="socialPost in socialPostMain.social_post"
                                       ng-click="socialPostMain.open = socialPost">
-                            <i class="zmdi zmdi-{{platforms[socialPost.page_id.platform].id}}"
-                               style="top: 10px !important; left: 0px; position: absolute;"></i>
-                            <img ng-src="{{socialPost.page_id.profile_src}}" class="mini-profile-image"/>
+                            <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
                             <p class="md-padding"
                                style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPost.page_id.name }}</p>
                         </md-list-item>

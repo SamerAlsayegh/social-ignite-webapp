@@ -27,7 +27,6 @@
             <thead md-head md-order="pagesModel.order">
             <tr md-row>
                 <th md-column></th>
-                <th md-column>Platform</th>
                 <!--<th md-column md-order-by="id"><span>id</span></th>-->
                 <th md-column>Name</th>
                 <th md-column>Posts</th>
@@ -48,18 +47,14 @@
                         </md-tooltip>
                         <i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>
                     </md-button>
+
                     <br>
                 </td>
 
-                <td md-cell>
-                    <md-button
-                            class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
-                            aria-label=platform>
-                        <md-tooltip md-direction="top" ng-bind="platforms[socialPage.platform].id"></md-tooltip>
-                        <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
-                    </md-button>
+                <td md-cell layout="row" layout-align="start center">
+                    <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
+                    <h2 class="md-padding" style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPage.name }}
                 </td>
-                <td md-cell>{{socialPage.name}}</td>
                 <td md-cell>{{socialPage.posts || 'N/A'}}</td>
                 <td md-cell>{{socialPage.statistic.views.total == null ? 'NA' : socialPage.statistic.views.total}}
                 </td>

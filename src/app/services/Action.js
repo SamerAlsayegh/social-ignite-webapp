@@ -2,7 +2,6 @@ define(['./module'], services => {
     services.factory('Action', ['Request',
         Request => ({
             toggleLikeComment(parameters, cbSuccess, cbFail) {
-                console.log(parameters);
                 return Request.post('portal/actions/like',
                     parameters,
                     message => cbSuccess(message), (status, message) => cbFail(status, message));

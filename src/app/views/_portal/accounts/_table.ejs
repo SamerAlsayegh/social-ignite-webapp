@@ -14,10 +14,9 @@
                             <i class="zmdi zmdi-accounts-add zmdi-hc-2x"></i>
                         </md-button>
                     </md-fab-trigger>
-
                     <md-fab-actions>
-                        <md-button ng-click="addSocialAccount(platformDetails.id);"
-                                   ng-repeat="platformDetails in socialPlatformDetails"
+                        <md-button ng-repeat="platformDetails in socialPlatformDetails"
+                                   ng-click="addSocialAccount(platformDetails.id);"
                                    class="md-fab md-raised md-padding md-mini ui-social ui-{{platformDetails.shortname}}"
                                    aria-label=platform>
                             <i class="zmdi zmdi-{{platformDetails.shortname}}"></i>

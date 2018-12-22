@@ -78,7 +78,7 @@ define(['../../module'], controllers => {
                 $scope.nextStep = () => {
                     $scope.$step++;
                     $cookies.put("tutorial", $scope.$step);
-                    if ($scope.$step === 4) {
+                    if ($scope.$step == 4) {
                         setTimeout(() => {
                             $scope.openMenu();
                         }, 300);
@@ -101,7 +101,7 @@ define(['../../module'], controllers => {
                 platformId = parseInt(platformId);
                 $scope.nextStep();
 
-                if (platformId === 1) {
+                if (platformId == 1) {
                     $scope.nextStep();
                 }
 
@@ -110,7 +110,7 @@ define(['../../module'], controllers => {
             };
 
             $scope.clickedSpeedDial = () => {
-                if ($scope.$step === 2) {
+                if ($scope.$step == 2) {
                     $scope.nextStep();
                     $scope.isOpen = true;
                 } else {
@@ -163,7 +163,7 @@ define(['../../module'], controllers => {
                 });
             } else {
                 for (let platformKey in $scope.platforms) {
-                    if (parseInt(platformKey) === platformKey) {
+                    if (parseInt(platformKey) == platformKey) {
                         $scope.socialPlatformDetails.push({
                             id: platformKey,
                             shortname: $scope.platforms[platformKey].id,

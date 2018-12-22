@@ -262,9 +262,7 @@ define(['../../module'], controllers => {
                 if (newValue.images.length > 0) $scope.attachImages = true;
                 else $scope.attachImages = false;
                 $scope.dirtyForm = true;
-                console.log("Setting time?", newValue.date, oldValue.date, newValue.pages, oldValue.pages);
                 if ((oldValue == null && newValue != null) || (newValue.pages !== oldValue.pages && newValue.date.getTime() === oldValue.date.getTime())) {
-                    console.log("Setting time?");
                     SocialAccounts.getSuggestedPostTime(newValue.pages, new Date().getTimezoneOffset(), message => {
                         $scope.currentSocialPost.date = message;
                     }, (status, message) => {

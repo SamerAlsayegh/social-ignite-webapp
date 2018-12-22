@@ -35,7 +35,6 @@ define(['../module'], function (controllers) {
                         $rootScope.user = data;
                         let redirect = $cookies.get("redirect_on_login");
                         $scope.loginLoading = false;
-                        console.log(redirect);
                         if (redirect != null && redirect.length > 0) {
                             $cookies.remove("redirect_on_login");
                             $state.go(redirect, {}, {reload: redirect});

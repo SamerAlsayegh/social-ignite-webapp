@@ -15,7 +15,6 @@ define(['../../module'], controllers => {
 
                     });
                     if ($scope.socialPages.length > 0) {
-                        console.log($scope.socialPages);
                         $scope.loadStats($scope.socialPages[0].social_post);
                     }
                 }, (status, message) => {
@@ -104,7 +103,6 @@ define(['../../module'], controllers => {
 
                     if ($scope.supportedStatistics.indexOf("views.total") !== -1) $scope.loadVisitors();
                     if ($scope.supportedStatistics.indexOf("likes.total") !== -1) $scope.loadLikes();
-                    console.log($scope.socialPost);
 
                 }, (status, message) => {
                     Alert.error(message);

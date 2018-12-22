@@ -17,8 +17,6 @@ define(['../../module'], controllers => {
                 Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail, 4000);
                 $state.go($state.current.name, {fail: null}, {reload: true});
             }
-
-
             $rootScope.allPages = [];
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
@@ -31,12 +29,12 @@ define(['../../module'], controllers => {
 
 
             $scope.updatedRecently = itemUpdated => new Date(itemUpdated).getTime() < $scope.past5Minutes.getTime();
-            for (let platformKey in $scope.platforms) {
-                if (parseInt(platformKey) === platformKey) {
+            for (let platformKey in $rootScope.platforms) {
+                if (parseInt(platformKey) == platformKey) {
                     $scope.socialPlatformDetails.push({
                         id: platformKey,
-                        shortname: $scope.platforms[platformKey].id,
-                        fullname: $scope.platforms[platformKey].detail
+                        shortname: $rootScope.platforms[platformKey].id,
+                        fullname: $rootScope.platforms[platformKey].detail
                     });
                 }
             }
