@@ -6,7 +6,14 @@ define(['../../module'], controllers => {
             Profile.getUser(message => {
                 $scope.updatingProfile = false;
                 $scope.user = message.data;
-                $scope.tutorialBool = $scope.user.information.tutorial_step === 999;
+                if ($scope.user.information != null && $scope.user.information.tutorial_step != null) {
+                    $scope.tutorialBool = $scope.user.information.tutorial_step === 999;
+                }
+                Billing.getPlan($scope.user.scope, planDetails => {
+                    $scope.planFeatures = planDetails.data;
+                }, (status, message) => {
+                    Alert.error(message);
+                })
 
             }, (status, message) => {
                 $scope.updatingProfile = false;
@@ -92,11 +99,7 @@ define(['../../module'], controllers => {
             };
 
 
-            Billing.getPlan($scope.user.scope, planDetails => {
-                $scope.planFeatures = planDetails.data;
-            }, (status, message) => {
-                Alert.error(message);
-            })
+
 
         }]);
 });

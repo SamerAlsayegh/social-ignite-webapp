@@ -79,7 +79,7 @@
 
         <span>
             <md-list flex style="max-height: 600px; overflow-y: auto;">
-                <md-list-item class="md-2-line" ng-if="socialReplies.length == 0" layout-align="center center">
+                <md-list-item class="md-2-line" ng-if="mentions.length == 0" layout-align="center center">
                     <span class="md-list-item-text" layout-align="stretch" layout="column">
                         <h3 layout="row">
                                 No recent mentions.
@@ -98,7 +98,7 @@
                     <md-truncate flex class="md-list-item-text" layout="column">
                         <h3 layout="row" layout-align="stretch">
                                 <md-truncate ng-bind="mention.name" flex></md-truncate>
-                                <small class="gray_text" am-time-ago="socialComment.posted"></small>
+                                <small class="gray_text" am-time-ago="mention.posted"></small>
                         </h3>
                         <span>
                             <p ng-bind="mention.message"></p>

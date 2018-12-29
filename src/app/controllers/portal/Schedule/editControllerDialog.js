@@ -396,7 +396,7 @@ define(['../../module'], controllers => {
                 // }, 0);
                 $scope.nextStep = () => {
                 };
-                if ($rootScope.tutorialMode != null) {
+                if ($rootScope.tutorialMode == true) {
                     // ngIntroService.clear();
                     ngIntroService.onExit(() => {
                         $rootScope.finishTutorial(true);
