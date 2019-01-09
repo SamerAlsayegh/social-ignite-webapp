@@ -64,8 +64,8 @@ define(['../../module'], controllers => {
 
                 $scope.deleteComment = reply => {
                     reply.deleted = true;
-                    Alert.success("Deleting selected comment", 600);
                     Action.deleteComment({reply_id: reply._id}, data => {
+                        Alert.success("Deleted selected comment", 600);
                     }, (err, message) => {
                         reply.deleted = false;
                         Alert.error(message, 600);
@@ -78,7 +78,8 @@ define(['../../module'], controllers => {
                             'socialComment': socialComment,
                             'socialPage': socialComment.page_id,
                             'permissions': $scope.permissions,
-                            'theme': $scope.theme
+                            'theme': $scope.theme,
+                            'allowedActions': $scope.allowedActions
                         },
                         controller: 'conversationDialogController',
                         template: require("compile-ejs-loader!views/_portal/dashboard/_conversation.ejs")(),

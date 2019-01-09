@@ -1,25 +1,14 @@
-<md-dialog aria-label="Conversation Details" md-theme="{{theme}}" flex="70">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-
-            <h1 flex>Conversation Details</h1>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="zmdi zmdi-close zmdi-hc-2x"></i>
-            </md-button>
-        </div>
-    </md-toolbar>
-    <md-card>
-        <div layout="row" layout-align="start center">
-            <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
-            <span class="md-padding" ng-bind="'Replying as ' + socialPage.name" flex></span>
-        </div>
-        <md-content>
-            <md-list class="md-dense">
-                <md-list-item class="md-2-line"
-                              ng-repeat="socialComment in socialComments"
-                              ng-include="'commentChildrenTree'">
-                </md-list-item>
-            </md-list>
-        </md-content>
-    </md-card>
+<md-dialog aria-label="Conversation Details" class="md-card" md-theme="{{theme}}" flex="70">
+    <div layout="row" layout-align="start center">
+        <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
+        <span class="md-padding" ng-bind="'Replying as ' + socialPage.name" flex></span>
+    </div>
+    <md-content>
+        <md-list class="md-dense">
+            <md-list-item class="md-2-line"
+                          ng-repeat="socialComment in socialComments"
+                          ng-include="'commentChildrenTree'">
+            </md-list-item>
+        </md-list>
+    </md-content>
 </md-dialog>

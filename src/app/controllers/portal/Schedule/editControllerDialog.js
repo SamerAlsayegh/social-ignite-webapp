@@ -262,9 +262,9 @@ define(['../../module'], controllers => {
                 if (newValue.images.length > 0) $scope.attachImages = true;
                 else $scope.attachImages = false;
                 $scope.dirtyForm = true;
-                if ((oldValue == null && newValue != null) || (newValue.pages !== oldValue.pages && newValue.date.getTime() === oldValue.date.getTime())) {
+                if (newValue.pages !== oldValue.pages && newValue.pages.length > 0) {
                     SocialAccounts.getSuggestedPostTime(newValue.pages, new Date().getTimezoneOffset(), message => {
-                        $scope.currentSocialPost.date = message;
+                        $scope.currentSocialPost.suggested = message;
                     }, (status, message) => {
                         Alert.error(message);
                     });
@@ -332,7 +332,7 @@ define(['../../module'], controllers => {
             };
 
 
-            $scope.submitPost = () => {
+            $scope.submitPost = (useSuggested) => {
                 if ($scope.currentSocialPost.pages.length === 0)
                     return Alert.error("You must choose at least one platform.");
                 else if ($scope.currentSocialPost.content.length === 0)
@@ -350,7 +350,7 @@ define(['../../module'], controllers => {
                     images: image_ids
                 };
 
-                params.post_time = $scope.currentSocialPost.date;
+                params.post_time = useSuggested == true ?  $scope.currentSocialPost.suggested : $scope.currentSocialPost.date;
 
                 if ($scope.postId != null)
                     params.id = $scope.postId;

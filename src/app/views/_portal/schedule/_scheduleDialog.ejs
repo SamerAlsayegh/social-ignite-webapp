@@ -73,9 +73,9 @@
                             <span layout="row" ng-if="availableImages.length > 0">
                                 <span flex="50">
                                     <span ng-if="currentSocialPost.images.length > 0" style="overflow-x: auto;"
-                                          layout="row" class="md-padding">
+                                          layout="row" class="md-padding pointer">
                                             <!--Attached Images-->
-                                            <img class="img-responsive"
+                                            <img class="img-responsive img-selectable"
                                                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
                                                  delayed-image="{{image.url}}"
                                                  ng-repeat="image in currentSocialPost.images"
@@ -90,7 +90,7 @@
                                 <span ng-if="availableImages.length > 0" flex="50">
                                     <span style="overflow-x: auto;" layout="row" class="md-padding">
                                             <!--Available Images-->
-                                            <img class="img-responsive"
+                                            <img class="img-responsive pointer"
                                                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
                                                  delayed-image="{{image.url}}" ng-repeat="image in availableImages"
                                                  ng-click="chooseImage(image)"
@@ -163,7 +163,7 @@
                 <!--</div>-->
             </md-card>
 
-            <md-card class="md-whiteframe-3dp md-padding">
+            <span class=" md-padding">
                 <div layout="column" class="md-block tutorial_step_8 tutorial_step_9" layout-align="stretch">
                     <span layout="column" ng-if="!currentSocialPost.advancedShow">
                         <md-button flex ng-click="currentSocialPost.advancedShow = true"
@@ -195,12 +195,16 @@
                                ng-click="secondaryAction()">
                         {{currentSocialPost.state == 'DRAFT' ? 'Delete' : 'Delete'}}
                     </md-button>
+                    <md-button ng-if="currentSocialPost.suggested != null" flex-gt-md="70" flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
+                               ng-click="submitPost(true); nextStep();">
+                        Add to Auto-Queue
+                    </md-button>
                     <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
                                ng-click="submitPost(false); nextStep();">
-                        Post {{ currentSocialPost.dateString != null ? (currentSocialPost.date | amTimeAgo) : 'Now' }}
+                        Post {{ currentSocialPost.dateString != null && currentSocialPost.date > currentTime ? (currentSocialPost.date | amTimeAgo) : 'Now' }}
                     </md-button>
                 </div>
-            </md-card>
+            </span>
         </div>
     </md-dialog-content>
 

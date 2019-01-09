@@ -1,6 +1,6 @@
 define(['../../module'], controllers => {
     return controllers.controller('conversationDialogController',
-        ['$rootScope', '$scope', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdDialog', 'socialComment', 'socialPage', 'permissions', 'theme',
+        ['$rootScope', '$scope', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdDialog', 'socialComment', 'socialPage', 'permissions', 'theme', 'allowedActions',
             (
                 $rootScope,
                 $scope,
@@ -12,13 +12,20 @@ define(['../../module'], controllers => {
                 socialComment,
                 socialPage,
                 permissions,
-                theme
+                theme,
+                allowedActions
             ) => {
                 $scope.socialComments = [socialComment];
                 $scope.socialPage = socialPage;
                 $scope.permissions = permissions;
                 $scope.theme = theme;
-
+                $scope.socialPostMain = {
+                    open: {
+                        page_id: socialPage
+                    }
+                }
+                $scope.allowedActions = allowedActions;
+                console.log($scope.allowedActions);
                 $scope.postComment = reply => {
                     if (!reply.comment || !reply._id) return;
                     Action.postComment({reply_id: reply._id, reply: reply.comment},
@@ -67,8 +74,8 @@ define(['../../module'], controllers => {
 
                 $scope.deleteComment = reply => {
                     reply.deleted = true;
-                    Alert.success("Deleting selected comment", 600);
                     Action.deleteComment({reply_id: reply._id}, data => {
+                        Alert.success("Deleted selected comment", 600);
                     }, (err, message) => {
                         reply.deleted = false;
                         Alert.error(message, 600);

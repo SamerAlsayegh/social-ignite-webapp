@@ -9,6 +9,8 @@
 @import 'components/calendar';
 @import 'components/introjs';
 @import 'components/wdtLoading';
+@import 'components/ng-sortable';
+@import 'components/ng-sortable.style.less';
 
 @mdb-input-placeholder-color: #000;
 
@@ -19,7 +21,7 @@
   text-shadow: 0 0 @radius @color;
 }
 
-.nolink, .nolink:hover, .nolink:active {
+.nolink, .nolink:hover, .nolink:active, .nolink:after {
   text-decoration: none;
   color: inherit;
 }
@@ -780,7 +782,7 @@ md-sidenav {
 .mini-profile-image {
   width: auto;
 
-  height: 40px;
+  height: 30px;
 }
 
 .expand-on-hover-page-list:hover,.expand-on-hover-page-list:active {
@@ -792,4 +794,28 @@ md-sidenav {
   width: 120px;
   transition: all linear 0.2s;
   overflow-x: hidden;
+}
+
+.social-page-avatar {
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+
+
+.outline-dashboard{
+  cursor: pointer;
+  border: 3px dotted @gray-light;
+  min-height: 100px;
+  padding: 20px;
+}
+
+.public-background {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#40a8f4+0,34a1ef+50,40a8f4+100 */
+  background: #40a8f4; /* Old browsers */
+  background: -moz-radial-gradient(center, ellipse cover, #40a8f4 0%, #34a1ef 50%, #40a8f4 100%); /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover, #40a8f4 0%,#34a1ef 50%,#40a8f4 100%); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center, #40a8f4 0%,#34a1ef 50%,#40a8f4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40a8f4', endColorstr='#40a8f4',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  color: #fff !important;
 }

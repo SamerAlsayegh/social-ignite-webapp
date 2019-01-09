@@ -34,16 +34,17 @@ define(['../../module'], controllers => {
             }
 
 
-            $scope.checkForm = profile => ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (!profile.tutorial.$dirty) && (
-                !(profile.current_password.$dirty &&
-                    profile.new_password.$dirty &&
-                    profile.confirm_password.$dirty)
-            )) || !profile.$valid;
+            $scope.checkForm = profile => !profile.$dirty && profile.$valid;
+                // ($scope.user.other_auth == null && !) && (!profile.mailing_list.$dirty) && (!profile.theme.$dirty) && (!profile.tutorial.$dirty) && (
+                // !($scope.user.other_auth == null || (profile.current_password.$dirty &&
+                //     profile.new_password.$dirty &&
+                //     profile.confirm_password.$dirty))
+            // )) && !profile.$valid;
 
             $scope.updateUser = profile => {
                 if (profile.$valid) {
                     var changed = {};
-                    if (profile.email.$dirty && $scope.user.other_auth == null) {
+                    if (profile.email.$dirty) {
                         changed.email = $scope.user.email;
                     }
                     if (profile.theme.$dirty) {
@@ -61,13 +62,15 @@ define(['../../module'], controllers => {
                     if (profile.mailing_list.$dirty) {
                         changed.mailing_list = $scope.user.mailing_list;
                     }
-                    if (profile.current_password.$dirty && profile.new_password.$dirty && profile.confirm_password.$dirty && $scope.user.other_auth == null) {
-                        if ($scope.new_password === $scope.confirm_password
-                            && $scope.new_password.length > 0
-                            && $scope.current_password.length > 0
-                        ) {
-                            changed.new_password = $scope.new_password;
-                            changed.current_password = $scope.current_password;
+                    if ($scope.user.other_auth == null) {
+                        if (profile.current_password.$dirty && profile.new_password.$dirty && profile.confirm_password.$dirty && $scope.user.other_auth == null) {
+                            if ($scope.new_password === $scope.confirm_password
+                                && $scope.new_password.length > 0
+                                && $scope.current_password.length > 0
+                            ) {
+                                changed.new_password = $scope.new_password;
+                                changed.current_password = $scope.current_password;
+                            }
                         }
                     }
 

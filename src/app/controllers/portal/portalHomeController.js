@@ -6,28 +6,26 @@ define(['../module'], controllers => {
     return controllers.controller('portalHomeController',
         ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
             'Profile', 'General', '$state', '$mdDialog', 'ngIntroService', '$http', "SocialStacks", "SocialAccounts", "$transitions", "$sce", "SocialPosts",
-            function (
-                $rootScope,
-                $scope,
-                Auth,
-                Alert,
-                Action,
-                Dashboard,
-                PostComment,
-                $mdSidenav,
-                $cookies,
-                Profile,
-                General,
-                $state,
-                $mdDialog,
-                ngIntroService,
-                $http,
-                SocialStacks,
-                SocialAccounts,
-                $transitions,
-                $sce,
-                SocialPosts
-            ) {
+            function ($rootScope,
+                      $scope,
+                      Auth,
+                      Alert,
+                      Action,
+                      Dashboard,
+                      PostComment,
+                      $mdSidenav,
+                      $cookies,
+                      Profile,
+                      General,
+                      $state,
+                      $mdDialog,
+                      ngIntroService,
+                      $http,
+                      SocialStacks,
+                      SocialAccounts,
+                      $transitions,
+                      $sce,
+                      SocialPosts) {
                 $scope.permissions = {};
                 $scope.platforms = $rootScope.platforms;
                 $scope.notifications = [];
@@ -217,7 +215,7 @@ define(['../module'], controllers => {
                 $scope.logout = () => {
                     Auth.logout(data => {
                         Alert.info('Logged out successfully!');
-                        $state.go('public.login', {}, {reload: 'public.login'});
+                        $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
                     }, (err, data) => {
                         Alert.error('Failed to log out.');
                     });
@@ -333,7 +331,21 @@ define(['../module'], controllers => {
                 ngIntroService.onExit(() => {
                     $rootScope.finishTutorial(true);
                 });
+                $scope.items = [];
+                $scope.items.push('_mentions');
+                $scope.items.push('_comments');
+                $scope.items.push('_posts');
 
+
+
+                // var draggie = new Draggabilly('.draggable', {
+                //     containment: '.main-view',
+                //     grid: [ 20, 20 ],
+                // });
+                $scope.controlListener = {
+                    // containment: '#dashboard-container',
+                    // allowDuplicates: true //optional param allows duplicates to be dropped.
+                };
 
                 $scope.setTheme = theme => {
                     $rootScope.theme = theme;

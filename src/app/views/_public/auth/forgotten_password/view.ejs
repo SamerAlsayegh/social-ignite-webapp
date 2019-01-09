@@ -1,28 +1,24 @@
-<div layout="row">
-    <md-card flex class="md-whiteframe-3dp md-padding" flex-offset-sm="0" flex-offset-gt-sm="30">
-        <h1>Password reset
-            <small>to regain access...</small>
-        </h1>
-        <form name="forgot_password" ng-submit="resetPassword(forgot_password)" method="post" id="forgot_password">
-            <md-input-container class="md-block">
-                <label>New Password</label>
-                <input type="password" ng-model="password" required name="password">
-                <div class="hint">Choose a unique password.</div>
-            </md-input-container>
-            <md-input-container class="md-block">
-                <label>Confirm New Password</label>
-                <input type="password" ng-pattern="password" required ng-model="verify_password" name="verify_password">
-                <div class="hint">Retype your password</div>
-                <div ng-messages="register.verify_password.$error">
-                    <div ng-message="pattern">The passwords must be the same.</div>
-                </div>
-            </md-input-container>
-
-            <div layout="column" layout-align="stretch">
-                <md-button type="submit" class="md-primary md-raised">Reset Password</md-button>
+<md-card class="md-whiteframe-3dp md-padding">
+    <h1>Password reset
+        <small>to regain access...</small>
+    </h1>
+    <form name="forgot_password" ng-submit="resetPassword(forgot_password)" method="post" id="forgot_password">
+        <md-input-container class="md-block">
+            <label>New Password</label>
+            <input type="password" ng-model="password" required name="password">
+            <div class="hint">Choose a unique password.</div>
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Confirm New Password</label>
+            <input type="password" ng-pattern="password" required ng-model="verify_password" name="verify_password">
+            <div class="hint">Retype your password</div>
+            <div ng-messages="register.verify_password.$error">
+                <div ng-message="pattern">The passwords must be the same.</div>
             </div>
-        </form>
+        </md-input-container>
 
-    </md-card>
-    <div flex-gt-sm="30"></div>
-</div>
+        <div layout="column" layout-align="stretch">
+            <md-button type="submit" class="md-primary md-raised">Reset Password</md-button>
+        </div>
+    </form>
+</md-card>

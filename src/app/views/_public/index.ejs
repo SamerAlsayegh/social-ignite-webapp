@@ -1,57 +1,64 @@
-<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>
-    <md-content hide-gt-sm>
-        <md-toolbar class="md-primary">
-            <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">
-                    <i layout-align="start start" layout="stretch" class="white zmdi zmdi-menu zmdi-hc-2x"></i>
-                </md-button>
-                <h2 flex md-truncate>Menu</h2>
-            </div>
-        </md-toolbar>
-    </md-content>
+<!--<section md-theme="{{ theme }}" md-theme-watch layout="column" layout-fill flex>-->
+    <!--<md-content hide-gt-sm>-->
+        <!--<md-toolbar class="md-primary">-->
+            <!--<div class="md-toolbar-tools">-->
+                <!--<md-button class="md-icon-button" aria-label="Settings" ng-click="toggleMenu()">-->
+                    <!--<i layout-align="start start" layout="stretch" class="white zmdi zmdi-menu zmdi-hc-2x"></i>-->
+                <!--</md-button>-->
+                <!--<h2 flex md-truncate>Menu</h2>-->
+            <!--</div>-->
+        <!--</md-toolbar>-->
+    <!--</md-content>-->
 
-    <md-content layout="row" layout-fill flex>
-        <md-sidenav
-                layout-fill
-                class="md-sidenav-left"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')">
-            <header class="nav-header">
-                <img flex class="menu_logo" style="max-height: 100px;"
-                     ng-src="<%= __ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">
-            </header>
-            <md-content>
-                <md-list flex>
-                    <md-list-item class="home" flex href="/" ng-click="toggleMenu()">
-                        <i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>
-                        <span flex>Home</span>
-                    </md-list-item>
-                    <!--<md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">-->
-                    <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
-                    <!--<span flex>Keywords</span>-->
+    <!--<md-content layout="row" layout-fill flex>-->
+        <!--<md-sidenav-->
+                <!--layout-fill-->
+                <!--class="md-sidenav-left"-->
+                <!--md-component-id="left"-->
+                <!--md-is-locked-open="$mdMedia('gt-sm')">-->
+            <!--<header class="nav-header">-->
+                <!--<img flex class="menu_logo" style="max-height: 100px;"-->
+                     <!--ng-src="<%= //__ASSETS__ %>{{theme == 'dark' ? '/img/boxed/144/light_logo_simple_cubed.png' : '/img/boxed/144/dark_logo_simple_cubed.png'}}">-->
+            <!--</header>-->
+            <!--<md-content>-->
+                <!--<md-list flex>-->
+                    <!--<md-list-item class="home" flex href="/" ng-click="toggleMenu()">-->
+                        <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
+                        <!--<span flex>Home</span>-->
                     <!--</md-list-item>-->
-                    <!--<md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">-->
-                    <!--<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>-->
-                    <!--<span flex>Lookup</span>-->
+                    <!--&lt;!&ndash;<md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span flex>Keywords</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</md-list-item>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<md-list-item class="home" flex href="/lookup" ng-click="toggleMenu()">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="zmdi zmdi-home md-padding zmdi-hc-lg"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span flex>Lookup</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</md-list-item>&ndash;&gt;-->
+                    <!--<md-list-item class="home" flex href="/" ng-click="switchTheme()">-->
+                        <!--<i class="zmdi zmdi-brightness-6 md-padding zmdi-hc-lg"></i>-->
+                        <!--<span flex>{{theme == "dark" ? 'Light' : 'Dark'}} Mode</span>-->
                     <!--</md-list-item>-->
-                    <md-list-item class="home" flex href="/" ng-click="switchTheme()">
-                        <i class="zmdi zmdi-brightness-6 md-padding zmdi-hc-lg"></i>
-                        <span flex>{{theme == "dark" ? 'Light' : 'Dark'}} Mode</span>
-                    </md-list-item>
-                </md-list>
-            </md-content>
-        </md-sidenav>
-        <md-content layout="column" layout-fill>
-            <md-content flex class="md-padding" ui-view>
-            </md-content>
-            <%- include ../_footer.ejs %>
-        </md-content>
+                <!--</md-list>-->
+            <!--</md-content>-->
+        <!--</md-sidenav>-->
+        <!--<md-content layout="column" layout-fill>-->
+            <!--<md-content flex class="md-padding" ui-view>-->
+            <!--</md-content>-->
+            <!--<%- //include ../_footer.ejs %>-->
+        <!--</md-content>-->
 
-    </md-content>
+    <!--</md-content>-->
 
 
-</section>
+<!--</section>-->
 
 
 
 
+
+
+<md-content layout="column" class="public-background" layout-fill>
+    <div flex class="md-padding" ui-view>
+    </div>
+    <%- include ../_footer.ejs %>
+</md-content>

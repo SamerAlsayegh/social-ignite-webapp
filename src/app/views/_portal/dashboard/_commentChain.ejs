@@ -1,0 +1,64 @@
+<span class="md-padding" ng-if="!socialComment.deleted" layout="column" layout-align flex>
+    <span layout="row" flex>
+        <span flex class="md-list-item-text dashboard_comment" layout-align="stretch" layout="column">
+            <small layout="row">
+                <b flex ng-class="socialPostMain.open.page_id.name == socialComment.name ? 'md-primary' : ''">{{socialComment.name}}
+                </b>
+                <span flex></span>
+                <span class="gray_text" am-time-ago="socialComment.posted"></span>
+            </small>
+            <span layout="row">
+                <span flex>{{socialComment.message}}
+                </span>
+                <span layout="row" layout-align="end center">
+                    <md-button class="md-icon-button"
+                               ng-if="!allowedActions  || allowedActions[socialPostMain.open.page_id.platform].indexOf('LIKE') != -1"
+                               ng-click="toggleLike(socialComment)"
+                               ng-class="socialComment.liked ? 'md-primary' : ''"
+                               aria-label="Like"><i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i></md-button>
+                    <md-button class="md-icon-button"
+                               ng-disabled="!permissions.post_manage_reply || allowedActions[socialPost.page_id.platform].indexOf('REPLY') == -1"
+                               ng-click="socialComment.commenting = !socialComment.commenting"
+                               ng-if="!allowedActions  || allowedActions[socialPostMain.open.page_id.platform].indexOf('REPLY') != -1"
+                               aria-label="Reply to comment"><i
+                                class="zmdi zmdi-comment zmdi-hc-lg"></i></md-button>
+                    <md-button class="md-icon-button"
+                               ng-if="!allowedActions  || allowedActions[socialPostMain.open.page_id.platform].indexOf(socialPostMain.open.page_id.name == socialComment.name ? 'DELETE_SELF' : 'DELETE_OTHERS') != -1"
+                               ng-click="deleteComment(socialComment)"
+                               aria-label="Delete comment"><i class="zmdi zmdi-delete zmdi-hc-lg"></i></md-button>
+                    <span ng-if="socialComment.replies_count > 0 && (socialComment.remaining > 0 || socialComment.remaining  == null)"
+                          layout="column" class="text-center">
+                        <md-button class="md-icon-button"
+                                   ng-click="loadReplies(socialComment, socialComment.parent_post, socialComment._id, socialComment.replies[0].posted)"
+                                   aria-label="Toggle view on sub comments"><i
+                                    class="zmdi zmdi-comments zmdi-hc-lg"></i></md-button>
+                        <span ng-bind="socialComment.replies_count"></span>
+                    </span>
+                </span>
+            </span>
+            <md-divider></md-divider>
+        </span>
+    </span>
+    <span layout-fill layout="row" ng-show="socialComment.commenting">
+        <md-input-container layout-fill md-no-float>
+            <textarea placeholder="Comment..." ng-model="socialComment.comment"
+                      ng-init="socialComment.comment = '@' + socialComment.name + ' '" layout="stretch"
+                      md-maxlength="200"
+                      rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+        <md-button type="submit" class="md-primary md-raised md-padding"
+                   ng-click="postComment(socialComment)">Post</md-button>
+    </span>
+    <span layout-fill layout="column" ng-if="!socialComment.hide">
+        <span ng-if="socialComment.remaining > 0" layout="column"
+             layout-align="stretch">
+            <md-button
+                    ng-click="loadReplies(socialComment, socialComment.parent_post, socialComment._id, socialComment.replies[0].posted)"
+                    md-no-ink class="md-primary">Load previous...</md-button>
+        </span>
+        <span class="sub_comment"
+              ng-repeat="socialComment in socialComment.replies"
+              ng-include="'commentChildrenTree'">
+        </span>
+    </span>
+</span>

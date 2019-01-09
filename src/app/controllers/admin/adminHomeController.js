@@ -57,7 +57,7 @@ define(['./../module'], controllers => controllers.controller('adminHomeControll
         $scope.logout = () => {
             Auth.logout(data => {
                 Alert.info('Logged out successfully!');
-                $state.go('public.login', {}, {reload: 'public.login'});
+                $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
             }, (err, data) => {
                 Alert.error('Failed to log out.');
             });

@@ -1,20 +1,16 @@
-<md-content layout="column" layout-fill>
-    <md-content layout="row">
-        <md-card flex="100" flex-gt-md="50" flex-offset-gt-md="25" class="md-whiteframe-3dp md-padding text-center">
-            <h1>Email Verification</h1>
-            <hr class="hr-both"/>
-            <md-button disabled flex>
-                <i class="zmdi zmdi-email md-padding zmdi-hc-5x"></i>
-            </md-button>
-            <p>Please open the link in the email to verify your email. <br><br>Until then, you can use login with
-                limited features. </p>
-            <md-button class="md-primary md-raised" href="/login">
-                Login now
-            </md-button>
-            <br>
-            <div>
-                Did not get an email? <b style="cursor: pointer" ng-click="requestResend()">Resend email.</b>
-            </div>
-        </md-card>
-    </md-content>
-</md-content>
+<md-card class="md-whiteframe-3dp md-padding">
+    <h1>Email Verification</h1>
+    <hr class="hr-both"/>
+    <md-button disabled flex>
+        <i class="zmdi zmdi-email md-padding zmdi-hc-5x"></i>
+    </md-button>
+    <p>Please open the link in the email to verify your email. <br><br>Until then, you can use login with
+        limited features. </p>
+    <md-button class="md-primary md-raised" href="/login">
+        Login now
+    </md-button>
+    <br>
+    <div>
+        Did not get an email? <b style="cursor: pointer" ng-click="requestResend()">Resend email.</b>
+    </div>
+</md-card>

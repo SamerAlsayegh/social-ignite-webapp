@@ -1,1 +1,15 @@
-<md-content layout-fill flex ui-view></md-content>
+
+<div layout-fill flex layout="row" layout-align="center center">
+    <div flex flex-offset-sm="0" flex-offset-gt-sm="30" flex-offset-gt-md="35" layout-align="center center">
+
+        <md-card class="md-padding md-whiteframe-3dp" layout="column">
+                <img flex class="menu_logo" style="max-height: 100px;" ng-src="<%= __ASSETS__ %>/img/boxed/144/dark_logo_simple_cubed.png" />
+                <div class="md-padding">
+                    <div class="hr-both"></div>
+                </div>
+                <div ui-view class="md-padding">
+                </div>
+        </md-card>
+    </div>
+    <div flex-gt-sm="30" flex-gt-md="35"></div>
+</div>

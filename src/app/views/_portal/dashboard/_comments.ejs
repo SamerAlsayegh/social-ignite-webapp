@@ -1,0 +1,39 @@
+<md-card layout-fill class="md-whiteframe-3dp">
+    <md-subheader class="md-primary" data-as-sortable-item-handle>Comments</md-subheader>
+
+    <md-list class="md-dense" flex style="overflow-y: auto;">
+        <md-list-item class="md-2-line" ng-if="commentsModel.replies.length == 0" layout-align="center center">
+            <span class="md-list-item-text" layout-align="stretch" layout="column">
+                            <h3 layout="row">
+                                    No recent comments.
+                            </h3>
+                            <span layout="row">
+                                <p>Posting more engaging content will create buzz around your posts..</p>
+                            </span>
+                        </span>
+        </md-list-item>
+
+
+        <md-list-item class="md-2-line md-long-text" ng-style="reply.seen ? {opacity: 0.4} : {}"
+                      ng-repeat="reply in commentsModel.replies" layout="row"
+                      flex ng-click="replyConversation(reply)">
+
+            <social-page-avatar social-page="reply.page_id" platforms="platforms"></social-page-avatar>
+            <md-truncate flex class="md-list-item-text" layout-align="stretch" layout="column">
+                <h3 layout="row" layout-align="stretch">
+                    <md-truncate ng-bind="reply.name" flex></md-truncate>
+                    <small class="gray_text" am-time-ago="reply.posted"></small>
+                </h3>
+                <span>
+                            <p ng-bind="reply.message"></p>
+                        </span>
+            </md-truncate>
+            <md-button class="md-icon-button"
+                       ng-if="!allowedActions  || allowedActions[reply.page_id.platform].indexOf('LIKE') != -1"
+                       ng-click="toggleLike(reply)"
+                       ng-class="reply.liked ? 'md-primary' : ''"
+                       aria-label="Like"><i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i></md-button>
+            <md-divider></md-divider>
+        </md-list-item>
+    </md-list>
+</md-card>

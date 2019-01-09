@@ -47,12 +47,14 @@ gulp.task('manifest', function() {
 gulp.task('watch', function() {
     // gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
     gulp.watch(__dirname + '/src/views/index.ejs', ['index']);
+    // gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
 
 });
 
 gulp.task('watch-dev', function() {
     gulp.watch(__dirname + '/src/app/**/*.js', ['webpack-dev']);
     gulp.watch(__dirname + '/src/less/**/*.less', ['less']);
+    // gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['views']);
     gulp.watch(__dirname + '/src/app/views/**/*.ejs', ['webpack-dev']);
     gulp.watch(__dirname + '/src/manifest.json', ['manifest']);
     gulp.watch(__dirname + '/src/custom/*.js', ['custom']);
@@ -64,9 +66,9 @@ gulp.task('watch-dev', function() {
 
 // gulp.task('views', function() {
 //     return gulp.src(__dirname + '/src/app/views/**/*.ejs')
-//         .pipe(gulpEjs({},{}, {ext:'.html'}))
+//         .pipe(gulpEjs({__ASSETS__: ASSETS},{}, {ext:'.html'}))
 //         .pipe(replace(/__ASSETS__/igm, ASSETS))
-        // .pipe(gulp.dest(__dirname + '/dist/'))
+//         .pipe(gulp.dest(__dirname + '/dist/'))
 // });
 
 gulp.task('custom', function() {

@@ -26,6 +26,10 @@ require("angular-google-analytics");
 require("ng-file-upload");
 
 require("chart.js");
+// require ("");
+
+
+// require("script-loader!angular-dragdrop");
 
 require("script-loader!intro.js");
 
@@ -47,26 +51,43 @@ let _moment = require("moment");
 
 let _moment2 = _interopRequireDefault(_moment);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {default: obj};
+}
 
 window['moment'] = _moment2.default;
 // window['Plotly'] = Plotly;
 
 // require('plotly.js-dist');
 
-// import Plotly from "../custom/charting";
 require('angular-moment-picker');
+// require("script-loader!draggabilly/dist/draggabilly.pkgd.js");
 
+// import exec from 'script-loader!./script.js';
 _moment2.default.locale('en');
 
-exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.controllers', 'SocialIgnite.services', 'SocialIgnite.directives', 'SocialIgnite.filters', 'md.data.table', 'moment-picker', 'ngAnimate', 'ngMessages', 'ngMaterial', 'ngFileUpload', 'ngCookies', 'materialCalendar', 'angular-google-analytics', 'ui.router', 'angularMoment', 'vkEmojiPicker', 'angular-intro']).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', (
-    $mdThemingProvider,
-    _ref,
-    $mdGestureProvider,
-    AnalyticsProvider,
-    momentPickerProvider,
-    $sceDelegateProvider
-) => {
+exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.controllers',
+    'SocialIgnite.services',
+    'SocialIgnite.directives',
+    'SocialIgnite.filters',
+    'md.data.table',
+    'moment-picker',
+    'ngAnimate',
+    'ngMessages',
+    'ngMaterial',
+    'ngFileUpload',
+    'ngCookies',
+    'materialCalendar',
+    'angular-google-analytics',
+    'ui.router',
+    'angularMoment',
+    'vkEmojiPicker',
+    'angular-intro', require('ng-sortable')]).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', ($mdThemingProvider,
+                                                                                                                                                                                         _ref,
+                                                                                                                                                                                         $mdGestureProvider,
+                                                                                                                                                                                         AnalyticsProvider,
+                                                                                                                                                                                         momentPickerProvider,
+                                                                                                                                                                                         $sceDelegateProvider) => {
     let defaults = _ref.defaults;
 
     let lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
@@ -78,27 +99,25 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     AnalyticsProvider.setAccount('UA-63794417-10');
     AnalyticsProvider.trackPrefix('p');
 
-    momentPickerProvider.options({ hoursFormat: 'LT', minutesFormat: 'LT' });
+    momentPickerProvider.options({hoursFormat: 'LT', minutesFormat: 'LT'});
     $mdThemingProvider.definePalette('lightBlueCustom', lightBlueCustom);
     $mdThemingProvider.theme('default').primaryPalette('lightBlueCustom').accentPalette('light-blue').backgroundPalette('grey');
     $mdThemingProvider.theme('dark').primaryPalette('lightBlueCustom').accentPalette('light-blue').backgroundPalette('grey').dark();
     $mdGestureProvider.disableAll();
     defaults.withCredentials = true;
     $sceDelegateProvider.resourceUrlWhitelist(['https://assets.socialignite.media/**', 'self']);
-}]).run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location', '$window', 'Metadata', (
-    $rootScope,
-    $transitions,
-    $state,
-    $templateCache,
-    $http,
-    Auth,
-    moment,
-    $cookies,
-    Analytics,
-    $location,
-    $window,
-    Metadata
-) => {
+}]).run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location', '$window', 'Metadata', ($rootScope,
+                                                                                                                                                            $transitions,
+                                                                                                                                                            $state,
+                                                                                                                                                            $templateCache,
+                                                                                                                                                            $http,
+                                                                                                                                                            Auth,
+                                                                                                                                                            moment,
+                                                                                                                                                            $cookies,
+                                                                                                                                                            Analytics,
+                                                                                                                                                            $location,
+                                                                                                                                                            $window,
+                                                                                                                                                            Metadata) => {
 
     Metadata.updateMetadata();
 
@@ -115,7 +134,7 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
                 function preload(v) {
                     if (v.preload) {
                         if (url = v.templateUrl) {
-                            $http.get(url, { cache: $templateCache });
+                            $http.get(url, {cache: $templateCache});
                         }
                     }
                     // state has multiple views. See if they need to be preloaded.
@@ -151,21 +170,21 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
         }
     });
 
-    $transitions.onBefore({ to: 'portal.**' }, transition => {
+    $transitions.onBefore({to: 'portal.**'}, transition => {
         let Auth = transition.injector().get('Auth');
         return new Promise((resolve, reject) => {
             Auth.sessionValidate(loggedIn => {
                 if (!loggedIn) {
                     console.log("Redirecting from portal to public");
                     $cookies.put("redirect_on_login", transition.to().name);
-                    $state.go('public.login');
+                    $state.go('public.auth.login');
                     reject();
                 } else resolve();
             });
         });
     });
 
-    $transitions.onBefore({ to: 'public.**' }, transition => {
+    $transitions.onBefore({to: 'public.**'}, transition => {
         let Auth = transition.injector().get('Auth');
         return new Promise((resolve, reject) => {
             Auth.sessionValidate(loggedIn => {
@@ -181,7 +200,7 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     });
 
     // Remove people not allowed to access frontend. This is simply a deterrent, they still wouldn't have access to backend.
-    $transitions.onBefore({ to: 'admin.**' }, transition => {
+    $transitions.onBefore({to: 'admin.**'}, transition => {
         let Auth = transition.injector().get('Auth');
         return new Promise((resolve, reject) => {
             Auth.sessionValidate(loggedIn => {
@@ -214,116 +233,116 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
         //         ports = _ref2.ports;
         //
         //     console.log(event.data.message); // Hello World !
-            // console.log("SW Received Message: " + data);
-            // ports[0].postMessage("SW Says 'Hello back!'");
+        // console.log("SW Received Message: " + data);
+        // ports[0].postMessage("SW Says 'Hello back!'");
         // });
     } else {
         console.log('Service workers are not supported.');
     }
-    !function() {
-        var t = window.driftt = window.drift = window.driftt || [];
-        if (!t.init) {
-            if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-            t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
-                t.factory = function(e) {
-                    return function() {
-                        var n = Array.prototype.slice.call(arguments);
-                        return n.unshift(e), t.push(n), t;
-                    };
-                }, t.methods.forEach(function(e) {
-                t[e] = t.factory(e);
-            }), t.load = function(t) {
-                var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
-                o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-                var i = document.getElementsByTagName("script")[0];
-                i.parentNode.insertBefore(o, i);
-            };
-        }
-    }();
-    drift.SNIPPET_VERSION = '0.3.1';
-    drift.load('33f45sf6x9hp');
-    (() => {
-        /* Add this class to any elements you want to use to open Drift.
-         *
-         * Examples:
-         * - <a class="drift-open-chat">Questions? We're here to help!</a>
-         * - <button class="drift-open-chat">Chat now!</button>
-         *
-         * You can have any additional classes on those elements that you
-         * would ilke.
-         */
-
-        drift.on('ready', _ref3 => {
-            let widget = _ref3.widget;
-
-            $rootScope.drift = true;
-            if ($rootScope.user != null) {
-                drift.identify($rootScope.user.email, {
-                    _id: $rootScope.user._id,
-                    scope: $rootScope.user.scope,
-                    mailing_list: $rootScope.user.mailing_list,
-                    verified: $rootScope.user.verified
-                });
-            }
-            // hide the widget when it first loads
-            widget.hide();
-            // show the widget when you receive a message
-            drift.on('message', _ref4 => {
-                let data = _ref4.data;
-
-                if (!data.sidebarOpen) {
-                    widget.show();
-                }
-            });
-            // hide the widget when you close the sidebar
-            drift.on('sidebarClose', _ref5 => {
-                let data = _ref5.data;
-
-                if (data.widgetVisible) {
-                    widget.hide();
-                }
-            });
-        });
-        let DRIFT_CHAT_SELECTOR = '.drift-open-chat';
-
-        /* http://youmightnotneedjquery.com/#ready */
-        function ready(fn) {
-            if (document.readyState != 'loading') {
-                fn();
-            } else if (document.addEventListener) {
-                document.addEventListener('DOMContentLoaded', fn);
-            } else {
-                document.attachEvent('onreadystatechange', () => {
-                    if (document.readyState != 'loading') fn();
-                });
-            }
-        }
-
-        /* http://youmightnotneedjquery.com/#each */
-        function forEachElement(selector, fn) {
-            let elements = document.querySelectorAll(selector);
-            for (let i = 0; i < elements.length; i++) {
-                fn(elements[i], i);
-            }
-        }
-
-        function openSidebar(_ref6, event) {
-            let sidebar = _ref6.sidebar;
-
-            event.preventDefault();
-            sidebar.open();
-            return false;
-        }
-
-        ready(() => {
-            drift.on('ready', function (api) {
-                let handleClick = openSidebar.bind(this, api);
-                forEachElement(DRIFT_CHAT_SELECTOR, el => {
-                    el.addEventListener('click', handleClick);
-                });
-            });
-        });
-    })();
+    // !function () {
+    //     var t = window.driftt = window.drift = window.driftt || [];
+    //     if (!t.init) {
+    //         if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+    //         t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
+    //             t.factory = function (e) {
+    //                 return function () {
+    //                     var n = Array.prototype.slice.call(arguments);
+    //                     return n.unshift(e), t.push(n), t;
+    //                 };
+    //             }, t.methods.forEach(function (e) {
+    //             t[e] = t.factory(e);
+    //         }), t.load = function (t) {
+    //             var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+    //             o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+    //             var i = document.getElementsByTagName("script")[0];
+    //             i.parentNode.insertBefore(o, i);
+    //         };
+    //     }
+    // }();
+    // drift.SNIPPET_VERSION = '0.3.1';
+    // drift.load('33f45sf6x9hp');
+    // (() => {
+    //     /* Add this class to any elements you want to use to open Drift.
+    //      *
+    //      * Examples:
+    //      * - <a class="drift-open-chat">Questions? We're here to help!</a>
+    //      * - <button class="drift-open-chat">Chat now!</button>
+    //      *
+    //      * You can have any additional classes on those elements that you
+    //      * would ilke.
+    //      */
+    //
+    //     drift.on('ready', _ref3 => {
+    //         let widget = _ref3.widget;
+    //
+    //         $rootScope.drift = true;
+    //         if ($rootScope.user != null) {
+    //             drift.identify($rootScope.user.email, {
+    //                 _id: $rootScope.user._id,
+    //                 scope: $rootScope.user.scope,
+    //                 mailing_list: $rootScope.user.mailing_list,
+    //                 verified: $rootScope.user.verified
+    //             });
+    //         }
+    //         // hide the widget when it first loads
+    //         widget.hide();
+    //         // show the widget when you receive a message
+    //         drift.on('message', _ref4 => {
+    //             let data = _ref4.data;
+    //
+    //             if (!data.sidebarOpen) {
+    //                 widget.show();
+    //             }
+    //         });
+    //         // hide the widget when you close the sidebar
+    //         drift.on('sidebarClose', _ref5 => {
+    //             let data = _ref5.data;
+    //
+    //             if (data.widgetVisible) {
+    //                 widget.hide();
+    //             }
+    //         });
+    //     });
+    //     let DRIFT_CHAT_SELECTOR = '.drift-open-chat';
+    //
+    //     /* http://youmightnotneedjquery.com/#ready */
+    //     function ready(fn) {
+    //         if (document.readyState != 'loading') {
+    //             fn();
+    //         } else if (document.addEventListener) {
+    //             document.addEventListener('DOMContentLoaded', fn);
+    //         } else {
+    //             document.attachEvent('onreadystatechange', () => {
+    //                 if (document.readyState != 'loading') fn();
+    //             });
+    //         }
+    //     }
+    //
+    //     /* http://youmightnotneedjquery.com/#each */
+    //     function forEachElement(selector, fn) {
+    //         let elements = document.querySelectorAll(selector);
+    //         for (let i = 0; i < elements.length; i++) {
+    //             fn(elements[i], i);
+    //         }
+    //     }
+    //
+    //     function openSidebar(_ref6, event) {
+    //         let sidebar = _ref6.sidebar;
+    //
+    //         event.preventDefault();
+    //         sidebar.open();
+    //         return false;
+    //     }
+    //
+    //     ready(() => {
+    //         drift.on('ready', function (api) {
+    //             let handleClick = openSidebar.bind(this, api);
+    //             forEachElement(DRIFT_CHAT_SELECTOR, el => {
+    //                 el.addEventListener('click', handleClick);
+    //             });
+    //         });
+    //     });
+    // })();
 }]);
 // define([
 //     'angular',

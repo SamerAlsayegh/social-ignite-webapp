@@ -1,6 +1,8 @@
 <div layout="column" layout-gt-sm="row">
-    <div layout="column" layout-gt-sm="row" flex layout-wrap>
-        Showing
+    <div layout="column" layout-gt-sm="row" flex layout-wrap layout-align="center center">
+        <span>
+            Showing
+        </span>
         <div layout="row" flex layout-wrap>
             <md-button
                     ng-click="togglePlatformFilter(platform.id)"
@@ -33,8 +35,8 @@
                 <th md-column>Impressions</th>
                 <th md-column>Unique Views</th>
                 <th md-column>Fans</th>
-                <th md-column>Updated</th>
-                <th md-column>Management</th>
+                <!--<th md-column>Updated</th>-->
+                <th md-column></th>
             </tr>
             </thead>
             <tbody md-body>
@@ -53,7 +55,7 @@
 
                 <td md-cell layout="row" layout-align="start center">
                     <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
-                    <h2 class="md-padding" style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPage.name }}
+                    <h3 style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPage.name }}</h3>
                 </td>
                 <td md-cell>{{socialPage.posts || 'N/A'}}</td>
                 <td md-cell>{{socialPage.statistic.views.total == null ? 'NA' : socialPage.statistic.views.total}}
@@ -62,12 +64,12 @@
                 </td>
                 <td md-cell>{{socialPage.statistic.likes.total == null ? 'NA' : socialPage.statistic.likes.total}}
                 </td>
-                <td md-cell am-time-ago="socialPage.lastStatisticUpdate"></td>
+                <!--<td md-cell am-time-ago="socialPage.lastStatisticUpdate"></td>-->
                 <td md-cell>
-                    <md-button
-                            ng-if="socialPage.state_details.code != platformErrors.AUTH_FAIL.id && updatedRecently(socialPage.lastStatisticUpdate)"
-                            flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id, $event)">Refresh
-                    </md-button>
+                    <!--<md-button-->
+                            <!--ng-if="socialPage.state_details.code != platformErrors.AUTH_FAIL.id && updatedRecently(socialPage.lastStatisticUpdate)"-->
+                            <!--flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id, $event)">Refresh-->
+                    <!--</md-button>-->
                     <md-button ng-if="socialPage.state_details.code == platformErrors.AUTH_FAIL.id" flex="30"
                                class="md-primary" ng-click="addSocialAccount(socialPage.platform, $event);">Fix Issue
                     </md-button>
@@ -83,6 +85,6 @@
     </md-table-container>
     <md-card class="pointer" flex="100" ng-if="remaining > 0" ng-click="loadMoreSocialPages()"
              layout-align="center center">
-        <h3>Load more...</h3>
+        <h3>Load more... </h3>
     </md-card>
 </md-card>

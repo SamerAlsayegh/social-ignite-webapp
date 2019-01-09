@@ -96,7 +96,7 @@ define(['../../module'], controllers => {
                 $scope.$emit('addStack', {});
             };
             $scope.addSocialAccount = (platformId, $event) => {
-                if (!$scope.platforms.hasOwnProperty(parseInt(platformId)))
+                if (!$rootScope.platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
                 platformId = parseInt(platformId);
                 $scope.nextStep();
@@ -105,7 +105,7 @@ define(['../../module'], controllers => {
                     $scope.nextStep();
                 }
 
-                $window.open(__API__ + '/api/v1/oauth/' + $scope.platforms[platformId].id + '/', '_self');
+                $window.open(__API__ + '/api/v1/oauth/' + $rootScope.platforms[platformId].id + '/', '_self');
                 if ($event) $event.stopPropagation();
             };
 
@@ -162,7 +162,7 @@ define(['../../module'], controllers => {
                     Alert.error(message);
                 });
             } else {
-                for (let platformKey in $scope.platforms) {
+                for (let platformKey in $rootScope.platforms) {
                     if (parseInt(platformKey) == platformKey) {
                         $scope.socialPlatformDetails.push({
                             id: platformKey,

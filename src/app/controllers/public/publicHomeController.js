@@ -1,9 +1,9 @@
 define(['../module'], function (controllers) {
     'use strict';
     return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$cookies', '$location',
-        '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window',
+        '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window', '$timeout',
         function ($rootScope, $scope, $cookies, $location,
-                  $state, $stateParams, Auth, Alert, $mdSidenav, $window) {
+                  $state, $stateParams, Auth, Alert, $mdSidenav, $window, $timeout) {
 
 
             /**
@@ -20,6 +20,11 @@ define(['../module'], function (controllers) {
             $scope.email = $stateParams.email || '';
             $scope.email_code = $stateParams.code;
 
+
+            $scope.cancelLogin = () =>{
+                $scope.loginLoading = false;
+            };
+
             /**
              *
              * @param login
@@ -33,6 +38,7 @@ define(['../module'], function (controllers) {
                         remember: true
                     }, data => {
                         $rootScope.user = data;
+
                         let redirect = $cookies.get("redirect_on_login");
                         $scope.loginLoading = false;
                         if (redirect != null && redirect.length > 0) {
@@ -77,7 +83,7 @@ define(['../module'], function (controllers) {
                         mailing_list: register.mailing_list.$modelValue,
                         toc: register.toc.$modelValue
                     }, data => {
-                        $state.go('public.email_verify', {email}, {reload: 'public.email_verify'});//If the session is invalid, take to login page.
+                        $state.go('public.auth.email_verify', {email}, {reload: 'public.auth.email_verify'});//If the session is invalid, take to login page.
                     }, (status, message) => {
                         $scope.registerLoading = false;
                         Alert.error(message);
@@ -91,11 +97,24 @@ define(['../module'], function (controllers) {
             };
 
             $scope.requestResetPassword = email => {
-                Auth.requestPasswordReset(email, data => {
-                    Alert.success("An email has been sent to " + email + " if it exists.");
-                }, (status, message) => {
-                    Alert.error(message);
-                });
+                $scope.processingPasswordRequest = true;
+                if (!$scope.processingPasswordRequestDelay) {
+                    $scope.processingPasswordRequestDelay = true;
+                    $timeout(function () {
+                        $scope.processingPasswordRequest = false;
+                    }, 1000 * 10);
+
+                    Auth.requestPasswordReset(email, data => {
+                        Alert.success("An email has been sent to " + email + " if it exists.");
+                        $scope.processingPasswordRequest = false;
+                    }, (status, message) => {
+                        Alert.error(message);
+                        $scope.processingPasswordRequest = false;
+                    });
+                } else {
+                    Alert.error("An email was recently sent, please wait before retrying.");
+
+                }
             };
 
             $scope.resetPassword = forgot_password => {
@@ -106,7 +125,7 @@ define(['../module'], function (controllers) {
                         return;
                     }
                     Auth.submitPasswordReset($stateParams.secure, forgot_password.password.$modelValue, data => {
-                        $state.go('public.login', {}, {reload: 'public.login'});//If the session is invalid, take to login page.
+                        $state.go('public.auth.login', {}, {reload: 'public.auth.login'});//If the session is invalid, take to login page.
                     }, (status, message) => {
                         Alert.error(message);
                     });
@@ -121,13 +140,13 @@ define(['../module'], function (controllers) {
                     code
                 }, data => {
                     Alert.success("Verified email. You may now login.");
-                    $state.go('public.login', {}, {reload: 'public.login'});
+                    $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
                 }, (status, message, messageCode) => {
                     if (messageCode === errorCodes.InvalidParam.id)
                         Alert.error("This code is invalid.");
                     if (messageCode === errorCodes.EmailAlreadyVerified.id) {
                         Alert.error("Email already verified");
-                        $state.go('public.login', {}, {reload: 'public.login'});
+                        $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
                     }
                     else
                         Alert.error("Error: " + message);

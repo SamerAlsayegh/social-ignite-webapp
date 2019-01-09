@@ -26,44 +26,47 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 template: require("compile-ejs-loader!./views/_public/index.ejs")(data),//PublicIndex(data) ,
                 controller: 'publicHomeController',
             })
-            .state('public.login', {
+            .state('public.auth', {
+                template: require("compile-ejs-loader!./views/_public/auth/index.ejs")(data),//PublicIndex(data) ,
+            })
+            .state('public.auth.login', {
                 url: "/login",
                 template: require("compile-ejs-loader!./views/_public/auth/login/view.ejs")(data),//PublicIndex(data),
             })
-            .state('public.register', {
+            .state('public.auth.register', {
                 url: "/register",
                 template: require("compile-ejs-loader!./views/_public/auth/register/view.ejs")(data)
             })
-            .state('public.forgotten_password', {
+            .state('public.auth.forgotten_password', {
                 url: "/forgotten_password?secure",
                 template: require("compile-ejs-loader!./views/_public/auth/forgotten_password/view.ejs")(data)
             })
 
-            .state('public.feedback', {
-                template: require("compile-ejs-loader!./views/_public/feedback/index.ejs")(data)
-            })
-            .state('public.feedback.view', {
-                url: "/feedback",
-                controller: 'feedbackController',
-                template: require("compile-ejs-loader!./views/_public/feedback/_view.ejs")(data)
-            })
+            // .state('public.auth.feedback', {
+            //     template: require("compile-ejs-loader!./views/_public/feedback/index.ejs")(data)
+            // })
+            // .state('public.auth.feedback.view', {
+            //     url: "/feedback",
+            //     controller: 'feedbackController',
+            //     template: require("compile-ejs-loader!./views/_public/feedback/_view.ejs")(data)
+            // })
 
 
-            .state('public.email_verify', {
+            .state('public.auth.email_verify', {
                 url: "/email_verify?email&code",
                 template: require("compile-ejs-loader!./views/_public/auth/emailVerify/view.ejs")(data),
             })
 
-            .state('public.tools', {
-                url: "/free_tools",
-                controller: 'publicToolsController',
-                template: require("compile-ejs-loader!./views/_public/tools/index.ejs")(data)
-            })
-            .state('public.tools.lookup', {
-                url: "/free_tools/lookup",
-                controller: 'publicStatisticsController',
-                template: require("compile-ejs-loader!./views/_public/tools/_lookup.ejs")(data)
-            })
+            // .state('public.tools', {
+            //     url: "/free_tools",
+            //     controller: 'publicToolsController',
+            //     template: require("compile-ejs-loader!./views/_public/tools/index.ejs")(data)
+            // })
+            // .state('public.tools.lookup', {
+            //     url: "/free_tools/lookup",
+            //     controller: 'publicStatisticsController',
+            //     template: require("compile-ejs-loader!./views/_public/tools/_lookup.ejs")(data)
+            // })
 
 
 
