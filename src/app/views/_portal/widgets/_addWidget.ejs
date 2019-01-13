@@ -1,0 +1,58 @@
+<md-card layout-fill class="md-whiteframe-3dp text-center">
+    <md-subheader class="md-primary">Add new Widget</md-subheader>
+    <span layout-align="center center" layout="column" class="text-center md-padding ng-animate">
+        <div class="animate-switch-container" ng-switch="widgetsEditing" ng-animate="'animate'">
+            <div class="animate-switch" ng-switch-when="2" layout="column">
+                <h3>
+                    Widgets are not available for your plan
+                </h3>
+                <span>
+                    Upgrade to get access to more widgets...
+                </span>
+                <i class="zmdi zmdi-widgets zmdi-hc-4x"></i>
+                <md-button href="/billing" class="md-primary">Upgrade</md-button>
+            </div>
+            <div class="animate-switch" ng-switch-default layout="column">
+                <p>
+                    Easily set-up a dashboard you are familiar with.
+                </p>
+                <i class="zmdi zmdi-widgets zmdi-hc-4x"></i>
+                <md-button ng-click="widgetStage(3)" class="md-primary">Add Widget</md-button>
+            </div>
+
+            {{widgetsEditing}}
+            <div class="animate-switch" ng-switch-when="3" layout="column">
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Type</label>
+                    <md-select ng-model="blockType">
+                        <md-option value="unique_visitors">
+                            Unique Visitors
+                        </md-option>
+                        <md-option value="views">
+                            Views
+                        </md-option>
+                        <md-option value="new_followers">
+                            New Followers
+                        </md-option>
+                        <md-option value="Trends">
+                            Trends
+                        </md-option>
+                    </md-select>
+                    <md-button ng-click="widgetStage(1)" class="md-primary">Back</md-button>
+                </md-input-container>
+
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Type</label>
+                    <md-select ng-model="blockPage">
+                        <md-option ng-repeat="page in allPages" value="page._id">
+                            {{page.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+            </div>
+        </div>
+    </span>
+</md-card>

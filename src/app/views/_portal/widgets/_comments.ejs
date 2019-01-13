@@ -1,16 +1,16 @@
 <md-card layout-fill class="md-whiteframe-3dp">
-    <md-subheader class="md-primary" data-as-sortable-item-handle>Comments</md-subheader>
+    <md-subheader class="md-primary text-center" data-as-sortable-item-handle>Comments</md-subheader>
 
     <md-list class="md-dense" flex style="overflow-y: auto;">
         <md-list-item class="md-2-line" ng-if="commentsModel.replies.length == 0" layout-align="center center">
             <span class="md-list-item-text" layout-align="stretch" layout="column">
-                            <h3 layout="row">
-                                    No recent comments.
-                            </h3>
-                            <span layout="row">
-                                <p>Posting more engaging content will create buzz around your posts..</p>
-                            </span>
-                        </span>
+                <h3 layout="row">
+                    No recent comments.
+                </h3>
+                <span layout="row">
+                    <p>Posting more engaging content will create buzz around your posts..</p>
+                </span>
+            </span>
         </md-list-item>
 
 
@@ -25,8 +25,8 @@
                     <small class="gray_text" am-time-ago="reply.posted"></small>
                 </h3>
                 <span>
-                            <p ng-bind="reply.message"></p>
-                        </span>
+                    <p ng-bind="reply.message"></p>
+                </span>
             </md-truncate>
             <md-button class="md-icon-button"
                        ng-if="!allowedActions  || allowedActions[reply.page_id.platform].indexOf('LIKE') != -1"

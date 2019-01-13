@@ -3,15 +3,19 @@
 </script>
 
 <script type="text/ng-template" id="_posts">
-    <%- include ./_posts.ejs %>
+    <%- include ../widgets/_posts.ejs %>
 </script>
 
 <script type="text/ng-template" id="_comments">
-    <%- include ./_comments.ejs %>
+    <%- include ../widgets/_comments.ejs %>
 </script>
 
 <script type="text/ng-template" id="_mentions">
-    <%- include ./_mentions.ejs %>
+    <%- include ../widgets/_mentions.ejs %>
+</script>
+
+<script type="text/ng-template" id="_addWidget">
+    <%- include ../widgets/_addWidget.ejs %>
 </script>
 
 
@@ -28,57 +32,19 @@
         </md-grid-tile>
 
         <md-grid-tile md-rowspan="1" md-colspan="1">
-            <div layout-fill class="md-padding">
-                <md-card layout-align="center center" layout="column" class="md-padding">
-                    <span layout-align="center center" class="text-center">
-                        <i class="zmdi zmdi-widgets zmdi-hc-4x"></i>
-                        <h3>Add a Widget</h3>
-                    </span>
-                </md-card>
-            </div>
+            <span layout-fill ng-include="'_addWidget'">
+            </span>
+
+            <!--<div layout-fill class="md-padding">-->
+                <!--<md-card layout-align="center center" layout="column" style="height: 300px;" class="md-padding">-->
+                    <!--<span layout-align="center center" class="text-center">-->
+                        <!--<i class="zmdi zmdi-widgets zmdi-hc-4x"></i>-->
+                        <!--<h3>Add a Widget</h3>-->
+                    <!--</span>-->
+                <!--</md-card>-->
+            <!--</div>-->
         </md-grid-tile>
 
 
     </md-grid-list>
 </span>
-
-<!--<div layout="column" layout-gt-md="row" layout-wrap >-->
-
-
-<!--<div layout="column" layout-gt-md="row" layout-wrap data-as-sortable="controlListener" data-ng-model="items"-->
-<!--id="dashboard-container">-->
-<!--<div flex="33"  class="md-padding" style="height: 400px;" ng-repeat="item in items">-->
-<!--<span data-as-sortable-item ng-include="item">-->
-<!--</span>-->
-<!--</div>-->
-<!--<div flex="33" layout="column" class="md-padding"  style="height: 400px;">-->
-<!--<md-card class="md-whiteframe-3dp pointer outline-dashboard"-->
-<!--layout="column">-->
-<!--<div layout-align="center center" layout="column" class="md-padding">-->
-<!--<span layout-align="center center" class="text-center">-->
-<!--<i class="zmdi zmdi-widgets zmdi-hc-4x"></i>-->
-<!--<h3>Add a Widget</h3>-->
-<!--</span>-->
-<!--</div>-->
-<!--</md-card>-->
-<!--</div>-->
-
-<!--</div>-->
-
-
-<!--&lt;!&ndash;<div flex="33"  class="md-padding" style="height: 400px;" ng-repeat="item in items">&ndash;&gt;-->
-
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--<div flex="33" layout="column" class="md-padding"  style="height: 400px;">-->
-<!--<md-card class="md-whiteframe-3dp pointer outline-dashboard"-->
-<!--layout="column">-->
-<!--<div layout-align="center center" layout="column" class="md-padding">-->
-<!--<span layout-align="center center" class="text-center">-->
-<!--<i class="zmdi zmdi-widgets zmdi-hc-4x"></i>-->
-<!--<h3>Add a Widget</h3>-->
-<!--</span>-->
-<!--</div>-->
-<!--</md-card>-->
-<!--</div>-->
-
-<!--</div>-->

@@ -17,7 +17,6 @@ define(['../../module'], controllers => {
                 Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail, 4000);
                 $state.go($state.current.name, {fail: null}, {reload: true});
             }
-            $rootScope.allPages = [];
             $scope.platformFilter = null;
             $scope.socialPlatformDetails = [];
             $scope.pagesModel = {
@@ -91,11 +90,8 @@ define(['../../module'], controllers => {
                 });
             };
 
-            $scope.reorderPages = sortOrder => {
 
-            };
-
-            $scope.loadMoreSocialPages();
+            // $scope.loadMoreSocialPages();
 
 
             $scope.togglePlatformFilter = platform => {

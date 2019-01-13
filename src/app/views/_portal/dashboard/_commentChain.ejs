@@ -47,14 +47,16 @@
                       rows="2" md-select-on-focus></textarea>
         </md-input-container>
         <md-button type="submit" class="md-primary md-raised md-padding"
-                   ng-click="postComment(socialComment)">Post</md-button>
+                   ng-click="postComment(socialComment)">Post
+        </md-button>
     </span>
     <span layout-fill layout="column" ng-if="!socialComment.hide">
         <span ng-if="socialComment.remaining > 0" layout="column"
-             layout-align="stretch">
+              layout-align="stretch">
             <md-button
                     ng-click="loadReplies(socialComment, socialComment.parent_post, socialComment._id, socialComment.replies[0].posted)"
-                    md-no-ink class="md-primary">Load previous...</md-button>
+                    md-no-ink class="md-primary">Load previous...
+            </md-button>
         </span>
         <span class="sub_comment"
               ng-repeat="socialComment in socialComment.replies"

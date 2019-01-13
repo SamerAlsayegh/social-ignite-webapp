@@ -1,0 +1,53 @@
+<md-card class="md-whiteframe-3dp" ng-if="loadedCard['analysis']">
+    <md-subheader class="md-primary text-center" >Audience Outlook (Demo)</md-subheader>
+    <span layout="column" class="text-center">
+        <span class="md-padding" style="border: dotted 1px rgba(0,0,0,0.3); position: relative;">
+            <span layout="row">
+                <span class="md-success-override" style="display:block; height: 70px;" flex="5">
+                    <p style="bottom: -38%; position:relative;" class="rotate">Positive</p>
+                </span>
+                <span layout="row" flex>
+                    <span class="md-success-override" style="height: 70px;"
+                          flex="{{::page_data.statistic.analysis.positive}}" layout="row">
+                        <div flex></div>
+                        <h4 style="color: #fff;" class="rotate">{{page_data.statistic.analysis.positive}}</h4>
+                    </span>
+                    <span class="md-success-override" style="height: 70px; opacity: 0.2;" flex>
+                    </span>
+                </span>
+            </span>
+        </span>
+        <span class="md-padding" style="border: dotted 1px rgba(0,0,0,0.3)">
+            <span layout="row">
+                <span class="md-warn-override" style="display:block; height: 70px;" flex="5">
+                    <p style="bottom: -44%; position:relative;" class="rotate">Negative</p>
+                </span>
+                <span layout="row" flex>
+                    <span class="md-warn-override" style="height: 70px;"
+                          flex="{{::page_data.statistic.analysis.negative}}" layout="row">
+                        <div flex></div>
+                        <h4 style="color: #fff;" class="rotate">{{page_data.statistic.analysis.negative}}</h4>
+                    </span>
+                    <span class="md-warn-override" style="height: 70px; opacity: 0.2;" flex>
+                    </span>
+                </span>
+            </span>
+        </span>
+        <span class="md-padding" style="border: dotted 1px rgba(0,0,0,0.3)">
+            <span layout="row">
+                <span class="md-info-override" style="display:block; height: 70px;" flex="5">
+                    <p style="bottom: -35%; position:relative;" class="rotate">Neutral</p>
+                </span>
+                <span layout="row" flex>
+                    <span class="md-info-override" style="height: 70px;"
+                          flex="{{::page_data.statistic.analysis.neutral}}" layout="row">
+                        <div flex></div>
+                        <h4 style="color: #fff;" class="rotate">{{page_data.statistic.analysis.neutral}}</h4>
+                    </span>
+                    <span class="md-info-override" style="height: 70px; opacity: 0.2;" flex>
+                    </span>
+                </span>
+            </span>
+        </span>
+    </span>
+</md-card>

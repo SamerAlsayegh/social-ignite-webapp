@@ -15,7 +15,7 @@ define(['../../module'], controllers => {
             });
             $scope.editSocialStack = stackId => {
                 $mdDialog.show({
-                    locals: {stackId, platforms: $scope.platforms},
+                    locals: {stackId, platforms: $scope.platforms, theme: $scope.theme},
                     controller: 'socialStackDialogController',
                     template: require("compile-ejs-loader!views/_portal/accounts/_socialStacksDialog.ejs")(),
                     parent: angular.element(document.body),

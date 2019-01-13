@@ -1,55 +1,57 @@
-<div ng-if="loginLoading" layout="column">
-    <h1 class="text-center">Logging in...</h1>
-    <div class="md-padding">
-        <div class="hr-both"></div>
-    </div>
-    <md-button disabled flex>
-        <i class="zmdi continious_rotation zmdi-refresh-sync md-padding zmdi-hc-5x"></i>
-    </md-button>
-    <br>
-    <div>
-        Is it taking a while? <a ng-click="cancelLogin()">Click here to cancel.</a>
-    </div>
-</div>
-
-<div ng-if="!loginLoading">
-
-    <form name="login" ng-submit="loginForm(login)" method="post" id="login">
+<div class="animate-switch-container" ng-switch on="loginLoading" ng-animate="'animate'">
+    <div class="animate-switch" ng-switch-when="true" layout="column">
+        <h1 class="text-center">Logging in...</h1>
+        <div class="md-padding">
+            <div class="hr-both"></div>
+        </div>
+        <md-button disabled flex>
+            <i class="zmdi continious_rotation zmdi-refresh-sync md-padding zmdi-hc-5x"></i>
+        </md-button>
+        <br>
         <div class="text-center">
-            Don't have an account? <strong><a href="/register" class="label md-primary">Click here.</a></strong>
+            Is it taking a while? <a ng-click="cancelLogin()">Click here to cancel.</a>
         </div>
+    </div>
 
-        <span layout="row" class="md-padding" layout-align="center center">
-            <md-button ng-click="loginWithFacebook()" class="ui-social-button ui-facebook md-padding" flex>
-                <i class="zmdi zmdi-facebook md-padding zmdi-hc-lg"></i>
-                <span class="md-padding">Login through Facebook</span>
-            </md-button>
-        </span>
+    <div class="animate-switch" ng-switch-default>
 
-        <md-input-container class="md-block">
-            <label>Email Address</label>
-            <input name="email" ng-model="email" required type="email">
-            <div ng-messages="login.email.$error">
-                <div ng-message="email">The email must be in valid format.</div>
+        <form name="login" ng-submit="loginForm(login)" method="post" id="login">
+            <div class="text-center">
+                Don't have an account? <strong><a href="/register" class="label md-primary">Click here.</a></strong>
             </div>
-        </md-input-container>
+
+            <span layout="row" class="md-padding" layout-align="center center">
+                <md-button ng-click="loginWithFacebook()" class="ui-social-button ui-facebook md-padding" flex>
+                    <i class="zmdi zmdi-facebook md-padding zmdi-hc-lg"></i>
+                    <span class="md-padding">Login through Facebook</span>
+                </md-button>
+            </span>
+
+            <md-input-container class="md-block">
+                <label>Email Address</label>
+                <input name="email" ng-model="email" required type="email">
+                <div ng-messages="login.email.$error">
+                    <div ng-message="email">The email must be in valid format.</div>
+                </div>
+            </md-input-container>
 
 
-        <md-input-container class="md-block">
-            <label>Password</label>
-            <input type="password" ng-model="password" required name="password">
-        </md-input-container>
-        <div class="text-center md-padding" ng-if="forgotPassword == true">
-            Forgot password? <a href="/" ng-click="requestResetPassword(email)" class="label md-primary">Click
-                here to reset..</a>
-        </div>
-        <!--<md-input-container class="md-block">-->
-        <!--<md-checkbox class="md-primary" name="remember">-->
-        <!--Remember Password for 30 days?-->
-        <!--</md-checkbox>-->
-        <!--</md-input-container>-->
-        <div layout="column" layout-align="stretch">
-            <md-button type="submit" ng-disabled="!login.$valid" class="md-primary md-raised">Login</md-button>
-        </div>
-    </form>
+            <md-input-container class="md-block">
+                <label>Password</label>
+                <input type="password" ng-model="password" required name="password">
+            </md-input-container>
+            <div class="text-center md-padding" ng-if="forgotPassword == true">
+                Forgot password? <a href="/" ng-click="requestResetPassword(email)" class="label md-primary">Click
+                    here to reset..</a>
+            </div>
+            <!--<md-input-container class="md-block">-->
+            <!--<md-checkbox class="md-primary" name="remember">-->
+            <!--Remember Password for 30 days?-->
+            <!--</md-checkbox>-->
+            <!--</md-input-container>-->
+            <div layout="column" layout-align="stretch">
+                <md-button type="submit" ng-disabled="!login.$valid" class="md-primary md-raised">Login</md-button>
+            </div>
+        </form>
+    </div>
 </div>

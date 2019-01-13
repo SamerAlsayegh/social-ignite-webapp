@@ -1,5 +1,5 @@
 define(['../../module'], controllers => {
-    return controllers.controller('socialStackDialogController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog', 'stackId', 'platforms',
+    return controllers.controller('socialStackDialogController', ['$rootScope', '$scope', 'SocialStacks', 'Alert', 'SocialAccounts', '$mdDialog', 'stackId', 'platforms', 'theme',
         function (
             $rootScope,
             $scope,
@@ -8,12 +8,13 @@ define(['../../module'], controllers => {
             SocialAccounts,
             $mdDialog,
             stackId,
-            platforms
+            platforms,
+            theme
         ){
             $scope.platforms = platforms;
-            $scope.data = {
-                socialPages: []
-            };
+            $scope.selectedPages = [];
+            $scope.theme = theme;
+            $scope.allPages = $rootScope.allPages;
 
             $scope.deleteStack = () => {
                 SocialStacks.deleteSocialStack(stackId, message => {
@@ -29,30 +30,18 @@ define(['../../module'], controllers => {
                     let socialPages = [];
                     for (let item = 0; item < data.pages.pages.length; item++)
                         socialPages.push(data.pages.pages[item]._id)
-                    $scope.data.socialPages = socialPages;
+                    $scope.selectedPages = socialPages;
                 }, (status, message) => {
                     Alert.error(message);
                 });
             }
 
 
-            SocialAccounts.getSocialAccounts(null, null, data => {
-                $scope.allPages = data.pages;
-            }, (status, message) => {
-                Alert.error(message);
-            });
-
-            $scope.togglePage = socialPageId => {
-                if ($scope.data.socialPages.indexOf(socialPageId) === -1)
-                    $scope.data.socialPages.push(socialPageId);
-                else
-                    $scope.data.socialPages.splice($scope.data.socialPages.indexOf(socialPageId), 1);
-            };
 
             $scope.submitPages = () => {
                 if ($scope.data._id == null) {
                     SocialStacks.addSocialStack($scope.data.name,
-                        $scope.data.socialPages,
+                        $scope.selectedPages,
                         message => {
                             Alert.success("Successfully triggered update.");
                             $mdDialog.hide({state: "ADD", data: message});
@@ -62,7 +51,7 @@ define(['../../module'], controllers => {
                 } else {
                     SocialStacks.updateSocialStack($scope.data._id,
                         $scope.data.name,
-                        $scope.data.socialPages,
+                        $scope.selectedPages,
                         message => {
                             Alert.success("Successfully triggered update.");
                             $mdDialog.hide({state: "EDIT", data: message});

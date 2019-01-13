@@ -1,0 +1,16 @@
+<md-card class="md-whiteframe-3dp" ng-if="enabledCard['f_analysis_age']">
+    <md-subheader class="md-primary text-center" >Fans Analysis (Age)</md-subheader>
+
+    <!--<div id="tester" style="max-height: 300px; min-height: 300px;" class="md-padding"></div>-->
+
+    <span class="md-padding text-center" ng-if="!loadedCard['f_analysis_age']">
+        <h3>Loading data...</h3>
+        <md-button disabled flex>
+            <i class="zmdi continious_rotation zmdi-refresh-sync md-padding zmdi-hc-5x"></i>
+        </md-button>
+    </span>
+    <span class="md-padding" ng-show="loadedCard['f_analysis_age']">
+        <canvas flex id="audienceAgeChart" flex-grow style="min-height: 200px !important;"
+                layout="row"></canvas>
+    </span>
+</md-card>

@@ -23,10 +23,12 @@ define(['../../module'], controllers => {
                     open: {
                         page_id: socialPage
                     }
-                }
+                };
+
                 $scope.allowedActions = allowedActions;
                 console.log($scope.allowedActions);
                 $scope.postComment = reply => {
+                    if (!$scope.permissions.post_manage_reply) return Alert.error("Please upgrade to a plan that offers ability to reply.");
                     if (!reply.comment || !reply._id) return;
                     Action.postComment({reply_id: reply._id, reply: reply.comment},
                         data => {
@@ -73,6 +75,8 @@ define(['../../module'], controllers => {
                 };
 
                 $scope.deleteComment = reply => {
+                    if (!$scope.permissions.post_manage_delete) return Alert.error("Please upgrade to a plan that offers ability to delete.");
+
                     reply.deleted = true;
                     Action.deleteComment({reply_id: reply._id}, data => {
                         Alert.success("Deleted selected comment", 600);

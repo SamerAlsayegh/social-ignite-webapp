@@ -24,10 +24,10 @@ require("angular-sanitize");
 require("angular-google-analytics");
 
 require("ng-file-upload");
+require("ng-password-meter/dist/ng-password-meter")
+
 
 require("chart.js");
-// require ("");
-
 
 // require("script-loader!angular-dragdrop");
 
@@ -57,13 +57,12 @@ function _interopRequireDefault(obj) {
 
 window['moment'] = _moment2.default;
 // window['Plotly'] = Plotly;
-
 // require('plotly.js-dist');
 
 require('angular-moment-picker');
 // require("script-loader!draggabilly/dist/draggabilly.pkgd.js");
 
-// import exec from 'script-loader!./script.js';
+
 _moment2.default.locale('en');
 
 exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.controllers',
@@ -82,9 +81,9 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     'ui.router',
     'angularMoment',
     'vkEmojiPicker',
-    'angular-intro', require('ng-sortable')]).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', ($mdThemingProvider,
+    'angular-intro', require('ng-sortable'), 'ngPasswordMeter']).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', ($mdThemingProvider,
                                                                                                                                                                                          _ref,
-                                                                                                                                                                                         $mdGestureProvider,
+                                                                                                                                                                                          $mdGestureProvider,
                                                                                                                                                                                          AnalyticsProvider,
                                                                                                                                                                                          momentPickerProvider,
                                                                                                                                                                                          $sceDelegateProvider) => {
@@ -126,30 +125,30 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
         window.wdtLoading.done();
         Analytics.trackPage($location.path());
         // console.log("finished");
-        if (cached === false && transition.to().name.startsWith("portal")) {
-            cached = true;
-            $rootScope.$evalAsync(() => {
-                let url = void 0;
-
-                function preload(v) {
-                    if (v.preload) {
-                        if (url = v.templateUrl) {
-                            $http.get(url, {cache: $templateCache});
-                        }
-                    }
-                    // state has multiple views. See if they need to be preloaded.
-                    if (v.views) {
-                        for (let i in v.views) {
-                            // I have seen views with a views property.
-                            // Not sure if it's standard but won't hurt to support them
-                            preload(v.views[i]);
-                        }
-                    }
-                }
-
-                $state.get().forEach(preload);
-            });
-        }
+        // if (cached === false && transition.to().name.startsWith("portal")) {
+        //     cached = true;
+        //     $rootScope.$evalAsync(() => {
+        //         let url = void 0;
+        //
+        //         function preload(v) {
+        //             if (v.preload) {
+        //                 if (url = v.templateUrl) {
+        //                     $http.get(url, {cache: $templateCache});
+        //                 }
+        //             }
+        //             // state has multiple views. See if they need to be preloaded.
+        //             if (v.views) {
+        //                 for (let i in v.views) {
+        //                     // I have seen views with a views property.
+        //                     // Not sure if it's standard but won't hurt to support them
+        //                     preload(v.views[i]);
+        //                 }
+        //             }
+        //         }
+        //
+        //         $state.get().forEach(preload);
+        //     });
+        // }
     });
 
     moment.locale('en_long', {
@@ -177,7 +176,7 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
                 if (!loggedIn) {
                     console.log("Redirecting from portal to public");
                     $cookies.put("redirect_on_login", transition.to().name);
-                    $state.go('public.auth.login');
+                    $state.go('public.auth.register');
                     reject();
                 } else resolve();
             });

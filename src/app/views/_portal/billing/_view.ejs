@@ -42,43 +42,85 @@
             <notification-card type="info" ng-if="subscription">
                 <p>Subscribing to any new package will automatically upgrade current package and charge only the difference for the initial month.</p>
             </notification-card>
-            <span ng-if="!loading || chosenPackage != null" layout-padding
-                  layout="{{chosenPackage != null ? 'column' : 'row'}}">
-                <md-card ng-repeat="package in packages"
+            <div ng-if="!loading || chosenPackage != null"
+                  layout="{{chosenPackage != null ? 'column' : 'row'}}" class="pricing-table md-padding" layout-align="center center">
+
+                 <md-card ng-repeat="package in packages"
                          ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package"
-                         ng-click="subscribePackage(package.internal_name)"
-                         class="package-card" layout="column">
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-headline">{{package.name}}</span>
-                            <span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>
+                         ng-click="subscribePackage(package.internal_name)"  class="pricing-option md-padding md-whiteframe-3dp">
+                        <h1>{{package.name}}</h1>
+                        <hr />
+                        <li style="list-style: none;" ng-repeat="feature in package.features">{{feature}}</li>
 
-                            <span flex layout="column" layout-align="start">
-                                <ul flex>
-                                    <li ng-repeat="feature in package.features">{{feature}}</li>
-                                </ul>
-                            </span>
+                        <hr />
+                        <div class="price">
+                            <div class="front">
+                                <span class="price">{{package.cost.value | currency}} <b>/{{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</b></span>
+                            </div>
+                            <div class="back">
+                                <a href="#" class="button">
+                                    Subscribe via PayPal
+                                    <!--<button class="paypal-button">-->
+                                        <!--<span class="paypal-button-title">-->
+                                            <!--Subscribe via-->
+                                        <!--</span>-->
+                                        <!--<span class="paypal-logo">-->
+                                            <!--<i>Pay</i><i>Pal</i>-->
+                                        <!--</span>-->
+                                    <!--</button>-->
+                                </a>
+                            </div>
 
-                        </md-card-title-text>
-                        <md-card-title-media>
-                        </md-card-title-media>
-                    </md-card-title>
-                    <md-card-actions layout="column" ng-if="chosenPackage == null" layout-align="stretch">
-                        <div class="box">
-                            <button class="paypal-button">
-                                <span class="paypal-button-title">
-                                    Subscribe via
-                                </span>
-                                <span class="paypal-logo">
-                                    <i>Pay</i><i>Pal</i>
-                                </span>
-                            </button>
-                            <!--<small class="text-center">* Renews every 30 days, until cancelled.</small>-->
+
+                            <!--<div class="front">-->
+                                <!--<span class="price">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>-->
+                            <!--</div>-->
+                            <!--<div class="back">-->
+                                <!--<button class="paypal-button">-->
+                                    <!--<span class="paypal-button-title">-->
+                                        <!--Subscribe via-->
+                                    <!--</span>-->
+                                    <!--<span class="paypal-logo">-->
+                                        <!--<i>Pay</i><i>Pal</i>-->
+                                    <!--</span>-->
+                                <!--</button>-->
+                            <!--</div>-->
                         </div>
-                    </md-card-actions>
-                </md-card>
-            </span>
-            <span ng-if="loading" layout="column">
+                    </md-card>
+
+                <!--<md-card -->
+                         <!--class="package-card" layout="column">-->
+                    <!--<md-card-title>-->
+                        <!--<md-card-title-text>-->
+                            <!--<span class="md-headline">{{package.name}}</span>-->
+                            <!--<span class="md-subhead">{{package.cost.value | currency}} per {{(package.expiry.interval == 1 ? '' : package.expiry.interval + ' ') + package.expiry.type}}</span>-->
+
+                            <!--<span flex layout="column" layout-align="start">-->
+                                <!--<ul flex>-->
+                                    <!--<li ng-repeat="feature in package.features">{{feature}}</li>-->
+                                <!--</ul>-->
+                            <!--</span>-->
+
+                        <!--</md-card-title-text>-->
+                        <!--<md-card-title-media>-->
+                        <!--</md-card-title-media>-->
+                    <!--</md-card-title>-->
+                    <!--<md-card-actions layout="column" ng-if="chosenPackage == null" layout-align="stretch">-->
+                        <!--<div class="box">-->
+                            <!--<button class="paypal-button">-->
+                                <!--<span class="paypal-button-title">-->
+                                    <!--Subscribe via-->
+                                <!--</span>-->
+                                <!--<span class="paypal-logo">-->
+                                    <!--<i>Pay</i><i>Pal</i>-->
+                                <!--</span>-->
+                            <!--</button>-->
+                            <!--&lt;!&ndash;<small class="text-center">* Renews every 30 days, until cancelled.</small>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</md-card-actions>-->
+                <!--</md-card>-->
+            </div>
+            <span ng-if="loading" layout="column" layout-align="center center">
                 <div layout="row">
                     <span>
                         <i class="zmdi zmdi-refresh-sync md-padding zmdi-hc-2x continious_rotation"></i>

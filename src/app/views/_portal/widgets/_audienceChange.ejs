@@ -1,0 +1,18 @@
+<md-card class="md-whiteframe-3dp" ng-if="enabledCard['audience_change']">
+    <md-subheader class="md-primary text-center">Audience Change</md-subheader>
+
+    <span class="md-padding text-center" ng-if="!loadedCard['audience_change']">
+        <h3>Loading data...</h3>
+        <md-button disabled flex>
+            <i class="zmdi continious_rotation zmdi-refresh-sync md-padding zmdi-hc-5x"></i>
+        </md-button>
+    </span>
+    <span class="md-padding" ng-if="loadedCard['audience_change']">
+        <span layout-wrap class="text-center">
+            <h2 ng-if="recent_change_1">Recent {{recent_change_1}}% (24h)</h2>
+            <h2 ng-if="recent_change_7">Past 7 days {{recent_change_7}}%</h2>
+            <h2 ng-if="!recent_change_7 && !recent_change_1">No analysis available yet.</h2>
+            <h3 ng-if="!recent_change_7 && !recent_change_1">Please wait at least a day.</h3>
+        </span>
+    </span>
+</md-card>

@@ -296,7 +296,7 @@ define(['../module'], controllers => {
 
                         });
                     // $state.go('portal.schedule.edit', {postId: previousId});
-                };
+                };  
 
 
                 $rootScope.deletePost = socialPostId => {
@@ -335,7 +335,6 @@ define(['../module'], controllers => {
                 $scope.items.push('_mentions');
                 $scope.items.push('_comments');
                 $scope.items.push('_posts');
-
 
 
                 // var draggie = new Draggabilly('.draggable', {

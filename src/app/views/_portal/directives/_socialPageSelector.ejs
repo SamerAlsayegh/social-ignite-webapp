@@ -1,0 +1,36 @@
+<md-card flex="30" layout="column" class="md-whiteframe-3dp md-padding" ng-init="filterName = {}">
+    <!--Pages Listed here-->
+    <span layout="column">
+        <span ng-if="socialPages.length > 4" layout-align="stretch" layout="row">
+            <md-input-container md-no-float flex class=" md-block">
+                <!-- Use floating label instead of placeholder -->
+                <md-icon class="zmdi zmdi-search zmdi-hc-lg"></md-icon>
+                <input ng-model="filterName.name" placeholder="Search accounts by name"
+                       type="text">
+            </md-input-container>
+        </span>
+        <md-list layout="column" flex style="max-height: 200px; overflow-y: auto;">
+            <md-list-item ng-repeat="pageInfo in filteredPages = (socialPages | filter: filterName) "
+                          ng-click="togglePage(pageInfo._id);">
+                <!--<md-button-->
+                        <!--class="md-fab md-mini ui-social ui-{{platforms[pageInfo.platform].id}}"-->
+                        <!--aria-label=platform>-->
+                    <!--<md-tooltip md-direction="top"-->
+                                <!--ng-bind="platforms[pageInfo.platform].id"></md-tooltip>-->
+                    <!--<i class="zmdi zmdi-{{platforms[pageInfo.platform].id}}"></i>-->
+                <!--</md-button>-->
+                <social-page-avatar social-page="pageInfo" platforms="platforms"></social-page-avatar>
+
+
+                <small flex> {{ pageInfo.name }}</small>
+                <md-checkbox class="md-primary"
+                             ng-checked="selected.indexOf(pageInfo._id) != -1"></md-checkbox>
+            </md-list-item>
+            <md-list-item ng-if="filteredPages.length == 0">
+                <span>
+                    No pages were found.
+                </span>
+            </md-list-item>
+        </md-list>
+    </span>
+</md-card>

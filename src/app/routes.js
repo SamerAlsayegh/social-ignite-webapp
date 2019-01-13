@@ -69,8 +69,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             // })
 
 
-
-
             /**
              * Portal related routes
              */
@@ -81,7 +79,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 controller: 'portalHomeController',
             })
             .state('portal.home', {
-                preload: true,
                 url: "/",
                 controller: 'dashboardController',
                 template: require("compile-ejs-loader!./views/_portal/dashboard/index.ejs")(data)
@@ -93,7 +90,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             })
 
             .state('portal.profile', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/profile/index.ejs")(data),
             })
             .state('portal.profile.delete', {
@@ -102,7 +98,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 template: require("compile-ejs-loader!./views/_portal/profile/_view.ejs")(data)
             })
             .state('portal.profile.view', {
-                preload: true,
                 url: "/profile?tab",
                 controller: 'profileController',
                 template: require("compile-ejs-loader!./views/_portal/profile/_view.ejs")(data)
@@ -112,12 +107,10 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             })
 
             .state('portal.resources', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/resources/index.ejs")(data),
                 controller: 'resourcesController',
             })
             .state('portal.resources.view', {
-                preload: true,
                 url: "/resources",
                 template: require("compile-ejs-loader!./views/_portal/resources/_view.ejs")(data),
                 params: {
@@ -127,32 +120,27 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 }
             })
             .state('portal.resources.manage', {
-                preload: true,
                 url: "/resources/manage",
                 template: require("compile-ejs-loader!./views/_portal/resources/_manage.ejs")(data)
             })
 
 
             .state('portal.profile.billing', {
-                preload: true,
                 controller: 'billingController',
                 template: require("compile-ejs-loader!./views/_portal/billing/index.ejs")(data)
             })
 
             .state('portal.profile.billing.home', {
-                preload: true,
                 url: "/billing?package?tab?pending",
                 template: require("compile-ejs-loader!./views/_portal/billing/_view.ejs")(data)
             })
 
 
             .state('portal.accounts', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/accounts/index.ejs")(data),
                 controller: 'accountController',
             })
             .state('portal.accounts.home', {
-                preload: true,
                 url: "/accounts?fail",
                 template: require("compile-ejs-loader!./views/_portal/accounts/_table.ejs")(data),
             })
@@ -194,12 +182,10 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
 
             .state('portal.schedule', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/schedule/index.ejs")(data),
                 controller: 'scheduleController'
             })
             .state('portal.schedule.table', {
-                preload: true,
                 url: "/schedule?tab",
                 template: require("compile-ejs-loader!./views/_portal/schedule/_table.ejs")(data),
                 params: {
@@ -242,17 +228,14 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
 
             .state('portal.statistics', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/statistics/index.ejs")(data),
             })
             .state('portal.statistics.page_list', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/statistics/page/_view.ejs")(data),
                 controller: 'pageStatisticsController',
                 url: "/statistics"
             })
             .state('portal.statistics.page_detail', {
-                preload: true,
                 template: require("compile-ejs-loader!./views/_portal/statistics/page/_detail.ejs")(data),
                 controller: 'pageStatisticsDetailController',
                 url: "/statistics/:pageId",
@@ -262,7 +245,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
             })
 
             .state('portal.statistics.post_list', {
-                preload: true,
                 controller: 'postStatisticsController',
                 url: "/statistics/post/:postId",
                 template: require("compile-ejs-loader!./views/_portal/statistics/post/_view.ejs")(data),
@@ -272,7 +254,6 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 }
             })
             .state('portal.statistics.post_detail', {
-                preload: true,
                 controller: 'postStatisticsDetailController',
                 url: "/statistics/post/:postId/:socialPostId",
                 template: require("compile-ejs-loader!./views/_portal/statistics/post/_detail.ejs")(data),

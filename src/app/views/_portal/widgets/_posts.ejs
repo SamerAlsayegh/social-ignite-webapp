@@ -1,5 +1,5 @@
 <md-card layout-fill class="md-whiteframe-3dp">
-    <md-subheader class="md-primary" data-as-sortable-item-handle>Posts</md-subheader>
+    <md-subheader class="md-primary text-center" data-as-sortable-item-handle>Posts</md-subheader>
 
 
     <div style="overflow-y: auto;">
@@ -26,7 +26,10 @@
                          style="max-height: 100%; overflow-y: auto;">
                     <md-list-item ng-repeat="socialPost in socialPostMain.social_post"
                                   ng-click="socialPostMain.open = socialPost">
-                        <span><social-page-avatar social-page="socialPost.page_id" platforms="platforms"></social-page-avatar></span>
+                        <span>
+                            <social-page-avatar social-page="socialPost.page_id"
+                                                platforms="platforms"></social-page-avatar>
+                        </span>
                         <p style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPost.page_id.name }}</p>
                     </md-list-item>
                 </md-list>
@@ -38,7 +41,8 @@
                     </div>
                     <div flex>
                         <div layout="row">
-                            <social-page-avatar class="md-padding" social-page="socialPostMain.open.page_id" platforms="platforms"></social-page-avatar>
+                            <social-page-avatar class="md-padding" social-page="socialPostMain.open.page_id"
+                                                platforms="platforms"></social-page-avatar>
                             <div layout="column" layout-align="center start">
                                 <h3 ng-bind="socialPostMain.open.page_id.name"></h3>
                             </div>
@@ -65,11 +69,13 @@
                             <small class="gray_text" am-time-ago="socialPostMain.post_time"></small>
                         </md-button>
 
-                        <md-button disabled aria-label="{{(socialPostMain.open.statistic.likes.total != null ?  socialPostMain.open.statistic.likes.total : 0)}}">
+                        <md-button disabled
+                                   aria-label="{{(socialPostMain.open.statistic.likes.total != null ?  socialPostMain.open.statistic.likes.total : 0)}}">
                             <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>
                             <span ng-bind="socialPostMain.open.statistic.likes.total || 0"></span>
                         </md-button>
-                        <md-button disabled aria-label="{{(socialPostMain.open.replies != null ? socialPostMain.open.replies.length  : 0)}}">
+                        <md-button disabled
+                                   aria-label="{{(socialPostMain.open.replies != null ? socialPostMain.open.replies.length  : 0)}}">
                             <i class="zmdi zmdi-comment zmdi-hc-lg"></i>
                             <span ng-bind="(socialPostMain.open.replies != null ? socialPostMain.open.replies.length  : 0)"></span>
                         </md-button>
@@ -91,5 +97,5 @@
                 </md-list>
             </span>
         </md-card>
-    </span>
+    </div>
 </md-card>

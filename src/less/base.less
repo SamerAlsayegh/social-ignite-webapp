@@ -11,6 +11,8 @@
 @import 'components/wdtLoading';
 @import 'components/ng-sortable';
 @import 'components/ng-sortable.style.less';
+@import 'components/ng-password-meter.less';
+@import 'components/pricing_tables';
 
 @mdb-input-placeholder-color: #000;
 
@@ -784,6 +786,11 @@ md-sidenav {
 
   height: 30px;
 }
+.large-profile-image {
+  width: auto;
+  height: 75px;
+}
+
 
 .expand-on-hover-page-list:hover,.expand-on-hover-page-list:active {
   width: 100%;
@@ -818,4 +825,22 @@ md-sidenav {
   background: radial-gradient(ellipse at center, #40a8f4 0%,#34a1ef 50%,#40a8f4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40a8f4', endColorstr='#40a8f4',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
   color: #fff !important;
+}
+
+
+
+
+.animate-switch.ng-animate {
+  -webkit-transition:all linear 1s;
+  transition:all linear 1s;
+}
+.animate-switch.ng-leave,
+.animate-switch.ng-leave.ng-leave-active{
+  display:none;
+}
+.animate-switch.ng-enter {
+  opacity: 0;
+}
+.animate-switch.ng-enter.ng-enter-active {
+  opacity:1;
 }

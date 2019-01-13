@@ -14,29 +14,28 @@
         <table md-table md-row-select ng-model="stacksModel.selected">
             <thead md-head md-order="stacksModel.order">
             <tr md-row>
-                <th md-column>Name</th>
+                <th md-column>Brand</th>
                 <th md-column>Pages</th>
                 <th md-column>Management</th>
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="socialStack in socialStacks | filter: filterName"
+            <tr md-row ng-repeat="socialStack in filteredStacks = (socialStacks | filter: filterName) "
                 ng-click="editSocialStack(socialStack._id)">
                 <td md-cell>{{socialStack.name}}</td>
                 <td md-cell>
-                    <md-button
-                            ng-repeat="socialPage in socialStack.pages.pages"
-                            class="md-fab md-mini ui-social ui-{{platforms[socialPage.platform].id}}"
-                            aria-label=platform>
-                        <md-tooltip md-direction="top" ng-bind="socialPage.name"></md-tooltip>
-                        <i class="zmdi zmdi-{{platforms[socialPage.platform].id}}"></i>
-                    </md-button>
+                    <span ng-repeat="pageInfo in socialStack.pages">
+                        <social-page-avatar  social-page="pageInfo" platforms="platforms"></social-page-avatar>
+                    </span>
                 </td>
                 <td md-cell>
                     <span flex></span>
                     <md-button flex="30" class="md-primary" ng-click="null">Edit
                     </md-button>
                 </td>
+            </tr>
+            <tr md-row ng-if="filteredStacks.length == 0">
+                <td md-cell>Manage accounts under a brand by grouping them into a stack</td>
             </tr>
             </tbody>
         </table>

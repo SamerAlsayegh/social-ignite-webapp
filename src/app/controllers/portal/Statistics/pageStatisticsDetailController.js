@@ -57,13 +57,13 @@ define(['../../module'], controllers => {
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillStyle = 'grey';
-                        ctx.font = "48px Arial";
-                        ctx.fillText('Loading data', width / 2, (height / 2) - 50);
+                        ctx.font = (height)/10+"px Arial";
+                        ctx.fillText('Loading data', width / 2, (height / 2) - 25);
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillStyle = 'grey';
-                        ctx.font = "22px Arial";
-                        ctx.fillText('Please wait...', width / 2, (height / 2) + 50);
+                        ctx.font = (height)/20+"px Arial";
+                        ctx.fillText('Please wait...', width / 2, (height / 2) + 25);
                         ctx.restore();
                     } else if (chart.data.datasets[0].data.length < 2) {
                         let ctx = chart.chart.ctx;
@@ -74,13 +74,13 @@ define(['../../module'], controllers => {
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillStyle = 'grey';
-                        ctx.font = "48px Arial";
-                        ctx.fillText('No data for display', width / 2, (height / 2) - 50);
+                        ctx.font = (height)/10+"px Arial";
+                        ctx.fillText('No data for display', width / 2, (height / 2) - 25);
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
                         ctx.fillStyle = 'grey';
-                        ctx.font = "22px Arial";
-                        ctx.fillText('Check back later as we collect some.', width / 2, (height / 2) + 50);
+                        ctx.font = (height)/20+"px Arial";
+                        ctx.fillText('Check back later as we collect some.', width / 2, (height / 2) + 25);
                         ctx.restore();
                     }
                 }

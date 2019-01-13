@@ -12,6 +12,7 @@ define(['../../module'], controllers => {
                 $mdSidenav,
                 $mdDialog
             ) {
+                $scope.widgetsEditing = 1;
                 $scope.comments = {};
                 $scope.toggleMenu = () => {
                     $mdSidenav('left').toggle()
@@ -82,7 +83,7 @@ define(['../../module'], controllers => {
                             'allowedActions': $scope.allowedActions
                         },
                         controller: 'conversationDialogController',
-                        template: require("compile-ejs-loader!views/_portal/dashboard/_conversation.ejs")(),
+                        template: require("compile-ejs-loader!views/_portal/widgets/_conversation.ejs")(),
                         parent: angular.element(document.body),
                         clickOutsideToClose: true,
                         fullscreen: true // Only for -xs, -sm breakpoints.
@@ -109,6 +110,10 @@ define(['../../module'], controllers => {
 
                 $scope.loadReplies($scope.commentsModel, null, null, null);
 
+                $scope.widgetStage = function (stage) {
+                    console.log("ok")
+                    $scope.widgetsEditing = stage;
+                }
 
             }]);
 });

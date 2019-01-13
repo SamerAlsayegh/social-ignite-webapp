@@ -1,0 +1,22 @@
+<md-card class="md-whiteframe-3dp">
+    <md-subheader class="md-primary text-center">Recommendations</md-subheader>
+    <md-list layout-align="stretch" class="md-dense">
+        <md-list-item class="md-2-line" layout="row" layout-align="center center"
+                      ng-repeat="recommendation in recommendations"
+                      ng-click="commitRecommendation(recommendation)">
+            <span class="md-list-item-text" layout-align="stretch" layout="column">
+                <span layout="row">
+                    <h3 ng-bind="recommendation.name" flex></h3>
+                    <p ng-if="recommendation.type == 'SUGGESTED_TIME'"
+                       ng-bind="(recommendation.value | amTimeAgo)  + ' at ' + (recommendation.value | amDateFormat:'LT')"></p>
+                </span>
+                <span layout="row">
+                    <p ng-bind="recommendation.detail"></p>
+                </span>
+            </span>
+        </md-list-item>
+    </md-list>
+    <span layout-padding ng-if="recommendations.length == 0 || recommendations == null" class="text-center">
+        <p>No recommendations currently.</p>
+    </span>
+</md-card>
