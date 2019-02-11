@@ -8,11 +8,13 @@
 @import 'components/emoji-picker';
 @import 'components/calendar';
 @import 'components/introjs';
-@import 'components/wdtLoading';
+//@import 'components/wdtLoading';
 @import 'components/ng-sortable';
 @import 'components/ng-sortable.style.less';
 @import 'components/ng-password-meter.less';
 @import 'components/pricing_tables';
+@import 'components/image_gallery';
+@import '../../image_editor_src/dist/final/styles.min.css';
 
 @mdb-input-placeholder-color: #000;
 
@@ -482,7 +484,7 @@ md-icon:focus {
 }
 
 .md-card-image {
-
+  width: 100%;
 }
 
 /* light speed out */
@@ -843,4 +845,21 @@ md-sidenav {
 }
 .animate-switch.ng-enter.ng-enter-active {
   opacity:1;
+}
+
+
+.no-hover-effect.md-button:hover, .no-hover-effect.md-button:after, .no-hover-effect.md-button:active, .no-hover-effect.md-button:focus
+{
+  color: inherit;
+}
+
+
+pixie-editor *{
+  font-size: 100% !important;
+}
+
+
+.editor-overlay-container, .cdk-overlay-container{
+  position: absolute !important;
+  //z-index: 999999;
 }

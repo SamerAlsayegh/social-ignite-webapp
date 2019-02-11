@@ -12,6 +12,7 @@ define([
     './PostComment',
     './Image',
     './Billing',
+    './Team',
     './Metadata',
     './SocialStacks',
     './General',

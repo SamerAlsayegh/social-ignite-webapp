@@ -37,9 +37,10 @@ define(['../../module'], controllers => {
             $scope.platforms = $rootScope.platforms;
             $scope.allPages = socialPages;
             $scope.allStacks = socialStacks;
-            $scope.availableImages = [];
             $scope.usedImages = [];
-
+            $scope.images = [];
+            $scope.filter = {used: false};
+            $scope.loadingImages = false;
 
             $scope.IntroOptions = {
                 showStepNumbers: false,
@@ -333,7 +334,7 @@ define(['../../module'], controllers => {
 
 
             $scope.submitPost = (useSuggested) => {
-                if ($scope.currentSocialPost.pages.length === 0)
+                if ($scope.currentSocialPost.pages.length === 0 && $scope.currentSocialPost.stacks.length === 0)
                     return Alert.error("You must choose at least one platform.");
                 else if ($scope.currentSocialPost.content.length === 0)
                     return Alert.error("You must have some content.");
@@ -350,7 +351,7 @@ define(['../../module'], controllers => {
                     images: image_ids
                 };
 
-                params.post_time = useSuggested == true ?  $scope.currentSocialPost.suggested : $scope.currentSocialPost.date;
+                params.post_time = useSuggested == true ?  null : $scope.currentSocialPost.date;
 
                 if ($scope.postId != null)
                     params.id = $scope.postId;
@@ -490,15 +491,40 @@ define(['../../module'], controllers => {
                 } else {
                     // $scope.applyDraft();
                 }
-                Image.getImages(null, images1 => {
-                    Image.getImages(null, images2 => {
-                        $scope.availableImages = [].concat(images1.data.images).concat(images2.data.images);
-                    }, (status, message) => {
 
-                    })
-                }, (status, message) => {
 
-                })
+
+
+                $scope.finishedScroll = () => {
+                    if ($scope.remaining > 0) {
+                        $scope.loadMore($scope.filter, $scope.images[$scope.images.length - 1]._id)
+                    }
+                };
+
+
+                // $scope.applyFilter = (filterName, filterValue) => {
+                //     console.log("$ok", filterValue, filterName)
+                //     $scope.filter[filterName] = filterValue;
+                // }
+                $scope.loadMore = (filter, cursor) => {
+                    if (cursor == null) $scope.images = [];
+
+                    if ($scope.loadingImages === false) {
+                        $scope.loadingImages = true;
+                        Image.getImages(filter, cursor, images => {
+                            $scope.images = $scope.images.concat(images.data.images);
+                            $scope.remaining = images.data.remaining;
+                            $scope.loadingImages = false;
+                            if (cursor == null && $scope.remaining > 0) {
+                                $scope.loadMore(filter, $scope.images[$scope.images.length - 1]._id)
+                            }
+                        }, (status, message) => {
+                            Alert.error("Failed to load images");
+                            $scope.loadingImages = false;
+                        });
+                    }
+                };
+                $scope.loadMore($scope.filter);
             }
 
 

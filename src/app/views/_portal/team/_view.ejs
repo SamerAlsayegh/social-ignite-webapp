@@ -1,0 +1,59 @@
+<md-tabs md-center-tabs layout-fill md-selected="defaultTab" md-stretch-tabs="always" md-border-bottom md-autoselect md-swipe-content>
+    <md-tab label="Members" flex>
+        <!--<md-button ng-click="addMember();" class="md-fab md-primary page-button" aria-label="New Team Member">-->
+            <!--<md-tooltip md-direction="left">Add Member</md-tooltip>-->
+            <!--<i class="zmdi zmdi-plus zmdi-hc-2x"></i>-->
+        <!--</md-button>-->
+
+
+        <md-table-container>
+            <table md-table md-row-select ng-model="teamModel.selected">
+                <thead md-head md-order="teamModel.order">
+                <tr md-row>
+                    <th md-column>Name</th>
+                    <th md-column>Email</th>
+                    <th md-column>Permissions</th>
+                    <th md-column></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row ng-repeat="member in team"
+                    class="pointer" ng-click="loadPermissionsEditor(member)">
+                    <td md-cell>{{member.name || 'N/A'}}</td>
+                    <td md-cell>{{member.email || 'N/A'}}</td>
+                    <td md-cell>
+
+                        <md-chips class="pointer" ng-model="member.account_management.permissions" name="permissions"
+                                  md-max-chips="100" readonly="true"
+                                  input-aria-label="Permissions">
+                            <md-chip-template class="pointer">
+                                <strong>{{$chip}}</strong>
+                                <!--<em>(fruit)</em>-->
+                            </md-chip-template>
+                        </md-chips>
+
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-tab>
+    <md-tab label="Add Member">
+        <div layout="row" layout-align="center center">
+            <form flex="80" flex-gt-md="30" layout="column" name="member" ng-submit="addMember(member)" method="post">
+                <md-input-container class="md-block">
+                    <label>Email Address</label>
+                    <input name="email" ng-model="memberEmail" required type="email">
+                    <div ng-messages="member.email.$error">
+                        <div ng-message="email">The email must be in valid format.</div>
+                    </div>
+                </md-input-container>
+
+                <div layout="column" layout-align="stretch">
+                    <md-button type="submit" ng-disabled="!member.$valid" class="md-primary md-raised">Invite Member</md-button>
+                </div>
+            </form>
+        </div>
+    </md-tab>
+</md-tabs>

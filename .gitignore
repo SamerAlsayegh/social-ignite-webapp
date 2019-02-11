@@ -5,3 +5,5 @@ package-lock.json
 start.sh
 webpack.config.dev.js
 certificates
+image_editor
+image_editor_src

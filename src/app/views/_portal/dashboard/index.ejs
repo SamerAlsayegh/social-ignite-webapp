@@ -1,3 +1,4 @@
+
 <script type="text/ng-template" id="commentChildrenTree">
     <%- include ./_commentChain.ejs %>
 </script>
@@ -13,38 +14,76 @@
 <script type="text/ng-template" id="_mentions">
     <%- include ../widgets/_mentions.ejs %>
 </script>
+<md-button ng-click="addNewWidget();" class="md-fab md-primary page-button" aria-label="New Social Post">
+    <md-tooltip md-direction="left">Add Widget</md-tooltip>
+    <i class="zmdi zmdi-collection-plus zmdi-hc-2x"></i>
+</md-button>
 
-<script type="text/ng-template" id="_addWidget">
-    <%- include ../widgets/_addWidget.ejs %>
-</script>
 
-
-<span data-as-sortable="controlListener" id="dashboard-container" data-ng-model="items">
+<div data-as-sortable="controlListener" id="dashboard-container" data-ng-model="items" class="md-padding">
     <md-grid-list
-            md-cols-sm="1" md-cols-md="3" md-cols-gt-md="4"
-            md-row-height-gt-md="3:2" md-row-height="1:1"
+            md-cols="2" md-cols-md="2" md-cols-gt-md="4"
+            md-row-height-gt-md="6:6" md-row-height="2:2"
             md-gutter="10px" md-gutter-gt-sm="20px">
 
         <md-grid-tile ng-repeat="item in items"
-                      md-rowspan="1" md-colspan="1">
-            <span layout-fill ng-include="item"  data-as-sortable-item>
-            </span>
+                      md-rowspan="2" md-colspan-gt-sm="{{item == '_posts' ? 2 : 1}}" md-colspan="2" layout="column">
+            <md-card style="display:flex; flex-direction:column;" layout-fill flex layout="column" class="md-whiteframe-3dp" data-as-sortable-item>
+                <md-content layout="row" class="md-padding md-subheader">
+                    <span hide-xs hide-sm data-as-sortable-item-handle>
+                        <i class="zmdi zmdi-caret-up zmdi-hc-1x"></i>
+                    </span>
+                    <b flex class="text-center">{{item}}</b>
+
+                    <span hide-xs hide-sm data-as-sortable-item-handle>
+                        <i class="zmdi zmdi-arrows zmdi-hc-1x"></i>
+                    </span>
+                </md-content>
+                <span flex style="padding-bottom: 20px;overflow-y: auto;" ng-include="item" layout="column"></span>
+            </md-card>
         </md-grid-tile>
 
-        <md-grid-tile md-rowspan="1" md-colspan="1">
-            <span layout-fill ng-include="'_addWidget'">
-            </span>
-
-            <!--<div layout-fill class="md-padding">-->
-                <!--<md-card layout-align="center center" layout="column" style="height: 300px;" class="md-padding">-->
-                    <!--<span layout-align="center center" class="text-center">-->
-                        <!--<i class="zmdi zmdi-widgets zmdi-hc-4x"></i>-->
-                        <!--<h3>Add a Widget</h3>-->
-                    <!--</span>-->
-                <!--</md-card>-->
-            <!--</div>-->
-        </md-grid-tile>
+        <!--<md-grid-tile md-rowspan="2" md-colspan="1">-->
+            <!--<span layout-fill ng-include="'_addWidget'">-->
+            <!--</span>-->
+        <!--</md-gricludle>-->
 
 
     </md-grid-list>
-</span>
+</div>
+
+
+<!--<md-fab-speed-dial class="md-fab-bottom-right md-scale" ng-click="addNewWidget()">-->
+    <!--<md-fab-trigger>-->
+        <!--<md-button aria-label="menu" class="md-fab md-primary">-->
+            <!--<md-tooltip md-direction="left">Add Widget</md-tooltip>-->
+            <!--<i class="zmdi zmdi-collection-plus zmdi-hc-2x"></i>-->
+        <!--</md-button>-->
+    <!--</md-fab-trigger>-->
+<!--</md-fab-speed-dial>-->
+
+
+<!--<md-bottom-sheet class="md-grid" layout="column">-->
+    <!--<div layout="row" layout-align="center center" ng-cloak>-->
+        <!--<h2>Add new Widget</h2>-->
+    <!--</div>-->
+    <!--<div ng-cloak>-->
+        <!--<span layout-fill ng-include="'_addWidget'">-->
+        <!--</span>-->
+    <!--</div>-->
+<!--</md-bottom-sheet>-->
+
+
+
+<!--<md-sidenav class="md-sidenav-right" md-component-id="right"-->
+            <!--md-disable-backdrop md-whiteframe="3">-->
+
+    <!--<md-toolbar>-->
+        <!--<h1 class="md-toolbar-tools">Add Widget</h1>-->
+    <!--</md-toolbar>-->
+
+    <!--<md-content layout-margin>-->
+
+    <!--</md-content>-->
+
+<!--</md-sidenav>-->

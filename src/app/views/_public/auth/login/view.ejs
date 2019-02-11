@@ -36,12 +36,12 @@
             </md-input-container>
 
 
-            <md-input-container class="md-block">
+            <md-input-container ng-if="!hideEmail" class="md-block">
                 <label>Password</label>
                 <input type="password" ng-model="password" required name="password">
             </md-input-container>
             <div class="text-center md-padding" ng-if="forgotPassword == true">
-                Forgot password? <a href="/" ng-click="requestResetPassword(email)" class="label md-primary">Click
+                Forgot password? <a href="/" ng-click="requestResend(email)" class="label md-primary">Click
                     here to reset..</a>
             </div>
             <!--<md-input-container class="md-block">-->

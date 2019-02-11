@@ -1,4 +1,4 @@
-<md-tabs layout-fill md-stretch-tabs="always">
+<md-tabs md-center-tabs layout-fill md-selected="openTab" md-stretch-tabs="always" md-border-bottom md-autoselect md-swipe-content>
     <md-tab label="Pages" md-on-select="addPageActive = true" md-on-deselect="addPageActive = false">
         <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill>
             <div>
@@ -6,7 +6,7 @@
             </div>
             <span layout="row">
                 <span flex></span>
-                <md-fab-speed-dial class="tutorial_step_3 md-fab-bottom-right md-scale" md-open="isOpen"
+                <md-fab-speed-dial class="tutorial_step_3 md-fab-bottom-right md-scale page-button" md-open="isOpen"
                                    ng-click="clickedSpeedDial()" md-direction="up">
                     <md-fab-trigger class="tutorial_step_2">
                         <md-button aria-label="menu" class="md-fab md-primary">
@@ -27,8 +27,8 @@
         </md-content>
     </md-tab>
     <md-tab label="Statistics">
-        <md-content layout="column" ng-controller="pagesController" layout-fill>
-            <div class="md-padding">
+        <md-content class="md-padding" layout="column" ng-controller="pagesController" layout-fill>
+            <div>
                 <%- include ./_socialPagesStatistics.ejs %>
             </div>
         </md-content>
@@ -42,8 +42,8 @@
             <md-button ng-click="editSocialStack();"
                        class="md-fab md-primary page-button"
                        aria-label="Add a stack">
-                <md-tooltip md-direction="left">Add new stack</md-tooltip>
-                <i class="zmdi zmdi-collection-plus zmdi-hc-2x"></i>
+                <md-tooltip md-direction="left">New Brand</md-tooltip>
+                <i class="zmdi zmdi-store zmdi-hc-2x"></i>
             </md-button>
         </md-content>
 

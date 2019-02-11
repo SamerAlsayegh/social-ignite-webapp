@@ -1,9 +1,10 @@
 define(['../module'], function (controllers) {
     'use strict';
     return controllers.controller('publicHomeController', ['$rootScope', '$scope', '$cookies', '$location',
-        '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window', '$timeout',
+        '$state', '$stateParams', 'Auth', 'Alert', '$mdSidenav', '$window', '$timeout', 'Team',
         function ($rootScope, $scope, $cookies, $location,
-                  $state, $stateParams, Auth, Alert, $mdSidenav, $window, $timeout) {
+                  $state, $stateParams, Auth, Alert, $mdSidenav, $window, $timeout, Team) {
+            $scope.emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
             /**
@@ -25,6 +26,7 @@ define(['../module'], function (controllers) {
                 $scope.loginLoading = false;
             };
 
+            console.log($scope.email);
             /**
              *
              * @param login
@@ -58,8 +60,34 @@ define(['../module'], function (controllers) {
                     });
                 }
             };
+            // completeRegistration
+            $scope.completeRegistration = invite => {
+                if (invite.$valid) {
+                    $scope.inviteLoading = true;
+                    // Backup code that was previouslky coded but technically not needed.
+                    if (!invite || invite.email.$modelValue.length === 0 || invite.password.$modelValue.length === 0) {
+                        Alert.error("Your email or password field is missing.");
+                        return;
+                    } else if (!invite.toc.$modelValue) {
+                        Alert.error("Please tick the Terms and Conditions box so you won't set our servers on fire");
+                        return;
+                    }
+                    let email = invite.email.$modelValue;
 
-
+                    Team.completeInvite({
+                        code: $stateParams.i,
+                        email: $stateParams.email,
+                        password: invite.password.$modelValue,
+                        mailing_list: invite.mailing_list.$modelValue,
+                        toc: invite.toc.$modelValue
+                    }, data => {
+                        $state.go('portal.home', {email}, {reload: 'portal.home'});//If the session is invalid, take to login page.
+                    }, (status, message) => {
+                        $scope.inviteLoading = false;
+                        Alert.error(message);
+                    });
+                }
+            };
             /**
              *
              * @param register
@@ -97,18 +125,26 @@ define(['../module'], function (controllers) {
             };
 
             $scope.requestResetPassword = email => {
-                $scope.processingPasswordRequest = true;
                 if (!$scope.processingPasswordRequestDelay) {
+                    if (!$scope.emailRegex.test(String(email).toLowerCase())){
+                        Alert.error($rootScope.errorCodes.InvalidEmail.detail);
+                        $scope.hideEmail = true;
+                        return;
+                    }
+
                     $scope.processingPasswordRequestDelay = true;
                     $timeout(function () {
                         $scope.processingPasswordRequest = false;
                     }, 1000 * 10);
+                    console.log(email);
 
                     Auth.requestPasswordReset(email, data => {
                         Alert.success("An email has been sent to " + email + " if it exists.");
                         $scope.processingPasswordRequest = false;
+                        delete $scope.hideEmail;
                     }, (status, message) => {
                         Alert.error(message);
+                        delete $scope.hideEmail;
                         $scope.processingPasswordRequest = false;
                     });
                 } else {
@@ -135,35 +171,38 @@ define(['../module'], function (controllers) {
             };
 
             $scope.attemptVerify = (email, code) => {
-                Auth.verify({
-                    email,
-                    code
-                }, data => {
-                    Alert.success("Verified email. You may now login.");
-                    $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
-                }, (status, message, messageCode) => {
-                    if (messageCode === errorCodes.InvalidParam.id)
-                        Alert.error("This code is invalid.");
-                    if (messageCode === errorCodes.EmailAlreadyVerified.id) {
-                        Alert.error("Email already verified");
+                if (!$scope.emailRegex.test(String(email).toLowerCase())) {
+                    Alert.error("This email is invalid.");
+                } else {
+                    Auth.verify({
+                        email,
+                        code
+                    }, data => {
+                        Alert.success("Verified email. You may now login.");
                         $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
-                    }
-                    else
-                        Alert.error("Error: " + message);
-                });
+                    }, (status, message, messageCode) => {
+                        if (messageCode === errorCodes.InvalidParam.id)
+                            Alert.error("This code is invalid.");
+                        if (messageCode === errorCodes.EmailAlreadyVerified.id) {
+                            Alert.error("Email already verified");
+                            $state.go('public.auth.login', {}, {reload: 'public.auth.login'});
+                        }
+                        else
+                            Alert.error("Error: " + message);
+                    });
+                }
             };
 
-            $scope.requestResend = () => {
-                if ($scope.email.length === 0) {
-                    Alert.error("Your email field is missing.");
-                    return;
+            $scope.requestResend = (email) => {
+                if (!$scope.emailRegex.test(String(email).toLowerCase())) {
+                    Alert.error("This email is invalid.");
+                } else {
+                    Auth.requestEmailResend(email, data => {
+                        Alert.success("An email should be on the way.");
+                    }, (status, message) => {
+                        Alert.error(message);
+                    });
                 }
-                Auth.requestEmailResend($scope.email, data => {
-                    Alert.success("An email should be on the way.");
-                }, (status, message) => {
-                    Alert.error(message);
-                });
-
             };
 
 
@@ -178,8 +217,11 @@ define(['../module'], function (controllers) {
             };
 
 
-            if ($scope.email && $scope.email_code)
-                $scope.attemptVerify($scope.email, $scope.email_code);
+            if ($scope.email && $scope.email_code){
+                if (!$scope.emailRegex.test(String($scope.email).toLowerCase())) {
+                    $scope.attemptVerify($scope.email, $scope.email_code);
+                }
+            }
 
         }]);
 });

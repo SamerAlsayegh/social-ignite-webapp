@@ -1,8 +1,5 @@
 import wdtLoading from "wdt-loading"
 
-console.time("delay1");
-
-
 //
 // var dankMessages = ["Prettifying UI...", "Bootstrapping servers...", "Preparing extinguishers...", "Adding more sticks...", "Pouring lighter fluid...", "Using coal...", "Adding fuel to the flames..."];
 // var num = Math.round(dankMessages.length * Math.random());

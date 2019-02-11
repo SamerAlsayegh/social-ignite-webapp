@@ -1,0 +1,37 @@
+<md-dialog aria-label="Social Stack" class="md-content" md-theme="{{theme}}" flex="40">
+    <div layout="row" class="md-subheader md-whiteframe-3dp" layout-align="center center">
+        <span class="md-padding" flex>Modify Permissions for {{member.email}}</span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i class="zmdi zmdi-close zmdi-hc-2x"></i>
+        </md-button>
+    </div>
+    <span layout="column">
+    <md-list ng-cloak>
+        <span ng-repeat="possiblePermission in possiblePermissions">
+            <md-subheader class="md-no-sticky">{{possiblePermission.title}}</md-subheader>
+            <span class="md-padding">
+                <md-checkbox aria-label="Select All"
+                             ng-checked="isChecked()"
+                             md-indeterminate="isIndeterminate()"
+                             ng-click="toggleAll()">
+                    <span ng-if="isChecked()">Un-</span>Select All
+                </md-checkbox>
+                <md-list-item ng-repeat="permission in possiblePermission.permissions">
+                    <p> {{ permission.description }} </p>
+                    <md-checkbox class="md-primary" ng-checked="exists(permission.name, selected)" ng-click="toggle(permission.name, selected)"></md-checkbox>
+                </md-list-item>
+            </span>
+        </span>
+    </md-list>
+        <div layout="row" flex="noshrink" layout-align="stretch" layout-sm="column"
+             layout-xs="column">
+            <md-button flex flex-xs="100" flex-sm="100" flex-md="100" type="submit" class="md-primary md-raised"
+                       ng-click="submitPermissions();">
+                Apply
+            </md-button>
+        </div>
+    </span>
+
+
+
+</md-dialog>

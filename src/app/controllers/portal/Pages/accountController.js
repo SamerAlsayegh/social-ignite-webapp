@@ -95,6 +95,26 @@ define(['../../module'], controllers => {
             $scope.addStack = () => {
                 $scope.$emit('addStack', {});
             };
+            $scope.loadWarning = (platformId) => {
+                $mdDialog.show({
+                    locals: {
+                        platform: platformId,
+                        theme: $scope.theme
+                    },
+                    template: require("compile-ejs-loader!../../../views/_portal/accounts/_warning.ejs")(),
+                    controller: 'socialPagesWarningDialog',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    fullscreen: true // Only for -xs, -sm breakpoints.
+                })
+                    .then(message => {
+                        $window.open(__API__ + '/api/v1/oauth/' + $rootScope.platforms[platformId].id + '/', '_self');
+                    }, () => {
+                        return Alert.error("Cancelled account linking.");
+                    });
+            };
+
+
             $scope.addSocialAccount = (platformId, $event) => {
                 if (!$rootScope.platforms.hasOwnProperty(parseInt(platformId)))
                     return Alert.error("Must choose a valid platform.");
@@ -105,8 +125,12 @@ define(['../../module'], controllers => {
                     $scope.nextStep();
                 }
 
-                $window.open(__API__ + '/api/v1/oauth/' + $rootScope.platforms[platformId].id + '/', '_self');
-                if ($event) $event.stopPropagation();
+                if (platformId == 4){
+                    $scope.loadWarning(platformId);
+                } else {
+                    $window.open(__API__ + '/api/v1/oauth/' + $rootScope.platforms[platformId].id + '/', '_self');
+                    if ($event) $event.stopPropagation();
+                }
             };
 
             $scope.clickedSpeedDial = () => {
@@ -138,7 +162,7 @@ define(['../../module'], controllers => {
                             SocialAccounts.getSocialAccounts(null, null, socialAccounts => {
                                 $rootScope.allPages = socialAccounts.pages;
                             }, (status, error) => {
-                                $scope.platforms = [];
+                                // $scope.platforms = [];
                                 Alert.error(error.code + ": Failed to get social accounts. ")
                             });
 
@@ -166,8 +190,8 @@ define(['../../module'], controllers => {
                     if (parseInt(platformKey) == platformKey) {
                         $scope.socialPlatformDetails.push({
                             id: platformKey,
-                            shortname: $scope.platforms[platformKey].id,
-                            fullname: $scope.platforms[platformKey].detail
+                            shortname: $rootScope.platforms[platformKey].id,
+                            fullname: $rootScope.platforms[platformKey].detail
                         });
                     }
                 }

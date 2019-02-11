@@ -1,101 +1,179 @@
-<md-card layout-fill class="md-whiteframe-3dp">
-    <md-subheader class="md-primary text-center" data-as-sortable-item-handle>Posts</md-subheader>
-
-
-    <div style="overflow-y: auto;">
-        <span ng-if="socialPostMainList.length == 0">
-            <md-list flex>
-                <md-list-item class="md-2-line" layout-align="center center">
-                    <span class="md-list-item-text" layout-align="stretch" layout="column">
-                        <h3 layout="row">
-                            No recent posts.
-                        </h3>
-                        <span layout="row">
-                            <p>Recent posts in the past 7 days appear here, schedule your first post to see it here.</p>
-                        </span>
+<div flex>
+    <span ng-if="socialPostMainList.length == 0">
+        <md-list flex class="md-dense">
+            <md-list-item class="md-2-line" layout-align="center center">
+                <span class="md-list-item-text" layout-align="stretch" layout="column">
+                    <h3 layout="row">
+                        No recent posts.
+                    </h3>
+                    <span layout="row">
+                        <p>Recent posts in the past 7 days appear here, schedule your first post to see it here.</p>
                     </span>
-                </md-list-item>
-            </md-list>
-        </span>
+                </span>
+            </md-list-item>
+        </md-list>
+    </span>
+    <section ng-repeat="socialPostMain in socialPostMainList">
+        <!--<section >-->
 
-        <md-card layout="column" ng-if="socialPostMainList.length > 0"
-                 ng-repeat="socialPostMain in socialPostMainList"
-                 ng-init="socialPostMain.social_post.length >= 1 ? socialPostMain.open = socialPostMain.social_post[0] : null">
-            <div layout="row">
-                <md-list ng-if="socialPostMain.social_post.length > 1" class="md-dense expand-on-hover-page-list"
-                         style="max-height: 100%; overflow-y: auto;">
-                    <md-list-item ng-repeat="socialPost in socialPostMain.social_post"
-                                  ng-click="socialPostMain.open = socialPost">
-                        <span>
+            <md-card ng-repeat="socialPost in socialPostMain.social_post">
+                <md-card-title>
+                    <md-card-title-text>
+                        <div layout="row" flex layout-align="center center" layout-align-gt-md="start center">
                             <social-page-avatar social-page="socialPost.page_id"
                                                 platforms="platforms"></social-page-avatar>
-                        </span>
-                        <p style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPost.page_id.name }}</p>
-                    </md-list-item>
-                </md-list>
-                <div flex>
-                    <div layout="row" style="overflow-x: auto;" layout-align="center center">
-                        <!--All images from post.-->
-                        <img ng-src="{{image.url}}" ng-repeat="image in socialPostMain.images" class="md-card-image"
-                             alt="Social media image">
-                    </div>
-                    <div flex>
-                        <div layout="row">
-                            <social-page-avatar class="md-padding" social-page="socialPostMain.open.page_id"
-                                                platforms="platforms"></social-page-avatar>
-                            <div layout="column" layout-align="center start">
-                                <h3 ng-bind="socialPostMain.open.page_id.name"></h3>
-                            </div>
+                            <md-truncate><h3 ng-bind="socialPost.page_id.name"></h3></md-truncate>
                         </div>
-                    </div>
-                    <md-card-content>
-                        <p>
+                        <span class="md-subhead">
+
                             <span ng-bind-html="toTrustedHTML( socialPostMain.showAll ? socialPostMain.content : socialPostMain.content.length > 180 ? (socialPostMain.content.substring(0, 180 + socialPostMain.content.substring(180, 1000).indexOf(' ')) ) : socialPostMain.content)"></span><a
                                     class="pointer"
                                     ng-show="!socialPostMain.showAll && socialPostMain.content.length > 180"
-                                    ng-click="socialPostMain.showAll = true;"> ...more</a></p>
-                    </md-card-content>
-                    <md-card-actions layout="row" layout-align="center center">
-                        <!--<md-button-->
-                        <!--class="md-warn md-raised"-->
-                        <!--ng-click="deletePost(socialPostMain._id)"-->
-                        <!--aria-label="delete">-->
-                        <!--<i class="zmdi zmdi-delete zmdi-hc-lg"></i>-->
-                        <!--</md-button>-->
+                                    ng-click="socialPostMain.showAll = true;"> ...more</a>
+                        </span>
+                    </md-card-title-text>
+                    <md-card-title-media>
+                        <div class="md-media-lg card-media">
+                            <div layout="row" style="overflow-x: auto;" layout-align="center center">
+                            <!--All images from post.-->
+                            <img  ng-repeat="image in socialPostMain.images" ng-src="{{image.url}}" class="md-card-image"
+                            alt="Social media image">
+                            </div>
+                        </div>
+                    </md-card-title-media>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
 
-
-                        <md-button flex disabled>
-                            <i class="zmdi zmdi-time zmdi-hc-lg"></i>
-                            <small class="gray_text" am-time-ago="socialPostMain.post_time"></small>
-                        </md-button>
-
-                        <md-button disabled
-                                   aria-label="{{(socialPostMain.open.statistic.likes.total != null ?  socialPostMain.open.statistic.likes.total : 0)}}">
-                            <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>
-                            <span ng-bind="socialPostMain.open.statistic.likes.total || 0"></span>
-                        </md-button>
-                        <md-button disabled
-                                   aria-label="{{(socialPostMain.open.replies != null ? socialPostMain.open.replies.length  : 0)}}">
-                            <i class="zmdi zmdi-comment zmdi-hc-lg"></i>
-                            <span ng-bind="(socialPostMain.open.replies != null ? socialPostMain.open.replies.length  : 0)"></span>
-                        </md-button>
-                    </md-card-actions>
-                </div>
-            </div>
-            <span>
+                    <md-button flex disabled>
+                        <i class="zmdi zmdi-time zmdi-hc-lg"></i>
+                        <small class="gray_text" am-time-ago="socialPostMain.post_time"></small>
+                    </md-button>
+                    <md-button flex disabled
+                    aria-label="{{(socialPost.replies != null ? socialPost.replies.length  : 0)}}">
+                    <i class="zmdi zmdi-comment zmdi-hc-lg"></i>
+                    <span ng-bind="(socialPost.replies != null ? socialPost.replies.length  : 0)"></span>
+                    </md-button>
+                    <md-button flex disabled
+                               aria-label="{{(socialPost.statistic.likes.total != null ?  socialPost.statistic.likes.total : 0)}}">
+                        <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>
+                        <span ng-bind="socialPost.statistic.likes.total || 0"></span>
+                    </md-button>
+                </md-card-actions>
+                <span>
                 <md-list class="md-dense">
-                    <div ng-if="socialPostMain.open.remaining > 0" layout="column" layout-align="stretch">
-                        <md-button
-                                ng-click="loadReplies(socialPostMain.open, socialPostMain.open._id, null, socialPostMain.open.replies[0].posted)"
-                                md-no-ink class="md-primary">Load previous...
-                        </md-button>
-                    </div>
-                    <md-list-item class="md-2-line"
-                                  ng-repeat="socialComment in socialPostMain.open.replies"
-                                  ng-include="'commentChildrenTree'">
-                    </md-list-item>
+                <div ng-if="socialPost.remaining > 0" layout="column" layout-align="stretch">
+                <md-button
+                ng-click="loadReplies(socialPost, socialPost._id, null, socialPost.replies[0].posted)"
+                md-no-ink class="md-primary">Load previous...
+                </md-button>
+                </div>
+                <md-list-item class="md-2-line"
+                ng-repeat="socialComment in socialPost.replies"
+                ng-include="'commentChildrenTree'">
+                </md-list-item>
                 </md-list>
-            </span>
-        </md-card>
-    </div>
-</md-card>
+                </span>
+            </md-card>
+
+
+            <!--<md-subheader layout-align="center center">-->
+                <!--<div layout="column" layout-gt-sm="row">-->
+                    <!--<div layout="row" flex layout-align="center center" layout-align-gt-md="start center">-->
+                        <!--<social-page-avatar social-page="socialPost.page_id"-->
+                                            <!--platforms="platforms"></social-page-avatar>-->
+                        <!--<h3 ng-bind="socialPost.page_id.name"></h3>-->
+                    <!--</div>-->
+                    <!--<div flex layout="row">-->
+                        <!--<md-button flex disabled-->
+                                   <!--aria-label="{{(socialPost.statistic.likes.total != null ?  socialPost.statistic.likes.total : 0)}}">-->
+                            <!--<i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>-->
+                            <!--<span ng-bind="socialPost.statistic.likes.total || 0"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button flex disabled-->
+                                   <!--aria-label="{{(socialPost.replies != null ? socialPost.replies.length  : 0)}}">-->
+                            <!--<i class="zmdi zmdi-comment zmdi-hc-lg"></i>-->
+                            <!--<span ng-bind="(socialPost.replies != null ? socialPost.replies.length  : 0)"></span>-->
+                        <!--</md-button>-->
+                        <!--<md-button flex disabled>-->
+                            <!--<i class="zmdi zmdi-time zmdi-hc-lg"></i>-->
+                            <!--<small class="gray_text" am-time-ago="socialPostMain.post_time"></small>-->
+                        <!--</md-button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</md-subheader>-->
+            <!--<md-card class="md-padding" layout="column" ng-if="socialPostMainList.length > 0"-->
+                     <!--ng-init="socialPostMain.social_post.length >= 1 ? socialPost = socialPostMain.social_post[0] : null">-->
+                <!--&lt;!&ndash;<div layout="row">&ndash;&gt;-->
+                <!--&lt;!&ndash;<md-list ng-if="socialPostMain.social_post.length > 1" class="md-dense expand-on-hover-page-list"&ndash;&gt;-->
+                <!--&lt;!&ndash;style="max-height: 50%; overflow-y: auto;">&ndash;&gt;-->
+                <!--&lt;!&ndash;<md-list-item ng-repeat="socialPost in socialPostMain.social_post"&ndash;&gt;-->
+                <!--&lt;!&ndash;ng-click="socialPost = socialPost">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<social-page-avatar social-page="socialPost.page_id"&ndash;&gt;-->
+                <!--&lt;!&ndash;platforms="platforms"></social-page-avatar>&ndash;&gt;-->
+                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;<p style="text-overflow: ellipsis; white-space: nowrap;">{{ socialPost.page_id.name }}</p>&ndash;&gt;-->
+                <!--&lt;!&ndash;</md-list-item>&ndash;&gt;-->
+                <!--&lt;!&ndash;</md-list>&ndash;&gt;-->
+                <!--<div flex>-->
+                    <!--<div layout="row" style="overflow-x: auto;" layout-align="center center">-->
+                        <!--&lt;!&ndash;All images from post.&ndash;&gt;-->
+                        <!--<img  ng-repeat="image in socialPostMain.images" ng-src="{{image.url}}" class="md-card-image"-->
+                             <!--alt="Social media image">-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div flex>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div layout="row">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<social-page-avatar class="md-padding" social-page="socialPost.page_id"&ndash;&gt;-->
+                    <!--&lt;!&ndash;platforms="platforms"></social-page-avatar>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div layout="column" layout-align="center start">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h3 ng-bind="socialPost.page_id.name"></h3>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<md-card-content>-->
+                        <!--<p>-->
+                            <!--<span ng-bind-html="toTrustedHTML( socialPostMain.showAll ? socialPostMain.content : socialPostMain.content.length > 180 ? (socialPostMain.content.substring(0, 180 + socialPostMain.content.substring(180, 1000).indexOf(' ')) ) : socialPostMain.content)"></span><a-->
+                                    <!--class="pointer"-->
+                                    <!--ng-show="!socialPostMain.showAll && socialPostMain.content.length > 180"-->
+                                    <!--ng-click="socialPostMain.showAll = true;"> ...more</a></p>-->
+                    <!--</md-card-content>-->
+                    <!--&lt;!&ndash;<md-card-actions layout="row" layout-align="center center">&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<md-button&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;class="md-warn md-raised"&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;ng-click="deletePost(socialPostMain._id)"&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;aria-label="delete">&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<i class="zmdi zmdi-delete zmdi-hc-lg"></i>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;</md-button>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span flex></span>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<md-button disabled&ndash;&gt;-->
+                    <!--&lt;!&ndash;aria-label="{{(socialPost.statistic.likes.total != null ?  socialPost.statistic.likes.total : 0)}}">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span ng-bind="socialPost.statistic.likes.total || 0"></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<md-button disabled&ndash;&gt;-->
+                    <!--&lt;!&ndash;aria-label="{{(socialPost.replies != null ? socialPost.replies.length  : 0)}}">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="zmdi zmdi-comment zmdi-hc-lg"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span ng-bind="(socialPost.replies != null ? socialPost.replies.length  : 0)"></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</md-card-actions>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<span>-->
+                    <!--<md-list class="md-dense">-->
+                        <!--<div ng-if="socialPost.remaining > 0" layout="column" layout-align="stretch">-->
+                            <!--<md-button-->
+                                    <!--ng-click="loadReplies(socialPost, socialPost._id, null, socialPost.replies[0].posted)"-->
+                                    <!--md-no-ink class="md-primary">Load previous...-->
+                            <!--</md-button>-->
+                        <!--</div>-->
+                        <!--<md-list-item class="md-2-line"-->
+                                      <!--ng-repeat="socialComment in socialPost.replies"-->
+                                      <!--ng-include="'commentChildrenTree'">-->
+                        <!--</md-list-item>-->
+                    <!--</md-list>-->
+                <!--</span>-->
+            <!--</md-card>-->
+        <!--</section>-->
+    </section>
+</div>

@@ -1,46 +1,39 @@
-<md-card layout-fill class="md-whiteframe-3dp">
-    <md-subheader class="md-primary text-center" data-as-sortable-item-handle>Mentions</md-subheader>
+<md-list flex class="md-dense">
+    <md-list-item class="md-2-line" ng-if="mentions.length == 0" layout-align="center center">
+        <span class="md-list-item-text" layout-align="stretch" layout="column">
+            <h3 layout="row">
+                No recent mentions.
+            </h3>
+            <span layout="row">
+                <p>Posting more content will create buzz around your brands.</p>
+            </span>
+        </span>
+    </md-list-item>
 
 
-    <span>
-        <md-list class="md-dense" flex style="overflow-y: auto;">
-            <md-list-item class="md-2-line" ng-if="mentions.length == 0" layout-align="center center">
-                <span class="md-list-item-text" layout-align="stretch" layout="column">
-                    <h3 layout="row">
-                        No recent mentions.
-                    </h3>
-                    <span layout="row">
-                        <p>Posting more content will create buzz around your brands.</p>
-                    </span>
-                </span>
-            </md-list-item>
-
-
-            <md-list-item class="md-2-line md-long-text" ng-repeat="mention in mentions" layout="row"
-                          flex
-                          ng-click="replyConversation(mention)">
-                <social-page-avatar social-page="mention.page_id" platforms="platforms"></social-page-avatar>
-                <md-truncate flex class="md-list-item-text" layout="column">
-                    <h3 layout="row" layout-align="stretch">
-                        <md-truncate ng-bind="mention.name" flex></md-truncate>
-                        <small class="gray_text" am-time-ago="mention.posted"></small>
-                    </h3>
-                    <span>
-                        <p ng-bind="mention.message"></p>
-                    </span>
-                </md-truncate>
-                <md-button
-                        class="md-icon-button md-secondary"
-                        ng-if="allowedActions == null || allowedActions[mention.page_id.platform].indexOf('LIKE') != -1"
-                        ng-click="toggleLike(mention)"
-                        ng-class="mention.liked ? 'md-primary' : ''"
-                        layout-align="center center"
-                        aria-label="like">
-                    <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>
-                    <small>{{mention.likes}}</small>
-                </md-button>
-                <md-divider></md-divider>
-            </md-list-item>
-        </md-list>
-    </span>
-</md-card>
+    <md-list-item class="md-2-line md-long-text" ng-repeat="mention in mentions" layout="row"
+                  flex
+                  ng-click="replyConversation(mention)">
+        <social-page-avatar social-page="mention.page_id" platforms="platforms"></social-page-avatar>
+        <md-truncate flex class="md-list-item-text" layout="column">
+            <h3 layout="row" layout-align="stretch">
+                <md-truncate ng-bind="mention.name" flex></md-truncate>
+                <small class="gray_text" am-time-ago="mention.posted"></small>
+            </h3>
+            <span>
+                <p ng-bind="mention.message"></p>
+            </span>
+        </md-truncate>
+        <md-button
+                class="md-icon-button md-secondary"
+                ng-if="allowedActions == null || allowedActions[mention.page_id.platform].indexOf('LIKE') != -1"
+                ng-click="toggleLike(mention)"
+                ng-class="mention.liked ? 'md-primary' : ''"
+                layout-align="center center"
+                aria-label="like">
+            <i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i>
+            <small>{{mention.likes}}</small>
+        </md-button>
+        <md-divider></md-divider>
+    </md-list-item>
+</md-list>

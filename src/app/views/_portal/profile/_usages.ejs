@@ -1,60 +1,76 @@
-<span layout="column">
-    <md-card class="md-whiteframe-3dp md-padding">
-        <h2>Usage</h2>
-        <span layout="row" layout-wrap layout-align="space-around">
-            <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50"
-                        layout-align="center center" class="md-padding">
-                <md-progress-circular md-diameter="135" md-mode="determinate"
-                                      value="{{(used.image_upload/limits.image_upload)*100 | number: 0}}"></md-progress-circular>
-                <h3 class="process-circular-center text-center">
-                    {{used.image_upload + (limits.image_upload  > 0 ? ("/" + limits.image_upload) : '')}}<br>
-                    Images
-                </h3>
-                <md-tooltip md-direction="bottom">Your image upload limits</md-tooltip>
-            </md-content>
-            <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
-                <md-progress-circular md-diameter="135" md-mode="determinate"
-                                      value="{{(used.pages_linked_max/limits.pages_linked_max)*100 | number: 0}}"></md-progress-circular>
-                <h3 class="process-circular-center text-center">
-                    {{used.pages_linked_max + (limits.pages_linked_max  > 0 ? ("/" + limits.pages_linked_max) : '')}}<br>
-                    Pages
-                </h3>
-                <md-tooltip md-direction="bottom">Your page linking limits</md-tooltip>
-            </md-content>
-            <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
-                <md-progress-circular md-diameter="135" md-mode="determinate"
-                                      value="{{(used.post_scheduled_max/limits.post_scheduled_max)*100 | number: 0}}"></md-progress-circular>
-                <h3 class="process-circular-center text-center">
-                    {{used.post_scheduled_max + (limits.post_scheduled_max  > 0 ? ("/" + limits.post_scheduled_max) : '')}}<br>
-                    Posts
-                </h3>
-                <md-tooltip md-direction="bottom">Your post scheduling limits</md-tooltip>
-            </md-content>
-            <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50" layout-align="center center" class="md-padding">
-                <md-progress-circular md-diameter="135" md-mode="determinate"
-                                      value="{{(used.hashtag_lookups/limits.hashtag_lookups)*100 | number: 0}}"></md-progress-circular>
-                <h3 class="process-circular-center text-center">
-                    {{used.hashtag_lookups + (limits.hashtag_lookups  > 0 ? ("/" + limits.hashtag_lookups) : '')}}<br>
-                    # Lookups
-                </h3>
-                <md-tooltip md-direction="bottom">Your hashtag lookup limits</md-tooltip>
-            </md-content>
-        </span>
-    </md-card>
-
-    <md-card class="md-whiteframe-3dp md-padding">
-        <h2>Features</h2>
-        <span flex layout="column" layout-align="start">
-            <ul flex>
-                <li ng-repeat="feature in planFeatures">{{feature}}</li>
-            </ul>
-        </span>
-
-        <span class="md-padding" layout="column">
-                    <md-button flex href="/billing" ng-if="user.scope != 'business'"
-                               class="md-primary md-raised">
-                        Upgrade for increased limits and more features
-                    </md-button>
+<div layout="column" class="md-padding">
+    <md-card class="md-whiteframe-3dp">
+        <section>
+            <md-subheader class="md-primary md-no-sticky">
+                <!--<i class="zmdi zmdi-face zmdi-hc-2x md-padding"></i>-->
+                Usages
+            </md-subheader>
+            <div class="md-padding">
+                <span layout="row" layout-wrap layout-align="space-around">
+                    <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50"
+                                layout-align="center center" class="md-padding">
+                        <md-progress-circular md-diameter="135" md-mode="determinate"
+                                              value="{{(used.image_upload/limits.image_upload)*100 | number: 0}}"></md-progress-circular>
+                        <h3 class="process-circular-center text-center">
+                            {{used.image_upload + (limits.image_upload > 0 ? ("/" + limits.image_upload) : '')}}<br>
+                            Images
+                        </h3>
+                        <md-tooltip md-direction="bottom">Your image upload limits</md-tooltip>
+                    </md-content>
+                    <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50"
+                                layout-align="center center" class="md-padding">
+                        <md-progress-circular md-diameter="135" md-mode="determinate"
+                                              value="{{(used.pages_linked_max/limits.pages_linked_max)*100 | number: 0}}"></md-progress-circular>
+                        <h3 class="process-circular-center text-center">
+                            {{used.pages_linked_max + (limits.pages_linked_max > 0 ? ("/" + limits.pages_linked_max) :
+                            '')}}<br>
+                            Pages
+                        </h3>
+                        <md-tooltip md-direction="bottom">Your page linking limits</md-tooltip>
+                    </md-content>
+                    <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50"
+                                layout-align="center center" class="md-padding">
+                        <md-progress-circular md-diameter="135" md-mode="determinate"
+                                              value="{{(used.post_scheduled_max/limits.post_scheduled_max)*100 | number: 0}}"></md-progress-circular>
+                        <h3 class="process-circular-center text-center">
+                            {{used.post_scheduled_max + (limits.post_scheduled_max > 0 ? ("/" +
+                            limits.post_scheduled_max) : '')}}<br>
+                            Posts
+                        </h3>
+                        <md-tooltip md-direction="bottom">Your post scheduling limits</md-tooltip>
+                    </md-content>
+                    <md-content style="background: transparent;" layout="column" flex-gt-lg="25" flex="50"
+                                layout-align="center center" class="md-padding">
+                        <md-progress-circular md-diameter="135" md-mode="determinate"
+                                              value="{{(used.hashtag_lookups/limits.hashtag_lookups)*100 | number: 0}}"></md-progress-circular>
+                        <h3 class="process-circular-center text-center">
+                            {{used.hashtag_lookups + (limits.hashtag_lookups > 0 ? ("/" + limits.hashtag_lookups) :
+                            '')}}<br>
+                            # Lookups
+                        </h3>
+                        <md-tooltip md-direction="bottom">Your hashtag lookup limits</md-tooltip>
+                    </md-content>
                 </span>
+            </div>
+        </section>
+
+        <section>
+            <md-subheader class="md-primary md-no-sticky">
+                <!--<i class="zmdi zmdi-face zmdi-hc-2x md-padding"></i>-->
+                Features
+            </md-subheader>
+            <span flex layout="column" layout-align="start">
+                <ul flex>
+                    <li ng-repeat="feature in planFeatures">{{feature}}</li>
+                </ul>
+            </span>
+
+            <span class="md-padding" layout="column">
+                <md-button flex href="/billing" ng-if="user.scope != 'business'"
+                           class="md-primary md-raised">
+                    Upgrade to unlock more features
+                </md-button>
+            </span>
+        </section>
     </md-card>
-</span>
+</div>

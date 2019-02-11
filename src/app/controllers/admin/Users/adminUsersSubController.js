@@ -21,11 +21,12 @@ define(['../../module'], controllers => {
                     Alert.error(message);
                 });
 
+                $scope.checkForm = profile => !profile.$dirty && profile.$valid;
 
-                $scope.checkForm = profile => ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.tutorial.$dirty) && (
-                    !(profile.new_password.$dirty &&
-                        profile.confirm_password.$dirty)
-                )) || !profile.$valid;
+                // $scope.checkForm = profile => ((!profile.email.$dirty) && (!profile.mailing_list.$dirty) && (!profile.tutorial.$dirty) && (
+                //     !(profile.new_password.$dirty &&
+                //         profile.confirm_password.$dirty)
+                // )) || !profile.$valid;
 
 
                 $scope.updateUser = profile => {
@@ -37,11 +38,6 @@ define(['../../module'], controllers => {
                         }
                         if (profile.mailing_list.$dirty) {
                             changed.mailing_list = $scope.account.mailing_list;
-                        }
-
-                        if (profile.tutorial.$dirty) {
-                            changed.tutorial_step = $scope.tutorialBool ? 999 : 0;
-                            $scope.account.information.tutorial_step = changed.tutorial_step;
                         }
 
 

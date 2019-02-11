@@ -1,7 +1,7 @@
-define(['../../module'], controllers => {
-    return controllers.controller('portalToolsController', ['$scope', 'Alert', '$window', 'PublicStatistics',
-        ($scope, Alert, $window, PublicStatistics) => {
 
+define(['../../module'], controllers => {
+    return controllers.controller('portalToolsController', ['$scope', 'Alert',
+        function ($scope, Alert) {
 
         }]);
 });

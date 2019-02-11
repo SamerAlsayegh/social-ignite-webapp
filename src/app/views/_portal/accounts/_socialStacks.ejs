@@ -9,6 +9,7 @@
     </span>
 </div>
 
+
 <md-card class="md-whiteframe-3dp">
     <md-table-container>
         <table md-table md-row-select ng-model="stacksModel.selected">
@@ -20,11 +21,11 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-repeat="socialStack in filteredStacks = (socialStacks | filter: filterName) "
+            <tr class="pointer" md-row ng-repeat="socialStack in filteredStacks = (socialStacks | filter: filterName) "
                 ng-click="editSocialStack(socialStack._id)">
                 <td md-cell>{{socialStack.name}}</td>
-                <td md-cell>
-                    <span ng-repeat="pageInfo in socialStack.pages">
+                <td md-cell layout="row">
+                    <span class="md-padding" ng-repeat="pageInfo in socialStack.pages">
                         <social-page-avatar  social-page="pageInfo" platforms="platforms"></social-page-avatar>
                     </span>
                 </td>

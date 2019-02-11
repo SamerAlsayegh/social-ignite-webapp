@@ -1,0 +1,142 @@
+<md-bottom-sheet layout="column" style="padding: 0; bottom: 80px; overflow: hidden;">
+    <div ng-cloak layout="row" layout-align="center center">
+        <div flex>
+            <div flex class="text-center ng-animate animate-switch-container" ng-switch="widgetsEditing"
+                 ng-animate="'animate'" layout="column">
+                <div class="animate-switch" ng-switch-when="locked" layout="column">
+                    <h3>
+                        Widgets are not available for your plan
+                    </h3>
+                    <span>
+                        Upgrade to get access to more widgets...
+                    </span>
+                    <i class="zmdi zmdi-widgets zmdi-hc-4x"></i>
+                    <md-button href="/billing" class="md-primary">Upgrade</md-button>
+                </div>
+                <!--<div class="animate-switch" ng-switch-default layout="column" layout-align="center stretch">-->
+                <!--<p>-->
+                <!--Easily set-up a dashboard you are familiar with.-->
+                <!--</p>-->
+                <!--<i class="zmdi zmdi-widgets zmdi-hc-4x"></i>-->
+                <!--<md-button ng-click="widgetStage(3)" class="md-primary">Add Widget</md-button>-->
+                <!--</div>-->
+                <form name="newWidget" ng-init="socialPages = [];" ng-submit="addWidget(newWidget)" method="post" layout="column">
+
+                    <div class="animate-switch md-padding" ng-switch-default layout="column">
+                        <!--<span class="text-center">You will be able to choose which pages to apply this type of widget for in the next step.</span>-->
+                        <!--<md-input-container class="md-block">-->
+                            <!--<label>Choose the type</label>-->
+                            <!--<md-select name="type" required ng-model="type" ng-init="type = null">-->
+                                <!--<md-option value="unique_visitors">-->
+                                    <!--Unique Visitors-->
+                                <!--</md-option>-->
+                                <!--<md-option value="views">-->
+                                    <!--Views-->
+                                <!--</md-option>-->
+                                <!--<md-option value="new_followers">-->
+                                    <!--New Followers-->
+                                <!--</md-option>-->
+                                <!--<md-option value="Trends">-->
+                                    <!--Trends-->
+                                <!--</md-option>-->
+                            <!--</md-select>-->
+                        <!--</md-input-container>-->
+
+                        <md-list flex layout="row" class="md-grid" style="overflow-x: scroll" layout-align="center center">
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-thumb-up-down zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Audience Outlook</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-globe zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Impressions</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-eye zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Views</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-favorite zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Followers</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-favorite zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Mentions Feed</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-favorite zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Comments Feed</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-favorite zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Posts Feed</span>
+                                </md-button>
+                            </md-list-item>
+                            <md-list-item>
+                                <md-button
+                                        ng-click="widgetStage('pages')"
+                                        layout="column">
+                                    <i class="zmdi zmdi-favorite zmdi-hc-3x"></i>
+
+                                    <span class="md-inline-list-icon-label">Hashtag Feed</span>
+                                </md-button>
+                            </md-list-item>
+                        </md-list>
+
+
+
+
+
+                        <!--<md-button ng-click="widgetStage('pages')" ng-disabled="type == null" class="md-primary">Choose Pages >-->
+                        <!--</md-button>-->
+                    </div>
+                    <div layout="column" class="animate-switch md-padding" ng-switch-when="pages">
+
+                        <social-page-selector selected="socialPages" social-pages="allPages"
+                                              platforms="platforms"></social-page-selector>
+                        <div layout="row">
+                            <md-button flex type="submit" ng-disabled="socialPages.length == 0" class="md-primary">Add now
+                            </md-button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</md-bottom-sheet>

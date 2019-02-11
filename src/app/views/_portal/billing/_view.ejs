@@ -43,7 +43,7 @@
                 <p>Subscribing to any new package will automatically upgrade current package and charge only the difference for the initial month.</p>
             </notification-card>
             <div ng-if="!loading || chosenPackage != null"
-                  layout="{{chosenPackage != null ? 'column' : 'row'}}" class="pricing-table md-padding" layout-align="center center">
+                  layout="column" layout-gt-md="row" class="pricing-table md-padding" layout-align="center center" layout-align-gt-md="center start">
 
                  <md-card ng-repeat="package in packages"
                          ng-hide="(chosenPackage != null && chosenPackage != package.internal_name) || package.internal_name == subscription.package"
@@ -120,14 +120,27 @@
                     <!--</md-card-actions>-->
                 <!--</md-card>-->
             </div>
-            <span ng-if="loading" layout="column" layout-align="center center">
-                <div layout="row">
+            <div layout="row" layout-align="center center">
+                <form flex="70" flex-gt-md="50" layout="column" name="codeForm" ng-submit="redeemCode(codeForm)" method="post">
+                    <md-input-container class="md-block">
+                        <label>Redeem Code</label>
+                        <input name="code" ng-model="code" required type="text">
+                    </md-input-container>
+
+                    <div layout="column" layout-align="stretch">
+                        <md-button type="submit" class="md-primary md-raised">Apply</md-button>
+                    </div>
+                </form>
+            </div>
+
+            <div ng-if="loading" layout="column" layout-align="center center">
+                <div layout="column" layout-gt-sm="row">
                     <span>
                         <i class="zmdi zmdi-refresh-sync md-padding zmdi-hc-2x continious_rotation"></i>
                     </span>
                     <h2>You will be redirected to PayPal shortly... please wait.</h2>
                 </div>
-            </span>
+            </div>
         </span>
     </md-tab>
     <md-tab label="Transactions" ng-if="transactions.count > 0">

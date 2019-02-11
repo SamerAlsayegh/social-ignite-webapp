@@ -1,6 +1,8 @@
 define([
     './portal/portalHomeController',
     './portal/Dashboard/dashboardController',
+    './portal/Dashboard/conversationDialogController',
+    './portal/Dashboard/widgetController',
     './portal/Schedule/scheduleController',
     './portal/Schedule/editControllerDialog',
     // './portal/Schedule/editController',
@@ -11,15 +13,19 @@ define([
     './portal/Pages/socialStackController',
     './portal/Pages/socialStackDialogController',
     './portal/Pages/pagesController',
+    './portal/Pages/socialPagesWarningDialog',
+
     './portal/Profile/profileController',
     './portal/Profile/profileDeleteController',
+    './portal/Team/teamController',
+    './portal/Team/permissionsDialog',
     './portal/Resources/resourcesController',
+    // './portal/Resources/imageEditorController',
     './portal/Statistics/statisticsController',
     './portal/Statistics/pageStatisticsController',
     './portal/Statistics/pageStatisticsDetailController',
-    './portal/Dashboard/conversationDialogController',
-    './portal/Tools/portalStatisticsController',
-    './portal/Tools/portalToolsController',
+    // './portal/Tools/portalStatisticsController',
+    // './portal/Tools/portalToolsController',
 
 
     './admin/adminHomeController',
@@ -28,8 +34,8 @@ define([
 
     './public/publicHomeController',
     './public/Feedback/feedbackController',
-    './public/Tools/publicStatisticsController',
-    './public/Tools/publicToolsController',
+    // './public/Tools/publicStatisticsController',
+    // './public/Tools/publicToolsController',
 
     './errorController'
 ], () => {

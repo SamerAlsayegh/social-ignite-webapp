@@ -12,6 +12,18 @@ define(['../../module'], controllers => {
             $window,
             Alert
         ) {
+            $scope.openTab = 0;
+            $scope.setPage('Page Management');
+
+            if ($stateParams.sub != null) {
+                if ($stateParams.sub === 'pages')
+                    $scope.openTab = 0;
+                else if ($stateParams.sub === 'statistics')
+                    $scope.openTab = 1;
+                else if ($stateParams.sub === 'brands')
+                    $scope.openTab = 2;
+            }
+            console.log($scope.openTab, $stateParams.sub)
 
             if ($stateParams.fail != null) {
                 Alert.error("Failed to register. " + $scope.errorCodes[$stateParams.fail].detail, 4000);

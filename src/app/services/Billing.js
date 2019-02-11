@@ -6,6 +6,11 @@ define(['./module'], services => {
                     message => cbSuccess(message), (status, message) => cbFail(status, message), 20000);
             },
 
+            redeemCode(code, cbSuccess, cbFail) {
+                return Request.post('payment/redeem', {code: code},
+                    message => cbSuccess(message), (status, message) => cbFail(status, message), 20000);
+            },
+
             getSubscription(cbSuccess, cbFail) {
                 return Request.get('payment/subscription',
                     message => cbSuccess(message), (status, message) => cbFail(status, message));

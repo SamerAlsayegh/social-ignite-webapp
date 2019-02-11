@@ -12,14 +12,8 @@ define(['./module'], services => {
                     return Request.get('portal/image/' + imageId,
                         message => cbSuccess(message), (status, message) => cbFail(status, message));
                 },
-                getImages(cursor, cbSuccess, cbFail) {
-                    var funcName = "getImages" + cursor;
-
-                    if (dataCache.hasOwnProperty(funcName) && dataCache[funcName].time > (new Date().getTime() - (cacheTime)))
-                        return cbSuccess(dataCache[funcName].data);
-
-
-                    return Request.get('portal/image/' + (cursor ? Request.ArrayToURL({pagination: cursor}) : ''),
+                getImages(filter, pagination, cbSuccess, cbFail) {
+                    return Request.get('portal/image/', Object.assign(pagination ? {pagination: pagination} : {}, filter || {}),
                         message => cbSuccess(message), (status, message) => cbFail(status, message));
                 },
                 addImage(parameters, cbSuccess, cbFail, cbProgress) {

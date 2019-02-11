@@ -2,6 +2,7 @@ define(['../../module'], controllers => {
     return controllers.controller('profileController', ['$rootScope', '$scope', 'Alert', 'Profile', '$stateParams', 'Billing',
         function ($rootScope, $scope, Alert, Profile, $stateParams, Billing) {
             $scope.updatingProfile = true;
+            $scope.setPage('Profile');
 
             Profile.getUser(message => {
                 $scope.updatingProfile = false;
@@ -24,12 +25,12 @@ define(['../../module'], controllers => {
 
             $scope.defaultTab = 0;
 
-            if ($stateParams.tab != null) {
-                if ($stateParams.tab === 'general')
+            if ($stateParams.sub != null) {
+                if ($stateParams.sub === 'general')
                     $scope.defaultTab = 0;
-                else if ($stateParams.tab === 'usages')
+                else if ($stateParams.sub === 'usages')
                     $scope.defaultTab = 1;
-                else if ($stateParams.tab === 'advanced')
+                else if ($stateParams.sub === 'advanced')
                     $scope.defaultTab = 2;
             }
 

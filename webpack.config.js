@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const webpack = require("webpack");
+const ExtraWatchWebpackPlugin = require("extra-watch-webpack-plugin");
 
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -9,14 +10,20 @@ module.exports = {
     context: __dirname + "/src/app",
     entry: {
         app: ['./bootstrap.js'],
-    }, 
-    mode: 'production',
+    },
+    mode: 'development',
     output: {
         path: __dirname + "/dist/",
         filename: "[name].js"
     },
+    cache: false,
     plugins: [
         // new HardSourceWebpackPlugin(),
+        new ExtraWatchWebpackPlugin({
+            dirs: [ 'src/app' ],
+        }),
+        // new HardSourceWebpackPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             "__API__": JSON.stringify("https://portal.socialignite.media"),
             "__ASSETS__": JSON.stringify("https://assets.socialignite.media"),

@@ -9,6 +9,7 @@ define(['../../module'], controllers => {
             Statistics,
             SocialPosts
         ) {
+
             $scope.socialPages = [];
             $scope.activePage = null;
 
@@ -222,6 +223,9 @@ define(['../../module'], controllers => {
 
             SocialAccounts.getSocialAccount($stateParams.pageId, data => {
                 $scope.page_data = data;
+                $scope.setPage($scope.page_data.name + '\'s Overview ');
+
+
                 $scope.enabledCard = {
                     f_analysis_age: data.statistic.audience.age != null && data.statistic.audience.age.length > 0,
                     f_analysis_gender: data.statistic.audience.gender != null && data.statistic.audience.gender.length > 0,

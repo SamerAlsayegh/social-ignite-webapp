@@ -1,6 +1,8 @@
 define(['../../module'], controllers => {
     return controllers.controller('billingController', ['$scope', 'Alert', '$mdDialog', 'Billing', '$window', '$stateParams', 'Analytics',
         function ($scope, Alert, $mdDialog, Billing, $window, $stateParams, Analytics) {
+            $scope.setPage('Billing');
+
             $scope.packages = [];
             $scope.transactions = [];
             $scope.chosenPackage = $stateParams.package;
@@ -76,6 +78,11 @@ define(['../../module'], controllers => {
                     $scope.cancellingSubscription = false;
                     Alert.error(message)
                 })
+            };
+
+
+            $scope.redeemCode = (codeForm) => {
+                Billing.redeemCode()
             };
 
 

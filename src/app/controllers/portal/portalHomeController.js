@@ -1,7 +1,5 @@
 require("expose-loader?io!socket.io-client");
 
-// require("expose-loader?moment!moment");
-
 define(['../module'], controllers => {
     return controllers.controller('portalHomeController',
         ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$cookies',
@@ -29,6 +27,8 @@ define(['../module'], controllers => {
                 $scope.permissions = {};
                 $scope.platforms = $rootScope.platforms;
                 $scope.notifications = [];
+                $scope.page = 'Home';
+
                 $rootScope.theme = $rootScope.user && $rootScope.user.options ? $rootScope.user.options.theme : "default";
                 if ($rootScope.user != null)
                     $rootScope.tutorialMode = false;//($rootScope.user != null && $rootScope.user.information != null) ? ($rootScope.user.information.tutorial_step == 999 ? false : true) : false;
@@ -43,12 +43,15 @@ define(['../module'], controllers => {
                     }
                 });
                 $scope.toggleMenu = () => {
-                    $mdSidenav('left').toggle();
+                    $mdSidenav('main').toggle();
                 };
                 $scope.openMenu = () => {
-                    $mdSidenav('left').open();
+                    $mdSidenav('main').open();
                 };
 
+                $scope.toggleChat = () => {
+                    drift.sidebar.toggle()
+                };
 
                 $scope.socket.on('changedScope', () => {
                     Auth.logout(() => {
@@ -82,6 +85,8 @@ define(['../module'], controllers => {
                     $scope.permissions = data.data.permissions;
                     $scope.limits = data.data.limits;
                     $scope.used = data.data.used;
+                    $scope.actions_allowed = data.data.actions_allowed;
+
                 }, (status, message) => {
                     Alert.error(message, 600);
                 });
@@ -92,7 +97,7 @@ define(['../module'], controllers => {
                     // Alert.error(message, 600);
                 });
                 SocialStacks.getSocialStacks(true, false, 1, socialStacks => {
-                    $scope.allStacks = socialStacks.social_stacks;
+                    $scope.allStacks = socialStacks;
                     SocialAccounts.getSocialAccounts(null, null, socialAccounts => {
                         $rootScope.allPages = socialAccounts.pages;
                     }, (status, error) => {
@@ -296,7 +301,7 @@ define(['../module'], controllers => {
 
                         });
                     // $state.go('portal.schedule.edit', {postId: previousId});
-                };  
+                };
 
 
                 $rootScope.deletePost = socialPostId => {
@@ -333,23 +338,28 @@ define(['../module'], controllers => {
                 });
                 $scope.items = [];
                 $scope.items.push('_mentions');
-                $scope.items.push('_comments');
                 $scope.items.push('_posts');
+                $scope.items.push('_comments');
 
 
                 // var draggie = new Draggabilly('.draggable', {
                 //     containment: '.main-view',
                 //     grid: [ 20, 20 ],
                 // });
-                $scope.controlListener = {
-                    // containment: '#dashboard-container',
-                    // allowDuplicates: true //optional param allows duplicates to be dropped.
-                };
+
+
 
                 $scope.setTheme = theme => {
                     $rootScope.theme = theme;
                     $cookies.put("theme", theme, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
+                };
+
+                $cookies.put("prior_login", true, {expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 30))});
+
+                $scope.setPage = (page) =>{
+                    $scope.page = page;
                 }
+
 
             }]);
 });

@@ -1,0 +1,105 @@
+<div layout="column">
+    <form name="profile" ng-submit="updateUser(profile)" layout="column" class="md-block md-padding" flex>
+        <md-card class="md-whiteframe-3dp">
+            <section>
+                <md-subheader class="md-primary md-no-sticky">
+                    <!--<i class="zmdi zmdi-face zmdi-hc-2x md-padding"></i>-->
+                    Profile
+                </md-subheader>
+                <div class="md-padding">
+
+                    <div layout="column" class="md-padding" layout-gt-sm="row">
+                        <md-input-container flex class="md-block">
+                            <!-- Use floating label instead of placeholder -->
+                            <label>Email</label>
+                            <input name="email" ng-model="user.email" ng-disabled="user.other_auth != null"
+                                   type="email">
+                            <div ng-messages="profile.email.$error">
+                                <div ng-message="email">The email must be in valid format.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-block">
+                            <label>Role</label>
+                            <input disabled ng-value="user.scope + (user.verified ? '' : ' (Unverified)')">
+                        </md-input-container>
+                    </div>
+                    <div ng-if="user.other_auth == null">
+                        <div layout="column" class="md-padding" layout-gt-sm="row">
+                            <md-input-container flex class="md-block">
+                                <label>Current Password</label>
+                                <input name="current_password" type="password" ng-model="current_password">
+                            </md-input-container>
+                        </div>
+                        <div layout="column" class="md-padding" layout-gt-sm="row">
+                            <md-input-container flex class="md-block">
+                                <label>New Password</label>
+                                <input name="new_password" type="password" ng-pattern="confirm_password"
+                                       ng-model="new_password">
+                                <div ng-messages="profile.new_password.$error">
+                                    <div ng-message="pattern">The passwords do not match.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex class="md-block">
+                                <label>Confirm Password</label>
+                                <input name="confirm_password" type="password" ng-pattern="new_password"
+                                       ng-model="confirm_password">
+                                <div ng-messages="profile.confirm_password.$error">
+                                    <div ng-message="pattern">The passwords do not match.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div ng-if="user.other_auth != null" layout="column" class="md-block" layout-align="stretch"
+                         layout-md="column" layout-sm="column"
+                         layout-xs="column">
+                        <md-button disabled flex class="md-primary">
+                            Currently connected using {{platforms[user.other_auth].detail}}
+                        </md-button>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <md-subheader class="md-primary md-no-sticky">
+                    <!--<i class="zmdi zmdi-face zmdi-hc-2x md-padding"></i>-->
+                    Misc.
+                </md-subheader>
+                <div class="md-padding">
+                    <md-input-container class="md-block">
+                        <md-checkbox ng-model="user.mailing_list" class="md-primary" name="mailing_list">
+                            Subscribe to our Mailing List (Tips & Tricks)
+                        </md-checkbox>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <md-checkbox ng-model="themeBool" class="md-primary" name="theme">
+                            Enable dark theme
+                        </md-checkbox>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <md-checkbox ng-model="tutorialBool" class="md-primary" name="tutorial">
+                            Completed tutorial mode
+                        </md-checkbox>
+                    </md-input-container>
+                </div>
+            </section>
+            <section class="md-padding">
+                <!--<md-subheader class="md-primary">-->
+                <!---->
+                <!--</md-subheader>-->
+                <span layout="column" class="md-block" layout-align="stretch" layout-md="column" layout-sm="column"
+                      layout-xs="column">
+                    <md-button ng-disabled="checkForm(profile)" flex type="submit" value="Submit"
+                               class="md-primary md-raised">
+                        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+                        Save Changes
+                    </md-button>
+                    <md-button flex ng-click="logout()" class="md-warn">
+                        <!--<md-button type="submit" class="md-accent md-raised" ng-click="addImage()">-->
+                        Logout
+                    </md-button>
+                </span>
+            </section>
+        </md-card>
+    </form>
+</div>

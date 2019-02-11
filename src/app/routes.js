@@ -56,11 +56,15 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 url: "/email_verify?email&code",
                 template: require("compile-ejs-loader!./views/_public/auth/emailVerify/view.ejs")(data),
             })
+            .state('public.auth.team_invite', {
+                url: "/invite?i&email",
+                template: require("compile-ejs-loader!./views/_public/auth/teamInvite/view.ejs")(data),
+            })
 
             // .state('public.tools', {
             //     url: "/free_tools",
-            //     controller: 'publicToolsController',
-            //     template: require("compile-ejs-loader!./views/_public/tools/index.ejs")(data)
+                // controller: 'publicToolsController',
+                // template: require("compile-ejs-loader!./views/_public/tools/index.ejs")(data)
             // })
             // .state('public.tools.lookup', {
             //     url: "/free_tools/lookup",
@@ -89,6 +93,15 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 template: require("compile-ejs-loader!./views/_portal/schedule/_schedule.ejs")(data)
             })
 
+            .state('portal.team', {
+                template: require("compile-ejs-loader!./views/_portal/team/index.ejs")(data),
+            })
+            .state('portal.team.view', {
+                url: "/team?sub",
+                controller: 'teamController',
+                template: require("compile-ejs-loader!./views/_portal/team/_view.ejs")(data)
+            })
+
             .state('portal.profile', {
                 template: require("compile-ejs-loader!./views/_portal/profile/index.ejs")(data),
             })
@@ -98,7 +111,7 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 template: require("compile-ejs-loader!./views/_portal/profile/_view.ejs")(data)
             })
             .state('portal.profile.view', {
-                url: "/profile?tab",
+                url: "/profile?sub",
                 controller: 'profileController',
                 template: require("compile-ejs-loader!./views/_portal/profile/_view.ejs")(data)
             })
@@ -108,9 +121,9 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
 
             .state('portal.resources', {
                 template: require("compile-ejs-loader!./views/_portal/resources/index.ejs")(data),
-                controller: 'resourcesController',
             })
             .state('portal.resources.view', {
+                controller: 'resourcesController',
                 url: "/resources",
                 template: require("compile-ejs-loader!./views/_portal/resources/_view.ejs")(data),
                 params: {
@@ -123,6 +136,11 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 url: "/resources/manage",
                 template: require("compile-ejs-loader!./views/_portal/resources/_manage.ejs")(data)
             })
+            // .state('portal.resources.edit_image', {
+            //     url: "/resources/edit?img",
+            //     controller: 'imageEditorController',
+            //     template: require("compile-ejs-loader!./views/_portal/resources/_imageEditor.ejs")(data)
+            // })
 
 
             .state('portal.profile.billing', {
@@ -141,7 +159,7 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 controller: 'accountController',
             })
             .state('portal.accounts.home', {
-                url: "/accounts?fail",
+                url: "/accounts?sub&fail",
                 template: require("compile-ejs-loader!./views/_portal/accounts/_table.ejs")(data),
             })
             .state('portal.accounts.continue', {
@@ -153,11 +171,11 @@ SocialIgnite.config(['$locationProvider', '$stateProvider', '$urlRouterProvider'
                 controller: 'portalToolsController',
                 template: require("compile-ejs-loader!./views/_portal/tools/_view.ejs")(data)
             })
-            .state('portal.tools.lookup', {
-                url: "/tools/lookup",
-                controller: 'portalStatisticsController',
-                template: require("compile-ejs-loader!./views/_portal/tools/_lookup.ejs")(data)
-            })
+            // .state('portal.tools.lookup', {
+            //     url: "/tools/lookup",
+            //     controller: 'portalStatisticsController',
+            //     template: require("compile-ejs-loader!./views/_portal/tools/_lookup.ejs")(data)
+            // })
 
             // .state('portal.support', {
             //     controller: 'supportController',

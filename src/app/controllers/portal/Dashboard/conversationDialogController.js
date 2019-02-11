@@ -55,13 +55,13 @@ define(['../../module'], controllers => {
                             reply.replies.unshift(data.data.replies[index]);
                         }
                         reply.remaining = data.data.remaining;
-                    }, (err, data) => {
+                    }, (err, message) => {
                         Alert.error("Failed to fetch comments.");
                     });
                 };
 
                 $scope.toggleLike = reply => {
-                    if (!$scope.permissions.post_manage_like) return Alert.error("Please upgrade to a plan that offers ability to like.");
+                    // if (!$scope.permissions.post_manage_like) return Alert.error("Please upgrade to a plan that offers ability to like.");
                     reply.likes = reply.liked ? reply.likes - 1 : reply.likes + 1;
 
                     reply.liked = !reply.liked;

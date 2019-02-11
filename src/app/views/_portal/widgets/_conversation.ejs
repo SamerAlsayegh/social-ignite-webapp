@@ -1,8 +1,13 @@
 <md-dialog aria-label="Conversation Details" class="md-card" md-theme="{{theme}}" flex="50">
-    <div layout="row" layout-align="start center">
+    <div layout="row" class="md-subheader md-whiteframe-3dp" layout-align="center center">
         <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
         <span class="md-padding" ng-bind="'Replying as ' + socialPage.name" flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i class="zmdi zmdi-close zmdi-hc-2x"></i>
+        </md-button>
     </div>
+
+
     <md-content>
         <md-list class="md-dense">
             <md-list-item class="md-2-line"

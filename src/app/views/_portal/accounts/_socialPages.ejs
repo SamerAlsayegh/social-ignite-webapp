@@ -28,7 +28,7 @@
         <table md-table md-row-select ng-model="pagesModel.selected">
             <thead md-head md-order="pagesModel.order">
             <tr md-row>
-                <th md-column></th>
+                <!--<th md-column></th>-->
                 <!--<th md-column md-order-by="id"><span>id</span></th>-->
                 <th md-column>Name</th>
                 <th md-column>Posts</th>
@@ -42,16 +42,16 @@
             <tbody md-body>
             <tr md-row ng-repeat="socialPage in allPages | filter: filterName" ng-click="openStatistic(socialPage._id)"
                 class="pointer">
-                <td md-cell>
-                    <md-button class="md-icon-button" ng-if="socialPage.state == 'ERROR'" aria-label="Posts">
-                        <md-tooltip md-direction="top">Last Updated</md-tooltip>
-                        <md-tooltip md-direction="top">{{platformErrors[socialPage.state_details.code].detail}}
-                        </md-tooltip>
-                        <i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>
-                    </md-button>
+                <!--<td md-cell>-->
+                    <!--<md-button class="md-icon-button" ng-if="socialPage.state == 'ERROR'" aria-label="Posts">-->
+                        <!--<md-tooltip md-direction="top">Last Updated</md-tooltip>-->
+                        <!--<md-tooltip md-direction="top">{{platformErrors[socialPage.state_details.code].detail}}-->
+                        <!--</md-tooltip>-->
+                        <!--<i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>-->
+                    <!--</md-button>-->
 
-                    <br>
-                </td>
+                    <!--<br>-->
+                <!--</td>-->
 
                 <td md-cell layout="row" layout-align="start center">
                     <social-page-avatar social-page="socialPage" platforms="platforms"></social-page-avatar>
@@ -70,14 +70,21 @@
                             <!--ng-if="socialPage.state_details.code != platformErrors.AUTH_FAIL.id && updatedRecently(socialPage.lastStatisticUpdate)"-->
                             <!--flex="30" class="md-primary" ng-click="refreshSocialAccount(socialPage._id, $event)">Refresh-->
                     <!--</md-button>-->
-                    <md-button ng-if="socialPage.state_details.code == platformErrors.AUTH_FAIL.id" flex="30"
-                               class="md-primary" ng-click="addSocialAccount(socialPage.platform, $event);">Fix Issue
-                    </md-button>
-                    <span flex></span>
+
+                    <!--<md-button ng-if="socialPage.state_details.code == platformErrors.AUTH_FAIL.id" flex="30"-->
+                               <!--class="md-primary" ng-click="addSocialAccount(socialPage.platform, $event);">Fix Issue-->
+                    <!--</md-button>-->
+                    <!--<span flex></span>-->
                     <md-button flex="30" class="md-warn" ng-click="removeSocialAccount(socialPage._id, $event)">
                         Remove
                     </md-button>
 
+
+                    <md-button class="md-icon-button" ng-if="socialPage.state == 'ERROR'" ng-click="addSocialAccount(socialPage.platform, $event);" aria-label="Posts">
+                        <md-tooltip md-direction="top">{{platformErrors[socialPage.state_details.code].detail}}
+                        </md-tooltip>
+                        <i class="zmdi zmdi-alert-octagon zmdi-hc-2x"></i>
+                    </md-button>
                 </td>
             </tr>
             </tbody>

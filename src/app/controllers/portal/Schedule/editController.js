@@ -37,11 +37,11 @@ define(['../../module'], controllers => {
             });
             $scope.finishedScroll = () => {
                 if ($scope.remaining > 0) {
-                    $scope.loadMore($scope.images[$scope.images.length - 1]._id)
+                    $scope.loadMore(null, $scope.images[$scope.images.length - 1]._id)
                 }
             };
 
-            $scope.loadMore = cursor => {
+            $scope.loadMore = (filter, cursor) => {
                 if ($scope.loadingImages === false) {
                     $scope.loadingImages = true;
                     Image.getImages(cursor, images => {

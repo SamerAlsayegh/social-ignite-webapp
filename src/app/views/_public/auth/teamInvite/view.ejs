@@ -1,0 +1,58 @@
+<div class="animate-switch-container" ng-switch on="registerLoading" ng-animate="'animate'">
+    <div class="animate-switch" ng-switch-when="true" layout="column">
+        <h1 class="text-center">Registering...</h1>
+        <div class="md-padding">
+            <div class="hr-both"></div>
+        </div>
+        <md-button disabled flex>
+            <i class="zmdi continious_rotation zmdi-refresh-sync md-padding zmdi-hc-5x"></i>
+        </md-button>
+        <br>
+        <div class="text-center">
+            Is it taking a while? <a ng-click="cancelLogin()">Click here to cancel.</a>
+        </div>
+    </div>
+
+
+    <div class="animate-switch" ng-switch-default>
+        <form name="invite" ng-submit="completeRegistration(invite)" method="post">
+            <md-input-container class="md-block">
+                <label>Email Address</label>
+                <input name="email" ng-model="email" disabled required type="email">
+                <div ng-messages="invite.email.$error">
+                    <div ng-message="email">The email must be in valid format.</div>
+                </div>
+            </md-input-container>
+
+
+            <md-input-container class="md-block">
+                <label>Password</label>
+                <input type="password" ng-model="password" required name="password">
+            </md-input-container>
+            <ng-password-meter password="password" flex></ng-password-meter>
+
+
+            <md-input-container class="md-block">
+                <md-checkbox class="md-primary" ng-model="toc" required name="toc">
+                    I agree to
+                    <a class="md-primary" class="md-caption"
+                       href="https://socialignite.media/terms-and-conditions/">Terms & Conditions</a>
+                </md-checkbox>
+                <div ng-messages="invite.toc.$error">
+                    <div ng-message="required">You must accept the terms and conditions to sign up.</div>
+                </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <md-checkbox class="md-primary" ng-model="mailing_list" ng-init="mailing_list = true"
+                             name="mailing_list">
+                    Yes, I want social media tips straight to my mailbox
+                </md-checkbox>
+            </md-input-container>
+
+            <div layout="column" layout-align="stretch">
+                <md-button type="submit" ng-disabled="!invite.$valid" class="md-primary md-raised">Complete Registration
+                </md-button>
+            </div>
+        </form>
+    </div>
+</div>

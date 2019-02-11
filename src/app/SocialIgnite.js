@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 let _angular = require("angular");
 
 let _angular2 = _interopRequireDefault(_angular);
+require("script-loader!../../image_editor_src/dist/final/scripts.min");
 
 require("@uirouter/angularjs/release/angular-ui-router");
 
@@ -24,12 +25,10 @@ require("angular-sanitize");
 require("angular-google-analytics");
 
 require("ng-file-upload");
-require("ng-password-meter/dist/ng-password-meter")
 
+require("ng-password-meter/dist/ng-password-meter");
 
 require("chart.js");
-
-// require("script-loader!angular-dragdrop");
 
 require("script-loader!intro.js");
 
@@ -56,11 +55,8 @@ function _interopRequireDefault(obj) {
 }
 
 window['moment'] = _moment2.default;
-// window['Plotly'] = Plotly;
-// require('plotly.js-dist');
 
 require('angular-moment-picker');
-// require("script-loader!draggabilly/dist/draggabilly.pkgd.js");
 
 
 _moment2.default.locale('en');
@@ -82,11 +78,11 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     'angularMoment',
     'vkEmojiPicker',
     'angular-intro', require('ng-sortable'), 'ngPasswordMeter']).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', ($mdThemingProvider,
-                                                                                                                                                                                         _ref,
-                                                                                                                                                                                          $mdGestureProvider,
-                                                                                                                                                                                         AnalyticsProvider,
-                                                                                                                                                                                         momentPickerProvider,
-                                                                                                                                                                                         $sceDelegateProvider) => {
+                                                                                                                                                                                                            _ref,
+                                                                                                                                                                                                            $mdGestureProvider,
+                                                                                                                                                                                                            AnalyticsProvider,
+                                                                                                                                                                                                            momentPickerProvider,
+                                                                                                                                                                                                            $sceDelegateProvider) => {
     let defaults = _ref.defaults;
 
     let lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
@@ -104,7 +100,12 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     $mdThemingProvider.theme('dark').primaryPalette('lightBlueCustom').accentPalette('light-blue').backgroundPalette('grey').dark();
     $mdGestureProvider.disableAll();
     defaults.withCredentials = true;
-    $sceDelegateProvider.resourceUrlWhitelist(['https://assets.socialignite.media/**', 'self']);
+    // $sceDelegateProvider.resourceUrlWhitelist([
+    //     'self',
+    //     'http://**',
+    //     'https://**'
+    // ]);
+    $sceDelegateProvider.resourceUrlWhitelist(['https://assets.socialignite.media/**', 'self', 'https://cdn.socialignite.media/**']);
 }]).run(['$rootScope', '$transitions', '$state', '$templateCache', '$http', 'Auth', 'moment', '$cookies', 'Analytics', '$location', '$window', 'Metadata', ($rootScope,
                                                                                                                                                             $transitions,
                                                                                                                                                             $state,
@@ -119,11 +120,18 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
                                                                                                                                                             Metadata) => {
 
     Metadata.updateMetadata();
+    // $rootScope.$on('$routeChangeStart', function(event, next, current) {
+    //     if (typeof(current) !== 'undefined'){
+    //         console.log("deleeted")
+    //         $templateCache.remove(current.templateUrl);
+    //     }
+    // });
 
-    let cached = false;
+    // let cached = false;
     $transitions.onSuccess({}, transition => {
         window.wdtLoading.done();
         Analytics.trackPage($location.path());
+        // console.log($templateCache.removeAll());
         // console.log("finished");
         // if (cached === false && transition.to().name.startsWith("portal")) {
         //     cached = true;
@@ -176,7 +184,11 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
                 if (!loggedIn) {
                     console.log("Redirecting from portal to public");
                     $cookies.put("redirect_on_login", transition.to().name);
-                    $state.go('public.auth.register');
+                    if ($cookies.get("prior_login")){
+                        $state.go('public.auth.login');
+                    } else {
+                        $state.go('public.auth.register');
+                    }
                     reject();
                 } else resolve();
             });
@@ -192,6 +204,7 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
                     $state.go('portal.home');
                     reject();
                 } else {
+
                     resolve();
                 }
             });
@@ -238,110 +251,110 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     } else {
         console.log('Service workers are not supported.');
     }
-    // !function () {
-    //     var t = window.driftt = window.drift = window.driftt || [];
-    //     if (!t.init) {
-    //         if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-    //         t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
-    //             t.factory = function (e) {
-    //                 return function () {
-    //                     var n = Array.prototype.slice.call(arguments);
-    //                     return n.unshift(e), t.push(n), t;
-    //                 };
-    //             }, t.methods.forEach(function (e) {
-    //             t[e] = t.factory(e);
-    //         }), t.load = function (t) {
-    //             var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
-    //             o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-    //             var i = document.getElementsByTagName("script")[0];
-    //             i.parentNode.insertBefore(o, i);
-    //         };
-    //     }
-    // }();
-    // drift.SNIPPET_VERSION = '0.3.1';
-    // drift.load('33f45sf6x9hp');
-    // (() => {
-    //     /* Add this class to any elements you want to use to open Drift.
-    //      *
-    //      * Examples:
-    //      * - <a class="drift-open-chat">Questions? We're here to help!</a>
-    //      * - <button class="drift-open-chat">Chat now!</button>
-    //      *
-    //      * You can have any additional classes on those elements that you
-    //      * would ilke.
-    //      */
-    //
-    //     drift.on('ready', _ref3 => {
-    //         let widget = _ref3.widget;
-    //
-    //         $rootScope.drift = true;
-    //         if ($rootScope.user != null) {
-    //             drift.identify($rootScope.user.email, {
-    //                 _id: $rootScope.user._id,
-    //                 scope: $rootScope.user.scope,
-    //                 mailing_list: $rootScope.user.mailing_list,
-    //                 verified: $rootScope.user.verified
-    //             });
-    //         }
-    //         // hide the widget when it first loads
-    //         widget.hide();
-    //         // show the widget when you receive a message
-    //         drift.on('message', _ref4 => {
-    //             let data = _ref4.data;
-    //
-    //             if (!data.sidebarOpen) {
-    //                 widget.show();
-    //             }
-    //         });
-    //         // hide the widget when you close the sidebar
-    //         drift.on('sidebarClose', _ref5 => {
-    //             let data = _ref5.data;
-    //
-    //             if (data.widgetVisible) {
-    //                 widget.hide();
-    //             }
-    //         });
-    //     });
-    //     let DRIFT_CHAT_SELECTOR = '.drift-open-chat';
-    //
-    //     /* http://youmightnotneedjquery.com/#ready */
-    //     function ready(fn) {
-    //         if (document.readyState != 'loading') {
-    //             fn();
-    //         } else if (document.addEventListener) {
-    //             document.addEventListener('DOMContentLoaded', fn);
-    //         } else {
-    //             document.attachEvent('onreadystatechange', () => {
-    //                 if (document.readyState != 'loading') fn();
-    //             });
-    //         }
-    //     }
-    //
-    //     /* http://youmightnotneedjquery.com/#each */
-    //     function forEachElement(selector, fn) {
-    //         let elements = document.querySelectorAll(selector);
-    //         for (let i = 0; i < elements.length; i++) {
-    //             fn(elements[i], i);
-    //         }
-    //     }
-    //
-    //     function openSidebar(_ref6, event) {
-    //         let sidebar = _ref6.sidebar;
-    //
-    //         event.preventDefault();
-    //         sidebar.open();
-    //         return false;
-    //     }
-    //
-    //     ready(() => {
-    //         drift.on('ready', function (api) {
-    //             let handleClick = openSidebar.bind(this, api);
-    //             forEachElement(DRIFT_CHAT_SELECTOR, el => {
-    //                 el.addEventListener('click', handleClick);
-    //             });
-    //         });
-    //     });
-    // })();
+    !function () {
+        var t = window.driftt = window.drift = window.driftt || [];
+        if (!t.init) {
+            if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+            t.invoked = !0, t.methods = ["identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on"],
+                t.factory = function (e) {
+                    return function () {
+                        var n = Array.prototype.slice.call(arguments);
+                        return n.unshift(e), t.push(n), t;
+                    };
+                }, t.methods.forEach(function (e) {
+                t[e] = t.factory(e);
+            }), t.load = function (t) {
+                var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+                o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+                var i = document.getElementsByTagName("script")[0];
+                i.parentNode.insertBefore(o, i);
+            };
+        }
+    }();
+    drift.SNIPPET_VERSION = '0.3.1';
+    drift.load('33f45sf6x9hp');
+    (() => {
+        /* Add this class to any elements you want to use to open Drift.
+         *
+         * Examples:
+         * - <a class="drift-open-chat">Questions? We're here to help!</a>
+         * - <button class="drift-open-chat">Chat now!</button>
+         *
+         * You can have any additional classes on those elements that you
+         * would ilke.
+         */
+
+        drift.on('ready', _ref3 => {
+            let widget = _ref3.widget;
+
+            $rootScope.drift = true;
+            if ($rootScope.user != null) {
+                drift.identify($rootScope.user.email, {
+                    _id: $rootScope.user._id,
+                    scope: $rootScope.user.scope,
+                    mailing_list: $rootScope.user.mailing_list,
+                    verified: $rootScope.user.verified
+                });
+            }
+            // hide the widget when it first loads
+            widget.hide();
+            // show the widget when you receive a message
+            drift.on('message', _ref4 => {
+                let data = _ref4.data;
+
+                if (!data.sidebarOpen) {
+                    widget.show();
+                }
+            });
+            // hide the widget when you close the sidebar
+            drift.on('sidebarClose', _ref5 => {
+                let data = _ref5.data;
+
+                if (data.widgetVisible) {
+                    widget.hide();
+                }
+            });
+        });
+        let DRIFT_CHAT_SELECTOR = '.drift-toggle-chat';
+
+        /* http://youmightnotneedjquery.com/#ready */
+        function ready(fn) {
+            if (document.readyState != 'loading') {
+                fn();
+            } else if (document.addEventListener) {
+                document.addEventListener('DOMContentLoaded', fn);
+            } else {
+                document.attachEvent('onreadystatechange', () => {
+                    if (document.readyState != 'loading') fn();
+                });
+            }
+        }
+
+        /* http://youmightnotneedjquery.com/#each */
+        function forEachElement(selector, fn) {
+            let elements = document.querySelectorAll(selector);
+            for (let i = 0; i < elements.length; i++) {
+                fn(elements[i], i);
+            }
+        }
+
+        function openSidebar(_ref6, event) {
+            let sidebar = _ref6.sidebar;
+
+            event.preventDefault();
+            sidebar.toggle();
+            return false;
+        }
+
+        ready(() => {
+            drift.on('ready', function (api) {
+                let handleClick = openSidebar.bind(this, api);
+                forEachElement(DRIFT_CHAT_SELECTOR, el => {
+                    el.addEventListener('click', handleClick);
+                });
+            });
+        });
+    })();
 }]);
 // define([
 //     'angular',

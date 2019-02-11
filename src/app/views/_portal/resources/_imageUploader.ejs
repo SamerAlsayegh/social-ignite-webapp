@@ -3,7 +3,7 @@
 <!--<h1 layout-fill flex layout="row" layout-align="center center">Or</h1>-->
 <!--<h1 layout-fill flex layout="row" layout-align="center center">Drag & Drop images in here!</h1>-->
 <!--</md-content>-->
-
+<pixie-editor></pixie-editor>
 
 <div ngf-drop="uploadFiles($files)"
      style="overflow: hidden;"
@@ -16,72 +16,87 @@
              ngf-multiple="true" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100">
 
         <div layout-align="center center" layout-fill layout="column">
-                <span layout-align="center center" class="text-center">
+            <span layout-align="center center" class="text-center">
                 <i class="zmdi zmdi-image zmdi-hc-4x"></i>
                 <h3>Click here or Drag & Drop</h3>
-                </span>
+            </span>
         </div>
     </md-card>
     <md-card ng-if="control == 'view'" ng-click="openSelectorForPost()" class="resource-card image-dragdropzone"
              layout="column">
         <div layout-align="center center" layout="column">
-                <span layout-align="center center" class="text-center">
+            <span layout-align="center center" class="text-center">
                 <i class="zmdi zmdi-image zmdi-hc-4x"></i>
-                    <h3>Browse gallery or Drag & Drop</h3>
-                </span>
+                <h3>Browse gallery or Drag & Drop</h3>
+            </span>
         </div>
     </md-card>
 
 
-    <div layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"
-         ng-repeat="imageContent in images" ng-hide="imageContent.hide">
+    <div layout-fill class="image-gallery md-padding" layout="row" layout-wrap layout-align="center center">
 
-        <md-card style="position: relative; z-index: 1;" flex ng-if="!imageContent.loading" ng-hide="image.hide"
-                 class="resource-card resource-select md-whiteframe-3dp">
-
-            <img class="img-responsive"
-                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
-                 delayed-image="{{imageContent.url}}"/>
+        <md-card flex="100" flex-gt-xs="45" flex-gt-sm="30" flex-gt-md="15" ng-repeat="imageContent in images | filter: filter"
+                 class="image md-whiteframe-3dp" ng-hide="imageContent.hide">
 
 
-            <span style="position: absolute; top: 0px; z-index: 3;"
-                  ng-style="imageContent.used ? {background: 'rgba(0, 0, 0, 0.5)'} : {}" layout-fill layout="column">
-                <span ng-if="imageContent.used" style="width: 100%; height: 4px; background: #b71c1c; opacity: 0.7;"
-                      layout-align="stretch"></span>
-                <div flex>
-                </div>
-            <md-content class="transparent-hover" layout="row" layout-align="center center">
-                <md-button ng-click="favouriteImage(imageContent)" aria-label="Favorite" flex
-                           ng-class="imageContent.favourite ? 'md-primary' : ''">
-                    <i class="zmdi zmdi-favorite zmdi-hc-lg "></i>
-                </md-button>
-                <md-button ng-click="deleteImage(imageContent)" aria-label="Delete" flex>
-                    <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
-                </md-button>
-                <md-button ng-if="control == 'manage'" ng-click="useImage(imageContent)" flex aria-label="Use for post">
-                    <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
-                </md-button>
-            </md-content>
+            <!--<div layout-fill layout="column" flex="50" flex-gt-md="25" flex-gt-lg="20" flex-gt-xs="33"-->
+            <!--&gt;-->
+
+            <span style="position: relative; z-index: 1;" flex class="resource-card resource-select">
+
+                <img style="width: 100%;"
+                     src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
+                     delayed-image="{{imageContent.url}}"/>
+
+
+                <span style="position: absolute; top: 0px; z-index: 3;"
+                      ng-style="imageContent.used ? {background: 'rgba(0, 0, 0, 0.5)'} : {}" layout-fill
+                      layout="column">
+                    <span ng-if="imageContent.used" style="width: 100%; height: 4px; background: #b71c1c; opacity: 0.7;"
+                          layout-align="stretch"></span>
+                    <div flex>
+                    </div>
+                    <md-content class="transparent-hover" layout="row" layout-align="center center">
+                        <md-button ng-click="favouriteImage(imageContent)" aria-label="Favorite" flex
+                                   ng-class="imageContent.favourite ? 'md-primary' : ''">
+                            <i class="zmdi zmdi-favorite zmdi-hc-lg "></i>
+                        </md-button>
+                        <md-button ng-click="deleteImage(imageContent)" aria-label="Delete" flex>
+                            <i class="zmdi zmdi-delete zmdi-hc-lg"></i>
+                        </md-button>
+                        <md-button ng-if="control == 'manage'" ng-click="useImage(imageContent)" flex
+                                   aria-label="Use for post">
+                            <i class="zmdi zmdi-plus-circle zmdi-hc-lg"></i>
+                        </md-button>
+                        <md-button ng-click="editImage(imageContent)" flex
+                                   aria-label="Edit image">
+                            <i class="zmdi zmdi-edit zmdi-hc-lg"></i>
+                        </md-button>
+                    </md-content>
+                </span>
             </span>
         </md-card>
 
 
-        <md-card style="position: relative; z-index: 1;" flex ng-if="imageContent.loading"
-                 class="resource-card resource-select" layout="column" layout-align="center center">
+        <md-card style="position: relative; z-index: 1;" flex ng-if="uploading"
+                 class="image resource-card resource-select" layout="column" layout-align="center center">
 
-            <img class="img-responsive" src="/img/empty_300x300.png"/>
+            <img style="width: 100%;"
+                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjEgMTlWNWMwLTEuMS0uOS0yLTItMkg1Yy0xLjEgMC0yIC45LTIgMnYxNGMwIDEuMS45IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yek04LjUgMTMuNWwyLjUgMy4wMUwxNC41IDEybDQuNSA2SDVsMy41LTQuNXoiLz48L3N2Zz4="
+                 delayed-image="/img/empty_300x300.png"/>
 
             <span style="position: absolute; top: 0px; z-index: 3;" layout-fill layout="column" class="md-padding">
                 <span flex>
                 </span>
                 <span flex>
-                    <h2 class="text-center">Uploading ({{imageContent.progress}})</h2>
-                    <md-progress-linear md-mode="determinate" value="{{imageContent.progress}}"></md-progress-linear>
+                    <h2 class="text-center">Uploading ({{images[0].progress}})</h2>
+                    <md-progress-linear md-mode="determinate" value="{{images[0].progress}}"></md-progress-linear>
                 </span>
                 <span flex>
                 </span>
             </span>
         </md-card>
+
     </div>
 </div>
 

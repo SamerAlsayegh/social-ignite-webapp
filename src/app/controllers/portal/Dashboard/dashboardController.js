@@ -1,6 +1,6 @@
 define(['../../module'], controllers => {
     return controllers.controller('dashboardController',
-        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$mdDialog',
+        ['$rootScope', '$scope', 'Auth', 'Alert', 'Action', 'Dashboard', 'PostComment', '$mdSidenav', '$mdDialog', '$mdBottomSheet',
             function (
                 $rootScope,
                 $scope,
@@ -10,13 +10,29 @@ define(['../../module'], controllers => {
                 Dashboard,
                 PostComment,
                 $mdSidenav,
-                $mdDialog
+                $mdDialog,
+                $mdBottomSheet
             ) {
-                $scope.widgetsEditing = 1;
+                $scope.setPage('Dashboard');
+
                 $scope.comments = {};
-                $scope.toggleMenu = () => {
-                    $mdSidenav('left').toggle()
+                $scope.addNewWidget = () => {
+                    $mdBottomSheet.show({
+                        bindToController: true,
+                        clickOutsideToClose: true,
+                        disableParentScroll: true,
+                        escapeToClose: true,
+                        controller: 'widgetController',
+                        template: require("compile-ejs-loader!../../../views/_portal/components/_addWidget.ejs")(),
+                    }).then(function(clickedItem) {
+                        console.log("clicked")
+                    }).catch(function(error) {
+                        // User clicked outside or hit escape
+                    });
+
                 };
+
+
 
                 $scope.postComment = reply => {
                     if (!reply.comment || !reply._id) return;
@@ -109,11 +125,11 @@ define(['../../module'], controllers => {
                 $scope.commentsModel = {replies: []};
 
                 $scope.loadReplies($scope.commentsModel, null, null, null);
+                $scope.controlListener = {
+                    containment: '#dashboard-container',
+                    allowDuplicates: true //optional param allows duplicates to be dropped.
+                };
 
-                $scope.widgetStage = function (stage) {
-                    console.log("ok")
-                    $scope.widgetsEditing = stage;
-                }
 
             }]);
 });

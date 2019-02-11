@@ -2,7 +2,7 @@
     <span layout="row" flex>
         <span flex class="md-list-item-text dashboard_comment" layout-align="stretch" layout="column">
             <small layout="row">
-                <b flex ng-class="socialPostMain.open.page_id.name == socialComment.name ? 'md-primary' : ''">{{socialComment.name}}
+                <b flex ng-class="socialPost.page_id.name == socialComment.name ? 'md-primary' : ''">{{socialComment.name}}
                 </b>
                 <span flex></span>
                 <span class="gray_text" am-time-ago="socialComment.posted"></span>
@@ -12,18 +12,18 @@
                 </span>
                 <span layout="row" layout-align="end center">
                     <md-button class="md-icon-button"
-                               ng-if="!allowedActions  || allowedActions[socialPostMain.open.page_id.platform].indexOf('LIKE') != -1"
+                               ng-if="!allowedActions  || allowedActions[socialPost.page_id.platform].indexOf('LIKE') != -1"
                                ng-click="toggleLike(socialComment)"
                                ng-class="socialComment.liked ? 'md-primary' : ''"
                                aria-label="Like"><i class="zmdi zmdi-thumb-up zmdi-hc-lg"></i></md-button>
                     <md-button class="md-icon-button"
                                ng-disabled="!permissions.post_manage_reply || allowedActions[socialPost.page_id.platform].indexOf('REPLY') == -1"
                                ng-click="socialComment.commenting = !socialComment.commenting"
-                               ng-if="!allowedActions  || allowedActions[socialPostMain.open.page_id.platform].indexOf('REPLY') != -1"
+                               ng-if="!allowedActions  || allowedActions[socialPost.page_id.platform].indexOf('REPLY') != -1"
                                aria-label="Reply to comment"><i
                                 class="zmdi zmdi-comment zmdi-hc-lg"></i></md-button>
                     <md-button class="md-icon-button"
-                               ng-if="!allowedActions  || allowedActions[socialPostMain.open.page_id.platform].indexOf(socialPostMain.open.page_id.name == socialComment.name ? 'DELETE_SELF' : 'DELETE_OTHERS') != -1"
+                               ng-if="!allowedActions  || allowedActions[socialPost.page_id.platform].indexOf(socialPost.page_id.name == socialComment.name ? 'DELETE_SELF' : 'DELETE_OTHERS') != -1"
                                ng-click="deleteComment(socialComment)"
                                aria-label="Delete comment"><i class="zmdi zmdi-delete zmdi-hc-lg"></i></md-button>
                     <span ng-if="socialComment.replies_count > 0 && (socialComment.remaining > 0 || socialComment.remaining  == null)"

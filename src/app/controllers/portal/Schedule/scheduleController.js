@@ -11,6 +11,7 @@ define(['../../module'], controllers => {
             $mdDialog,
             $stateParams
         ){
+            $scope.setPage('Calendar');
 
             $scope.scheduledPosts = [];
             $scope.curDate = new Date();

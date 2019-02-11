@@ -1,0 +1,33 @@
+<md-dialog aria-label="Social Stack" class="md-content" md-theme="{{theme}}" flex="40">
+    <div layout="row" class="md-subheader md-whiteframe-3dp" layout-align="center center">
+        <span class="md-padding" flex>Linking an Instagram Account</span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i class="zmdi zmdi-close zmdi-hc-2x"></i>
+        </md-button>
+    </div>
+    <div class="md-padding">
+        <h2>Please read below...</h2>
+        <h4>To link an Instagram account, it must first be linked via Facebook to an existing page. Otherwise it will not be
+            available for linking on Social Ignite.</h4>
+        <hr>
+        To link an Instagram account via Facebook;
+        <span>Click here</span>
+
+
+
+        <hr>
+        Once you have completed the steps on Facebook, you may proceed;
+        <md-button ng-click="next()">
+            Click here to proceed
+        </md-button>
+
+        <a href="#">Why this is required?</a>
+        Due to a recent update by Instagram (owned by Facebook), the old way of logging in no longer works, and is being
+        phased out. To avoid bugging you later on, we implemented the latest standard as required by Facebook. You may learn
+        more about this change by <a href="https://www.instagram.com/developer/">clicking here</a>
+    </div>
+
+
+
+
+</md-dialog>
