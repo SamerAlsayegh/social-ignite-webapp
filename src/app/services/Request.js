@@ -102,7 +102,7 @@ define(['./module'], services => {
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined},
                         uploadEventHandlers: {
-                            progress(e) {
+                            progress: function(e) {
                                 if (e.lengthComputable && cbProgress) {
                                     cbProgress(e.loaded, e.total);
                                 }

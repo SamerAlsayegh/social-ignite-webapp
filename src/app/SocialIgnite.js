@@ -77,12 +77,12 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     'ui.router',
     'angularMoment',
     'vkEmojiPicker',
-    'angular-intro', require('ng-sortable'), 'ngPasswordMeter']).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', ($mdThemingProvider,
+    'angular-intro', require('ng-sortable'), 'ngPasswordMeter']).config(['$mdThemingProvider', '$httpProvider', '$mdGestureProvider', 'AnalyticsProvider', 'momentPickerProvider', '$sceDelegateProvider', '$mdInkRippleProvider', ($mdThemingProvider,
                                                                                                                                                                                                             _ref,
                                                                                                                                                                                                             $mdGestureProvider,
                                                                                                                                                                                                             AnalyticsProvider,
                                                                                                                                                                                                             momentPickerProvider,
-                                                                                                                                                                                                            $sceDelegateProvider) => {
+                                                                                                                                                                                                            $sceDelegateProvider, $mdInkRippleProvider) => {
     let defaults = _ref.defaults;
 
     let lightBlueCustom = $mdThemingProvider.extendPalette('light-blue', {
@@ -99,6 +99,8 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
     $mdThemingProvider.theme('default').primaryPalette('lightBlueCustom').accentPalette('light-blue').backgroundPalette('grey');
     $mdThemingProvider.theme('dark').primaryPalette('lightBlueCustom').accentPalette('light-blue').backgroundPalette('grey').dark();
     $mdGestureProvider.disableAll();
+    $mdInkRippleProvider.disableInkRipple();
+
     defaults.withCredentials = true;
     // $sceDelegateProvider.resourceUrlWhitelist([
     //     'self',

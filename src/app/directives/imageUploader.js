@@ -88,17 +88,18 @@ define(['./module'], directives => {
 
                     $scope.images.unshift({loading: true, progress: 0});
 
-                    Image.addImage({image}, data => {
+                    Image.addImage({image_buffer: image}, data => {
+                        $scope.images[0] = (data);
                         $scope.images[0].loading = false;
                         delete $scope.images[0].progress;
+
                         $scope.uploadImages(imagesList, callback);
-                        $scope.images[0] = (data);
-                        // $scope.imageIds.unshift(data._id);
                     }, (status, message) => {
                         Alert.error('Failed to upload image.');
+                        $scope.images.shift();
                         $scope.uploadImages(imagesList, callback);
                     }, (loaded, total) => {
-                        $scope.images[0].progress = (loaded / total) * 100;
+                        $scope.images[0].progress = Math.round((loaded / total) * 100);
                     });
                 } else {
                     callback();
@@ -109,7 +110,6 @@ define(['./module'], directives => {
                     $scope.uploading = true;
                     $scope.uploadImages(imagesList, () => {
                         $scope.uploading = false;
-                        Alert.success('Uploaded all images.', 1000);
                     })
                 }
             };
@@ -138,6 +138,7 @@ define(['./module'], directives => {
                 // watermarkText: 'SocialIgnite',
                 crossOrigin: true,
                 ui: {
+                    visible: false,
                     theme: $rootScope.theme || 'light',
                     mode: 'overlay',
                     openImageDialog: false,
@@ -165,20 +166,46 @@ define(['./module'], directives => {
                 onSave: function(data, name) {
                     console.log($scope.imageEditing);
                     // Upload file to backend, trying to replace the original?
+                    let imageindex = $scope.images.indexOf($scope.imageEditing);
+
+
                     if ($scope.imageEditing  == null) {
                         Alert.error("Must choose an image to edit");
                     } else {
-                        $scope.images.unshift({loading: true, progress: 0});
-                        Image.addImage({data, original: $scope.imageEditing._id}, data => {
+                        var file = dataURItoBlob(data, 'image/png');
+
+
+                        function dataURItoBlob(dataURI, type) {
+                            // convert base64 to raw binary data held in a string
+                            var byteString = atob(dataURI.split(',')[1]);
+
+                            // separate out the mime component
+                            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+                            // write the bytes of the string to an ArrayBuffer
+                            var ab = new ArrayBuffer(byteString.length);
+                            var ia = new Uint8Array(ab);
+                            for (var i = 0; i < byteString.length; i++) {
+                                ia[i] = byteString.charCodeAt(i);
+                            }
+
+                            // write the ArrayBuffer to a blob, and you're done
+                            var bb = new Blob([ab], { type: type });
+                            return bb;
+                        }
+                        $scope.images[imageindex].loading = true;
+
+                        Image.addImage({image_buffer: file, original: $scope.imageEditing._id}, data => {
                             // Soon add modifying old pic...
-                            $scope.images[0].loading = false;
-                            delete $scope.images[0].progress;
-                            $scope.images[0] = (data);
+                            $scope.images[imageindex].loading = false;
+                            delete $scope.images[imageindex].progress;
+                            $scope.images[imageindex] = (data);
+                            pixie.close();
                             // $scope.imageIds.unshift(data._id);
                         }, (status, message) => {
                             Alert.error('Failed to upload image.');
                         }, (loaded, total) => {
-                            $scope.images[0].progress = (loaded / total) * 100;
+                            $scope.images[imageindex].progress = Math.round((loaded / total) * 100);
                         });
                     }
                 },

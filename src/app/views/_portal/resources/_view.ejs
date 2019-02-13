@@ -1,25 +1,25 @@
 <div layout="column">
     <div class="md-padding" layout="column" layout-gt-sm="row" flex layout-wrap layout-align="center center">
-    <div class="md-padding" layout="column" layout-gt-sm="row" flex layout-wrap layout-align="center center">
-        <md-checkbox class="md-primary" ng-model="unused" ng-change="filter.used = !unused" aria-label="Hide Used">
-            View Unused Only
-        </md-checkbox>
-        <md-checkbox class="md-primary" ng-model="filter.favourite" aria-label="Show favourite">
-            Show Favourites
-        </md-checkbox>
+        <div class="md-padding" layout="column" layout-gt-sm="row" flex layout-wrap layout-align="center center">
+            <md-checkbox class="md-primary" ng-model="unused" ng-change="filter.used = !unused" aria-label="Hide Used">
+                View Unused Only
+            </md-checkbox>
+            <md-checkbox class="md-primary" ng-model="filter.favourite" aria-label="Show favourite">
+                Show Favourites
+            </md-checkbox>
+        </div>
     </div>
+
+    <image-uploader
+            flex
+            layout="column"
+            post-information="postInformation"
+            load-more="finishedScroll"
+            filter="filter"
+            pending_image="attachedImage" post-id="postId" control="manage" uploading="uploading"
+            images="images"></image-uploader>
+    <span ng-if="loadingImages" layout="column" class="md-block md-padding">
+        <h2 layout-align="center center">Loading more images</h2>
+        <md-progress-linear layout="row" layout-align="stretch" md-mode="indeterminate"></md-progress-linear>
+    </span>
 </div>
-
-<image-uploader
-        flex
-        layout="column"
-        post-information="postInformation"
-        load-more="finishedScroll"
-        filter="filter"
-        pending_image="attachedImage" post-id="postId" control="manage" uploading="uploading"
-        images="images"></image-uploader>
-<span ng-if="loadingImages" layout="column" class="md-block md-padding">
-    <h2 layout-align="center center">Loading  more images</h2>
-    <md-progress-linear layout="row" layout-align="stretch" md-mode="indeterminate"></md-progress-linear>
-</span>
-

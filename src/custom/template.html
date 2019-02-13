@@ -22,7 +22,16 @@
                  ng-repeat='day in week'>
                 <md-tooltip ng-if='::tooltips()'>{{ day | date:dayTooltipFormat:timezone }}</md-tooltip>
                 <div class="md-light">{{ day | date:dayFormat:timezone }}</div>
-                <div flex layout="column">
+                <div flex layout="column" layout-align="center center">
+
+                    <div ng-if="day >= startOfDay" class="md-primary text-center" style="opacity: 0.5;" layout="column">
+                        <span flex>Click to Post</span>
+                        <h3>
+                            <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;"></i>
+                        </h3>
+                    </div>
+
+
                     <!--<div >-->
                     <md-card
                             ng-repeat="socialPost in dataService.data[dayKey(day)]|limitTo:(loadedMore.indexOf(dayKey(day)) == -1 ? 0 : 100)"
@@ -31,7 +40,7 @@
 
 
                         <span layout="fill"
-                              class="md-agenda-time">{{socialPost.post_time  | amDateFormat:'h:mm A'}}</span>
+                              class="md-agenda-time">{{socialPost.post_time | amDateFormat:'h:mm A'}}</span>
                         <div layout="row" layout-align="center center"
                              class="md-calendar-social-post-content">
                             <span class="md-calendar-social-post-content-quote md-primary">&#10077;</span>
@@ -88,24 +97,30 @@
                 <div class="md-primary" layout="row">
                     {{ day | date:dayFormat }}
                     <span flex></span>
-                    <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;"
-                       ng-if="day >= startOfDay"></i>
+                    <!--<i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;"-->
+                       <!--ng-if="day >= startOfDay"></i>-->
                 </div>
                 <div flex>
-
+                    <div ng-if="day >= startOfDay" layout-align="center center" class="md-primary text-center" style="opacity: 0.5;" layout="column">
+                        <span flex>Click to Post</span>
+                        <h3>
+                            <i aria-label="New Social Post" class="zmdi zmdi-plus zmdi-hc-lg day-action" style="opacity:0.5;"></i>
+                        </h3>
+                    </div>
                     <md-card class="md-calendar-social-post"
                              ng-repeat="mainSocialPost in dataService.data[dayKey(day)]|limitTo:(loadedMore.indexOf(dayKey(day)) == -1 ? 0 : 100)"
                              ng-click="(getTime(mainSocialPost.post_time) > curTime || mainSocialPost.state == 'DRAFT') ? alterSocialPost(mainSocialPost._id, $event) : statisticsSocialPost(mainSocialPost._id, $event)"
                              layout="column">
                         <span layout="row">
-                            <span class="md-calendar-time">{{mainSocialPost.post_time  | amDateFormat:'h:mm A'}}</span>
+                            <span class="md-calendar-time">{{mainSocialPost.post_time | amDateFormat:'h:mm A'}}</span>
                             <div flex></div>
                             <div class="md-calendar-platforms" layout="row">
                                 <span ng-repeat="social_post in mainSocialPost.social_post"
                                       class="mini-dot ui-{{platformLookup(social_post.page_id.platform)}}">
                                     <md-tooltip ng-if='::tooltips()'>
-                                {{social_post.page_id.name + " (" +platformLookup(social_post.page_id.platform) + ")"}}
-                            </md-tooltip>
+                                        {{social_post.page_id.name + " (" +platformLookup(social_post.page_id.platform)
+                                        + ")"}}
+                                    </md-tooltip>
                                 </span>
                             </div>
                         </span>
@@ -114,10 +129,10 @@
                             <i ng-repeat="image in mainSocialPost.images" class="material-icons">{{tag.tag}}</i>
                         </span>
                         <span layout="row" style="overflow-x: auto;" layout-align="center center">
-                    <!--All images from post.-->
-                    <img ng-src="{{image.url}}" ng-repeat="image in mainSocialPost.images" class="md-card-image"
-                         alt="Social media image">
-                </span>
+                            <!--All images from post.-->
+                            <img ng-src="{{image.url}}" ng-repeat="image in mainSocialPost.images" class="md-card-image"
+                                 alt="Social media image">
+                        </span>
                         <div layout="row" layout-align="stretch" class="md-calendar-social-post-content">
                             <span class="md-calendar-social-post-content-quote">&#10077;</span>
                             <span class="md-primary"
@@ -136,7 +151,9 @@
                     </md-card>
                     <span layout="row">
                         <md-button class="md-no-focus" layout-align="stretch" flex md-no-ink md-no-bar
-                                   ng-show="dataService.data[dayKey(day)].length > 0 && loadedMore.indexOf(dayKey(day)) == -1">{{dataService.data[dayKey(day)].length}} Posts</md-button>
+                                   ng-show="dataService.data[dayKey(day)].length > 0 && loadedMore.indexOf(dayKey(day)) == -1">
+                            {{dataService.data[dayKey(day)].length}} Posts
+                        </md-button>
                     </span>
                 </div>
             </div>
