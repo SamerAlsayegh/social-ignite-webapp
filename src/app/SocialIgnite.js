@@ -201,7 +201,7 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
         let Auth = transition.injector().get('Auth');
         return new Promise((resolve, reject) => {
             Auth.sessionValidate(loggedIn => {
-                if (loggedIn && transition.to().name !== "public.email_verify" && !transition.to().name.startsWith("public.tools")) {
+                if (loggedIn && transition.to().name != "public.email_verify" && !transition.to().name.startsWith("public.tools")) {
                     console.log("Redirecting from public to portal");
                     $state.go('portal.home');
                     reject();
@@ -358,26 +358,3 @@ exports.default = _angular2.default.module('SocialIgnite', ['SocialIgnite.contro
         });
     })();
 }]);
-// define([
-//     'angular',
-//     '@uirouter/angularjs/release/angular-ui-router.js',
-//     'angular-material-data-table',
-//     'angular-moment',
-//     'angular-animate',
-//     'angular-material',
-//     'angular-cookies',
-//     'angular-messages',
-//     'angular-google-analytics',
-//     'angular-moment-picker/dist/angular-moment-picker.js',
-//     'ng-file-upload',
-//     'chart.js',
-//     '../custom/angular-material-calendar',
-//     './directives/index',
-//     './controllers/index',
-//     './services/index',
-//     './filters/index',
-// ], function (angular) {
-//     'use strict';
-//
-//
-// });

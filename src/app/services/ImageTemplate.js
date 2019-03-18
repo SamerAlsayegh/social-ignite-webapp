@@ -1,9 +1,6 @@
 define(['./module'], services => {
     services.factory('Image', ['Request',
         Request => {
-            let cacheTime = 1000 * 60 * 5;
-            let dataCache = {};// Only fetch data if older than 5 minutes - prevents
-
             return {
                 getDetails(imageId, cbSuccess, cbFail) {
                     if (!imageId)

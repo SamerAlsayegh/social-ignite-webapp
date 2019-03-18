@@ -263,7 +263,7 @@ define(['../../module'], controllers => {
                 if (newValue.images.length > 0) $scope.attachImages = true;
                 else $scope.attachImages = false;
                 $scope.dirtyForm = true;
-                if (newValue.pages !== oldValue.pages && newValue.pages.length > 0) {
+                if (newValue.pages.length !== oldValue.pages.length && newValue.pages.length > 0) {
                     SocialAccounts.getSuggestedPostTime(newValue.pages, new Date().getTimezoneOffset(), message => {
                         $scope.currentSocialPost.suggested = message;
                     }, (status, message) => {
@@ -348,6 +348,7 @@ define(['../../module'], controllers => {
                     pages: $scope.currentSocialPost.pages,
                     stacks: $scope.currentSocialPost.stacks,
                     content: $scope.currentSocialPost.content,
+                    timezone: new Date().getTimezoneOffset(),
                     images: image_ids
                 };
 
